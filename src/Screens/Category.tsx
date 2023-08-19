@@ -506,7 +506,7 @@ const Category = ({ navigation }: NavigationProps) => {
               <Box
 
                 style={{
-                  width: SCREEN_WIDTH,
+                  width: 368,
                   height: 90,
                   marginTop: 18,
                   display: "flex",
