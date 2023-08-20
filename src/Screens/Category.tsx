@@ -484,9 +484,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                 <Text style={{ marginBottom: 16, fontSize: 16 }}>
                   Packing
                 </Text>
-              </TouchableOpacity>
-
-              <Modal
+                <Modal
                 isVisible={visibleSecondModal}
                 animationIn="bounce"
                 backdropColor="transparent">
@@ -510,20 +508,144 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                       Close
                     </Button>
 
-                    <Text style={{ fontSize: 16 }}>HANGER</Text>
-                    <Text style={{ fontSize: 16 }}>NONE</Text>
-                    <Text style={{ fontSize: 16 }}>FOLD</Text>
-                    <Text style={{ fontSize: 16 }}>HALF/BOLD</Text>
-                    <Text style={{ fontSize: 16 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>HANGER</Text>
+                    <Text style={{ fontSize: 20 }}>NONE</Text>
+                    <Text style={{ fontSize: 20 }}>FOLD</Text>
+                    <Text style={{ fontSize: 20 }}>HALF/BOLD</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
                   </ScrollView>
                 </View>
               </Modal>
+              </TouchableOpacity>
 
-              <Text style={{ marginBottom: 16, fontSize: 16 }}>Brand</Text>
+              
+                 <TouchableOpacity onPress={handlePacking}>
+                  <Text style={{ marginBottom: 16, fontSize: 16 }}>Brand</Text>
 
-              <Text style={{ marginBottom: 16, fontSize: 16 }}>Defect</Text>
+                   <Modal
+                isVisible={visibleSecondModal}
+                animationIn="bounce"
+                backdropColor="transparent">
+                <View
+                  style={{
+                    width: 200,
+                    height: 300,
+                    left: 35,
+                    top: 70,
+                    borderColor: "#DCDCDE",
+                    borderWidth: 2,
+                    borderStyle: "solid",
+                    margin: "auto",
+                    backgroundColor: "#DCDCDE",
+                    borderRadius: 15,
+                  }}>
+                  <ScrollView>
+                    <Button
+                      style={{ backgroundColor: "red" }}
+                      onPress={handleCloseSecondModal}>
+                      Close
+                    </Button>
 
-              <Text style={{ fontSize: 16 }}>Color</Text>
+                    <Text style={{ fontSize: 20 }}>HANGER</Text>
+                    <Text style={{ fontSize: 20 }}>NONE</Text>
+                    <Text style={{ fontSize: 20 }}>FOLD</Text>
+                    <Text style={{ fontSize: 20 }}>HALF/BOLD</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                  </ScrollView>
+                </View>
+              ```</Modal>
+                  </TouchableOpacity>
+                 
+
+              
+              <TouchableOpacity >
+                 <Text style={{ marginBottom: 16, fontSize: 16 }}>Defect</Text>
+              </TouchableOpacity>   
+             
+               <TouchableOpacity onPress={handlePacking}>
+                <Text style={{ fontSize: 16 }}>Color</Text>
+
+                <Modal
+                isVisible={visibleSecondModal}
+                animationIn="bounce"
+                backdropColor="transparent">
+                <View
+                  style={{
+                    width: 200,
+                    height: 300,
+                    left: 35,
+                    top: 70,
+                    borderColor: "#DCDCDE",
+                    borderWidth: 2,
+                    borderStyle: "solid",
+                    margin: "auto",
+                    backgroundColor: "#DCDCDE",
+                    borderRadius: 15,
+                  }}>
+                  <ScrollView>
+                    <Button
+                      style={{ backgroundColor: "red" }}
+                      onPress={handleCloseSecondModal}>
+                      Close
+                    </Button>
+
+                    <Text style={{ fontSize: 20 }}>RED</Text>
+                    <Text style={{ fontSize: 20 }}>BLUE</Text>
+                    <Text style={{ fontSize: 20 }}>YELLOW</Text>
+                    <Text style={{ fontSize: 20 }}>GREEN</Text>
+                    <Text style={{ fontSize: 20 }}>PINK</Text>
+                    <Text style={{ fontSize: 20 }}>GOLDEN</Text>
+                    <Text style={{ fontSize: 20 }}>PURPLW</Text>
+                    <Text style={{ fontSize: 20 }}>SKY-BLUE</Text>
+                    <Text style={{ fontSize: 20 }}>PEACH</Text>
+                    <Text style={{ fontSize: 20 }}>ORANGE</Text>
+                    <Text style={{ fontSize: 20 }}>PINK</Text>
+                    <Text style={{ fontSize: 20 }}>DAISY</Text>
+                    <Text style={{ fontSize: 20 }}>ROSE</Text>
+                    <Text style={{ fontSize: 20 }}>BABY PINK</Text>
+                    <Text style={{ fontSize: 20 }}>HALF</Text>
+                    <Text style={{ fontSize: 20 }}>HALF</Text>
+                    <Text style={{ fontSize: 20 }}>VIOLET</Text>
+                    <Text style={{ fontSize: 20 }}>BLACK</Text>
+                    <Text style={{ fontSize: 20 }}>CREAM</Text>
+                    <Text style={{ fontSize: 20 }}>LIGHT BLUE</Text>
+                    <Text style={{ fontSize: 20 }}>NAVY NLUE</Text>
+                    <Text style={{ fontSize: 20 }}>BROWN</Text>
+                    <Text style={{ fontSize: 20 }}>GREY</Text>
+                    <Text style={{ fontSize: 20 }}>GOLD</Text>
+                    <Text style={{ fontSize: 20 }}>GRAY</Text>
+                  </ScrollView>
+                </View>
+              </Modal>
+                </TouchableOpacity>   
+              
+
             </View>
 
             <View style={{ top: 200 }}>
