@@ -9,7 +9,7 @@ import { Box, Text, Button, ScrollView } from "native-base";
 import React, { useState } from "react";
 import { searchStoreCustomerByMobile } from "../../networkAPI/api";
 import { getRiderMobileNo, getStoreId, setRiderMobileNo } from "../../networkAPI/services/auth.service";
-import Pickup from "../../Components/pickup";
+// import Pickup from "../../Components/pickup";
 
 interface NavigationProps {
   navigation?: any;

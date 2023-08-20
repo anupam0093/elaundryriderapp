@@ -79,6 +79,11 @@ const StackNavigator = () => {
           component={Services}
           options={{ headerShown: false }}
         />
+        {/* <Stack.Screen
+          name="AppNavigator"
+          component={AppNavigator}
+          options={{ headerShown: false }}
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
