@@ -8,13 +8,23 @@ import { getAccountInfo, handleLoginUser } from "../../networkAPI/api";
 import { sendToken, setRiderMobileNo, setStoreId, setStoreUserId } from "../../networkAPI/services/auth.service";
 import { useEffect } from "react";
 import * as Network from 'expo-network';
-interface NavigationProps {
-  navigation?: any;
-}
+import axios from "axios";
+import { API_URL } from "../../networkAPI/env";
+import useStore from "../GlobalStore/store";
 
-const Welcome = ({ navigation }: NavigationProps) => {
+// interface NavigationProps {
+//   navigation?: any;
+// }
+
+const Welcome = ({ navigation }) => {
   const [ username, setUsername ] = useState("");
   const [ password, setPassword ] = useState("");
+  const setUser = useStore(state=>state.setUser)
+  const user = useStore(state=>state.user)
+  console.log(user)
+  
+
+  
 
   
   // const [ipAddress, setIpAddress] = useState('');
@@ -36,7 +46,9 @@ const Welcome = ({ navigation }: NavigationProps) => {
 
   async function loginUser() {
     const response = await handleLoginUser(username, password);
+   
 
+    
     // loginSuccess
     const getUser = await getAccountInfo(
       response[ `accessToken` ],
@@ -63,6 +75,24 @@ const Welcome = ({ navigation }: NavigationProps) => {
       Alert.alert("Login Error");
     }
 
+  }
+
+  const customUserLogin=async() =>{
+      try {
+        const { data } = await axios({
+          method: "POST",
+          url: `${API_URL}/auth/signin`,
+          data: {
+            username: username,
+            password: password,
+          },
+        });
+        if(data){
+          setUser(data)
+        }
+      } catch (error) {
+       console.log(error) 
+      }
   }
 
 
@@ -279,7 +309,7 @@ const Welcome = ({ navigation }: NavigationProps) => {
                 width="37%"
                 height="40px"
                 borderRadius="7px"
-                onPress={loginUser}>
+                onPress={customUserLogin}>
                 <Text
                   style={{
                     fontSize: 20,

@@ -13,22 +13,33 @@ import NewOrder from "../src/Screens/NewOrder";
 import PickupFilter from "../src/Screens/PIckupFilter";
 import Notification from "../src/Screens/Notification";
 import PickupDate from "../src/Screens/PickupDate";
+import useStore from "../src/GlobalStore/store";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
+  const user = useStore(state=>state.user)
+  
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{
+        headerShown:false
+      }}>
+
+        {user && (
         <Stack.Screen
-          name="Welcome"
-          component={Welcome}
-          options={{ headerShown: false }}
-        />
+            name="Welcome"
+            component={Welcome}
+            options={{ headerShown: false }}
+          />
+        )}
+
+
         <Stack.Screen
           name="Homepage"
           component={Homepage}
           options={{ headerShown: false }}
         />
+
         <Stack.Screen
           name="Offline"
           component={Offline}
