@@ -10,6 +10,10 @@ const useStore = create(
             user:[],
             setUser: (data) =>
                 set((state) => ({ user: data })),
+            
+            setLogOutUser: (data) =>
+            set((state) => ({ user: null })),
+                
 
             reset: (data) =>
                 set((state) => ({ dailyWaterIntakeTarget: 3, totalWaterIntake: 0, waterQuantityToIncrease: 100 })),
@@ -18,7 +22,7 @@ const useStore = create(
             name: "erider",
             storage: createJSONStorage(() => AsyncStorage),
             partialize: (state) =>
-                Object.fromEntries(
+                Object.fromEntries(                                                                                                                                                                                                     
                     Object.entries(state).filter(([key]) =>
                         [
                             "user",

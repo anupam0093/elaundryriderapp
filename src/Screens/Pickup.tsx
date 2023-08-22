@@ -24,6 +24,7 @@ const Pickup = ({ navigation }: NavigationProps) => {
 
 
   const [ customerInfo, setCustomerInfo ] = React.useState([]);
+  
   const getSearchStoreCustomerByMobile = React.useCallback(async () => {
     try {
       const response = await searchStoreCustomerByMobile(

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Box, ScrollView } from "native-base";
-import { AntDesign, Entypo, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign,  MaterialIcons } from "@expo/vector-icons";
 import {
   SafeAreaView,
   ImageBackground,

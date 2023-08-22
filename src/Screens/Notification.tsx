@@ -1,9 +1,8 @@
 import React from "react";
-import { View, Text, Box, ScrollView } from "native-base";
-import { AntDesign, Entypo, MaterialIcons } from "@expo/vector-icons";
+import { View, Text, Box } from "native-base";
+import { AntDesign, Entypo,  } from "@expo/vector-icons";
 import {
   SafeAreaView,
-  ImageBackground,
   Image,
   TouchableOpacity,
 } from "react-native";
@@ -14,7 +13,7 @@ interface NavigationProps {
 
 const OrderDelevery = ({ navigation }: NavigationProps) => {
   return (
-    <ScrollView>
+   
       <SafeAreaView>
         <View
           style={{ height: 926, width: "100%", backgroundColor: "#F3F1F6" }}>
@@ -138,7 +137,7 @@ const OrderDelevery = ({ navigation }: NavigationProps) => {
           </Box>
         </View>
       </SafeAreaView>
-    </ScrollView>
+
   );
 };
 

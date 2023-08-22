@@ -5,17 +5,19 @@ import {
   TextInput,
   Alert,
 } from "react-native";
-import { Box, Text, Button, ScrollView } from "native-base";
+import { Box, Text, Button } from "native-base";
 import React, { useState } from "react";
 import { searchStoreCustomerByMobile } from "../../networkAPI/api";
 import { getRiderMobileNo, getStoreId, setRiderMobileNo } from "../../networkAPI/services/auth.service";
+import { useNavigation } from "@react-navigation/native";
+
 // import Pickup from "../../Components/pickup";
 
-interface NavigationProps {
-  navigation?: any;
-}
+// interface NavigationProps {
+//   navigation?: any;
+// }
 
-const NewOrder = ({ navigation }: NavigationProps) => {
+const NewOrder = ( {navigation}) => {
   // validation starts here //
   const [ mobileNo, setMobileNo ] = useState("")
 
@@ -72,7 +74,6 @@ const NewOrder = ({ navigation }: NavigationProps) => {
 
 
   return (
-    <ScrollView>
       <SafeAreaView>
         <View
           style={{ height: 926, width: "100%", backgroundColor: "#F3F1F6" }}>
@@ -141,7 +142,7 @@ const NewOrder = ({ navigation }: NavigationProps) => {
 
         </View>
       </SafeAreaView>
-    </ScrollView>
+    
   );
 };
 
@@ -163,6 +164,4 @@ const styles = StyleSheet.create({
 
 export default NewOrder;
 
-function sendtoken(arg0: any) {
-  throw new Error("Function not implemented.");
-}
+

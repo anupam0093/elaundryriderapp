@@ -19,63 +19,46 @@ import useStore from "../GlobalStore/store";
 const Welcome = ({ navigation }) => {
   const [ username, setUsername ] = useState("");
   const [ password, setPassword ] = useState("");
+  
+  
   const setUser = useStore(state=>state.setUser)
-  const user = useStore(state=>state.user)
-  console.log(user)
+  
   
 
   
 
-  
-  // const [ipAddress, setIpAddress] = useState('');
-
-  // get ip address dynamically from any device
-  // useEffect(() => {
-  //   async function fetchIpAddress() {
-  //     const localIpAddress = await Network.getIpAddressAsync();
-  //     setIpAddress(localIpAddress);
-  //     console.log(ipAddress)
-  //   }
-
-  //   fetchIpAddress();
-  // }, [ipAddress]);
-
-
-
-
-
-  async function loginUser() {
-    const response = await handleLoginUser(username, password);
+  // async function loginUser() {
+  //   const response = await handleLoginUser(username, password);
    
 
     
-    // loginSuccess
-    const getUser = await getAccountInfo(
-      response[ `accessToken` ],
-      response[ `tokenType` ]
-    );
+  //   // loginSuccess
+  //   const getUser = await getAccountInfo(
+  //     response[ `accessToken` ],
+  //     response[ `tokenType` ]
+  //   );
 
-    const user = getUser?.data;
-    if (user?.loginStatus === true && user?.role === "ROLE_RIDER") {
-      sendToken(response[ `accessToken` ]);
-      console.log(user?.role);
-      switch (user?.role) {
-        case "ROLE_RIDER": {
-          console.log("sucess data", { user });
-          setStoreId(user?.storeId);
-          setStoreUserId(user?.storeUserId)
-          Alert.alert(
-            `Welcome ${user.userName} you have been logged in successfully`
-          );
-          navigation.navigate("Homepage");
-          break;
-        }
-      }
-    } else {
-      Alert.alert("Login Error");
-    }
+  //   const user = getUser?.data;
+  //   if (user?.loginStatus === true && user?.role === "ROLE_RIDER") {
+  //     sendToken(response[ `accessToken` ]);
+  //     console.log(user?.role);
+  //     switch (user?.role) {
+  //       case "ROLE_RIDER": {
+  //         console.log("sucess data", { user });
+  //         setStoreId(user?.storeId);
+  //         setStoreUserId(user?.storeUserId)
+  //         Alert.alert(
+  //           `Welcome ${user.userName} you have been logged in successfully`
+  //         );
+  //         navigation.navigate("Homepage");
+  //         break;
+  //       }
+  //     }
+  //   } else {
+  //     Alert.alert("Login Error");
+  //   }
 
-  }
+  // }
 
   const customUserLogin=async() =>{
       try {
@@ -90,6 +73,7 @@ const Welcome = ({ navigation }) => {
         if(data){
           setUser(data)
         }
+        console.log(data);
       } catch (error) {
        console.log(error) 
       }
@@ -286,27 +270,11 @@ const Welcome = ({ navigation }) => {
 
           <Box style={styles.viewButtonTop}>
             <View style={styles.viewButtonSection}>
-              <Button
-                variant="solid"
-                width="37%"
-                height="40px"
-                colorScheme=""
-                borderRadius="7px"
-                backgroundColor="#D9D9D9">
-                <Text
-                  style={{
-                    fontSize: 20,
-                    lineHeight: 17,
-                    fontWeight: "bold",
-                    color: "#5D7EFC",
-                  }}>
-                  Logout
-                </Text>
-              </Button>
+
               <Button
                 variant="solid"
                 backgroundColor="#5D7EFC"
-                width="37%"
+                width="80%"
                 height="40px"
                 borderRadius="7px"
                 onPress={customUserLogin}>
