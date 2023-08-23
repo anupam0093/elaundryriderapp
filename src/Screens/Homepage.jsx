@@ -2,20 +2,56 @@ import { View, SafeAreaView, Image, TouchableOpacity } from "react-native";
 import { Box, Text, Button, ScrollView, Link } from "native-base";
 import { homepage } from "../../Components/Styles/homepage";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
+import { API_URL } from "../../networkAPI/env";
+import useStore from "../GlobalStore/store";
+
+import { getAccountInfo } from "../../networkAPI/api";
+import { useQuery } from "@tanstack/react-query";
 
 // const SCREEN_WIDTH = Dimensions.get('window').width;
 
-interface NavigationProps {
-  navigation?: any;
+// interface NavigationProps {
+//   navigation?: any;
+// }
+
+
+
+
+const Homepage = ({ navigation }) => {
+const user = useStore(state=>state.user)
+
+
+
+const {data, isLoading, error} = useQuery({
+  queryKey:['customer_info'], 
+  queryFn: async ()=>await getAccountInfo(user?.accessToken,user?.tokenType)
+})
+
+console.log(data?.data)
+
+
+const getUserInfo = async()=>{
+  try {
+    const {data} = await axios({
+      method: "GET",
+      url: `${API_URL}/home/loginsuccess`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: user?.tokenType + " " + user?.accessToken,
+      },
+    });
+    console.log(data)
+    return data;
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 
-
-const Homepage = ({ navigation }: NavigationProps) => {
-  return (
+  return (       
     <ScrollView>
       <SafeAreaView>
         <View style={homepage.container}>
@@ -77,7 +113,11 @@ const Homepage = ({ navigation }: NavigationProps) => {
                 marginTop: 10,
               }}>
               {/* data coming from backend */}
-              RIDERID9718409025
+
+              {/* // RIDERID9718409025 */}
+              {data?.data?.userName}
+             
+              
             </Text>
           </Box>
 

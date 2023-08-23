@@ -8,6 +8,8 @@ const useStore = create(
     persist(
         (set, get) => ({
             user:[],
+            isLoggedIn: false,
+             
             setUser: (data) =>
                 set((state) => ({ user: data })),
 

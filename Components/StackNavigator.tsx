@@ -17,79 +17,88 @@ import useStore from "../src/GlobalStore/store";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
-  const user = useStore(state=>state.user)
-  
+  const user = useStore(state => state.user)
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
-        headerShown:false
+        headerShown: false
       }}>
+        {user ? (
+          <>
+            <Stack.Screen
+              name="Homepage"
+              component={Homepage}
+              options={{ headerShown: false }}
+            />
 
-        {user && (
-        <Stack.Screen
-            name="Welcome"
-            component={Welcome}
-            options={{ headerShown: false }}
-          />
-        )}
+            <Stack.Screen
+              name="Offline"
+              component={Offline}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Pickup"
+              component={Pickup}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Category"
+              component={Category}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Accountinfo"
+              component={AccountInfo}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="OrderDelevery"
+              component={OrderDelevery}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="NewOrder"
+              component={NewOrder}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="PickupFilter"
+              component={PickupFilter}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Notification"
+              component={Notification}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="PickupDate"
+              component={PickupDate}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Services"
+              component={Services}
+              options={{ headerShown: false }}
+            />
 
 
-        <Stack.Screen
-          name="Homepage"
-          component={Homepage}
-          options={{ headerShown: false }}
-        />
+          </>
+        ) :
+          (
+            <>
+              <Stack.Screen
+                name="Welcome"
+                component={Welcome}
+                options={{ headerShown: false }}
+              />
+            </>
+          )
+        }
 
-        <Stack.Screen
-          name="Offline"
-          component={Offline}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Pickup"
-          component={Pickup}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Category"
-          component={Category}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Accountinfo"
-          component={AccountInfo}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="OrderDelevery"
-          component={OrderDelevery}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="NewOrder"
-          component={NewOrder}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="PickupFilter"
-          component={PickupFilter}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Notification"
-          component={Notification}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="PickupDate"
-          component={PickupDate}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Services"
-          component={Services}
-          options={{ headerShown: false }}
-        />
+
+
         {/* <Stack.Screen
           name="AppNavigator"
           component={AppNavigator}

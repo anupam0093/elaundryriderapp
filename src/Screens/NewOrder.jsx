@@ -4,18 +4,21 @@ import {
   StyleSheet,
   TextInput,
   Alert,
+  ScrollView,
+  Text, 
+  Button,
+  Platform,
+  TouchableOpacity
 } from "react-native";
-import { Box, Text, Button, ScrollView } from "native-base";
+// import { Box, Text, Button, ScrollView } from "native-base";
 import React, { useState } from "react";
 import { searchStoreCustomerByMobile } from "../../networkAPI/api";
 import { getRiderMobileNo, getStoreId, setRiderMobileNo } from "../../networkAPI/services/auth.service";
 // import Pickup from "../../Components/pickup";
 
-interface NavigationProps {
-  navigation?: any;
-}
 
-const NewOrder = ({ navigation }: NavigationProps) => {
+
+const NewOrder = ({ navigation }) => {
   // validation starts here //
   const [ mobileNo, setMobileNo ] = useState("")
 
@@ -72,11 +75,11 @@ const NewOrder = ({ navigation }: NavigationProps) => {
 
 
   return (
-    <ScrollView>
       <SafeAreaView>
+    <ScrollView>
         <View
           style={{ height: 926, width: "100%", backgroundColor: "#F3F1F6" }}>
-          <Box
+          <View
             style={{
               width: "65%",
               height: 200,
@@ -99,8 +102,8 @@ const NewOrder = ({ navigation }: NavigationProps) => {
               value={mobileNo}
               onChangeText={(text) => setMobileNo(text)}
             />
-          </Box>
-          <Box style={{ display: "flex" }}>
+          </View>
+          <View style={{ display: "flex" }}>
             <View
               style={{
                 flexDirection: "row",
@@ -108,7 +111,7 @@ const NewOrder = ({ navigation }: NavigationProps) => {
                 gap: 5,
                 marginLeft: 58,
               }}>
-              <Button
+              <TouchableOpacity
                 variant="solid"
                 width="141px"
                 height="48px"
@@ -116,10 +119,10 @@ const NewOrder = ({ navigation }: NavigationProps) => {
                 borderRadius="xl"
                 backgroundColor="red.600"
                 onPress={handleBack}>
-                <Text style={{ fontSize: 17, color: "#ffff" }}>Cancel</Text>
-              </Button>
+                <Text style={{ fontSize: 17, color: "#000" }}>Cancel</Text>
+              </TouchableOpacity>
 
-              <Button
+              <TouchableOpacity
                 variant="solid"
                 backgroundColor="green.400"
                 width="141px"
@@ -129,19 +132,19 @@ const NewOrder = ({ navigation }: NavigationProps) => {
                 onPress={getSearchStoreCustomerByMobile}
 
               >
-                SUBMIT
-              </Button>
+                <Text>SUBMIT</Text>
+              </TouchableOpacity>
               <View>
                 {/* <Pickup /> */}
               </View>
 
             </View>
 
-          </Box>
+          </View>
 
         </View>
-      </SafeAreaView>
     </ScrollView>
+      </SafeAreaView>
   );
 };
 
@@ -163,6 +166,6 @@ const styles = StyleSheet.create({
 
 export default NewOrder;
 
-function sendtoken(arg0: any) {
+function sendtoken(arg0) {
   throw new Error("Function not implemented.");
 }
