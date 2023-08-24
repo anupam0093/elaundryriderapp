@@ -1,6 +1,6 @@
 import React, {  useState } from "react";
-import {  SafeAreaView, View,Text } from "react-native";
-import { Image,  Center, ScrollView } from "native-base";
+import {  SafeAreaView, View,Text, ScrollView, Image } from "react-native";
+// import { Image, Box, Center, ScrollView, Button } from "native-base";
 import { AntDesign } from "@expo/vector-icons";
 import { TextInput } from "react-native";
 import { styles } from "../../Components/Styles/welcome";
@@ -80,10 +80,10 @@ const Welcome = ({ navigation }) => {
 
 
   return (
-    <ScrollView>
       <SafeAreaView>
+    <ScrollView>
         <View style={styles.container}>
-          <View
+          {/* <View
             style={{
               display: "flex",
               flexDirection: "row",
@@ -103,7 +103,7 @@ const Welcome = ({ navigation }) => {
               source={require("../../assets/Photos/Vector.png")}
               style={{ marginTop: 30, marginRight: 30 }}
             />
-          </View>
+          </View> */}
 
           <View style={{ marginTop: 50, marginRight: 20 }}>
             <Image
@@ -135,7 +135,7 @@ const Welcome = ({ navigation }) => {
             style={{
               top: 35,
             }}>
-            <Center>
+            <View>
               <Text
                 style={{
                   textAlign: "center",
@@ -202,7 +202,7 @@ const Welcome = ({ navigation }) => {
                   clothes as you set the time
                 </Text>
               </View>
-            </Center>
+            </View>
           </View>
 
           <View
@@ -275,8 +275,8 @@ const Welcome = ({ navigation }) => {
             </View>
           </View>
         </View>
-      </SafeAreaView>
     </ScrollView>
+      </SafeAreaView>
   );
 };
 
