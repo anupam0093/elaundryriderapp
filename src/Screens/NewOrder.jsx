@@ -4,12 +4,15 @@ import {
   StyleSheet,
   TextInput,
   Alert,
+  Text,
+  ImageBackground,
 } from "react-native";
-import { Box, Text, Button } from "native-base";
+import { Box } from "native-base";
 import React, { useState } from "react";
 import { searchStoreCustomerByMobile } from "../../networkAPI/api";
 import { getRiderMobileNo, getStoreId, setRiderMobileNo } from "../../networkAPI/services/auth.service";
 import { useNavigation } from "@react-navigation/native";
+import CustomButton from "../../Components/CommonComponent/CustomButton";
 
 // import Pickup from "../../Components/pickup";
 
@@ -77,14 +80,22 @@ const NewOrder = ( {navigation}) => {
       <SafeAreaView>
         <View
           style={{ height: 926, width: "100%", backgroundColor: "#F3F1F6" }}>
-          <Box
+          <ImageBackground
+             source={require("../../assets/Photos/backg.png")}
+             alt="background"
+             resizeMode="contain"
+             style={{ height: 926, width: 428 }}>
+              <Box
             style={{
-              width: "65%",
+              width: "58%",
               height: 200,
               display: "flex",
               alignItems: "center",
               top: 300,
               left: 63,
+              borderStyle:"solid",
+              borderColor:"#f3f1f6",
+              borderWidth:1
             }}>
             <Text style={{ fontSize: 20, fontWeight: "600" }}>
               NEW ORDER BOOKING
@@ -101,37 +112,23 @@ const NewOrder = ( {navigation}) => {
               onChangeText={(text) => setMobileNo(text)}
             />
           </Box>
+          
           <Box style={{ display: "flex" }}>
             <View
               style={{
-                flexDirection: "row",
-                top: 228,
-                gap: 5,
-                marginLeft: 58,
+               flexDirection:"row",
+                top: 239,
+                gap: 6,
+                marginLeft: 100,
+                
               }}>
-              <Button
-                variant="solid"
-                width="141px"
-                height="48px"
-                colorScheme="darkText"
-                borderRadius="xl"
-                backgroundColor="red.600"
-                onPress={handleBack}>
-                <Text style={{ fontSize: 17, color: "#ffff" }}>Cancel</Text>
-              </Button>
 
-              <Button
-                variant="solid"
-                backgroundColor="green.400"
-                width="141px"
-                height="48px"
-                borderRadius="xl"
-                // onPress={handleMobileValidation}
-                onPress={getSearchStoreCustomerByMobile}
+              <CustomButton btnTittle="Cancel" bg ="red"  _onPress={handleBack}/>
+              
 
-              >
-                SUBMIT
-              </Button>
+ 
+              <CustomButton btnTittle="Submit" bg ="green" _onPress={getSearchStoreCustomerByMobile} />
+
               <View>
                 {/* <Pickup /> */}
               </View>
@@ -139,6 +136,10 @@ const NewOrder = ( {navigation}) => {
             </View>
 
           </Box>
+
+            
+          </ImageBackground>
+        
 
         </View>
       </SafeAreaView>

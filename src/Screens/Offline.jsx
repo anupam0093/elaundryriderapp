@@ -19,15 +19,17 @@ import Feather from "@expo/vector-icons/build/Feather";
 import { useNavigation } from "@react-navigation/native";
 import Homepage from "./Homepage";
 
-interface NavigationProps {
-  navigation?: any;
-}
-const Offline = ({ navigation }: NavigationProps) => {
+// interface NavigationProps {
+//   navigation?: any;
+// }
+
+
+const Offline = ({ navigation }) => {
   // validation starts here //
 
   const [email, setEmail] = useState("");
 
-  const handleEmailChange = (text: React.SetStateAction<string>) => {
+  const handleEmailChange = (text) => {
     setEmail(text);
   };
 

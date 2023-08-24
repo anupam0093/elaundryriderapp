@@ -1,16 +1,17 @@
-import React, { useCallback, useState } from "react";
-import { Alert, SafeAreaView, View } from "react-native";
-import { Image, Box, Text, Center, ScrollView, Button } from "native-base";
+import React, {  useState } from "react";
+import {  SafeAreaView, View,Text } from "react-native";
+import { Image, Box, Center, ScrollView, Button } from "native-base";
 import { AntDesign } from "@expo/vector-icons";
 import { TextInput } from "react-native";
 import { styles } from "../../Components/Styles/welcome";
-import { getAccountInfo, handleLoginUser } from "../../networkAPI/api";
-import { sendToken, setRiderMobileNo, setStoreId, setStoreUserId } from "../../networkAPI/services/auth.service";
-import { useEffect } from "react";
-import * as Network from 'expo-network';
+// import { getAccountInfo, handleLoginUser } from "../../networkAPI/api";
+// import { sendToken, setRiderMobileNo, setStoreId, setStoreUserId } from "../../networkAPI/services/auth.service";
+// import { useEffect } from "react";
+// import * as Network from 'expo-network';
 import axios from "axios";
 import { API_URL } from "../../networkAPI/env";
 import useStore from "../GlobalStore/store";
+import CustomButton from "../../Components/CommonComponent/CustomButton";
 
 // interface NavigationProps {
 //   navigation?: any;
@@ -22,10 +23,7 @@ const Welcome = ({ navigation }) => {
   
   
   const setUser = useStore(state=>state.setUser)
-  
-  
 
-  
 
   // async function loginUser() {
   //   const response = await handleLoginUser(username, password);
@@ -271,23 +269,9 @@ const Welcome = ({ navigation }) => {
           <Box style={styles.viewButtonTop}>
             <View style={styles.viewButtonSection}>
 
-              <Button
-                variant="solid"
-                backgroundColor="#5D7EFC"
-                width="80%"
-                height="40px"
-                borderRadius="7px"
-                onPress={customUserLogin}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    lineHeight: 20,
-                    color: "#FFFFFF",
-                    fontWeight: "bold",
-                  }}>
-                  Submit
-                </Text>
-              </Button>
+            
+            <CustomButton btnTittle="Submit" bg="green" _width={300} _onPress={customUserLogin} />
+
             </View>
           </Box>
         </View>

@@ -7,11 +7,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-interface NavigationProps {
-  navigation?: any;
-}
+// 'interface NavigationProps {
+//   navigation?: any;
+// }'
 
-const OrderDelevery = ({ navigation }: NavigationProps) => {
+const OrderDelevery = ({ navigation }) => {
   return (
    
       <SafeAreaView>

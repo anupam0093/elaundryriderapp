@@ -8,11 +8,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-interface NavigationProps {
-  navigation?: any;
-}
+// interface NavigationProps {
+//   navigation?: any;
+// }
 
-const PickupFilter = ({ navigation }: NavigationProps) => {
+const PickupFilter = ({ navigation }) => {
   return (
     <ScrollView>
       <SafeAreaView>

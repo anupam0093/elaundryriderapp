@@ -7,11 +7,11 @@ import { searchStoreCustomerByMobile } from "../../networkAPI/api";
 import { getRiderMobileNo, getStoreId } from "../../networkAPI/services/auth.service";
 
 
-interface NavigationProps {
-  navigation?: any;
-}
+// interface NavigationProps {
+//   navigation?: any;
+// }
 
-const AccountInfo = ({ navigation }: NavigationProps) => {
+const AccountInfo = ({ navigation }) => {
 
   const [ accountInfo, setAccountInfo ] = React.useState([]);
 

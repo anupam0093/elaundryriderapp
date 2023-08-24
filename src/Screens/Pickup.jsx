@@ -16,11 +16,11 @@ import Octicons from "@expo/vector-icons/build/Octicons";
 import { searchStoreCustomerByMobile } from "../../networkAPI/api";
 import { getRiderMobileNo, getStoreId } from "../../networkAPI/services/auth.service";
 
-interface NavigationProps {
-  navigation?: any;
-}
+// interface NavigationProps {
+//   navigation?: any;
+// }
 
-const Pickup = ({ navigation }: NavigationProps) => {
+const Pickup = ({ navigation }) => {
 
 
   const [ customerInfo, setCustomerInfo ] = React.useState([]);

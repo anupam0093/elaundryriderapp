@@ -25,11 +25,11 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
-interface NavigationProps {
-  navigation?: any;
-}
+// interface NavigationProps {
+//   navigation?: any;
+// }
 
-const Category = ({ navigation }: NavigationProps) => {
+const Category = ({ navigation }) => {
   const layout = useWindowDimensions();
   const [ showGarments, setshowGarments ] = React.useState([]);
 
@@ -392,7 +392,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
     const [ datas, setdatas ] = React.useState({})
 
 
-    const handleAddCart = (item: any) => {
+    const handleAddCart = (item) => {
       // addToCart(item)
       setIsVisible(true);
       setdatas(item);
@@ -823,7 +823,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
       setCount(count - 1);
     };
     const [ datas, setdatas ] = React.useState({})
-    const handleAddCart = (item: any) => {
+    const handleAddCart = (item ) => {
       setIsVisible(true);
       setdatas(item);
 
@@ -1129,7 +1129,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
       setCount(count - 1);
     };
     const [ datas, setdatas ] = React.useState({})
-    const handleAddCart = (item: any) => {
+    const handleAddCart = (item) => {
       setIsVisible(true);
       setdatas(item);
 
@@ -1435,7 +1435,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
       setCount(count - 1);
     };
     const [ datas, setdatas ] = React.useState({})
-    const handleAddCart = (item: any) => {
+    const handleAddCart = (item) => {
       setIsVisible(true);
       setdatas(item);
 
@@ -1743,7 +1743,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
       setCount(count - 1);
     };
     const [ datas, setdatas ] = React.useState({})
-    const handleAddCart = (item: any) => {
+    const handleAddCart = (item) => {
       setIsVisible(true);
       setdatas(item);
 
@@ -2049,7 +2049,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
       setCount(count - 1);
     };
     const [ datas, setdatas ] = React.useState({})
-    const handleAddCart = (item: any) => {
+    const handleAddCart = (item) => {
       setIsVisible(true);
       setdatas(item);
 
@@ -2359,7 +2359,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
       setCount(count - 1);
     };
     const [ datas, setdatas ] = React.useState({})
-    const handleAddCart = (item: any) => {
+    const handleAddCart = (item) => {
       setIsVisible(true);
       setdatas(item);
 
@@ -2666,7 +2666,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
       setCount(count - 1);
     };
     const [ datas, setdatas ] = React.useState({})
-    const handleAddCart = (item: any) => {
+    const handleAddCart = (item) => {
       setIsVisible(true);
       setdatas(item);
 

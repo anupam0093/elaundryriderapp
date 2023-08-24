@@ -4,6 +4,7 @@ import { homepage } from "../../Components/Styles/homepage";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import useStore from "../GlobalStore/store";
+import CustomButton from "../../Components/CommonComponent/CustomButton";
 
 // const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -46,9 +47,10 @@ const Homepage = ({navigation}) => {
             <View>
               <Button 
               onPress={handleLogout}
-              style={{ top: 18, right: 6, borderRadius: 100 }}>
+              style={{ top: 18, right: 6, borderRadius: 9 }}>
                 Logout
               </Button>
+              {/* <CustomButton btnTittle="Logout" bg="cyan"  /> */}
             </View>
 
             <TouchableOpacity

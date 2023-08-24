@@ -18,18 +18,18 @@ import Entypo from "@expo/vector-icons/build/Entypo";
 import Swipelist from "react-native-swipeable-list-view";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
-import { GetTabWidth } from "react-native-tab-view/lib/typescript/src/TabBarIndicator";
+// import { GetTabWidth } from "react-native-tab-view/lib/typescript/src/TabBarIndicator";
 import { searchGarmentByStoreId } from "../../networkAPI/api";
 import { getStoreId } from "../../networkAPI/services/auth.service";
 
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
-interface NavigationProps {
-  navigation?: any;
-}
+// interface NavigationProps {
+//   navigation?: any;
+// }
 
-const Services = ({ navigation }: NavigationProps) => {
+const Services = ({ navigation }) => {
 
   const [ showGarments, setshowGarments ] = React.useState([]);
   const getsearchGarmentByStoreId = React.useCallback(async () => {

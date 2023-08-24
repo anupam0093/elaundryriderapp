@@ -8,11 +8,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-interface NavigationProps {
-  navigation?: any;
-}
+// interface NavigationProps {
+//   navigation?: any;
+// }
 
-const OrderDelevery = ({ navigation }: NavigationProps) => {
+const OrderDelevery = ({ navigation }) => {
   return (
     <ScrollView>
       <SafeAreaView>
@@ -181,7 +181,7 @@ const OrderDelevery = ({ navigation }: NavigationProps) => {
             </View>
 
             <View>
-              <Text style={{ color: "#003566", fontSize: 14 }}>
+              <Text style={{ color: "#003566", fontSize: 14 ,marginRight:14}}>
                 View all orders
               </Text>
             </View>
@@ -194,7 +194,7 @@ const OrderDelevery = ({ navigation }: NavigationProps) => {
               borderColor: "#003566",
               borderStyle: "solid",
               borderWidth: 1,
-              marginLeft: 25,
+              marginLeft: 10,
               display: "flex",
               flexDirection: "row",
               borderRadius: 11,
@@ -283,7 +283,7 @@ const OrderDelevery = ({ navigation }: NavigationProps) => {
               borderColor: "#003566",
               borderStyle: "solid",
               borderWidth: 1,
-              marginLeft: 25,
+              marginLeft: 10,
               display: "flex",
               flexDirection: "row",
               borderRadius: 11,
@@ -372,7 +372,7 @@ const OrderDelevery = ({ navigation }: NavigationProps) => {
               borderColor: "#003566",
               borderStyle: "solid",
               borderWidth: 1,
-              marginLeft: 25,
+              marginLeft: 10,
               display: "flex",
               flexDirection: "row",
               borderRadius: 11,
@@ -462,7 +462,7 @@ const OrderDelevery = ({ navigation }: NavigationProps) => {
               borderColor: "#003566",
               borderStyle: "solid",
               borderWidth: 1,
-              marginLeft: 25,
+              marginLeft: 10,
               display: "flex",
               flexDirection: "row",
               borderRadius: 11,
