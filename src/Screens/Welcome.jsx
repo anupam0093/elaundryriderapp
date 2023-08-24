@@ -1,6 +1,6 @@
 import React, {  useState } from "react";
-import {  SafeAreaView, View,Text } from "react-native";
-import { Image, Box, Center, ScrollView, Button } from "native-base";
+import {  SafeAreaView, View,Text, ScrollView, Image } from "react-native";
+// import { Image, Box, Center, ScrollView, Button } from "native-base";
 import { AntDesign } from "@expo/vector-icons";
 import { TextInput } from "react-native";
 import { styles } from "../../Components/Styles/welcome";
@@ -80,10 +80,10 @@ const Welcome = ({ navigation }) => {
 
 
   return (
-    <ScrollView>
       <SafeAreaView>
+    <ScrollView>
         <View style={styles.container}>
-          <Box
+          {/* <View
             style={{
               display: "flex",
               flexDirection: "row",
@@ -103,9 +103,9 @@ const Welcome = ({ navigation }) => {
               source={require("../../assets/Photos/Vector.png")}
               style={{ marginTop: 30, marginRight: 30 }}
             />
-          </Box>
+          </View> */}
 
-          <Box style={{ marginTop: 50, marginRight: 20 }}>
+          <View style={{ marginTop: 50, marginRight: 20 }}>
             <Image
               alt="logo"
               margin="auto"
@@ -113,7 +113,7 @@ const Welcome = ({ navigation }) => {
               source={require("../../assets/Photos/elaundry.png")}
               width="250px"
             />
-            <Box
+            <View
               style={{
                 width: "100%",
                 height: 299,
@@ -129,13 +129,13 @@ const Welcome = ({ navigation }) => {
                 width="100%"
                 height="100%"
               />
-            </Box>
-          </Box>
+            </View>
+          </View>
           <View
             style={{
               top: 35,
             }}>
-            <Center>
+            <View>
               <Text
                 style={{
                   textAlign: "center",
@@ -202,7 +202,7 @@ const Welcome = ({ navigation }) => {
                   clothes as you set the time
                 </Text>
               </View>
-            </Center>
+            </View>
           </View>
 
           <View
@@ -215,7 +215,7 @@ const Welcome = ({ navigation }) => {
             <Text style={{ fontSize: 15, fontWeight: "500" }}>Username</Text>
           </View>
           <View style={{ display: "flex" }}>
-            <Box
+            <View
               style={{
                 display: "flex",
                 flexDirection: "row",
@@ -232,7 +232,7 @@ const Welcome = ({ navigation }) => {
                   setUsername(e);
                 }}
               />
-            </Box>
+            </View>
           </View>
           <View
             style={{
@@ -244,7 +244,7 @@ const Welcome = ({ navigation }) => {
             <Text style={{ fontSize: 15, fontWeight: "500" }}>Password</Text>
           </View>
           <View style={{ display: "flex" }}>
-            <Box
+            <View
               style={{
                 display: "flex",
                 flexDirection: "row",
@@ -263,20 +263,20 @@ const Welcome = ({ navigation }) => {
                   setPassword(e);
                 }}
               />
-            </Box>
+            </View>
           </View>
 
-          <Box style={styles.viewButtonTop}>
+          <View style={styles.viewButtonTop}>
             <View style={styles.viewButtonSection}>
 
             
             <CustomButton btnTittle="Submit" bg="green" _width={300} _onPress={customUserLogin} />
 
             </View>
-          </Box>
+          </View>
         </View>
-      </SafeAreaView>
     </ScrollView>
+      </SafeAreaView>
   );
 };
 
