@@ -13,47 +13,14 @@ import AntDesign from "@expo/vector-icons/build/AntDesign";
 import Octicons from "@expo/vector-icons/build/Octicons";
 import { searchStoreCustomerByMobile } from "../../networkAPI/api";
 import { getRiderMobileNo, getStoreId } from "../../networkAPI/services/auth.service";
-
-// interface NavigationProps {
-//   navigation?: any;
-// }
-
-const Pickup = ({ navigation }) => {
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 
-  const [ customerInfo, setCustomerInfo ] = React.useState([]);
-  
-  const getSearchStoreCustomerByMobile = React.useCallback(async () => {
-    try {
-      const response = await searchStoreCustomerByMobile(
-
-        //@ts-expect-error
-        getStoreId(), getRiderMobileNo()
-      );
-      console.log({ response })
-      console.log(response[ 0 ].customer.status)
-      if (response[ 0 ].customer.status === "ACTIVE") {
-        setCustomerInfo(response)
-
-      }
-      else {
-        Alert.alert("You are not registered")
-      }
-
-
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-
-  console.log({ customerInfo }, "Pickup Screen");
-
-  React.useEffect(() => {
-    getSearchStoreCustomerByMobile()
-  }, [])
-
-
-
+const Pickup = () => {
+  const {navigate} = useNavigation()
+  const route = useRoute()
+  const OrderDetails = route.params
+  // console.log(OrderDetails)
   return (
    
       <SafeAreaView>
@@ -69,7 +36,7 @@ const Pickup = ({ navigation }) => {
             }}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("Homepage");
+                navigate("Homepage");
               }}>
               <AntDesign
                 name="left"
@@ -113,17 +80,17 @@ const Pickup = ({ navigation }) => {
             }}>
 
 
-            {customerInfo?.map((item, index) => {
+            {/* {OrderDetails?.map((item, index) => {
               console.log(item?.[ "storeCustomerAccountDTO" ])
-              return (
+              return ( */}
                 <TouchableOpacity
-                  key={index}
+                
                   onPress={() => {
-                    navigation.navigate("Category");
+                    navigate("Category");
                   }}>
 
                   <View style={[ styles.Viewcard ]}
-                    key={index}
+                  
                   >
                     <View style={{ display: "flex", flexDirection: "row" }}>
                       <Text
@@ -134,7 +101,8 @@ const Pickup = ({ navigation }) => {
                           marginTop: 15,
                           marginLeft: 8,
                         }}>
-                        {item?.[ "customer" ]?.[ "firstName" ]} {item?.[ "customer" ]?.[ "lastName" ]}
+                        {/* {item?.[ "customer" ]?.[ "firstName" ]} {item?.[ "customer" ]?.[ "lastName" ]} */}
+                        OrderDetails?.firstName
                       </Text>
                       <View
                         style={{
@@ -200,7 +168,7 @@ const Pickup = ({ navigation }) => {
                           fontWeight: "500",
                           marginTop: 1.9,
                         }}>
-                        {item?.[ "customer" ]?.[ "mobileNo" ]}
+                        {/* {item?.[ "customer" ]?.[ "mobileNo" ]} */}
                       </Text>
                     </View>
 
@@ -241,12 +209,12 @@ const Pickup = ({ navigation }) => {
                       </View>
                       <View style={{ width: 161, height: 19, marginLeft: 8 }}>
                         <Text style={{ fontSize: 10, lineHeight: 9.5 }}>
-                          {item?.[ "customer" ]?.[ "address" ]}
+                          {/* {item?.[ "customer" ]?.[ "address" ]} */}
                         </Text>
 
                         <TouchableOpacity
                           onPress={() => {
-                            navigation.navigate("Accountinfo");
+                            navigate("Accountinfo");
                           }}>
                           <View
                             style={{
@@ -274,8 +242,8 @@ const Pickup = ({ navigation }) => {
                     </View>
                   </View>
                 </TouchableOpacity>
-              )
-            })}
+              {/* )
+            })} */}
 
           </View>
         </View>

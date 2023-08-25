@@ -51,7 +51,8 @@ export const getAccountInfo = async (
 
 export const searchStoreCustomerByMobile = async (
   mobileNo: string,
-  storeId: string
+  storeId: string, 
+  token:string
 ) => {
   try {
     const { data } = await axios({
@@ -59,12 +60,12 @@ export const searchStoreCustomerByMobile = async (
       url: `${API_URL}/auth/customer/store-customer/${mobileNo}/${storeId}`,
       headers: {
         "Content-Type": "application/json",
-        Authorization: getToken(),
+        Authorization: 'Basic' + " " + token,
       },
     });
     return data;
   } catch (error) {
-    console.log(error);
+    console.log('loveme',error);
   }
 };
 

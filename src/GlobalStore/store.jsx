@@ -8,13 +8,13 @@ const useStore = create(
     persist(
         (set, get) => ({
             user:[],
-            rider:[],
+            riderDetails:[],
 
             setUser: (data) =>
                 set((state) => ({ user: data })),
 
-            setRider: (data) =>
-            set((state) => ({ rider: data })),
+            setRiderDetails: (data) =>
+            set((state) => ({ riderDetails: data })),
             
             setLogOutUser: (data) =>
             set((state) => ({ user: null })),

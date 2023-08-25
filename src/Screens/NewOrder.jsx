@@ -12,6 +12,11 @@ import { searchStoreCustomerByMobile } from "../../networkAPI/api";
 import { getRiderMobileNo, getStoreId, setRiderMobileNo } from "../../networkAPI/services/auth.service";
 // import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../../Components/CommonComponent/CustomButton";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import useStore from "../GlobalStore/store";
+import axios from "axios";
+import { API_URL } from "../../networkAPI/env";
+import { useNavigation } from "@react-navigation/native";
 
 // import Pickup from "../../Components/pickup";
 
@@ -19,56 +24,63 @@ import CustomButton from "../../Components/CommonComponent/CustomButton";
 //   navigation?: any;
 // }
 
-const NewOrder = ( {navigation}) => {
+const NewOrder = () => {
+
+  const navigation = useNavigation()
 
 
-
-  const [ mobileNo, setMobileNo ] = useState("")
+  const [ mobileNo, setMobileNo ] = useState('')
+  console.log(mobileNo)
 
   const handleBack = () => {
     navigation.navigate("Homepage");
   };
 
+  
+
   const [ customerInfo, setCustomerInfo ] = React.useState([]);
+
+  const riderDetails = useStore(state=>state.riderDetails)
+  const user = useStore(state=>state.user)
+  // console.log(riderDetails)
+
+
+ 
+
   const getSearchStoreCustomerByMobile = React.useCallback(async () => {
     try {
-      const response = await searchStoreCustomerByMobile(
-       
-        getStoreId(), mobileNo
-      );
-      console.log({ response })
-      console.log(response[ 0 ].customer.status)
-      if (response[ 0 ].customer.status === "ACTIVE") {
-        setCustomerInfo(response)
-        setRiderMobileNo(response[ 0 ].customer.mobileNo)
-        navigation.navigate('Pickup')
-
+      // https://api.elaundry.co.in/oit-elaundry/api/auth/customer/store-customer/5/9718409025
+      const {data, status} = await axios.get(`https://api.elaundry.co.in/oit-elaundry/api/auth/customer/store-customer/${mobileNo}/${riderDetails?.storeId}`, {
+        headers:{
+          "Content-Type": "application/json",
+          'Authorization': `Basic ${user?.accessToken}`
+        }
+      })
+      console.log('salman khan',  data)
+      if(status === 200){
+        navigation.navigate('Pickup', {'OrderDetails':data[0]?.customer})
       }
-      else {
-        Alert.alert("You are not registered")
-      }
-
-
+      // console.log(data)
     } catch (error) {
       console.log(error);
     }
-  }, [ mobileNo ]);
+  }, [ ]);
 
-  console.log({ customerInfo });
+
 
 
   return (
-      <SafeAreaView >
+      <SafeAreaView style={{flex:1, justifyContent:'center', alignItems:'center'}} >
         <View
-          style={{ height: 926, width: "100%", backgroundColor: "#F3F1F6" }}>
+          style={{ flex:1 ,width: "100%", backgroundColor: "#F3F1F6" }}>
           <ImageBackground
              source={require("../../assets/Photos/backg.png")}
              alt="background"
              resizeMode="contain"
-             style={{ height: 926, width: 428 }}>
+             style={{ width:'100%', height:'100%' }}>
               <View
             style={{
-              width: "58%",
+              width: '100%',
               height: 200,
               display: "flex",
               alignItems: "center",
@@ -88,11 +100,10 @@ const NewOrder = ( {navigation}) => {
             <TextInput
               style={[ styles.input ]}
               placeholder="Customer mobile"
-              keyboardType="phone-pad"
               value={mobileNo}
-              onChangeText={(text) => setMobileNo(text)}
+              onChangeText={setMobileNo}
             />
-          </View>
+          </View> 
           
           <View style={{ display: "flex" }}>
             <View
@@ -108,12 +119,9 @@ const NewOrder = ( {navigation}) => {
               
 
  
-              <CustomButton btnTittle="Submit" bg ="green" _onPress={getSearchStoreCustomerByMobile} />
+              <CustomButton btnTittle="Submit" bg ="green" _onPress={()=>getSearchStoreCustomerByMobile()} />
 
-              <View>
-                {/* <Pickup /> */}
-              </View>
-
+              
             </View>
 
           </View>

@@ -41,17 +41,21 @@ const RightContent = ({ setLogOutUser }) => {
 
 const Homepage = ({ navigation }) => {
   const user = useStore(state=>state.user)
+  const setRiderDetails = useStore(state=>state.setRiderDetails)
+  const riderDetails = useStore(state=>state.riderDetails)
+
+
   console.log(user)
   const setLogOutUser = useStore(state => state.setLogOutUser)
 
-  const {data, isLoading, error} = useQuery({
+  const {data, isLoading, error, isSuccess} = useQuery({
     queryKey:['customer_info'], 
-    queryFn: async ()=>await getAccountInfo(user?.accessToken,user?.tokenType)
+    queryFn: async ()=>await getAccountInfo(user?.accessToken,user?.tokenType), 
   })
 
-  console.log(data)
-  // console.log(data?.data)
-
+  if (isSuccess){
+    setRiderDetails(data?.data)
+  }
   return (
     <SafeAreaView style={{flex:1}}>
       <Header leftContent={<LeftBrand />} centerContent={<Text>Welcome</Text>} rightContent={<RightContent setLogOutUser={setLogOutUser} />} />
@@ -79,7 +83,7 @@ const Homepage = ({ navigation }) => {
             }}
           >
             {/* data coming from backend */}
-            RIDERID9718409025
+            {data?.data?.userName}
           </Text>
         </View>
 

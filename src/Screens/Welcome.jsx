@@ -70,7 +70,7 @@ const Welcome = ({ navigation }) => {
         if(data){
           setUser(data)
         }
-        console.log(data);
+        
       } catch (error) {
        console.log(error) 
       }
