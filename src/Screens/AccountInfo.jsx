@@ -2,27 +2,35 @@ import React from "react";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import {  SafeAreaView, TouchableOpacity,View,Text} from "react-native";
 import { styles } from "../../Components/Styles/welcome";
-import { searchStoreCustomerByMobile } from "../../networkAPI/api";
-import { getRiderMobileNo, getStoreId } from "../../networkAPI/services/auth.service";
-
-
-// interface NavigationProps {
-//   navigation?: any;
-// }
+import axios from "axios";
 
 const AccountInfo = ({ navigation }) => {
 
+ const getOrder = async()=>{
+  try {
+    // https://api.elaundry.co.in/oit-elaundry/api/auth/customer/store-customer/5/9718409025
+    const {data, status} = await axios.get(`https://api.elaundry.co.in/oit-elaundry/api/auth/customer/store-customer/${riderDetails?.storeId}/${mobileNo}`, {
+      headers:{
+        "Content-Type": "application/json",
+        'Authorization': `Basic ${user?.accessToken}`
+      }
+    })
+    // console.log('salman khan',  data)
+    // if(status === 200){
+    //   navigation.navigate('Pickup', {'OrderDetails':data[0]?.customer})
+    // }
+    // console.log(data)
+  } catch (error) {
+    console.log(error);
+  }
+ }
+
+
   return (
-
       <SafeAreaView>
-
-        
-            <View style={styles.container}
-           
+            <View style={styles.container}  
             >
-
               <View
-
                 style={{
                   marginLeft: 5,
                   marginTop: 30,
