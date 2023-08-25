@@ -1,6 +1,5 @@
 import React, {  useState } from "react";
 import {  SafeAreaView, View,Text, ScrollView, Image } from "react-native";
-// import { Image, Box, Center, ScrollView, Button } from "native-base";
 import { AntDesign } from "@expo/vector-icons";
 import { TextInput } from "react-native";
 import { styles } from "../../Components/Styles/welcome";
@@ -88,7 +87,7 @@ const Welcome = ({ navigation }) => {
               alt="logo"
               
               source={require("../../assets/Photos/elaundry.png")}
-             style={{width:150, height:100, resizeMode:'conver', alignSelf:'center'}}
+             style={{width:150, height:100, resizeMode:'contain', alignSelf:'center'}}
             />
             <View
               style={{

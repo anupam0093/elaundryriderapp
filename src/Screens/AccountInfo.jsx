@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { View, Text, Box, ScrollView } from "native-base";
+import React from "react";
 import { AntDesign, Entypo } from "@expo/vector-icons";
-import { Alert, SafeAreaView, TouchableOpacity } from "react-native";
+import {  SafeAreaView, TouchableOpacity,View,Text} from "react-native";
 import { styles } from "../../Components/Styles/welcome";
 import { searchStoreCustomerByMobile } from "../../networkAPI/api";
 import { getRiderMobileNo, getStoreId } from "../../networkAPI/services/auth.service";
@@ -44,7 +43,7 @@ const AccountInfo = ({ navigation }) => {
 
 
   return (
-    <ScrollView>
+
       <SafeAreaView>
 
         {accountInfo.map((item, index) => {
@@ -54,7 +53,7 @@ const AccountInfo = ({ navigation }) => {
               key={index}
             >
 
-              <Box
+              <View
 
                 style={{
                   marginLeft: 5,
@@ -74,7 +73,7 @@ const AccountInfo = ({ navigation }) => {
                     style={{ marginTop: 30, marginLeft: 10 }}
                   />
                 </TouchableOpacity>
-                <Box
+                <View
                   style={{
                     width: 242,
                     height: 34,
@@ -97,7 +96,7 @@ const AccountInfo = ({ navigation }) => {
                     }}>
                     Customer Account Info
                   </Text>
-                </Box>
+                </View>
 
                 <Entypo
                   name="dots-three-vertical"
@@ -105,9 +104,9 @@ const AccountInfo = ({ navigation }) => {
                   color="black"
                   style={{ marginTop: 30, marginRight: 16 }}
                 />
-              </Box>
+              </View>
 
-              <Box
+              <View
                 style={{
                   marginTop: 30,
                   marginLeft: 22,
@@ -156,9 +155,9 @@ const AccountInfo = ({ navigation }) => {
                     Mobile : {item?.[ "customer" ]?.[ "mobileNo" ]}
                   </Text>
                 </View>
-              </Box>
+              </View>
 
-              <Box
+              <View
                 style={{
                   width: 340,
                   height: 340,
@@ -172,7 +171,7 @@ const AccountInfo = ({ navigation }) => {
                   paddingRight: 11,
                   backgroundColor: "#D9D9D9",
                 }}>
-                <Box
+                <View
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -214,8 +213,8 @@ const AccountInfo = ({ navigation }) => {
                       {accountInfo[ 0 ]?.[ "scstatus" ]}
                     </Text>
                   </View>
-                </Box>
-                <Box
+                </View>
+                <View
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -257,8 +256,8 @@ const AccountInfo = ({ navigation }) => {
                       {item?.[ "storeCustomerAccountDTO" ]?.[ "creditLimit" ]}
                     </Text>
                   </View>
-                </Box>
-                <Box
+                </View>
+                <View
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -300,8 +299,8 @@ const AccountInfo = ({ navigation }) => {
                       {item?.[ "storeCustomerAccountDTO" ]?.[ "balanceUnit" ]}
                     </Text>
                   </View>
-                </Box>
-                <Box
+                </View>
+                <View
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -343,8 +342,8 @@ const AccountInfo = ({ navigation }) => {
                       {item?.[ "storeCustomerAccountDTO" ]?.[ "balanceUnit" ]}
                     </Text>
                   </View>
-                </Box>
-                <Box
+                </View>
+                <View
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -386,24 +385,17 @@ const AccountInfo = ({ navigation }) => {
                       {item?.[ "storeCustomerAccountDTO" ]?.[ "advanceUnit" ]}
                     </Text>
                   </View>
-                </Box>
-              </Box>
-
-
+                </View>
+              </View>
 
             </View>
-
-
 
           )
 
         })}
 
-
-
-
       </SafeAreaView>
-    </ScrollView>
+   
   );
 };
 

@@ -5,11 +5,9 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Touchable,
+  Text,
   Alert,
 } from "react-native";
-import { Box, Text, ScrollView } from "native-base";
-
 import React from "react";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
 import Octicons from "@expo/vector-icons/build/Octicons";
@@ -57,11 +55,11 @@ const Pickup = ({ navigation }) => {
 
 
   return (
-    <ScrollView>
+   
       <SafeAreaView>
         <View
           style={{ height: 926, width: "100%", backgroundColor: "#F3F1F6" }}>
-          <Box
+          <View
             style={{
               marginLeft: 5,
               marginTop: 30,
@@ -80,7 +78,7 @@ const Pickup = ({ navigation }) => {
                 style={{ marginTop: 30, marginLeft: 10 }}
               />
             </TouchableOpacity>
-            <Box
+            <View
               style={{
                 backgroundColor: "#FFFCFC",
                 width: 242,
@@ -97,16 +95,16 @@ const Pickup = ({ navigation }) => {
                   style={[ styles.input ]}
                   placeholder="Search Here"></TextInput>
               </View>
-            </Box>
+            </View>
 
             <Image
               alt="ios-bars"
               source={require("../../assets/Photos/bar.png")}
               style={{ marginTop: 32, marginRight: 20, height: 22, width: 22 }}
             />
-          </Box>
+          </View>
 
-          <Box
+          <View
             style={{
               display: "flex",
               flexDirection: "row",
@@ -138,7 +136,7 @@ const Pickup = ({ navigation }) => {
                         }}>
                         {item?.[ "customer" ]?.[ "firstName" ]} {item?.[ "customer" ]?.[ "lastName" ]}
                       </Text>
-                      <Box
+                      <View
                         style={{
                           display: "flex",
                           flexDirection: "row",
@@ -159,10 +157,10 @@ const Pickup = ({ navigation }) => {
                           alt="calendar"
                           source={require("../../assets/Photos/calendar.png")}
                         />
-                      </Box>
+                      </View>
                     </View>
 
-                    <Box
+                    <View
                       style={{
                         display: "flex",
                         flexDirection: "row",
@@ -182,7 +180,7 @@ const Pickup = ({ navigation }) => {
                         alt="calendar"
                         source={require("../../assets/Photos/stopwatch.png")}
                       />
-                    </Box>
+                    </View>
                     <View
                       style={{
                         width: 169,
@@ -279,10 +277,10 @@ const Pickup = ({ navigation }) => {
               )
             })}
 
-          </Box>
+          </View>
         </View>
       </SafeAreaView>
-    </ScrollView>
+   
   );
 };
 

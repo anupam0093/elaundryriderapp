@@ -8,11 +8,13 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   TextInput,
+  Text
+
 
 } from "react-native";
 // import Modal from 'react-native-modal'
-import { Box, Text, Button } from "native-base";
-import React, { Key, useState } from "react";
+import { Button } from "native-base";
+import React, { useState } from "react";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
 import Entypo from "@expo/vector-icons/build/Entypo";
 import Swipelist from "react-native-swipeable-list-view";
@@ -179,7 +181,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
         <View
         
           style={{ height: 1026, width: "100%", backgroundColor: "#F3F1F6" }}>
-          <Box
+          <View
             style={{
               marginLeft: 5,
               marginTop: 30,
@@ -199,7 +201,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
               />
             </TouchableOpacity>
 
-            <Box
+            <View
               style={{
                 width: 242,
                 height: 34,
@@ -222,7 +224,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                 }}>
                 Book Now
               </Text>
-            </Box>
+            </View>
 
             <AntDesign
               name="shoppingcart"
@@ -230,9 +232,9 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
               color="#5D7EFC"
               style={{ marginTop: 30, marginRight: 30 }}
             />
-          </Box>
+          </View>
           {/* data coming from backend */}
-          <Box
+          <View
             style={{
               marginTop: 30,
               marginLeft: 19,
@@ -281,8 +283,8 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                 Mobile No 9870765790
               </Text>
             </View>
-          </Box>
-          <Box style={{ display: "flex" }}>
+          </View>
+          <View style={{ display: "flex" }}>
             <View
               style={{
                 flexDirection: "row",
@@ -308,8 +310,8 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                 ONLINE
               </Button>
             </View>
-          </Box>
-          <Box
+          </View>
+          <View
             style={{
               display: "flex",
               width: 382,
@@ -345,7 +347,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                 Services
               </Button>
             </View>
-          </Box>
+          </View>
 
           <TabView
             navigationState={{ index, routes }}
@@ -678,7 +680,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
     
             renderItem={(term, index) => (
 
-              <Box
+              <View
 
                 style={{
                   width: 368,
@@ -784,7 +786,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
 
                   </View>
                 </Button>
-              </Box>
+              </View>
 
             )}
             renderHiddenItem={RightSwipe}
@@ -985,7 +987,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
     
             renderItem={(term, index) => (
 
-              <Box
+              <View
 
                 style={{
                   width: 368,
@@ -1091,7 +1093,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
 
                   </View>
                 </Button>
-              </Box>
+              </View>
 
             )}
             renderHiddenItem={RightSwipe}
@@ -1291,7 +1293,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
     
             renderItem={(term, index) => (
 
-              <Box
+              <View
               
                 style={{
                   width: 368,
@@ -1397,7 +1399,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
 
                   </View>
                 </Button>
-              </Box>
+              </View>
 
             )}
             renderHiddenItem={RightSwipe}
@@ -1597,7 +1599,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
     
             renderItem={(term, index) => (
 
-              <Box
+              <View
 
                 style={{
                   width: 368,
@@ -1705,7 +1707,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
 
                   </View>
                 </Button>
-              </Box>
+              </View>
 
             )}
             renderHiddenItem={RightSwipe}
@@ -1905,8 +1907,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
     
             renderItem={(term, index) => (
 
-              <Box
-
+              <View
                 style={{
                   width: 368,
                   height: 90,
@@ -2013,7 +2014,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
 
                   </View>
                 </Button>
-              </Box>
+              </View>
 
             )}
             renderHiddenItem={RightSwipe}
@@ -2211,7 +2212,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
     
             renderItem={(term, index) => (
 
-              <Box
+              <View
 
                 style={{
                   width: 368,
@@ -2319,7 +2320,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
 
                   </View>
                 </Button>
-              </Box>
+              </View>
 
             )}
             renderHiddenItem={RightSwipe}
@@ -2521,8 +2522,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
     
             renderItem={(term, index) => (
 
-              <Box
-
+              <View
                 style={{
                   width: 368,
                   height: 90,
@@ -2629,7 +2629,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
 
                   </View>
                 </Button>
-              </Box>
+              </View>
 
             )}
             renderHiddenItem={RightSwipe}
@@ -2828,8 +2828,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
     
             renderItem={(term, index) => (
 
-              <Box
-
+              <View
                 style={{
                   width: 368,
                   height: 90,
@@ -2932,7 +2931,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
 
                   </View>
                 </Button>
-              </Box>
+              </View>
 
             )}
             renderHiddenItem={RightSwipe}

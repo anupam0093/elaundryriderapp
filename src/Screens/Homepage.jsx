@@ -1,5 +1,5 @@
-import { View, SafeAreaView, Image, TouchableOpacity } from "react-native";
-import { Box, Text, Button } from "native-base";
+import { View, SafeAreaView, Image, TouchableOpacity,Text } from "react-native";
+import {  Button } from "native-base";
 import { homepage } from "../../Components/Styles/homepage";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -48,15 +48,17 @@ const Homepage = ({ navigation }) => {
     queryKey:['customer_info'], 
     queryFn: async ()=>await getAccountInfo(user?.accessToken,user?.tokenType)
   })
+
+  console.log(data)
   // console.log(data?.data)
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex:1}}>
       <Header leftContent={<LeftBrand />} centerContent={<Text>Welcome</Text>} rightContent={<RightContent setLogOutUser={setLogOutUser} />} />
       <View style={homepage.container}>
 
         {/* data coming from backend */}
-        <Box style={{ left: 160 }}>
+        <View style={{ left: 160 }}>
           <Text
             style={{
               marginLeft: 19,
@@ -79,9 +81,9 @@ const Homepage = ({ navigation }) => {
             {/* data coming from backend */}
             RIDERID9718409025
           </Text>
-        </Box>
+        </View>
 
-        <Box
+        <View
           style={{
             display: "flex",
             justifyContent: "center",
@@ -116,7 +118,7 @@ const Homepage = ({ navigation }) => {
               ONLINE
             </Button>
           </View>
-        </Box>
+        </View>
         <View style={{ marginTop: 20, marginLeft: 40 }}>
           <Text
             style={{
@@ -131,7 +133,7 @@ const Homepage = ({ navigation }) => {
 
         {/* order container starts here */}
 
-        <Box
+        <View
           style={{
             display: "flex",
             flexDirection: "row",
@@ -168,13 +170,13 @@ const Homepage = ({ navigation }) => {
               >
                 New Order
               </Text>
-              <Box style={{ height: 262, width: 177, right: 10 }}>
+              <View style={{ height: 262, width: 177, right: 10 }}>
                 <Image
                   alt="image-2"
                   style={{ marginTop: 30 }}
                   source={require("../../assets/Photos/laundry-1.png")}
                 />
-              </Box>
+              </View>
             </View>
           </TouchableOpacity>
 
@@ -207,25 +209,25 @@ const Homepage = ({ navigation }) => {
               >
                 Delivery
               </Text>
-              <Box style={{ height: 60, width: 79 }}>
+              <View style={{ height: 60, width: 79 }}>
                 <Image
                   alt="imagee-3"
                   style={{ marginLeft: 97 }}
                   source={require("../../assets/Photos/sun.png")}
                 />
-              </Box>
-              <Box style={{ height: 169, width: 211, right: 10 }}>
+              </View>
+              <View style={{ height: 169, width: 211, right: 10 }}>
                 <Image
                   alt="image-2"
                   style={{ right: 10, height: 160, width: 211 }}
                   source={require("../../assets/Photos/scooter.png")}
                 />
-              </Box>
+              </View>
             </View>
           </TouchableOpacity>
-        </Box>
+        </View>
 
-        <Box
+        <View
           style={{
             display: "flex",
             flexDirection: "row",
@@ -258,13 +260,13 @@ const Homepage = ({ navigation }) => {
               >
                 User Profile
               </Text>
-              <Box style={{ height: 167, width: 172, right: 3, marginTop: 87 }}>
+              <View style={{ height: 167, width: 172, right: 3, marginTop: 87 }}>
                 <Image
                   alt="image-3"
                   style={{ height: 127 }}
                   source={require("../../assets/Photos/user.png")}
                 />
-              </Box>
+              </View>
             </View>
           </TouchableOpacity>
 
@@ -295,16 +297,16 @@ const Homepage = ({ navigation }) => {
               >
                 Pickup
               </Text>
-              <Box style={{ height: 262, width: 177 }}>
+              <View style={{ height: 262, width: 177 }}>
                 <Image
                   alt="image-4"
                   style={{ marginTop: 10 }}
                   source={require("../../assets/Photos/coconut.png")}
                 />
-              </Box>
+              </View>
             </View>
           </TouchableOpacity>
-        </Box>
+        </View>
       </View>
     </SafeAreaView>
   );

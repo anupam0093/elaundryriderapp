@@ -1,11 +1,6 @@
 import React from "react";
-import { View, Text, Box } from "native-base";
 import { AntDesign, Entypo,  } from "@expo/vector-icons";
-import {
-  SafeAreaView,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { SafeAreaView, Image, TouchableOpacity, View, Text} from "react-native";
 
 // 'interface NavigationProps {
 //   navigation?: any;
@@ -17,7 +12,7 @@ const OrderDelevery = ({ navigation }) => {
       <SafeAreaView>
         <View
           style={{ height: 926, width: "100%", backgroundColor: "#F3F1F6" }}>
-          <Box
+          <View
             style={{
               marginLeft: 5,
               marginTop: 30,
@@ -36,7 +31,7 @@ const OrderDelevery = ({ navigation }) => {
                 style={{ marginTop: 30, marginLeft: 10 }}
               />
             </TouchableOpacity>
-            <Box
+            <View
               style={{
                 width: 242,
                 height: 34,
@@ -59,7 +54,7 @@ const OrderDelevery = ({ navigation }) => {
                 }}>
                 Select Order to Deliver
               </Text>
-            </Box>
+            </View>
 
             <Entypo
               name="dots-three-vertical"
@@ -67,8 +62,8 @@ const OrderDelevery = ({ navigation }) => {
               color="black"
               style={{ marginTop: 30, marginRight: 16 }}
             />
-          </Box>
-          <Box
+          </View>
+          <View
             style={{
               width: 300,
               height: 300,
@@ -80,9 +75,9 @@ const OrderDelevery = ({ navigation }) => {
               source={require("../../assets/Photos/bells.png")}
               style={{ width: 304, height: 304 }}
             />
-          </Box>
+          </View>
 
-          <Box
+          <View
             style={{
               width: 175,
               height: 45,
@@ -98,8 +93,8 @@ const OrderDelevery = ({ navigation }) => {
               }}>
               Nothing here!!
             </Text>
-          </Box>
-          <Box
+          </View>
+          <View
             style={{
               width: 304,
               height: 47,
@@ -116,8 +111,8 @@ const OrderDelevery = ({ navigation }) => {
               }}>
               Tap the notification setting button below and check again{" "}
             </Text>
-          </Box>
-          <Box style={{ width: 56, height: 21, left: 160, top: 290 }}>
+          </View>
+          <View style={{ width: 56, height: 21, left: 160, top: 290 }}>
             <Text
               style={{
                 fontSize: 15,
@@ -134,7 +129,7 @@ const OrderDelevery = ({ navigation }) => {
                 source={require("../../assets/Photos/refresh.png")}
               />
             </View>
-          </Box>
+          </View>
         </View>
       </SafeAreaView>
 

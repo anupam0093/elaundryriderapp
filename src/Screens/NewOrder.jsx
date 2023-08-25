@@ -7,11 +7,10 @@ import {
   Text,
   ImageBackground,
 } from "react-native";
-import { Box } from "native-base";
 import React, { useState } from "react";
 import { searchStoreCustomerByMobile } from "../../networkAPI/api";
 import { getRiderMobileNo, getStoreId, setRiderMobileNo } from "../../networkAPI/services/auth.service";
-import { useNavigation } from "@react-navigation/native";
+// import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../../Components/CommonComponent/CustomButton";
 
 // import Pickup from "../../Components/pickup";
@@ -21,38 +20,20 @@ import CustomButton from "../../Components/CommonComponent/CustomButton";
 // }
 
 const NewOrder = ( {navigation}) => {
-  // validation starts here //
+
+
+
   const [ mobileNo, setMobileNo ] = useState("")
-
-
 
   const handleBack = () => {
     navigation.navigate("Homepage");
   };
 
-  // const handleMobileValidation = () => {
-  //   // Email regex pattern
-  //   const mobileRegex = /^[0]?[789]\d{9}$/;
-
-  //   if (mob.length === 0) {
-  //     Alert.alert("Error ❓❓", "Please enter an Customer MobileNumber");
-  //   } else if (!mobileRegex.test(mob)) {
-  //     Alert.alert("Error❓❓", "Please enter a valid Mobile Number");
-  //   } else if (mob.length < 10) {
-  //     Alert.alert("Error❓❓", "Please enter a 10 Digit number");
-  //   } else {
-  //     Alert.alert("Success ✅✅", "Successfully registered");
-
-  //     navigation.navigate("Pickup");
-  //   }
-  // };
-
   const [ customerInfo, setCustomerInfo ] = React.useState([]);
   const getSearchStoreCustomerByMobile = React.useCallback(async () => {
     try {
       const response = await searchStoreCustomerByMobile(
-
-        //@ts-expect-error
+       
         getStoreId(), mobileNo
       );
       console.log({ response })
@@ -77,7 +58,7 @@ const NewOrder = ( {navigation}) => {
 
 
   return (
-      <SafeAreaView>
+      <SafeAreaView >
         <View
           style={{ height: 926, width: "100%", backgroundColor: "#F3F1F6" }}>
           <ImageBackground
@@ -85,7 +66,7 @@ const NewOrder = ( {navigation}) => {
              alt="background"
              resizeMode="contain"
              style={{ height: 926, width: 428 }}>
-              <Box
+              <View
             style={{
               width: "58%",
               height: 200,
@@ -111,9 +92,9 @@ const NewOrder = ( {navigation}) => {
               value={mobileNo}
               onChangeText={(text) => setMobileNo(text)}
             />
-          </Box>
+          </View>
           
-          <Box style={{ display: "flex" }}>
+          <View style={{ display: "flex" }}>
             <View
               style={{
                flexDirection:"row",
@@ -135,7 +116,7 @@ const NewOrder = ( {navigation}) => {
 
             </View>
 
-          </Box>
+          </View>
 
             
           </ImageBackground>
