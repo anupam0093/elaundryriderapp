@@ -24,6 +24,9 @@ import Modal from "react-native-modal";
 import { searchGarmentByStoreId } from "../../networkAPI/api";
 import { getStoreId } from "../../networkAPI/services/auth.service";
 import { SwipeListView } from 'react-native-swipe-list-view';
+import useStore from "../GlobalStore/store";
+import axios from "axios";
+import { API_URL } from "../../networkAPI/env";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -33,20 +36,23 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const Category = ({ navigation }) => {
   const layout = useWindowDimensions();
+  const riderDetails = useStore(state=>state.riderDetails)
+  const user = useStore(state=>state.user)
   const [ showGarments, setshowGarments ] = React.useState([]);
+
 
   const getsearchGarmentByStoreId = React.useCallback(async () => {
     try {
-      const response = await searchGarmentByStoreId(
-
-        //@ts-expect-error
-        getStoreId()
-      );
+      // const data = await axios.get(`${API_URL}/auth/store/garment-price/${riderDetails?.storeId}`,{
+      //   headers:{
+      //     "Content-Type": "application/json",
+      //     'Authorization': `Basic ${user?.accessToken}`
+      //   }
+      // })
+      const response = await searchGarmentByStoreId(riderDetails?.storeId, user?.accessToken);
+      console.log(response)
       setshowGarments(response)
-
-      console.log({ response })
-
-
+      // console.log({ response })
     } catch (error) {
       console.log(error);
     }
@@ -54,12 +60,12 @@ const Category = ({ navigation }) => {
 
 
 
-  // const [ cat, setCat ] = React.useState("Men");
+  const [ cat, setCat ] = React.useState("Men");
   // console.log(showGarments[ 0 ], "Category Screen");
 
 
   // filter for Mens section
-  const MenItem = showGarments.filter(item =>
+  const MenItem = showGarments?.filter(item =>
     item?.[ "categoryName" ] === "Men");
 
   const [ startIndex, setStartIndex ] = useState(0);
@@ -70,10 +76,10 @@ const Category = ({ navigation }) => {
 
   //================= filter for Women's==========================================================================
 
-  const WomenItem = showGarments.filter(item =>
+  const WomenItem = showGarments?.filter(item =>
     item?.[ "categoryName" ] === "Women")
 
-  const LimitWomenItem = WomenItem.slice(startIndex, startIndex + itemsPerPage)
+  const LimitWomenItem = WomenItem?.slice(startIndex, startIndex + itemsPerPage)
 
   console.log({ LimitWomenItem }, "filtered item for Women Item")
   // console.log({ modalData }, "filtered item for Women Item")
@@ -170,6 +176,13 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
     kidsGirls: KidsGirlsComponent,
     kidsBoys: KidsBoysComponent, 
   });
+
+  const setCart = useStore(state=>state.setCart)
+  const addToCart = (data)=>{
+    console.log('hello world')
+    setCart(data)
+  }
+
 
 
 
@@ -544,7 +557,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                   <ScrollView>
                     <Button
                       style={{ backgroundColor: "red" }}
-                      onPress={handleCloseSecondModal}>
+                      onPress={()=>handleCloseSecondModal()}>
                       Close
                     </Button>
 
@@ -613,7 +626,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                   <ScrollView>
                     <Button
                       style={{ backgroundColor: "red" }}
-                      onPress={handleCloseSecondModal}>
+                      onPress={()=>handleCloseSecondModal()}>
                       Close
                     </Button>
 
@@ -653,7 +666,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
             <View style={{ top: 200 }}>
               <Button
                 style={{ width: 300, left: 14, height: 40 }}
-                onPress={handleCloseModal}
+                onPress={()=>addToCart()}
                 bgColor="deepskyblue">
                 ADD GARMENT
               </Button>
@@ -661,7 +674,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
             <View style={{ top: 250 }}>
               <Button
                 style={{ width: 300, left: 14, height: 40 }}
-                onPress={handleCloseModal}
+                onPress={()=>handleCloseModal()}
                 bgColor="red.500">
                 Close
               </Button>
@@ -826,6 +839,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
     };
     const [ datas, setdatas ] = React.useState({})
     const handleAddCart = (item ) => {
+      console.log('salman khan', item)
       setIsVisible(true);
       setdatas(item);
 
@@ -1266,7 +1280,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
             <View style={{ top: 200 }}>
               <Button
                 style={{ width: 300, left: 14, height: 40 }}
-                onPress={handleCloseModal}
+                onPress={()=>addToCart(datas)}
                 bgColor="deepskyblue">
                 ADD GARMENT
               </Button>

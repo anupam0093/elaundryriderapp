@@ -1,31 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import {  SafeAreaView, TouchableOpacity,View,Text} from "react-native";
 import { styles } from "../../Components/Styles/welcome";
 import axios from "axios";
+import useStore from "../GlobalStore/store";
 
 const AccountInfo = ({ navigation }) => {
-
+const user = useStore(state=>state.user)
+const riderDetails = useStore(state=>state.riderDetails)
+const [accountData, setAccountData] = useState([])
  const getOrder = async()=>{
   try {
     // https://api.elaundry.co.in/oit-elaundry/api/auth/customer/store-customer/5/9718409025
-    const {data, status} = await axios.get(`https://api.elaundry.co.in/oit-elaundry/api/auth/customer/store-customer/${riderDetails?.storeId}/${mobileNo}`, {
+    const {data, status} = await axios.get(`https://api.elaundry.co.in/oit-elaundry/api/auth/customer/store-customer/${riderDetails?.storeId}/${riderDetails.mobileNo}`, {
       headers:{
         "Content-Type": "application/json",
         'Authorization': `Basic ${user?.accessToken}`
       }
     })
-    // console.log('salman khan',  data)
-    // if(status === 200){
-    //   navigation.navigate('Pickup', {'OrderDetails':data[0]?.customer})
-    // }
-    // console.log(data)
+    // console.log('salman khan',  data[0]?.storeCustomerAccountDTO)
+   
+    if(status === 200){
+      setAccountData(data[0]?.storeCustomerAccountDTO)
+    }
   } catch (error) {
     console.log(error);
   }
  }
 
+ useEffect(()=>{
+    getOrder()
+ }, [])
 
+console.log('account data', accountData)
   return (
       <SafeAreaView>
             <View style={styles.container}  
@@ -107,6 +114,7 @@ const AccountInfo = ({ navigation }) => {
                       fontSize: 15,
                       fontWeight: "400",
                     }}>
+                      {accountData?.first}
                     {/* Name : {item?.[ "customer" ]?.[ "firstName" ]} {item?.[ "customer" ]?.[ "lastName" ]} */}
                   </Text>
                 </View>
@@ -230,6 +238,7 @@ const AccountInfo = ({ navigation }) => {
                     <Text
                       style={{ color: "#002B6B", fontSize: 16, fontWeight: "400", letterSpacing: -1, }}>
                       {/* {item?.[ "storeCustomerAccountDTO" ]?.[ "creditLimit" ]} */}
+                      {accountData?.creditLimit}
                     </Text>
                   </View>
                 </View>
@@ -273,6 +282,7 @@ const AccountInfo = ({ navigation }) => {
                     <Text
                       style={{ color: "#002B6B", fontSize: 16, fontWeight: "400", letterSpacing: -1, }}>
                       {/* {item?.[ "storeCustomerAccountDTO" ]?.[ "balanceUnit" ]} */}
+                      {accountData?.availableLimit}
                     </Text>
                   </View>
                 </View>
@@ -316,6 +326,7 @@ const AccountInfo = ({ navigation }) => {
                     <Text
                       style={{ color: "#002B6B", fontSize: 16, fontWeight: "400", letterSpacing: -1, }}>
                       {/* {item?.[ "storeCustomerAccountDTO" ]?.[ "balanceUnit" ]} */}
+                      {accountData?.balanceUnit}
                     </Text>
                   </View>
                 </View>
@@ -359,6 +370,7 @@ const AccountInfo = ({ navigation }) => {
                     <Text
                       style={{ color: "#002B6B", fontSize: 16, fontWeight: "400", letterSpacing: -1, }}>
                       {/* {item?.[ "storeCustomerAccountDTO" ]?.[ "advanceUnit" ]} */}
+                      {accountData?.advanceUnit}
                     </Text>
                   </View>
                 </View>

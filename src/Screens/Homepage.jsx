@@ -42,7 +42,9 @@ const RightContent = ({ setLogOutUser }) => {
 const Homepage = ({ navigation }) => {
   const user = useStore(state=>state.user)
   const riderDetails = useStore(state=>state.riderDetails)
-  const setLogOutUser = useStore(state => state.setLogOutUser)  
+  const setLogOutUser = useStore(state => state.setLogOutUser) 
+  
+  
   return (
     <SafeAreaView style={{flex:1}}>
       <Header leftContent={<LeftBrand />} centerContent={<Text>Welcome</Text>} rightContent={<RightContent setLogOutUser={setLogOutUser} />} />

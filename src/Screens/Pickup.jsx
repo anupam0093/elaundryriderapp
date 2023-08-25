@@ -20,7 +20,6 @@ const Pickup = () => {
   const {navigate} = useNavigation()
   const route = useRoute()
   const OrderDetails = route.params
-  console.log(OrderDetails)
   return (
    
       <SafeAreaView>
@@ -85,9 +84,9 @@ const Pickup = () => {
               return ( */}
                 <TouchableOpacity
                 
-                  // onPress={() => {
-                  //   navigate("Category");
-                  // }} 
+                  onPress={() => {
+                    navigate("Category");
+                  }} 
                   >
 
                   <View style={[ styles.Viewcard ]}
