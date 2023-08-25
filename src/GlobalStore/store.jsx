@@ -9,15 +9,19 @@ const useStore = create(
         (set, get) => ({
             user:[],
             riderDetails:[],
+            cart :[],
 
             setUser: (data) =>
                 set((state) => ({ user: data })),
 
             setRiderDetails: (data) =>
             set((state) => ({ riderDetails: data })),
+
+            setCart: (data) =>
+            set((state) => ({ cart: data })),
             
-            setLogOutUser: (data) =>
-            set((state) => ({ user: null })),
+            setLogOutUser: () =>
+            set((state) => ({ user: null, riderDetails:null })),
                 
 
             reset: (data) =>

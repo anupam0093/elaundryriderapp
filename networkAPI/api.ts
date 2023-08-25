@@ -71,14 +71,14 @@ export const searchStoreCustomerByMobile = async (
 
 //================================== Get Garments Image/price/=======================================
 
-export const searchGarmentByStoreId = async (storeId: string) => {
+export const searchGarmentByStoreId = async (storeId: string, accessToken:string) => {
   try {
     const { data } = await axios({
       method: "GET",
       url: `${API_URL}/auth/store/garment-price/${storeId}`,
       headers: {
         "Content-Type": "application/json",
-        Authorization: getToken(),
+        Authorization: `Basic ${accessToken}`,
       },
     });
     return data;
