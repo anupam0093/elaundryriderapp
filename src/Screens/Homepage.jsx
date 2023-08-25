@@ -5,72 +5,55 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import useStore from "../GlobalStore/store";
 import CustomButton from "../../Components/CommonComponent/CustomButton";
+import Header from "../components/Header/Header";
+import { MaterialIcons } from '@expo/vector-icons';
+import { useQuery } from "@tanstack/react-query";
+import { getAccountInfo } from "../../networkAPI/api";
+
 
 // const SCREEN_WIDTH = Dimensions.get('window').width;
 
-const Homepage = ({navigation}) => {
 
-  const setLogOutUser = useStore(state=>state.setLogOutUser)
-  
-   
-  const handleLogout = () =>{
-    setLogOutUser()
-  }
+const LeftBrand = () => {
+  return (
+    <Image
+      style={{ width: 40, height: 40, borderRadius: 20, resizeMode: 'cover' }}
+      source={{
+        uri: "https://lh3.googleusercontent.com/ogw/AOLn63Gvcqud18bpZN8SVHtRZYQQ-49QfjkzyNVWHyrW8w=s32-c-mo",
+      }}
+    />
+  )
+}
 
+const RightContent = ({ setLogOutUser }) => {
+  return (
+    <View style={{ flexDirection: 'row', gap: 10 }}>
+      <TouchableOpacity onPress={setLogOutUser}>
+        <MaterialIcons name="logout" size={24} color="black" />
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Ionicons name="notifications" size={24} color="black" />
+      </TouchableOpacity>
+    </View>
 
+  )
+}
 
+const Homepage = ({ navigation }) => {
+  const user = useStore(state=>state.user)
+  console.log(user)
+  const setLogOutUser = useStore(state => state.setLogOutUser)
 
+  const {data, isLoading, error} = useQuery({
+    queryKey:['customer_info'], 
+    queryFn: async ()=>await getAccountInfo(user?.accessToken,user?.tokenType)
+  })
+  // console.log(data?.data)
 
   return (
     <SafeAreaView>
+      <Header leftContent={<LeftBrand />} centerContent={<Text>Welcome</Text>} rightContent={<RightContent setLogOutUser={setLogOutUser} />} />
       <View style={homepage.container}>
-        <Box style={homepage.boxLeftIcon}>
-          <Box style={{ width: 100, height: 50, marginTop: 10 }}>
-            <Ionicons name="logo-apple" size={46} color="black" />
-          </Box>
-          <Box
-            style={{
-              display: "flex",
-              flexDirection: "row-reverse",
-              right: 14,
-            }}
-          >
-            <Image
-              style={homepage.imageDp}
-              alt="profile-pic"
-              // source={data?.image}
-              source={{
-                uri: "https://lh3.googleusercontent.com/ogw/AOLn63Gvcqud18bpZN8SVHtRZYQQ-49QfjkzyNVWHyrW8w=s32-c-mo",
-              }}
-            />
-
-            <View>
-              <Button 
-              onPress={handleLogout}
-              style={{ top: 18, right: 6, borderRadius: 9 }}>
-                Logout
-              </Button>
-              {/* <CustomButton btnTittle="Logout" bg="cyan"  /> */}
-            </View>
-
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Notification");
-              }}
-            >
-              <Image
-                alt="ios-notifications-outline"
-                source={require("../../assets/Photos/Vector.png")}
-                style={{
-                  marginTop: 30,
-                  marginRight: 20,
-                  height: 22,
-                  width: 22,
-                }}
-              />
-            </TouchableOpacity>
-          </Box>
-        </Box>
 
         {/* data coming from backend */}
         <Box style={{ left: 160 }}>
