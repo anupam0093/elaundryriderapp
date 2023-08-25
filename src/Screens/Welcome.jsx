@@ -83,54 +83,32 @@ const Welcome = ({ navigation }) => {
       <SafeAreaView>
     <ScrollView>
         <View style={styles.container}>
-          {/* <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}>
-            <AntDesign
-              name="left"
-              size={24}
-              color="#5D7EFC"
-              style={{ marginTop: 30, marginLeft: 20 }}
-            />
-
-            <Image
-              alt="ios-notifications-outline"
-              height="22px"
-              width="22px"
-              source={require("../../assets/Photos/Vector.png")}
-              style={{ marginTop: 30, marginRight: 30 }}
-            />
-          </View> */}
-
-          <View style={{ marginTop: 50, marginRight: 20 }}>
+          <View style={{width:'100%'}}>
             <Image
               alt="logo"
-              margin="auto"
-              height="115px"
+              
               source={require("../../assets/Photos/elaundry.png")}
-              width="250px"
+             style={{width:150, height:100, resizeMode:'conver', alignSelf:'center'}}
             />
             <View
               style={{
                 width: "100%",
-                height: 299,
-                marginTop: 30,
+                height: 200,
+                // marginTop: 30,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                
               }}>
               <Image
                 alt="image-2"
                 source={require("../../assets/Photos/pngwing.png")}
-                margin="auto"
-                width="100%"
-                height="100%"
+                style={{margin:'auto', width:'100%', height:'100%', resizeMode:'contain'}}
+                
               />
             </View>
           </View>
+
           <View
             style={{
               top: 35,
@@ -149,11 +127,12 @@ const Welcome = ({ navigation }) => {
 
               <Text
                 style={{
-                  marginRight: 20,
+                
                   fontSize: 35,
                   lineHeight: 35,
                   fontWeight: "700",
                   color: "#002B6B",
+                  textAlign:'center'
                 }}>
                 washing facilities
               </Text>
@@ -270,7 +249,7 @@ const Welcome = ({ navigation }) => {
             <View style={styles.viewButtonSection}>
 
             
-            <CustomButton btnTittle="Submit" bg="green" _width={300} _onPress={customUserLogin} />
+            <CustomButton btnTittle="Submit" bg="green" _width={300} _onPress={customUserLogin} textColor='white' />
 
             </View>
           </View>
