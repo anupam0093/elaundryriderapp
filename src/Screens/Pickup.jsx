@@ -20,7 +20,7 @@ const Pickup = () => {
   const {navigate} = useNavigation()
   const route = useRoute()
   const OrderDetails = route.params
-  // console.log(OrderDetails)
+  console.log(OrderDetails)
   return (
    
       <SafeAreaView>
@@ -85,9 +85,10 @@ const Pickup = () => {
               return ( */}
                 <TouchableOpacity
                 
-                  onPress={() => {
-                    navigate("Category");
-                  }}>
+                  // onPress={() => {
+                  //   navigate("Category");
+                  // }} 
+                  >
 
                   <View style={[ styles.Viewcard ]}
                   
@@ -102,7 +103,7 @@ const Pickup = () => {
                           marginLeft: 8,
                         }}>
                         {/* {item?.[ "customer" ]?.[ "firstName" ]} {item?.[ "customer" ]?.[ "lastName" ]} */}
-                        OrderDetails?.firstName
+                       { OrderDetails?.OrderDetails?.firstName} { OrderDetails?.OrderDetails?.lastName}
                       </Text>
                       <View
                         style={{
@@ -216,7 +217,8 @@ const Pickup = () => {
                           onPress={() => {
                             navigate("Accountinfo");
                           }}>
-                          <View
+                          <TouchableOpacity
+                          onPress={()=>navigate('Accountinfo')}
                             style={{
                               width: 169,
                               height: 24,
@@ -236,7 +238,7 @@ const Pickup = () => {
                               }}>
                               Account Info
                             </Text>
-                          </View>
+                          </TouchableOpacity>
                         </TouchableOpacity>
                       </View>
                     </View>

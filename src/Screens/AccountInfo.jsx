@@ -12,45 +12,13 @@ import { getRiderMobileNo, getStoreId } from "../../networkAPI/services/auth.ser
 
 const AccountInfo = ({ navigation }) => {
 
-  const [ accountInfo, setAccountInfo ] = React.useState([]);
-
-
-  const getSearchStoreCustomerByMobile = React.useCallback(async () => {
-
-    try {
-      const response = await searchStoreCustomerByMobile(
-
-        //@ts-expect-error
-        getStoreId(), getRiderMobileNo()
-      );
-      setAccountInfo(response)
-
-      // console.log({ response })
-      console.log(response[ 0 ].customer.status)
-
-
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-
-  console.log({ accountInfo }, "AccountInfo Screen");
-
-  React.useEffect(() => {
-    getSearchStoreCustomerByMobile()
-  }, [])
-
-
-
   return (
 
       <SafeAreaView>
 
-        {accountInfo.map((item, index) => {
-          console.log(item?.[ "storeCustomerAccountDTO" ])
-          return (
+        
             <View style={styles.container}
-              key={index}
+           
             >
 
               <View
@@ -131,7 +99,7 @@ const AccountInfo = ({ navigation }) => {
                       fontSize: 15,
                       fontWeight: "400",
                     }}>
-                    Name : {item?.[ "customer" ]?.[ "firstName" ]} {item?.[ "customer" ]?.[ "lastName" ]}
+                    {/* Name : {item?.[ "customer" ]?.[ "firstName" ]} {item?.[ "customer" ]?.[ "lastName" ]} */}
                   </Text>
                 </View>
                 <View
@@ -152,7 +120,7 @@ const AccountInfo = ({ navigation }) => {
                       fontSize: 15,
                       fontWeight: "400",
                     }}>
-                    Mobile : {item?.[ "customer" ]?.[ "mobileNo" ]}
+                    {/* Mobile : {item?.[ "customer" ]?.[ "mobileNo" ]} */}
                   </Text>
                 </View>
               </View>
@@ -210,7 +178,7 @@ const AccountInfo = ({ navigation }) => {
                     }}>
                     <Text
                       style={{ color: "#002B6B", fontSize: 15, fontWeight: "400", letterSpacing: -1, }}>
-                      {accountInfo[ 0 ]?.[ "scstatus" ]}
+                      {/* {accountInfo[ 0 ]?.[ "scstatus" ]} */}
                     </Text>
                   </View>
                 </View>
@@ -253,7 +221,7 @@ const AccountInfo = ({ navigation }) => {
                     }}>
                     <Text
                       style={{ color: "#002B6B", fontSize: 16, fontWeight: "400", letterSpacing: -1, }}>
-                      {item?.[ "storeCustomerAccountDTO" ]?.[ "creditLimit" ]}
+                      {/* {item?.[ "storeCustomerAccountDTO" ]?.[ "creditLimit" ]} */}
                     </Text>
                   </View>
                 </View>
@@ -296,7 +264,7 @@ const AccountInfo = ({ navigation }) => {
                     }}>
                     <Text
                       style={{ color: "#002B6B", fontSize: 16, fontWeight: "400", letterSpacing: -1, }}>
-                      {item?.[ "storeCustomerAccountDTO" ]?.[ "balanceUnit" ]}
+                      {/* {item?.[ "storeCustomerAccountDTO" ]?.[ "balanceUnit" ]} */}
                     </Text>
                   </View>
                 </View>
@@ -339,7 +307,7 @@ const AccountInfo = ({ navigation }) => {
                     }}>
                     <Text
                       style={{ color: "#002B6B", fontSize: 16, fontWeight: "400", letterSpacing: -1, }}>
-                      {item?.[ "storeCustomerAccountDTO" ]?.[ "balanceUnit" ]}
+                      {/* {item?.[ "storeCustomerAccountDTO" ]?.[ "balanceUnit" ]} */}
                     </Text>
                   </View>
                 </View>
@@ -382,18 +350,13 @@ const AccountInfo = ({ navigation }) => {
                     }}>
                     <Text
                       style={{ color: "#002B6B", fontSize: 16, fontWeight: "400", letterSpacing: -1, }}>
-                      {item?.[ "storeCustomerAccountDTO" ]?.[ "advanceUnit" ]}
+                      {/* {item?.[ "storeCustomerAccountDTO" ]?.[ "advanceUnit" ]} */}
                     </Text>
                   </View>
                 </View>
               </View>
 
             </View>
-
-          )
-
-        })}
-
       </SafeAreaView>
    
   );

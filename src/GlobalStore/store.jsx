@@ -31,6 +31,7 @@ const useStore = create(
                     Object.entries(state).filter(([key]) =>
                         [
                             "user",
+                            'riderDetails',
                             
                         ].includes(key)
                     )

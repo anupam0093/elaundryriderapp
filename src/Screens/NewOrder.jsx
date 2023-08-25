@@ -27,47 +27,35 @@ import { useNavigation } from "@react-navigation/native";
 const NewOrder = () => {
 
   const navigation = useNavigation()
-
-
   const [ mobileNo, setMobileNo ] = useState('')
   console.log(mobileNo)
 
   const handleBack = () => {
     navigation.navigate("Homepage");
   };
-
-  
-
-  const [ customerInfo, setCustomerInfo ] = React.useState([]);
-
   const riderDetails = useStore(state=>state.riderDetails)
   const user = useStore(state=>state.user)
-  // console.log(riderDetails)
+  console.log(riderDetails)
 
 
- 
-
-  const getSearchStoreCustomerByMobile = React.useCallback(async () => {
-    try {
-      // https://api.elaundry.co.in/oit-elaundry/api/auth/customer/store-customer/5/9718409025
-      const {data, status} = await axios.get(`https://api.elaundry.co.in/oit-elaundry/api/auth/customer/store-customer/${mobileNo}/${riderDetails?.storeId}`, {
-        headers:{
-          "Content-Type": "application/json",
-          'Authorization': `Basic ${user?.accessToken}`
-        }
-      })
-      console.log('salman khan',  data)
-      if(status === 200){
-        navigation.navigate('Pickup', {'OrderDetails':data[0]?.customer})
+ const getOrder = async()=>{
+  try {
+    // https://api.elaundry.co.in/oit-elaundry/api/auth/customer/store-customer/5/9718409025
+    const {data, status} = await axios.get(`https://api.elaundry.co.in/oit-elaundry/api/auth/customer/store-customer/${riderDetails?.storeId}/${mobileNo}`, {
+      headers:{
+        "Content-Type": "application/json",
+        'Authorization': `Basic ${user?.accessToken}`
       }
-      // console.log(data)
-    } catch (error) {
-      console.log(error);
+    })
+    // console.log('salman khan',  data)
+    if(status === 200){
+      navigation.navigate('Pickup', {'OrderDetails':data[0]?.customer})
     }
-  }, [ ]);
-
-
-
+    // console.log(data)
+  } catch (error) {
+    console.log(error);
+  }
+ }
 
   return (
       <SafeAreaView style={{flex:1, justifyContent:'center', alignItems:'center'}} >
@@ -119,7 +107,7 @@ const NewOrder = () => {
               
 
  
-              <CustomButton btnTittle="Submit" bg ="green" _onPress={()=>getSearchStoreCustomerByMobile()} />
+              <CustomButton btnTittle="Submit" bg ="green" _onPress={getOrder} />
 
               
             </View>

@@ -11,6 +11,7 @@ import axios from "axios";
 import { API_URL } from "../../networkAPI/env";
 import useStore from "../GlobalStore/store";
 import CustomButton from "../../Components/CommonComponent/CustomButton";
+import { getAccountInfo } from "../../networkAPI/api";
 
 // interface NavigationProps {
 //   navigation?: any;
@@ -22,6 +23,7 @@ const Welcome = ({ navigation }) => {
   
   
   const setUser = useStore(state=>state.setUser)
+  const setRiderDetails = useStore(state=>state.setRiderDetails)
 
 
   // async function loginUser() {
@@ -67,8 +69,19 @@ const Welcome = ({ navigation }) => {
             password: password,
           },
         });
+
+        console.log(data)
         if(data){
-          setUser(data)
+
+          try {
+            const accountData = await getAccountInfo(data?.accessToken, data?.tokenType)
+            if (accountData){
+              setRiderDetails(accountData?.data)
+              setUser(data);
+            }     
+          } catch (error) {
+            console.log('Something Went Wrong')
+          }
         }
         
       } catch (error) {
