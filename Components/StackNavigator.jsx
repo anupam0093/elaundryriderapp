@@ -82,6 +82,11 @@ const StackNavigator = () => {
               component={Services}
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="UserProfile"
+              component={Offline}
+              options={{ headerShown: false }}
+            />
 
 
           </>

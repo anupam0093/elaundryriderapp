@@ -9,6 +9,7 @@ const AccountInfo = ({ navigation }) => {
 const user = useStore(state=>state.user)
 const riderDetails = useStore(state=>state.riderDetails)
 const [accountData, setAccountData] = useState([])
+const [rider, setRider] = useState([])
  const getOrder = async()=>{
   try {
     // https://api.elaundry.co.in/oit-elaundry/api/auth/customer/store-customer/5/9718409025
@@ -22,6 +23,8 @@ const [accountData, setAccountData] = useState([])
    
     if(status === 200){
       setAccountData(data[0]?.storeCustomerAccountDTO)
+      setRider(data[0]?.customer)
+     
     }
   } catch (error) {
     console.log(error);
@@ -33,6 +36,10 @@ const [accountData, setAccountData] = useState([])
  }, [])
 
 console.log('account data', accountData)
+console.log('Rider data', rider)
+
+
+
   return (
       <SafeAreaView>
             <View style={styles.container}  
@@ -114,7 +121,7 @@ console.log('account data', accountData)
                       fontSize: 15,
                       fontWeight: "400",
                     }}>
-                      {accountData?.first}
+                      Name : {rider?.firstName} {rider?.lastName}
                     {/* Name : {item?.[ "customer" ]?.[ "firstName" ]} {item?.[ "customer" ]?.[ "lastName" ]} */}
                   </Text>
                 </View>
@@ -136,6 +143,7 @@ console.log('account data', accountData)
                       fontSize: 15,
                       fontWeight: "400",
                     }}>
+                      Mobile:   
                     {/* Mobile : {item?.[ "customer" ]?.[ "mobileNo" ]} */}
                   </Text>
                 </View>
@@ -194,7 +202,9 @@ console.log('account data', accountData)
                     }}>
                     <Text
                       style={{ color: "#002B6B", fontSize: 15, fontWeight: "400", letterSpacing: -1, }}>
+                        {rider?.status}
                       {/* {accountInfo[ 0 ]?.[ "scstatus" ]} */}
+                      {}
                     </Text>
                   </View>
                 </View>
@@ -282,7 +292,7 @@ console.log('account data', accountData)
                     <Text
                       style={{ color: "#002B6B", fontSize: 16, fontWeight: "400", letterSpacing: -1, }}>
                       {/* {item?.[ "storeCustomerAccountDTO" ]?.[ "balanceUnit" ]} */}
-                      {accountData?.availableLimit}
+                      {accountData?.balanceUnit}
                     </Text>
                   </View>
                 </View>

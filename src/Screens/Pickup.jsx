@@ -6,17 +6,16 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
-  Alert,
+  
 } from "react-native";
 import React from "react";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
 import Octicons from "@expo/vector-icons/build/Octicons";
-import { searchStoreCustomerByMobile } from "../../networkAPI/api";
-import { getRiderMobileNo, getStoreId } from "../../networkAPI/services/auth.service";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 
 const Pickup = () => {
+  
   const {navigate} = useNavigation()
   const route = useRoute()
   const OrderDetails = route.params
@@ -215,7 +214,8 @@ const Pickup = () => {
                         <TouchableOpacity
                           onPress={() => {
                             navigate("Accountinfo");
-                          }}>
+                          }}
+                          >
                           <TouchableOpacity
                           onPress={()=>navigate('Accountinfo')}
                             style={{

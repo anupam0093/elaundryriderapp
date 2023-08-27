@@ -92,8 +92,8 @@ const Welcome = ({ navigation }) => {
 
 
   return (
-      <SafeAreaView>
-    <ScrollView>
+      <SafeAreaView style={{top:20}}>
+     
         <View style={styles.container}>
           <View style={{width:'100%'}}>
             <Image
@@ -266,7 +266,7 @@ const Welcome = ({ navigation }) => {
             </View>
           </View>
         </View>
-    </ScrollView>
+   
       </SafeAreaView>
   );
 };

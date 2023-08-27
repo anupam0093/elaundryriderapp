@@ -8,11 +8,7 @@ import {
   ImageBackground,
 } from "react-native";
 import React, { useState } from "react";
-import { searchStoreCustomerByMobile } from "../../networkAPI/api";
-import { getRiderMobileNo, getStoreId, setRiderMobileNo } from "../../networkAPI/services/auth.service";
-// import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../../Components/CommonComponent/CustomButton";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import useStore from "../GlobalStore/store";
 import axios from "axios";
 import { API_URL } from "../../networkAPI/env";
@@ -68,7 +64,7 @@ const NewOrder = () => {
              style={{ width:'100%', height:'100%' }}>
               <View
             style={{
-              width: '100%',
+              width: '68%',
               height: 200,
               display: "flex",
               alignItems: "center",

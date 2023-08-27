@@ -25,13 +25,13 @@ const LeftBrand = () => {
   )
 }
 
-const RightContent = ({ setLogOutUser }) => {
+const RightContent = ({ setLogOutUser,navigator }) => {
   return (
-    <View style={{ flexDirection: 'row', gap: 10 }}>
+    <View style={{ flexDirection: 'row', gap: 17 }}>
       <TouchableOpacity onPress={setLogOutUser}>
         <MaterialIcons name="logout" size={24} color="black" />
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={navigator}>
         <Ionicons name="notifications" size={24} color="black" />
       </TouchableOpacity>
     </View>
@@ -43,11 +43,15 @@ const Homepage = ({ navigation }) => {
   const user = useStore(state=>state.user)
   const riderDetails = useStore(state=>state.riderDetails)
   const setLogOutUser = useStore(state => state.setLogOutUser) 
+
+  const navigator = () =>{
+    navigation.navigate('Notification')
+  }
   
   
   return (
-    <SafeAreaView style={{flex:1}}>
-      <Header leftContent={<LeftBrand />} centerContent={<Text>Welcome</Text>} rightContent={<RightContent setLogOutUser={setLogOutUser} />} />
+    <SafeAreaView style={{top:35}}>
+      <Header  leftContent={<LeftBrand />} centerContent={<Text style={{fontSize:18,fontWeight:"bold"}}>Welcome Rider 😎</Text>} rightContent={<RightContent setLogOutUser={setLogOutUser} navigator={navigator} />} />
       <View style={homepage.container}>
 
         {/* data coming from backend */}
@@ -55,7 +59,7 @@ const Homepage = ({ navigation }) => {
           <Text
             style={{
               marginLeft: 19,
-              fontSize: 14,
+              fontSize: 16,
               fontWeight: "700",
               color: "#0000008F",
               borderStyle: "solid",
@@ -63,7 +67,7 @@ const Homepage = ({ navigation }) => {
               borderWidth: 1,
               width: 191,
               padding: 10,
-              height: 31,
+              height: 35,
               borderRadius: 7,
               textAlign: "center",
               lineHeight: 14,
@@ -230,7 +234,11 @@ const Homepage = ({ navigation }) => {
             gap: 7,
           }}
         >
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("UserProfile");
+            }}
+          >
             <View
               style={{
                 backgroundColor: "#FFFFFF",

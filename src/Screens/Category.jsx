@@ -6,7 +6,6 @@ import {
   ScrollView,
   Dimensions,
   TouchableOpacity,
-  useWindowDimensions,
   TextInput,
   Text
 
@@ -27,15 +26,17 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import useStore from "../GlobalStore/store";
 import axios from "axios";
 import { API_URL } from "../../networkAPI/env";
+import { Camera, CameraType } from 'expo-camera';
 
-const SCREEN_WIDTH = Dimensions.get("window").width;
+
 
 // interface NavigationProps {
 //   navigation?: any;
 // }
 
 const Category = ({ navigation }) => {
-  const layout = useWindowDimensions();
+   
+  
   const riderDetails = useStore(state=>state.riderDetails)
   const user = useStore(state=>state.user)
   const [ showGarments, setshowGarments ] = React.useState([]);
@@ -59,9 +60,6 @@ const Category = ({ navigation }) => {
   }, []);
 
 
-
-  const [ cat, setCat ] = React.useState("Men");
-  // console.log(showGarments[ 0 ], "Category Screen");
 
 
   // filter for Mens section
@@ -183,6 +181,8 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
     setCart(data)
   }
 
+  
+
 
 
 
@@ -272,7 +272,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                   fontSize: 15,
                   fontWeight: "400",
                 }}>
-                Name : Aksha Tiyagi
+                Name :  {riderDetails?.firstName}{riderDetails?.lastName}
               </Text>
             </View>
             <View
@@ -293,7 +293,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                   fontSize: 15,
                   fontWeight: "400",
                 }}>
-                Mobile No 9870765790
+                Mobile : {riderDetails?.mobileNo}
               </Text>
             </View>
           </View>
@@ -387,7 +387,9 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
 
   //==================================Men Components ===========================================================
   function MensComponent () {
-    // const { addToCart } = useCart();
+   
+   
+
 
 
     // first modal usestate
@@ -430,9 +432,10 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
 
 
 
-    const RightSwipe = () => {
-
-
+    const RightSwipe = ({toggleCameraType}) => {
+    
+      
+   
 
       return (
         <Modal
@@ -460,7 +463,8 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                 height: 50,
                 backgroundColor: "green",
                 left: 8,
-                top: 40,
+                top: 30,
+                marginBottom:20
               }}>
               <Text
                 style={{
@@ -472,7 +476,20 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                 Garments Details
               </Text>
             </View>
-            <View style={{ top: 130, left: 14 }}>
+
+                 <Text
+                style={{
+                  
+                  fontSize: 18,
+                  marginTop: 5,
+                  color: "black",
+                }}>
+                Name: {datas?.garmentName}
+              </Text>
+        
+
+            <View style={{ top: 100, left: 14 }}>
+
               <View>
                 <Text style={{ left: 6 }}>Price</Text>
                 <TextInput
@@ -499,7 +516,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                 <Text style={{ marginBottom: 16, fontSize: 16 }}>
                   Packing
                 </Text>
-                <Modal
+            <Modal
                 isVisible={visibleSecondModal}
                 animationIn="bounce"
                 backdropColor="transparent">
@@ -528,16 +545,17 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                     <Text style={{ fontSize: 20 }}>FOLD</Text>
                     <Text style={{ fontSize: 20 }}>HALF/BOLD</Text>
                     <Text style={{ fontSize: 20 }}>PACKING</Text>
+
                   </ScrollView>
                 </View>
-              </Modal>
+             </Modal>
               </TouchableOpacity>
 
               
-                 <TouchableOpacity onPress={handlePacking}>
-                  <Text style={{ marginBottom: 16, fontSize: 16 }}>Brand</Text>
+              <TouchableOpacity onPress={handlePacking}>
+               <Text style={{ marginBottom: 16, fontSize: 16 }}>Brand</Text>
 
-                   <Modal
+                <Modal
                 isVisible={visibleSecondModal}
                 animationIn="bounce"
                 backdropColor="transparent">
@@ -561,7 +579,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                       Close
                     </Button>
 
-                    <Text style={{ fontSize: 20 }}>HANGER</Text>
+                     <Text style={{ fontSize: 20 }}>HANGER</Text>
                     <Text style={{ fontSize: 20 }}>NONE</Text>
                     <Text style={{ fontSize: 20 }}>FOLD</Text>
                     <Text style={{ fontSize: 20 }}>HALF/BOLD</Text>
@@ -591,15 +609,16 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                     <Text style={{ fontSize: 20 }}>PACKING</Text>
                     <Text style={{ fontSize: 20 }}>PACKING</Text>
                     <Text style={{ fontSize: 20 }}>PACKING</Text>
-                    <Text style={{ fontSize: 20 }}>PACKING</Text>
+                    <Text style={{ fontSize: 20 }}>PACKING</Text> 
                   </ScrollView>
                 </View>
-              ```</Modal>
+                </Modal>
+              
                   </TouchableOpacity>
                  
 
               
-              <TouchableOpacity >
+              <TouchableOpacity onPress={() => {toggleCameraType}} >
                  <Text style={{ marginBottom: 16, fontSize: 16 }}>Defect</Text>
               </TouchableOpacity>   
              
@@ -607,7 +626,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                 <Text style={{ fontSize: 16 }}>Color</Text>
 
                 <Modal
-                isVisible={visibleSecondModal}
+                // isVisible={visibleSecondModal}
                 animationIn="bounce"
                 backdropColor="transparent">
                 <View
@@ -629,7 +648,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                       onPress={()=>handleCloseSecondModal()}>
                       Close
                     </Button>
-
+{/* 
                     <Text style={{ fontSize: 20 }}>RED</Text>
                     <Text style={{ fontSize: 20 }}>BLUE</Text>
                     <Text style={{ fontSize: 20 }}>YELLOW</Text>
@@ -654,7 +673,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                     <Text style={{ fontSize: 20 }}>BROWN</Text>
                     <Text style={{ fontSize: 20 }}>GREY</Text>
                     <Text style={{ fontSize: 20 }}>GOLD</Text>
-                    <Text style={{ fontSize: 20 }}>GRAY</Text>
+                    <Text style={{ fontSize: 20 }}>GRAY</Text> */}
                   </ScrollView>
                 </View>
               </Modal>
@@ -671,10 +690,10 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                 ADD GARMENT
               </Button>
             </View>
-            <View style={{ top: 250 }}>
+            <View style={{ top: 210 }}>
               <Button
                 style={{ width: 300, left: 14, height: 40 }}
-                onPress={()=>handleCloseModal()}
+                onPress={() =>{handleCloseModal}}
                 bgColor="red.500">
                 Close
               </Button>
