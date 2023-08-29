@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAccountInfo } from "../../networkAPI/api";
 
 
+
 // const SCREEN_WIDTH = Dimensions.get('window').width;
 
 

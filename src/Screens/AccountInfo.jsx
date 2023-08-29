@@ -122,7 +122,6 @@ console.log('Rider data', rider)
                       fontWeight: "400",
                     }}>
                       Name : {rider?.firstName} {rider?.lastName}
-                    {/* Name : {item?.[ "customer" ]?.[ "firstName" ]} {item?.[ "customer" ]?.[ "lastName" ]} */}
                   </Text>
                 </View>
                 <View
@@ -143,7 +142,7 @@ console.log('Rider data', rider)
                       fontSize: 15,
                       fontWeight: "400",
                     }}>
-                      Mobile:   
+                      Mobile: {rider?.mobileNo} 
                     {/* Mobile : {item?.[ "customer" ]?.[ "mobileNo" ]} */}
                   </Text>
                 </View>

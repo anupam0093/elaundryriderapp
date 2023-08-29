@@ -1,5 +1,5 @@
 import React, {  useState } from "react";
-import {  SafeAreaView, View,Text, ScrollView, Image } from "react-native";
+import {  SafeAreaView, View,Text, Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { TextInput } from "react-native";
 import { styles } from "../../Components/Styles/welcome";

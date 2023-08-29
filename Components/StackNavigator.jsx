@@ -14,6 +14,7 @@ import PickupFilter from "../src/Screens/PIckupFilter";
 import Notification from "../src/Screens/Notification";
 import PickupDate from "../src/Screens/PickupDate";
 import useStore from "../src/GlobalStore/store";
+import Categoryn from "../src/Screens/Categoryn";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -44,7 +45,7 @@ const StackNavigator = () => {
             />
             <Stack.Screen
               name="Category"
-              component={Category}
+              component={Categoryn}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -104,11 +105,7 @@ const StackNavigator = () => {
 
 
 
-        {/* <Stack.Screen
-          name="AppNavigator"
-          component={AppNavigator}
-          options={{ headerShown: false }}
-        /> */}
+      
       </Stack.Navigator>
     </NavigationContainer>
   );

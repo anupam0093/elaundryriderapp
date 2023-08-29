@@ -7,36 +7,23 @@ import {
   Dimensions,
   TouchableOpacity,
   TextInput,
-  Text
-
-
+  Text,
 } from "react-native";
-// import Modal from 'react-native-modal'
 import { Button } from "native-base";
 import React, { useState } from "react";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
-import Entypo from "@expo/vector-icons/build/Entypo";
-import Swipelist from "react-native-swipeable-list-view";
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import Modal from "react-native-modal";
 import { searchGarmentByStoreId } from "../../networkAPI/api";
-import { getStoreId } from "../../networkAPI/services/auth.service";
 import { SwipeListView } from 'react-native-swipe-list-view';
 import useStore from "../GlobalStore/store";
-import axios from "axios";
-import { API_URL } from "../../networkAPI/env";
-import { Camera, CameraType } from 'expo-camera';
 
-
-
-// interface NavigationProps {
-//   navigation?: any;
-// }
 
 const Category = ({ navigation }) => {
-   
-  
+
+
+
   const riderDetails = useStore(state=>state.riderDetails)
   const user = useStore(state=>state.user)
   const [ showGarments, setshowGarments ] = React.useState([]);
@@ -44,22 +31,19 @@ const Category = ({ navigation }) => {
 
   const getsearchGarmentByStoreId = React.useCallback(async () => {
     try {
-      // const data = await axios.get(`${API_URL}/auth/store/garment-price/${riderDetails?.storeId}`,{
-      //   headers:{
-      //     "Content-Type": "application/json",
-      //     'Authorization': `Basic ${user?.accessToken}`
-      //   }
-      // })
+
       const response = await searchGarmentByStoreId(riderDetails?.storeId, user?.accessToken);
       console.log(response)
       setshowGarments(response)
-      // console.log({ response })
     } catch (error) {
       console.log(error);
     }
   }, []);
 
 
+  React.useEffect(() => {
+    getsearchGarmentByStoreId()
+  }, [])
 
 
   // filter for Mens section
@@ -140,19 +124,6 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
 
 
 
-
-
-
-
-
-
-
-
-  React.useEffect(() => {
-    getsearchGarmentByStoreId()
-  }, [])
-
-
   const [ index, setIndex ] = React.useState(0);
   const [ routes ] = React.useState([
     { key: "mens", title: "Mens" },
@@ -164,6 +135,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
     { key: "kidsGirls", title: "Kids Girls" },
     { key: "kidsBoys", title: "Kids Boys" },
   ]);
+
   const renderScene = SceneMap({
     mens: MensComponent,
     womens: WomenComponent,
@@ -272,7 +244,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                   fontSize: 15,
                   fontWeight: "400",
                 }}>
-                Name :  {riderDetails?.firstName}{riderDetails?.lastName}
+                Name : {riderDetails?.firstName}{riderDetails?.lastName}
               </Text>
             </View>
             <View
@@ -305,23 +277,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                 gap: 5,
                 marginLeft: 20,
               }}>
-              <Button
-                variant=""
-                width="171px"
-                height="48px"
-                colorScheme="darkText"
-                borderRadius="xl"
-                backgroundColor="#D9D9D9">
-                Normal Booking
-              </Button>
-              <Button
-                variant="solid"
-                backgroundColor="#002B6B"
-                width="171px"
-                height="48px"
-                borderRadius="xl">
-                ONLINE
-              </Button>
+           
             </View>
           </View>
           <View
@@ -387,10 +343,6 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
 
   //==================================Men Components ===========================================================
   function MensComponent () {
-   
-   
-
-
 
     // first modal usestate
     const [ isVisible, setIsVisible ] = useState(false);
@@ -432,7 +384,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
 
 
 
-    const RightSwipe = ({toggleCameraType}) => {
+    const RightSwipe = () => {
     
       
    
@@ -481,7 +433,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                 style={{
                   
                   fontSize: 18,
-                  marginTop: 5,
+                  marginTop: 10,
                   color: "black",
                 }}>
                 Name: {datas?.garmentName}
@@ -618,7 +570,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
                  
 
               
-              <TouchableOpacity onPress={() => {toggleCameraType}} >
+              <TouchableOpacity onPress={() => {}} >
                  <Text style={{ marginBottom: 16, fontSize: 16 }}>Defect</Text>
               </TouchableOpacity>   
              
@@ -2065,6 +2017,7 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
       </SafeAreaView>
     );
   }
+
 //=================================== Others COMPONENTS ===============================================================
  function OthersComponent() {
 
@@ -2371,8 +2324,6 @@ console.log({ LimitKidsBoysItem }, "filtered item for Kids Boys Item")
       </SafeAreaView>
     );
   }
-
-
 
 
 //=================================== KIDS GIRLS COMPONENTS ===============================================================
