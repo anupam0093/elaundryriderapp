@@ -1,14 +1,20 @@
-import { View, SafeAreaView, TouchableOpacity, Text,FlatList } from "react-native";
+import {
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import { Button } from "native-base";
 import React, { useState } from "react";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
-import Modal from "react-native-modal";
-import { searchGarmentByStoreId } from "../../networkAPI/api";
-import { getStoreId } from "../../networkAPI/services/auth.service";
-import { SwipeListView } from "react-native-swipe-list-view";
 import useStore from "../GlobalStore/store";
 import CategoryButton from "../components/CategoryButton";
+import { Ionicons } from "@expo/vector-icons";
+import { searchGarmentByStoreId } from "../../networkAPI/api";
 
 const categories = [
   { id: "1", title: "Men" },
@@ -25,24 +31,53 @@ const categories = [
 
 const Categoryn = ({ navigation }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [showGarments, setshowGarments] = React.useState([]);
 
   const handleCategoryPress = (categoryId) => {
+    console.log("handle category press");
     setSelectedCategory(categoryId);
+    
     // Handle the logic for category selection if needed
   };
 
-  const renderItem = ({ item }) => (
-    <CategoryButton
-      title={item.title}
-      onPress={() => handleCategoryPress(item.id)}
-    />
-  );
+  // const renderItem = ({ item }) => <CategoryButton />;
 
   const riderDetails = useStore((state) => state.riderDetails);
 
+  const user = useStore((state) => state.user);
+
+  const getsearchGarmentByStoreId = React.useCallback(async () => {
+    try {
+      const response = await searchGarmentByStoreId(
+        riderDetails?.storeId,
+        user?.accessToken
+      );
+    
+      setshowGarments(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    getsearchGarmentByStoreId();
+  }, []);
+
+
+      const MenItem = showGarments?.filter(item =>item?.[ "categoryId" ] === 4);
+      const [ startIndex, setStartIndex ] = useState(0);
+      const itemsPerPage = 7
+      const LimitMenItem = MenItem.slice(startIndex, startIndex + itemsPerPage)
+    
+      console.log({ LimitMenItem }, "filtered item for Men Item")
+
+
+ 
+
   return (
     <SafeAreaView>
-      <View style={{ height: 1026, width: "100%", backgroundColor: "#F3F1F6" }}>
+      <ScrollView>
+      <View style={{ height: 1040, width: "100%", backgroundColor: "#F3F1F6" }}>
         <View
           style={{
             marginLeft: 5,
@@ -157,33 +192,7 @@ const Categoryn = ({ navigation }) => {
             </Text>
           </View>
         </View>
-        {/* <View style={{ display: "flex" }}>
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: 8,
-            gap: 5,
-            marginLeft: 20,
-          }}>
-          <Button
-            variant=""
-            width="171px"
-            height="48px"
-            colorScheme="darkText"
-            borderRadius="xl"
-            backgroundColor="#D9D9D9">
-            Normal Booking
-          </Button>
-          <Button
-            variant="solid"
-            backgroundColor="#002B6B"
-            width="171px"
-            height="48px"
-            borderRadius="xl">
-            ONLINE
-          </Button>
-        </View>
-      </View> */}
+
         <View
           style={{
             display: "flex",
@@ -224,19 +233,77 @@ const Categoryn = ({ navigation }) => {
               Services
             </Button>
           </View>
-
         </View>
         <View>
-            <FlatList
-              data={categories}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.id}
-              horizontal={true}
-            />
-          </View>
+          <FlatList
+            data={categories}
+            renderItem={({ item }) => (
+              <CategoryButton
+                item={item}
+                _onPress={handleCategoryPress(item.id)}
+              />
+            )}
+            keyExtractor={(item) => item.id}
+            horizontal={true}
+          />
+        </View>
+
+
+
+
+          {LimitMenItem.map((item,index) => {
+            return(
+              <ScrollView>
+              <View style={styles.card} key={index}>
+              <View>
+                <Image source={item?.garmentImagePath} alt="No-image" style={styles.image} />
+              </View>
+              <View>
+                <Text style={styles.name}>{item?.garmentName}</Text>
+                <Text style={styles.price}>₹{item?.price}</Text>
+              </View>
+    
+              <Button>
+                <Ionicons name="cart-outline" size={24} color="white" />
+              </Button>
+            </View>
+            </ScrollView>
+
+            )
+
+          })}
+       
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 export default Categoryn;
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: "white",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderRadius: 10,
+    padding: 10,
+    margin: 10,
+    elevation: 5,
+  },
+  image: {
+    width: "100%",
+    height: 90,
+    borderRadius: 10,
+  },
+  name: {
+    marginTop: 5,
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  price: {
+    marginTop: 5,
+    fontSize: 14,
+    color: "gray",
+  },
+});

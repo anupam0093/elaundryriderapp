@@ -1,10 +1,10 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-const CategoryButton = ({ title, onPress }) => {
+const CategoryButton = ({ item,_onPress}) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text style={styles.buttonText}>{title}</Text>
+    <TouchableOpacity style={styles.button} onPress={_onPress} >
+      <Text style={styles.buttonText}>{item.title}</Text>
     </TouchableOpacity>
   );
 };
@@ -12,7 +12,7 @@ const CategoryButton = ({ title, onPress }) => {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: 'purple',
-    padding: 10,
+    padding: 10 ,
     margin: 5,
     borderRadius: 5,
   },
