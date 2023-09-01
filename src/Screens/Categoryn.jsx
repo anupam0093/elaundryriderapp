@@ -15,6 +15,8 @@ import useStore from "../GlobalStore/store";
 import CategoryButton from "../components/CategoryButton";
 import { Ionicons } from "@expo/vector-icons";
 import { searchGarmentByStoreId } from "../../networkAPI/api";
+import Category from './Category';
+import Addcart from './Addcart';
 
 const categories = [
   { id: "1", title: "Men" },
@@ -30,15 +32,16 @@ const categories = [
 ];
 
 const Categoryn = ({ navigation }) => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("Men");
   const [showGarments, setshowGarments] = React.useState([]);
+  const [cart, setCart] = React.useState([]);
 
   const handleCategoryPress = (categoryId) => {
-    console.log("handle category press");
-    setSelectedCategory(categoryId);
-    
-    // Handle the logic for category selection if needed
+   setSelectedCategory(categoryId);
+ 
   };
+ 
+  console.log("category Pressed",{selectedCategory} )
 
   // const renderItem = ({ item }) => <CategoryButton />;
 
@@ -59,19 +62,39 @@ const Categoryn = ({ navigation }) => {
     }
   }, []);
 
+//  const setAddCart = useStore((state) => state.setUser)
+
+
+ 
+
+
   React.useEffect(() => {
     getsearchGarmentByStoreId();
   }, []);
 
 
-      const MenItem = showGarments?.filter(item =>item?.[ "categoryId" ] === 4);
+  // calculation for dynamic data rendering ///
+  
+  
+      const MenItem = showGarments?.filter(item =>item?.[ "categoryName" ] === selectedCategory);
       const [ startIndex, setStartIndex ] = useState(0);
       const itemsPerPage = 7
-      const LimitMenItem = MenItem.slice(startIndex, startIndex + itemsPerPage)
+      const LimitItem = MenItem.slice(startIndex, startIndex + itemsPerPage)
     
-      console.log({ LimitMenItem }, "filtered item for Men Item")
+      console.log({ LimitItem }, "filtered item ")
+
+      const [cartItems, setCartItems] = useState([]);
+      const addToCart = (data) => {
+        // Create a copy of the cart items and add the selected item
+        const updatedCart = [...cartItems, data];
+        setCartItems(updatedCart);
+      };
+     
+console.log("cart added",{cartItems});
 
 
+
+ 
  
 
   return (
@@ -240,7 +263,7 @@ const Categoryn = ({ navigation }) => {
             renderItem={({ item }) => (
               <CategoryButton
                 item={item}
-                _onPress={handleCategoryPress(item.id)}
+                _onPress={ () => handleCategoryPress(item.title)}
               />
             )}
             keyExtractor={(item) => item.id}
@@ -248,13 +271,10 @@ const Categoryn = ({ navigation }) => {
           />
         </View>
 
-
-
-
-          {LimitMenItem.map((item,index) => {
+          {LimitItem.map((item,index) => {
             return(
-              <ScrollView>
-              <View style={styles.card} key={index}>
+              <ScrollView key={index}>
+              <View style={styles.card} >
               <View>
                 <Image source={item?.garmentImagePath} alt="No-image" style={styles.image} />
               </View>
@@ -263,7 +283,7 @@ const Categoryn = ({ navigation }) => {
                 <Text style={styles.price}>₹{item?.price}</Text>
               </View>
     
-              <Button>
+              <Button onPress={() => addToCart(data)} >
                 <Ionicons name="cart-outline" size={24} color="white" />
               </Button>
             </View>
@@ -283,6 +303,8 @@ export default Categoryn;
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "white",
+    widt:"100%",
+    height:100,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -292,13 +314,15 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   image: {
-    width: "100%",
-    height: 90,
+    width: 90,
+    height: 80,
     borderRadius: 10,
+    borderColor:"cyan",
+    borderWidth:2
   },
   name: {
     marginTop: 5,
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "bold",
   },
   price: {
