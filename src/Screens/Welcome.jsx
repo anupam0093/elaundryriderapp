@@ -3,10 +3,6 @@ import {  SafeAreaView, View,Text, Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { TextInput } from "react-native";
 import { styles } from "../../Components/Styles/welcome";
-// import { getAccountInfo, handleLoginUser } from "../../networkAPI/api";
-// import { sendToken, setRiderMobileNo, setStoreId, setStoreUserId } from "../../networkAPI/services/auth.service";
-// import { useEffect } from "react";
-// import * as Network from 'expo-network';
 import axios from "axios";
 import { API_URL } from "../../networkAPI/env";
 import useStore from "../GlobalStore/store";
@@ -26,38 +22,7 @@ const Welcome = ({ navigation }) => {
   const setRiderDetails = useStore(state=>state.setRiderDetails)
 
 
-  // async function loginUser() {
-  //   const response = await handleLoginUser(username, password);
-   
-
-    
-  //   // loginSuccess
-  //   const getUser = await getAccountInfo(
-  //     response[ `accessToken` ],
-  //     response[ `tokenType` ]
-  //   );
-
-  //   const user = getUser?.data;
-  //   if (user?.loginStatus === true && user?.role === "ROLE_RIDER") {
-  //     sendToken(response[ `accessToken` ]);
-  //     console.log(user?.role);
-  //     switch (user?.role) {
-  //       case "ROLE_RIDER": {
-  //         console.log("sucess data", { user });
-  //         setStoreId(user?.storeId);
-  //         setStoreUserId(user?.storeUserId)
-  //         Alert.alert(
-  //           `Welcome ${user.userName} you have been logged in successfully`
-  //         );
-  //         navigation.navigate("Homepage");
-  //         break;
-  //       }
-  //     }
-  //   } else {
-  //     Alert.alert("Login Error");
-  //   }
-
-  // }
+ 
 
   const customUserLogin=async() =>{
       try {

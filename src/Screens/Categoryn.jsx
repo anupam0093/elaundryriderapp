@@ -13,10 +13,8 @@ import React, { useState } from "react";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
 import useStore from "../GlobalStore/store";
 import CategoryButton from "../components/CategoryButton";
-import { Ionicons } from "@expo/vector-icons";
+  import { Ionicons } from "@expo/vector-icons";
 import { searchGarmentByStoreId } from "../../networkAPI/api";
-import Category from './Category';
-import Addcart from './Addcart';
 
 const categories = [
   { id: "1", title: "Men" },
@@ -34,7 +32,7 @@ const categories = [
 const Categoryn = ({ navigation }) => {
   const [selectedCategory, setSelectedCategory] = useState("Men");
   const [showGarments, setshowGarments] = React.useState([]);
-  const [cart, setCart] = React.useState([]);
+ 
 
   const handleCategoryPress = (categoryId) => {
    setSelectedCategory(categoryId);
@@ -62,7 +60,6 @@ const Categoryn = ({ navigation }) => {
     }
   }, []);
 
-//  const setAddCart = useStore((state) => state.setUser)
 
 
  
@@ -83,14 +80,20 @@ const Categoryn = ({ navigation }) => {
     
       console.log({ LimitItem }, "filtered item ")
 
+
+
+      const setCart = useStore(state => state.setCart)
       const [cartItems, setCartItems] = useState([]);
-      const addToCart = (data) => {
+
+      const addToCart = (item) => {
         // Create a copy of the cart items and add the selected item
-        const updatedCart = [...cartItems, data];
+        const updatedCart = [...cartItems, item];
         setCartItems(updatedCart);
+        
       };
-     
-console.log("cart added",{cartItems});
+      setCart(cartItems);
+      console.log("cart added Items",cartItems.length);
+      console.log(cartItems)
 
 
 
@@ -150,14 +153,25 @@ console.log("cart added",{cartItems});
               Book Now
             </Text>
           </View>
-
-          <AntDesign
+          
+          <TouchableOpacity
+           onPress={() => {
+            navigation.navigate("Addcart");
+          }}
+          >
+            <AntDesign
             name="shoppingcart"
             size={26}
             color="#5D7EFC"
             style={{ marginTop: 30, marginRight: 30 }}
+            
           />
+          </TouchableOpacity>
+        
+          <Text style={{top:40,right:40}}>{cartItems.length}</Text>
+          
         </View>
+        
         {/* data coming from backend */}
         <View
           style={{
@@ -283,7 +297,7 @@ console.log("cart added",{cartItems});
                 <Text style={styles.price}>₹{item?.price}</Text>
               </View>
     
-              <Button onPress={() => addToCart(data)} >
+              <Button onPress={() => addToCart(item)} >
                 <Ionicons name="cart-outline" size={24} color="white" />
               </Button>
             </View>
