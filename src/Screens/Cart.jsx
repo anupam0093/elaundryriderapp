@@ -17,7 +17,7 @@ const Cart = () => {
 
   
   return (
-    <SafeAreaView style={{flex:1, backgroundColor: '#D9D9D9',}}>
+    <SafeAreaView style={{flex:1, backgroundColor: '#D9D9D9',marginTop:30}}>
       <StatusBar style='auto'/>
         <Header
         leftContent={<Ionicons name="arrow-back" size={30} color="black" onPress={() => navigation.goBack()} />}

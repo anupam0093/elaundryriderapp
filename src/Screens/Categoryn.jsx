@@ -11,9 +11,7 @@ import {
 } from "react-native";
 import { Button } from "native-base";
 import React, { useCallback, useState } from "react";
-
 import { Ionicons } from '@expo/vector-icons';
-
 import useStore from "../GlobalStore/store";
 import CategoryButton from "../components/CategoryButton";
 import { searchGarmentByStoreId } from "../../networkAPI/api";
@@ -85,7 +83,7 @@ const Categoryn = () => {
 console.log(user)
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1,marginTop:30 }}>
       <Header
         leftContent={<Ionicons name="arrow-back" size={30} color="black" onPress={() => navigation.goBack()} />}
         centerContent={<Text style={{ fontSize: 18, fontWeight: "bold" }}>Book Now</Text>} 

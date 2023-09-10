@@ -15,19 +15,22 @@ import Notification from "../src/Screens/Notification";
 import PickupDate from "../src/Screens/PickupDate";
 import useStore from "../src/GlobalStore/store";
 import Categoryn from "../src/Screens/Categoryn";
-
 import CameraView from "../src/components/cam/CameraView";
 import Cart from "../src/Screens/Cart";
+import Checkout from "../src/Screens/Checkout";
+import Payment from "../src/Screens/Payment";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
-  const user = useStore(state => state.user)
+  const user = useStore((state) => state.user);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{
-        headerShown: false
-      }}>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
         {user ? (
           <>
             <Stack.Screen
@@ -96,29 +99,31 @@ const StackNavigator = () => {
               component={Cart}
               options={{ headerShown: false }}
             />
-             <Stack.Screen
+            <Stack.Screen
               name="CameraScreen"
               component={CameraView}
               options={{ headerShown: false }}
             />
-
-
+            <Stack.Screen
+              name="Checkout"
+              component={Checkout}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Payment"
+              component={Payment}
+              options={{ headerShown: false }}
+            />
           </>
-        ) :
-          (
-            <>
-              <Stack.Screen
-                name="Welcome"
-                component={Welcome}
-                options={{ headerShown: false }}
-              />
-            </>
-          )
-        }
-
-
-
-      
+        ) : (
+          <>
+            <Stack.Screen
+              name="Welcome"
+              component={Welcome}
+              options={{ headerShown: false }}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
