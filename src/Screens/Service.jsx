@@ -16,7 +16,7 @@ import CategoryButton from "../components/CategoryButton";
 import { Ionicons } from "@expo/vector-icons";
 import { searchGarmentByStoreId } from "../../networkAPI/api";
 import Category from './Category';
-import Addcart from './Addcart';
+import Addcart from './Cart';
 
 const categories = [
   { id: "1", title: "Men" },

@@ -1,4 +1,4 @@
-import { View, SafeAreaView, Image, TouchableOpacity,Text } from "react-native";
+import { View, SafeAreaView, Image, TouchableOpacity,Text, StatusBar } from "react-native";
 import {  Button } from "native-base";
 import { homepage } from "../../Components/Styles/homepage";
 import React from "react";
@@ -52,6 +52,7 @@ const Homepage = ({ navigation }) => {
   
   return (
     <SafeAreaView style={{top:35}}>
+      <StatusBar style="auto" />
       <Header  leftContent={<LeftBrand />} centerContent={<Text style={{fontSize:18,fontWeight:"bold"}}>Welcome Rider 😎</Text>} rightContent={<RightContent setLogOutUser={setLogOutUser} navigator={navigator} />} />
       <View style={homepage.container}>
 

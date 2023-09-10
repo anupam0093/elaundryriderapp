@@ -15,7 +15,9 @@ import Notification from "../src/Screens/Notification";
 import PickupDate from "../src/Screens/PickupDate";
 import useStore from "../src/GlobalStore/store";
 import Categoryn from "../src/Screens/Categoryn";
-import Addcart from "../src/Screens/Addcart";
+
+import CameraView from "../src/components/cam/CameraView";
+import Cart from "../src/Screens/Cart";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -90,8 +92,13 @@ const StackNavigator = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="Addcart"
-              component={Addcart}
+              name="Cart"
+              component={Cart}
+              options={{ headerShown: false }}
+            />
+             <Stack.Screen
+              name="CameraScreen"
+              component={CameraView}
               options={{ headerShown: false }}
             />
 

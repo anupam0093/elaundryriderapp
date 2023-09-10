@@ -29,6 +29,7 @@ const Header = ({leftContent, centerContent, rightContent}) => {
             {/* End Ceter */}
 
             {/* Right */}
+            
                 {rightContent}
             {/* End Right */}
 
