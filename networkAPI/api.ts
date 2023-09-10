@@ -87,3 +87,58 @@ export const searchGarmentByStoreId = async (storeId: string, accessToken:string
     console.log(error);
   }
 };
+
+
+//========================= Get Charge Store Id ===================================================================
+
+export const getChargeByStoreId = async (storeId: string, accessToken:string) => {
+  try {
+    const { data } = await axios({
+      method: "GET",
+      url: `${API_URL}/auth/store/charges/${storeId}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${accessToken}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+//========================= Get Discount by Store Id ===================================================================
+
+export const getDiscountByStoreId = async (storeId: string, accessToken:string) => {
+  try {
+    const { data } = await axios({
+      method: "GET",
+      url: `${API_URL}/auth/store/discount/${storeId}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${accessToken}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+//======================== Payment mode ============================================================================
+
+export const getPaymentMode = async ( accessToken:string) => {
+  try {
+    const { data } = await axios({
+      method: "GET",
+      url: `${API_URL}/auth/store/payment-mode`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${accessToken}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
