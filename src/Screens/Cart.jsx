@@ -13,6 +13,11 @@ import useStore from '../GlobalStore/store';
 const Cart = () => {
   const navigation = useNavigation()
   const cart = useStore((state)=>state.cart)
+
+  const cartTotalAmount = cart?.reduce(
+    (acc, item) => acc + item.qty * item.price,
+    0
+  );
   
 
   
@@ -48,7 +53,7 @@ const Cart = () => {
             <View style={{ marginTop:20, marginHorizontal:15, gap:10, }}>
               <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                 <Text style={{fontSize:18}}>Subtotol:</Text>
-                <Text style={{fontSize:16}}>{'\u20B9'} 9000</Text>
+                <Text style={{fontSize:16}}>{'\u20B9'} {cartTotalAmount}</Text>
               </View>
               <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                 <Text style={{fontSize:18, fontWeight:400}}>Delivery:</Text>
@@ -57,7 +62,7 @@ const Cart = () => {
 
               <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                 <Text style={{fontSize:18, fontWeight:400}} >Total:</Text>
-                <Text style={{fontSize:16}}>{'\u20B9'} 9000</Text>
+                <Text style={{fontSize:16}}>{'\u20B9'} {cartTotalAmount}</Text>
               </View>
           </View>
           <TouchableOpacity onPress={() => navigation.navigate('Checkout')}

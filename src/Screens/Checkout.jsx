@@ -79,7 +79,14 @@ import {
     };
   
     const cart = useStore((state) => state.cart);
-    var totalPrice = 0;
+
+    
+    const totalPrice = cart?.reduce(
+      (acc, item) => acc + item.qty * item.price,
+      0
+    );
+    
+    // var totalPrice = 0;
     cart.map((item) => {
       return (totalPrice += item?.price);
     });
