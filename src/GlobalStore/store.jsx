@@ -10,12 +10,15 @@ const useStore = create(
             user: [],
             riderDetails: [],
             cart: [],
+        
 
             setUser: (data) =>
                 set((state) => ({ user: data })),
 
             setRiderDetails: (data) =>
                 set((state) => ({ riderDetails: data })),
+
+          
 
             addToCart: (data) => {
                 set((state) => ({

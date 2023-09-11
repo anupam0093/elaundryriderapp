@@ -12,15 +12,69 @@ import useStore from '../../GlobalStore/store';
 
 
 const data = [
-    { label: 'Red', value: '1' },
-    { label: 'Green', value: '2' },
-    { label: 'Blue', value: '3' },
-    { label: 'Yellow', value: '4' },
-    { label: 'Black', value: '5' },
-    { label: 'Silk', value: '6' },
-    { label: 'Pink', value: '7' },
-    { label: 'Purple', value: '8' },
-    { label: 'Others', value: '9' },
+    { label: 'RED', value: '1' },
+    { label: 'GREEN', value: '2' },
+    { label: 'BLUE', value: '3' },
+    { label: 'YELLOW CHECK', value: '4' },
+    { label: 'BLACK', value: '5' },
+    { label: 'SILK', value: '6' },
+    { label: 'PINK', value: '7' },
+    { label: 'PURPLE', value: '8' },
+    { label: 'WHITE', value: '9' },
+    { label: 'SKY BLUE', value: '10' },
+    { label: 'CREAM', value: '11' },
+    { label: 'PEACH', value: '12' },
+    { label: 'LIGHT BLUE', value: '13' },
+    { label: 'NAVY BLUE', value: '14' },
+    { label: 'YELLOW', value: '15' },
+    { label: 'YELLOW STRIPES', value: '16' },
+    { label: 'BROWN', value: '17' },
+    { label: 'GREY', value: '18' },
+    { label: 'GOLD', value: '19' },
+    { label: 'HARLEQUIN', value: '20' },
+    { label: 'INDIGO', value: '21' },
+    { label: 'LAVENDER', value: '22' },
+    { label: 'LEMON', value: '23' },
+    { label: 'MAGENTA', value: '24' },
+    { label: 'MAROON', value: '25' },
+    { label: 'ORANGE', value: '26' },
+    { label: 'PURPLE', value: '27' },
+    { label: 'SILVER', value: '28' },
+    { label: 'VIOLET', value: '29' },
+    { label: 'SKIN', value: '30' },
+    { label: 'COFEE', value: '31' },
+    { label: 'OLIVE', value: '32' },
+    { label: 'DARK PINK', value: '33' },
+  ];
+
+  const defect = [
+    { label: 'RAFU ALREADY ', value: '1' },
+    { label: 'RING MISSING', value: '2' },
+    { label: 'BURN HOLE', value: '3' },
+    { label: 'BUTTON-LOOSE', value: '4' },
+    { label: 'FABRIC WEAK', value: '5' },
+    { label: 'GREECE STAINS', value: '6' },
+    { label: 'COLOR BLEED', value: '7' },
+    { label: 'BURN MARKS', value: '8' },
+    { label: 'COLOR BLEED UNDER-ARM', value: '9' },
+    { label: 'TORN', value: '10' },
+    { label: 'OIL STAINS', value: '11' },
+    { label: 'PEACH', value: '12' },
+    { label: 'STICH OPEN', value: '13' },
+    { label: 'COLOR FADE', value: '14' },
+    { label: 'PRESS MARK', value: '15' },
+    { label: 'BUTTON-BROKEN', value: '16' },
+    { label: 'HUK MISSING', value: '17' },
+    { label: 'SHINING MARKS', value: '18' },
+    { label: 'BUTTON-MISSING', value: '19' },
+    { label: 'COLOR MARK', value: '20' },
+    { label: 'INDIGO', value: '21' },
+    { label: 'LINING INCREASED ALREADY', value: '22' },
+    { label: 'PIN HOLES', value: '23' },
+    { label: 'CUTTING', value: '24' },
+    { label: 'FALL OPEN', value: '25' },
+    { label: 'YELLOW STAIN', value: '26' },
+
   ];
 
 
@@ -72,13 +126,13 @@ const CartModal = ({showModal, setShowModal, closeModal, selectedItem}) => {
                      style={{height:50, paddingLeft:20,  borderWidth:1, padding:1, borderRadius:10,  backgroundColor:'white', fontSize:20}}/>
                 </ScrollView>
                 <View>
-                    <Text style={{fontSize:16, marginBottom:6}}>Choose Color</Text>
+                    <Text style={{fontSize:16, marginBottom:6}}>Choose Defect</Text>
                     <DropdownComp
                     value={value}
                     setValue={setValue}
                     isFocus={isFocus}
                     setIsFocus={setIsFocus}
-                    data={data}
+                    data={defect}
                     />
                 </View>
                 <View style={{justifyContent:'flex-end', flexDirection:'row', alignItems:'center', gap:15}}>

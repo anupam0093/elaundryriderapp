@@ -77,7 +77,9 @@ const CamModal = ({showCameModal, setShowCamModal, setCapturedImage}) => {
         <TouchableOpacity style={{position:'absolute', top:'10%', left:'10%'}} onPress={()=>setShowCamModal(false)}>
               <EvilIcons name="close" size={30} color="white"/>
           </TouchableOpacity> 
-      <TouchableOpacity style={styles.buttonContainer}  onPress={()=>takePic()}/>
+      <TouchableOpacity style={styles.buttonContainer}  onPress={()=>takePic()}   >
+        <Text style={{textAlign:"center",fontSize:15}}>Take Pic</Text>
+      </TouchableOpacity>
       
       <StatusBar style="auto" />
     </Camera>
@@ -96,12 +98,14 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     buttonContainer: {
-      backgroundColor: '#fff',
+      backgroundColor: 'green',
       position:'absolute',
       bottom:'10%',
       width:'20%', 
       height:'8%', 
-      borderRadius:'50%'
+      borderRadius:10,
+      justifyContent:"center",
+      
 
     },
     preview: {

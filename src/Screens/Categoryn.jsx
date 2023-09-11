@@ -80,7 +80,6 @@ const Categoryn = () => {
   
 
 
-console.log(user)
 
   return (
     <SafeAreaView style={{ flex: 1,marginTop:30 }}>
@@ -131,12 +130,13 @@ console.log(user)
 
       {/* Tabs Button  */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 10, paddingHorizontal: 15, paddingVertical: 10, backgroundColor: '#D9D9D9', marginHorizontal: 15, marginTop: 10 }}>
-        <TouchableOpacity  onPress={() => navigation.navigate('Services')}
+        <TouchableOpacity 
         style={{ backgroundColor: '#003566', paddingHorizontal: 10, paddingVertical: 8, borderRadius: 5, width: '45%' }}>
           <Text style={{ fontSize: 20, textAlign: 'center', color: 'white' }}>Category</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{ backgroundColor: 'white', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5, width: '45%' }}>
+        <TouchableOpacity   onPress={() => navigation.navigate('Services')}
+         style={{ backgroundColor: 'white', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5, width: '45%' }}>
           <Text style={{ fontSize: 20, textAlign: 'center' }}>Services</Text>
         </TouchableOpacity>
       </View>

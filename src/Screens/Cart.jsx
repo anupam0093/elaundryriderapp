@@ -52,7 +52,7 @@ const Cart = () => {
             <View style={{height:'30%', justifyContent:'flex-end'}}>
             <View style={{ marginTop:20, marginHorizontal:15, gap:10, }}>
               <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                <Text style={{fontSize:18}}>Subtotol:</Text>
+                <Text style={{fontSize:18}}>Subtotal:</Text>
                 <Text style={{fontSize:16}}>{'\u20B9'} {cartTotalAmount}</Text>
               </View>
               <View style={{flexDirection:'row', justifyContent:'space-between'}}>

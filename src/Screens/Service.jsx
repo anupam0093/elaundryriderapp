@@ -9,7 +9,6 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
-import { Button } from "native-base";
 import React, { useCallback, useState } from "react";
 import { Ionicons } from '@expo/vector-icons';
 import useStore from "../GlobalStore/store";
@@ -23,15 +22,49 @@ import GamentsCard from "../components/ui/GamentsCard";
 import CartIcon from "../components/ui/CartIcon";
 
 const categories = [
-  { id: "1", title: "Men" },
-  { id: "2", title: "Women" },
-  { id: "3", title: "Kids" },
-  { id: "4", title: "Household" },
-  { id: "5", title: "Institutional" },
-  { id: "6", title: "Others" },
-  { id: "7", title: "Office" },
-  { id: "8", title: "Kids Girls" },
-  { id: "9", title: "Kids Boys" },
+  { id: "1", title: "TOPUP" },
+  { id: "2", title: "WASH & STEAM IRON" },
+  { id: "3", title: "PICO" },
+  { id: "4", title: "BUTTON" },
+  { id: "5", title: "COMMERCIAL LAUNDRY" },
+  { id: "6", title: "WASH & FLOD PREMIUM" },
+  { id: "7", title: "HANGER" },
+  { id: "8", title: "WASH & IRON" },
+  { id: "9", title: "PACKAGING COVER" },
+  { id: "10", title: "STEAM IRON" },
+  { id: "11", title: "CHARAKH" },
+  { id: "12", title: "POLISH" },
+  { id: "13", title: "PREMIUM LAUNDRY" },
+  { id: "14", title: "REPAIR" },
+  { id: "15", title: "WASH & IRON PREMIUM" },
+  { id: "16", title: "DARNING" },
+  { id: "17", title: "STEAM CLEANING" },
+  { id: "18", title: "HOME CLEANING" },
+  { id: "19", title: "PREMIUM FABRIC CARE" },
+  { id: "20", title: "STITCH" },
+  { id: "21", title: "STARCH" },
+  { id: "22", title: "OFFICE CLEANING" },
+  { id: "23", title: "RAFU" },
+  { id: "24", title: "FALL" },
+  { id: "25", title: "ANTISEPTIC WASH" },
+  { id: "26", title: "DYEING" },
+  { id: "27", title: "EXPRESS DRYCLEAN" },
+  { id: "28", title: "DRY CLEANING" },
+  { id: "29", title: "Premium Dry Cleaning" },
+  { id: "30", title: "COAT COVER" },
+  { id: "31", title: "IRON" },
+  { id: "32", title: "LAUNDRY" },
+  { id: "33", title: "FABRIC FRAGRANCE" },
+  { id: "34", title: "STEAM PRESS" },
+  { id: "35", title: "WASH" },
+  { id: "36", title: "EXPRESS LAUNDRY" },
+  { id: "37", title: "WASH & FOLD" },
+  { id: "38", title: "COMMERCIAL DRYCLEANING" },
+  { id: "39", title: "WET CLEANING" },
+  { id: "40", title: "FABRIC SOFTNER" },
+  { id: "41", title: "SEPARATE WASH" },
+  { id: "42", title: "ONSITE CLEANING" }
+
   // Add more categories as needed
 ];
 
@@ -41,7 +74,7 @@ const Categoryn = () => {
   const cart = useStore((state) => state.cart);
   const [loading, setLoading] = useState(false)
   const navigation = useNavigation()
-  const [selectedCategory, setSelectedCategory] = useState("Men");
+  const [selectedCategory, setSelectedCategory] = useState("TOPUP");
   const [showModal, setShowModal] = useState(false)
   const [garments, setGarments] = useState([])
   const [selectedItem, setSelectedItem] = useState()
@@ -51,7 +84,7 @@ const Categoryn = () => {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['garments'],
     queryFn: async () => await searchGarmentByStoreId(riderDetails?.storeId, user?.accessToken),
-    onSuccess: (data) => setGarments(data?.filter((item) => item?.["categoryName"] == selectedCategory && item?.price !==0))
+    onSuccess: (data) => setGarments(data?.filter((item) => item?.["serviceName"] == selectedCategory && item?.price !==0))
   })
 
   const filterGarments = useCallback((categoryName)=>{
@@ -60,7 +93,7 @@ const Categoryn = () => {
     a.garmentName.localeCompare(b.garmentName)
   );
     const newFilteredGarments = sortedGarments?.filter((item) => {
-      return item?.["categoryName"] == categoryName && item?.["price"] !== 0
+      return item?.["serviceName"] == categoryName && item?.["price"] !== 0
     })
     setGarments(newFilteredGarments);
     setSelectedCategory(categoryName)
@@ -131,7 +164,8 @@ console.log(user)
 
       {/* Tabs Button  */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 10, paddingHorizontal: 15, paddingVertical: 10, backgroundColor: '#D9D9D9', marginHorizontal: 15, marginTop: 10 }}>
-        <TouchableOpacity style={{ backgroundColor: '#003566', paddingHorizontal: 10, paddingVertical: 8, borderRadius: 5, width: '45%' }}>
+        <TouchableOpacity  onPress={() => navigation.navigate('Category')}
+        style={{ backgroundColor: '#003566', paddingHorizontal: 10, paddingVertical: 8, borderRadius: 5, width: '45%' }}>
           <Text style={{ fontSize: 20, textAlign: 'center', color: 'white' }}>Category</Text>
         </TouchableOpacity>
 
