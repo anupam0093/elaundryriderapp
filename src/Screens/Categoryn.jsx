@@ -6,10 +6,8 @@ import {
   FlatList,
   Image,
   StyleSheet,
-  ScrollView,
   ActivityIndicator,
 } from "react-native";
-import { Button } from "native-base";
 import React, { useCallback, useState } from "react";
 import { Ionicons } from '@expo/vector-icons';
 import useStore from "../GlobalStore/store";
@@ -36,7 +34,9 @@ const categories = [
 ];
 
 const Categoryn = () => {
-  const riderDetails = useStore((state) => state.riderDetails);
+
+  const account = useStore(state => state.account)
+  const riderDetails = useStore(state => state.riderDetails)
   const user = useStore((state) => state.user);
   const cart = useStore((state) => state.cart);
   const [loading, setLoading] = useState(false)
@@ -100,7 +100,7 @@ const Categoryn = () => {
               fontWeight: "400",
             }}
           >
-            Name : {riderDetails?.userName}
+            Name : {account?.firstName}
           </Text>
         </View>
         <View
@@ -123,7 +123,7 @@ const Categoryn = () => {
               fontWeight: "400",
             }}
           >
-            Mobile : {riderDetails?.mobileNo}
+            Mobile : {account?.mobileNo}
           </Text>
         </View>
       </View>

@@ -4,10 +4,10 @@ import {
   SafeAreaView,
   TouchableOpacity,
   StyleSheet,
-  Alert
+  Alert,
+  ScrollView
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { ScrollView } from "native-base";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
 import useStore from "../GlobalStore/store";
 import { getPaymentMode } from "../../networkAPI/api";

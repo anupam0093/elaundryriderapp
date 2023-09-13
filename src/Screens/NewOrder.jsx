@@ -3,27 +3,23 @@ import {
   SafeAreaView,
   StyleSheet,
   TextInput,
-  Alert,
   Text,
   ImageBackground,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import CustomButton from "../../Components/CommonComponent/CustomButton";
 import useStore from "../GlobalStore/store";
 import axios from "axios";
-import { API_URL } from "../../networkAPI/env";
 import { useNavigation } from "@react-navigation/native";
 
-// import Pickup from "../../Components/pickup";
 
-// interface NavigationProps {
-//   navigation?: any;
-// }
 
 const NewOrder = () => {
 
   const navigation = useNavigation()
   const [ mobileNo, setMobileNo ] = useState('')
+  
   console.log(mobileNo)
 
   const handleBack = () => {
@@ -31,7 +27,12 @@ const NewOrder = () => {
   };
   const riderDetails = useStore(state=>state.riderDetails)
   const user = useStore(state=>state.user)
-  console.log(riderDetails)
+const setAccount = useStore(state => state.setAccount)
+const setBalance = useStore(state => state.setBalance)
+
+
+  // console.log(riderDetails)
+  // console.log(riderDetails?.id)
 
 
  const getOrder = async()=>{
@@ -45,13 +46,19 @@ const NewOrder = () => {
     })
     // console.log('salman khan',  data)
     if(status === 200){
+      setAccount(data[0]?.customer)
+      setBalance(data[0]?.storeCustomerAccountDTO)
+      Alert.alert("Succesfully created the Order")
       navigation.navigate('Pickup', {'OrderDetails':data[0]?.customer})
+      
     }
     // console.log(data)
   } catch (error) {
     console.log(error);
   }
  }
+
+ 
 
   return (
       <SafeAreaView style={{flex:1, justifyContent:'center', alignItems:'center'}} >

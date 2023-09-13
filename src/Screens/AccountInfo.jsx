@@ -4,39 +4,19 @@ import {  SafeAreaView, TouchableOpacity,View,Text} from "react-native";
 import { styles } from "../../Components/Styles/welcome";
 import axios from "axios";
 import useStore from "../GlobalStore/store";
+import { useNavigation } from '@react-navigation/native';
 
-const AccountInfo = ({ navigation }) => {
-const user = useStore(state=>state.user)
-const riderDetails = useStore(state=>state.riderDetails)
-const [accountData, setAccountData] = useState([])
-const [rider, setRider] = useState([])
- const getOrder = async()=>{
-  try {
-    // https://api.elaundry.co.in/oit-elaundry/api/auth/customer/store-customer/5/9718409025
-    const {data, status} = await axios.get(`https://api.elaundry.co.in/oit-elaundry/api/auth/customer/store-customer/${riderDetails?.storeId}/${riderDetails.mobileNo}`, {
-      headers:{
-        "Content-Type": "application/json",
-        'Authorization': `Basic ${user?.accessToken}`
-      }
-    })
-    // console.log('salman khan',  data[0]?.storeCustomerAccountDTO)
-   
-    if(status === 200){
-      setAccountData(data[0]?.storeCustomerAccountDTO)
-      setRider(data[0]?.customer)
-     
-    }
-  } catch (error) {
-    console.log(error);
-  }
- }
 
- useEffect(()=>{
-    getOrder()
- }, [])
+const AccountInfo = () => {
 
-console.log('account data', accountData)
-console.log('Rider data', rider)
+  const navigation = useNavigation()
+
+const account = useStore(state => state.account)
+const balance = useStore(state => state.balance)
+
+ console.log({balance},"line 45")
+ console.log({account},"line 46")
+
 
 
 
@@ -53,9 +33,7 @@ console.log('Rider data', rider)
                   justifyContent: "space-between",
                 }}>
                 <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate("Pickup");
-                  }}>
+                 onPress={() => navigation.goBack()}>
                   <AntDesign
                     name="left"
                     size={24}
@@ -121,7 +99,7 @@ console.log('Rider data', rider)
                       fontSize: 15,
                       fontWeight: "400",
                     }}>
-                      Name : {rider?.firstName} {rider?.lastName}
+                      Name : {account?.firstName} {account?.lastName}
                   </Text>
                 </View>
                 <View
@@ -142,7 +120,7 @@ console.log('Rider data', rider)
                       fontSize: 15,
                       fontWeight: "400",
                     }}>
-                      Mobile: {rider?.mobileNo} 
+                      Mobile: {account?.mobileNo} 
                     {/* Mobile : {item?.[ "customer" ]?.[ "mobileNo" ]} */}
                   </Text>
                 </View>
@@ -201,7 +179,7 @@ console.log('Rider data', rider)
                     }}>
                     <Text
                       style={{ color: "#002B6B", fontSize: 15, fontWeight: "400", letterSpacing: -1, }}>
-                        {rider?.status}
+                        {account?.status}
                       {/* {accountInfo[ 0 ]?.[ "scstatus" ]} */}
                       {}
                     </Text>
@@ -247,7 +225,7 @@ console.log('Rider data', rider)
                     <Text
                       style={{ color: "#002B6B", fontSize: 16, fontWeight: "400", letterSpacing: -1, }}>
                       {/* {item?.[ "storeCustomerAccountDTO" ]?.[ "creditLimit" ]} */}
-                      {accountData?.creditLimit}
+                      {balance?.creditLimit}
                     </Text>
                   </View>
                 </View>
@@ -291,7 +269,7 @@ console.log('Rider data', rider)
                     <Text
                       style={{ color: "#002B6B", fontSize: 16, fontWeight: "400", letterSpacing: -1, }}>
                       {/* {item?.[ "storeCustomerAccountDTO" ]?.[ "balanceUnit" ]} */}
-                      {accountData?.balanceUnit}
+                      {balance?.balanceUnit}
                     </Text>
                   </View>
                 </View>
@@ -335,7 +313,7 @@ console.log('Rider data', rider)
                     <Text
                       style={{ color: "#002B6B", fontSize: 16, fontWeight: "400", letterSpacing: -1, }}>
                       {/* {item?.[ "storeCustomerAccountDTO" ]?.[ "balanceUnit" ]} */}
-                      {accountData?.balanceUnit}
+                      {balance?.balanceUnit}
                     </Text>
                   </View>
                 </View>
@@ -379,7 +357,7 @@ console.log('Rider data', rider)
                     <Text
                       style={{ color: "#002B6B", fontSize: 16, fontWeight: "400", letterSpacing: -1, }}>
                       {/* {item?.[ "storeCustomerAccountDTO" ]?.[ "advanceUnit" ]} */}
-                      {accountData?.advanceUnit}
+                      {balance?.advanceUnit}
                     </Text>
                   </View>
                 </View>

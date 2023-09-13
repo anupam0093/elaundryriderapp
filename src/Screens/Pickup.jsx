@@ -19,6 +19,9 @@ const Pickup = () => {
   const {navigate} = useNavigation()
   const route = useRoute()
   const OrderDetails = route.params
+
+  console.log({OrderDetails},"line 23")
+
   return (
    
       <SafeAreaView>
@@ -27,7 +30,7 @@ const Pickup = () => {
           <View
             style={{
               marginLeft: 5,
-              marginTop: 30,
+              marginTop: 10,
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
@@ -168,6 +171,7 @@ const Pickup = () => {
                           marginTop: 1.9,
                         }}>
                         {/* {item?.[ "customer" ]?.[ "mobileNo" ]} */}
+                        {OrderDetails?.OrderDetails?.mobileNo}
                       </Text>
                     </View>
 
@@ -209,13 +213,10 @@ const Pickup = () => {
                       <View style={{ width: 161, height: 19, marginLeft: 8 }}>
                         <Text style={{ fontSize: 10, lineHeight: 9.5 }}>
                           {/* {item?.[ "customer" ]?.[ "address" ]} */}
+                          {OrderDetails?.OrderDetails?.address}
                         </Text>
 
-                        <TouchableOpacity
-                          onPress={() => {
-                            navigate("Accountinfo");
-                          }}
-                          >
+                       
                           <TouchableOpacity
                           onPress={()=>navigate('Accountinfo')}
                             style={{
@@ -238,7 +239,7 @@ const Pickup = () => {
                               Account Info
                             </Text>
                           </TouchableOpacity>
-                        </TouchableOpacity>
+                      
                       </View>
                     </View>
                   </View>

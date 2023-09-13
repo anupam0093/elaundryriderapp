@@ -7,22 +7,18 @@ import {
   TextInput,
   StyleSheet,
   Alert,
-} from "react-native";
-import {
-  Box,
   Text,
   Button,
   ScrollView,
-  KeyboardAvoidingView,
-} from "native-base";
+  TouchableOpacity,
+} from "react-native";
+
 import Feather from "@expo/vector-icons/build/Feather";
 import { useNavigation } from "@react-navigation/native";
-import Homepage from "./Homepage";
 
 // interface NavigationProps {
 //   navigation?: any;
 // }
-
 
 const Offline = ({ navigation }) => {
   // validation starts here //
@@ -50,15 +46,17 @@ const Offline = ({ navigation }) => {
     <ScrollView>
       <SafeAreaView>
         <View
-          style={{ height: 926, width: "100%", backgroundColor: "#F3F1F6" }}>
-          <Box
+          style={{ height: 926, width: "100%", backgroundColor: "#F3F1F6",left:0 }}
+        >
+          <View
             style={{
-              marginLeft: 19,
-              marginTop: 30,
+              marginLeft: 49,
+              marginTop: 20,
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
-            }}>
+            }}
+          >
             <Image
               style={{
                 width: 45,
@@ -77,15 +75,16 @@ const Offline = ({ navigation }) => {
               source={require("../../assets/Photos/Vector.png")}
               style={{ marginTop: 30, marginRight: 50, height: 22, width: 22 }}
             />
-          </Box>
+          </View>
 
           <Text
             style={{
               fontSize: 13,
               fontWeight: "400",
               color: "#767272",
-              marginLeft: 19,
-            }}>
+              marginLeft: 39,
+            }}
+          >
             Hey, Shail
           </Text>
           <Text
@@ -95,7 +94,8 @@ const Offline = ({ navigation }) => {
               lineHeight: 45,
               fontWeight: "600",
               color: "#002B6B",
-            }}>
+            }}
+          >
             Welcome back!
           </Text>
 
@@ -117,37 +117,57 @@ const Offline = ({ navigation }) => {
               textAlign: "center",
               lineHeight: 14,
               backgroundColor: "#FFFFFF",
-            }}>
+            }}
+          >
             {/* data coming from backend */}
             RIDERID9718409025
           </Text>
-          <Box style={{ display: "flex" }}>
+          <View style={{ display: "flex" }}>
+      
             <View
               style={{
                 flexDirection: "row",
-                marginTop: 20,
-                gap: 5,
-                marginLeft: 19,
-              }}>
-              <Button
-                variant="solid"
-                width="171px"
-                height="48px"
-                colorScheme="darkText"
-                borderRadius="xl"
-                backgroundColor="#002B6B">
-                ONLINE
-              </Button>
-              <Button
-                variant="solid"
-                backgroundColor="#D9D9D9"
-                width="171px"
-                height="48px"
-                borderRadius="xl">
-                ONLINE
-              </Button>
+                justifyContent: "space-between",
+                gap: 10,
+                paddingHorizontal: 15,
+                paddingVertical: 10,
+                backgroundColor: "#D9D9D9",
+                marginHorizontal: 15,
+                marginTop: 10,
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#003566",
+                  paddingHorizontal: 10,
+                  paddingVertical: 8,
+                  borderRadius: 5,
+                  width: "45%",
+                }}
+              >
+                <Text
+                  style={{ fontSize: 20, textAlign: "center", color: "white" }}
+                >
+                  ONLINE
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Services")}
+                style={{
+                  backgroundColor: "white",
+                  paddingHorizontal: 10,
+                  paddingVertical: 5,
+                  borderRadius: 5,
+                  width: "45%",
+                }}
+              >
+                <Text style={{ fontSize: 20, textAlign: "center" }}>
+                  OFFLINE
+                </Text>
+              </TouchableOpacity>
             </View>
-          </Box>
+          </View>
 
           <View
             style={{
@@ -155,7 +175,8 @@ const Offline = ({ navigation }) => {
               height: 280,
               marginLeft: 47,
               marginRight: 47,
-            }}>
+            }}
+          >
             <Image
               alt="man-image"
               source={require("../../assets/Photos/man.png")}
@@ -187,9 +208,10 @@ const Offline = ({ navigation }) => {
               marginLeft: 30,
               display: "flex",
               flexDirection: "row",
-            }}>
+            }}
+          >
             <Feather name="check-circle" size={24} color="#5D7EFC" />
-            <Box style={{ marginLeft: 18 }}>
+            <View style={{ marginLeft: 18 }}>
               <Text style={{ color: "#242426", fontSize: 16, lineHeight: 23 }}>
                 I agree to the{" "}
                 <Text style={styles.innerText}>Terms & Conditions</Text>
@@ -199,47 +221,52 @@ const Offline = ({ navigation }) => {
                 {" "}
                 <Text style={styles.dark}>and</Text> Privacy Policy
               </Text>
-            </Box>
-          </View>
-          <Box style={{ display: "flex" }}>
-            <View
-              style={{
-                flexDirection: "row",
-                marginTop: 20,
-                gap: 10,
-                marginLeft: 19,
-              }}>
-              <Button
-                variant="solid"
-                width="174px"
-                height="40px"
-                colorScheme=""
-                borderRadius="3px"
-                backgroundColor="#D9D9D9">
-                <Text
-                  style={{ fontSize: 20, lineHeight: 17, fontWeight: "bold" }}>
-                  Logout
-                </Text>
-              </Button>
-              <Button
-                variant="solid"
-                backgroundColor="#5D7EFC"
-                width="174px"
-                height="40px"
-                borderRadius="3px"
-                onPress={handleEmailValidation}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    lineHeight: 20,
-                    color: "#FFFFFF",
-                    fontWeight: "bold",
-                  }}>
-                  Submit
-                </Text>
-              </Button>
             </View>
-          </Box>
+          </View>
+      
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              gap: 10,
+              paddingHorizontal: 15,
+              paddingVertical: 10,
+              backgroundColor: "#D9D9D9",
+              marginHorizontal: 15,
+              marginTop: 10,
+            }}
+          >
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#003566",
+                paddingHorizontal: 10,
+                paddingVertical: 8,
+                borderRadius: 5,
+                width: "45%",
+              }}
+            >
+              <Text
+                style={{ fontSize: 20, textAlign: "center", color: "white" }}
+              >
+                Logout
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+           onPress={handleEmailValidation}
+              style={{
+                backgroundColor: "white",
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+                borderRadius: 5,
+                width: "45%",
+              }}
+            >
+              <Text style={{ fontSize: 20, textAlign: "center" }}>
+                Submit
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </SafeAreaView>
     </ScrollView>

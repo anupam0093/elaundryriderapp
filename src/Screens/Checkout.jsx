@@ -5,9 +5,10 @@ import {
   Text,
   StyleSheet,
   Alert,
+  ScrollView,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { ScrollView } from "native-base";
+// import { ScrollView } from "native-base";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
 import useStore from "../GlobalStore/store";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -16,8 +17,10 @@ import { getChargeByStoreId, getDiscountByStoreId } from "../../networkAPI/api";
 import { Card, Button } from "react-native-paper";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
 // import DateTimePickerModal from 'react-native-modal-datetime-picker';
+// import moment from 'moment';
+
+
 
 const Checkout = () => {
   const navigation = useNavigation();
@@ -34,6 +37,27 @@ const Checkout = () => {
   const [discounteditem, setDiscounteditem] = useState([]);
   const [cards, setCards] = useState([]);
   const [discountcards, setdiscountCards] = useState([]);
+
+
+  // calendar View================================================================================================
+//   const [selectedDate, setSelectedDate] = useState();
+//   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+
+//   const showDatePicker = () => {
+//     setDatePickerVisibility(true);
+//   };
+
+//   const hideDatePicker = () => {
+//     setDatePickerVisibility(false);
+//   };
+
+//   const handleConfirm = (date) => {
+//     setSelectedDate(date);
+//     hideDatePicker();
+//   };
+
+
 
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
@@ -78,6 +102,9 @@ const Checkout = () => {
     }
   };
 
+
+
+   // =============================== cartreducer  =================================================================
   const cart = useStore((state) => state.cart);
   
 
@@ -88,6 +115,9 @@ const Checkout = () => {
     console.log({ x });
     return totalPrice;
   });
+
+// =====================================================================================================================
+
 
   const hadndleDiscount = (item) => {
     setdiscountSelect(item);
@@ -110,6 +140,7 @@ const Checkout = () => {
   console.log("line103", charge);
 
   //======================================== Calculation for Gross Amount ===============================================
+
 
   var Gross =
     Number(totalPrice) +
@@ -415,6 +446,24 @@ const Checkout = () => {
               rowStyle={styles.dropdown1RowStyle}
               rowTextStyle={styles.dropdown1RowTxtStyle}
             />
+
+
+   {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>{`Date:  ${selectedDate? moment(selectedDate).format("MM/DD/YYYY"):"Please select date"}`}</Text>
+      <Button title="Show Date Picker" onPress={showDatePicker} />
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
+    </View> */}
+
+
+
+
+
+
           </View>
 
           <View
@@ -561,7 +610,7 @@ const Checkout = () => {
             Booked
           </Button>
         </View>
-      </ScrollView>
+        </ScrollView>
     </SafeAreaView>
   );
 };

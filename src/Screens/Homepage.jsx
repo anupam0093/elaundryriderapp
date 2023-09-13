@@ -1,34 +1,34 @@
-import { View, SafeAreaView, Image, TouchableOpacity,Text, StatusBar } from "react-native";
-import {  Button } from "native-base";
+import {
+  View,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+  Text,
+  StatusBar,
+  Button,
+} from "react-native";
 import { homepage } from "../../Components/Styles/homepage";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import useStore from "../GlobalStore/store";
 import CustomButton from "../../Components/CommonComponent/CustomButton";
 import Header from "../components/Header/Header";
-import { MaterialIcons } from '@expo/vector-icons';
-import { useQuery } from "@tanstack/react-query";
-import { getAccountInfo } from "../../networkAPI/api";
-
-
-
-// const SCREEN_WIDTH = Dimensions.get('window').width;
-
+import { MaterialIcons } from "@expo/vector-icons";
 
 const LeftBrand = () => {
   return (
     <Image
-      style={{ width: 40, height: 40, borderRadius: 20, resizeMode: 'cover' }}
+      style={{ width: 40, height: 40, borderRadius: 20, resizeMode: "cover" }}
       source={{
         uri: "https://lh3.googleusercontent.com/ogw/AOLn63Gvcqud18bpZN8SVHtRZYQQ-49QfjkzyNVWHyrW8w=s32-c-mo",
       }}
     />
-  )
-}
+  );
+};
 
-const RightContent = ({ setLogOutUser,navigator }) => {
+const RightContent = ({ setLogOutUser, navigator }) => {
   return (
-    <View style={{ flexDirection: 'row', gap: 17 }}>
+    <View style={{ flexDirection: "row", gap: 17 }}>
       <TouchableOpacity onPress={setLogOutUser}>
         <MaterialIcons name="logout" size={24} color="black" />
       </TouchableOpacity>
@@ -36,32 +36,39 @@ const RightContent = ({ setLogOutUser,navigator }) => {
         <Ionicons name="notifications" size={24} color="black" />
       </TouchableOpacity>
     </View>
-
-  )
-}
+  );
+};
 
 const Homepage = ({ navigation }) => {
-  const user = useStore(state=>state.user)
-  const riderDetails = useStore(state=>state.riderDetails)
-  const setLogOutUser = useStore(state => state.setLogOutUser) 
+  const user = useStore((state) => state.user);
+  const riderDetails = useStore((state) => state.riderDetails);
+  const setLogOutUser = useStore((state) => state.setLogOutUser);
 
-  const navigator = () =>{
-    navigation.navigate('Notification')
-  }
-  
-  
+  const navigator = () => {
+    navigation.navigate("Notification");
+  };
+
   return (
-    <SafeAreaView style={{top:35}}>
+    <SafeAreaView style={{ top: 35 }}>
       <StatusBar style="auto" />
-      <Header  leftContent={<LeftBrand />} centerContent={<Text style={{fontSize:18,fontWeight:"bold"}}>Welcome Rider 😎</Text>} rightContent={<RightContent setLogOutUser={setLogOutUser} navigator={navigator} />} />
+      <Header
+        leftContent={<LeftBrand />}
+        centerContent={
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+            Welcome Rider 😎
+          </Text>
+        }
+        rightContent={
+          <RightContent setLogOutUser={setLogOutUser} navigator={navigator} />
+        }
+      />
       <View style={homepage.container}>
-
         {/* data coming from backend */}
-        <View style={{ left: 160 }}>
+        <View style={{ left: 160 ,top:20}}>
           <Text
             style={{
               marginLeft: 19,
-              fontSize: 16,
+              fontSize: 20,
               fontWeight: "700",
               color: "#0000008F",
               borderStyle: "solid",
@@ -71,10 +78,11 @@ const Homepage = ({ navigation }) => {
               padding: 10,
               height: 35,
               borderRadius: 7,
-              textAlign: "center",
+              justifyContent:"center",
               lineHeight: 14,
               backgroundColor: "#FFFFFF",
-              marginTop: 10,
+              textAlign:"center"
+              
             }}
           >
             {/* data coming from backend */}
@@ -97,25 +105,8 @@ const Homepage = ({ navigation }) => {
               marginLeft: 1,
             }}
           >
-            <Button
-              variant=""
-              width="171px"
-              height="48px"
-              borderRadius="xl"
-              backgroundColor="#D9D9D9"
-            >
-              OFFLINE
-            </Button>
-            <Button
-              fontSize="20"
-              variant="solid"
-              backgroundColor="#002B6B"
-              width="171px"
-              height="48px"
-              borderRadius="xl"
-            >
-              ONLINE
-            </Button>
+            {/* <Button color="blue" title="OFFLINE"></Button>
+            <Button color="blue" title="ONLINE"></Button> */}
           </View>
         </View>
         <View style={{ marginTop: 20, marginLeft: 40 }}>
@@ -263,7 +254,9 @@ const Homepage = ({ navigation }) => {
               >
                 User Profile
               </Text>
-              <View style={{ height: 167, width: 172, right: 3, marginTop: 87 }}>
+              <View
+                style={{ height: 167, width: 172, right: 3, marginTop: 87 }}
+              >
                 <Image
                   alt="image-3"
                   style={{ height: 127 }}

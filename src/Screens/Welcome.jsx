@@ -16,8 +16,6 @@ import { getAccountInfo } from "../../networkAPI/api";
 const Welcome = ({ navigation }) => {
   const [ username, setUsername ] = useState("");
   const [ password, setPassword ] = useState("");
-  
-  
   const setUser = useStore(state=>state.setUser)
   const setRiderDetails = useStore(state=>state.setRiderDetails)
 
