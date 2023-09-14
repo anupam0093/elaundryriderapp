@@ -6,251 +6,294 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
-  
 } from "react-native";
 import React from "react";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
 import Octicons from "@expo/vector-icons/build/Octicons";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation} from "@react-navigation/native";
+import { Feather,MaterialIcons } from "@expo/vector-icons";
+import useStore from "../GlobalStore/store";
 
 
 const Pickup = () => {
-  
-  const {navigate} = useNavigation()
-  const route = useRoute()
-  const OrderDetails = route.params
+  const { navigate } = useNavigation();
+  const account = useStore(state => state.account)
 
-  console.log({OrderDetails},"line 23")
 
   return (
-   
-      <SafeAreaView>
+    <SafeAreaView>
+      <View style={{ height: 926, width: "100%", backgroundColor: "#F3F1F6" }}>
         <View
-          style={{ height: 926, width: "100%", backgroundColor: "#F3F1F6" }}>
+          style={{
+            marginLeft: 5,
+            marginTop: 10,
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              navigate("Homepage");
+            }}
+          >
+            <AntDesign
+              name="left"
+              size={24}
+              color="#5D7EFC"
+              style={{ marginTop: 30, marginLeft: 10 }}
+            />
+          </TouchableOpacity>
           <View
             style={{
-              marginLeft: 5,
-              marginTop: 10,
+              backgroundColor: "#FFFCFC",
+              width: 242,
+              height: 34,
+              marginTop: 25,
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-between",
-            }}>
-            <TouchableOpacity
-              onPress={() => {
-                navigate("Homepage");
-              }}>
-              <AntDesign
-                name="left"
-                size={24}
-                color="#5D7EFC"
-                style={{ marginTop: 30, marginLeft: 10 }}
-              />
-            </TouchableOpacity>
-            <View
-              style={{
-                backgroundColor: "#FFFCFC",
-                width: 242,
-                height: 34,
-                marginTop: 25,
-                display: "flex",
-                flexDirection: "row",
-              }}>
-              <View style={{ marginTop: 6, marginLeft: 9.5 }}>
-                <Octicons name="search" size={20} color="black" />
-              </View>
-              <View style={{ height: 23, width: 90 }}>
-                <TextInput
-                  style={[ styles.input ]}
-                  placeholder="Search Here"></TextInput>
-              </View>
+            }}
+          >
+            <View style={{ marginTop: 6, marginLeft: 9.5 }}>
+              <Octicons name="search" size={20} color="black" />
             </View>
-
-            <Image
-              alt="ios-bars"
-              source={require("../../assets/Photos/bar.png")}
-              style={{ marginTop: 32, marginRight: 20, height: 22, width: 22 }}
-            />
+            <View style={{ height: 23, width: 90 }}>
+              <TextInput
+                style={[styles.input]}
+                placeholder="Search Here"
+              ></TextInput>
+            </View>
           </View>
 
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              top: 20,
-              right: 5,
-            }}>
+          <Image
+            alt="ios-bars"
+            source={require("../../assets/Photos/bar.png")}
+            style={{ marginTop: 32, marginRight: 20, height: 22, width: 22 }}
+          />
+        </View>
+
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            top: 10,
+            right: 5,
+            justifyContent: "center",
+          }}
+        >
+
+          <TouchableOpacity
+            onPress={() => {
+              navigate("Category");
+            }}
+          >
+            <View style={[styles.Viewcard]}>
+              <View style={{ display: "flex", flexDirection: "row" }}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontWeight: "bold",
+                    color: "#6200ED",
+                    marginTop: 15,
+                    marginLeft: 10,
+                  }}
+                >
+                  {account?.firstName}{" "}
+                  {account?.lastName}
+                </Text>
 
 
-            {/* {OrderDetails?.map((item, index) => {
-              console.log(item?.[ "storeCustomerAccountDTO" ])
-              return ( */}
-                <TouchableOpacity
+                <View
+                  style={{
+                    width: 135,
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    left: 100,
+                    height: 40,
+                    paddingHorizontal: 15,
+                    paddingVertical: 10,
+                    backgroundColor: "#6200ED",
+                    marginHorizontal: 15,
+                    marginTop: 10,
+                    borderRadius: 10,
+                  }}
+                >
+                  <Feather name="phone-call" size={17} color="white" style={{top:2,right:4}} />
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      textAlign: "center",
+                      color: "white",
+                      fontWeight: "bold",
+                      left: 5,
+                    }}
+                  >
+                    {account.mobileNo}
+                  </Text>
+                </View>
+              </View>
+
+              <View
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flexDirection: "row",
+                  padding: 10,
+                }}
+              >
+                <View style={{ width: "auto", backgroundColor: "#FFFCFC" }}>
+                  <Text
+                    style={{
+                      fontSize: 19,
+                      justifyContent: "center",
+                      color: "black",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    9:00am-10:00 pm
+                  </Text>
+                </View>
+
+                <View style={{ width: "auto", backgroundColor: "#FFFCFC" }}>
+                  <Text
+                    style={{
+                      fontSize: 19,
+                      justifyContent: "center",
+                      color: "black",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    02-07-2023
+                  </Text>
+                </View>
+              </View>
+
+              <View style={{ width: "100%", height: 45, marginLeft: 10, }}>
+                <View>
+                   <AntDesign name="arrowright" size={14} color="#6200ED" style={{top:21,left:40}} />
+                </View>
+               
+                <Text
+                  style={{
+                    color: "#6200ED",
+                    textAlign: "center",
+                    fontSize: 20,
+                    fontWeight: "500",
+                    marginTop: 0,
+                  }}
+                >
+                  Request Received by Rider
+                </Text>
+              </View>
+
+              <View style={{ width: "100%", height: 60, padding: 10 }}>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <View style={{ marginLeft: 10, width: "auto", height: 45 }}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: "#000000",
+                        fontWeight: "700",
+                        top:7
+                      }}
+                    >
+                      {/* Address not Available */}
+                      {(account?.address === null ?( "Adress not Available") :(account?.address?.city))}
+                    </Text>
+                  </View>
                 
-                  onPress={() => {
-                    navigate("Category");
-                  }} 
+
+                <TouchableOpacity onPress={() => navigate("Address")}>
+                  <View
+                    style={{
+                      width: 110,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      height: 40,
+                      paddingHorizontal: 15,
+                      paddingVertical: 10,
+                      backgroundColor: "#6200ED",
+                      marginHorizontal: 15,
+                      borderRadius: 7,
+                      left:10
+                    }}
                   >
-
-                  <View style={[ styles.Viewcard ]}
-                  
-                  >
-                    <View style={{ display: "flex", flexDirection: "row" }}>
-                      <Text
-                        style={{
-                          fontSize: 14,
-                          fontWeight: "400",
-                          color: "#003566",
-                          marginTop: 15,
-                          marginLeft: 8,
-                        }}>
-                        {/* {item?.[ "customer" ]?.[ "firstName" ]} {item?.[ "customer" ]?.[ "lastName" ]} */}
-                       { OrderDetails?.OrderDetails?.firstName} { OrderDetails?.OrderDetails?.lastName}
-                      </Text>
-                      <View
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          height: 20,
-                          width: 79,
-                          marginTop: 16.8,
-                          justifyContent: "center",
-                          backgroundColor: "#D9D9D9",
-                          marginLeft: 9,
-                          borderRadius: 2,
-                          paddingBottom: 2,
-                        }}>
-                        <View style={{ justifyContent: "center" }}>
-                          <Text style={{ fontSize: 10 }}>02-07-2023</Text>
-                        </View>
-                        <Image
-                          style={{ marginTop: 5, marginLeft: 4 }}
-                          alt="calendar"
-                          source={require("../../assets/Photos/calendar.png")}
-                        />
-                      </View>
-                    </View>
-
-                    <View
+                    <AntDesign name="plus" size={16} color="white" style={{top:2}} />
+                    <Text
                       style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        height: 20,
-                        width: 104,
-                        marginTop: 5,
-                        justifyContent: "center",
-                        backgroundColor: "#D9D9D9",
-                        marginLeft: 72.9,
-                        borderRadius: 2,
-                      }}>
-                      <View style={{ justifyContent: "center" }}>
-                        <Text style={{ fontSize: 10 }}>9:00am-10:00pm</Text>
-                      </View>
-                      <Image
-                        style={{ marginTop: 5, marginLeft: 4 }}
-                        alt="calendar"
-                        source={require("../../assets/Photos/stopwatch.png")}
-                      />
-                    </View>
-                    <View
-                      style={{
-                        width: 169,
-                        height: 24,
-                        borderStyle: "solid",
-                        borderColor: "#002B6B1F",
-                        backgroundColor: "#002B6B",
-                        marginTop: 7,
-                        marginLeft: 5,
-                        borderRadius: 4,
-                      }}>
-                      <Text
-                        style={{
-                          color: "#FFFF",
-                          textAlign: "center",
-                          fontSize: 11,
-                          fontWeight: "500",
-                          marginTop: 1.9,
-                        }}>
-                        {/* {item?.[ "customer" ]?.[ "mobileNo" ]} */}
-                        {OrderDetails?.OrderDetails?.mobileNo}
-                      </Text>
-                    </View>
-
-                    <View style={{ width: 160, height: 45, marginLeft: 10 }}>
-                      <Text
-                        style={{
-                          color: "#000000",
-                          textAlign: "center",
-                          fontSize: 12,
-                          fontWeight: "500",
-                          marginTop: 5,
-                        }}>
-                        Request Received by Rider
-                      </Text>
-                    </View>
-                    <View style={{ width: 172, height: 70 }}>
-                      <View
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          justifyContent: "space-between",
-                        }}>
-                        <View style={{ marginLeft: 10, width: 41, height: 45 }}>
-                          <Text
-                            style={{
-                              fontSize: 10,
-                              color: "#000000",
-                              fontWeight: "400",
-                            }}>
-                            Address
-                          </Text>
-                        </View>
-                        <View style={{ marginTop: 0 }}>
-                          <Text style={{ fontSize: 6, fontWeight: "400" }}>
-                            Edit
-                          </Text>
-                        </View>
-                      </View>
-                      <View style={{ width: 161, height: 19, marginLeft: 8 }}>
-                        <Text style={{ fontSize: 10, lineHeight: 9.5 }}>
-                          {/* {item?.[ "customer" ]?.[ "address" ]} */}
-                          {OrderDetails?.OrderDetails?.address}
-                        </Text>
-
-                       
-                          <TouchableOpacity
-                          onPress={()=>navigate('Accountinfo')}
-                            style={{
-                              width: 169,
-                              height: 24,
-                              borderStyle: "solid",
-                              borderColor: "#002B6B1F",
-                              backgroundColor: "#11A7E1",
-                              marginTop: 10,
-                              borderRadius: 4,
-                            }}>
-                            <Text
-                              style={{
-                                color: "#FFFF",
-                                textAlign: "center",
-                                fontSize: 11,
-                                fontWeight: "500",
-                                marginTop: 1,
-                              }}>
-                              Account Info
-                            </Text>
-                          </TouchableOpacity>
-                      
-                      </View>
-                    </View>
+                        fontSize: 14,
+                        textAlign: "center",
+                        color: "white",
+                        fontWeight: "600",
+                        left:3,
+                        
+                      }}
+                    >
+                      ADDRESS
+                    </Text>
                   </View>
                 </TouchableOpacity>
-              {/* )
-            })} */}
+                  
 
-          </View>
+                </View>
+                <View style={{ width: 161, height: 19, marginLeft: 8, justifyContent:"center" }}>
+                  <Text style={{ fontSize: 10, lineHeight: 9.5 }}>
+                    {/* {item?.[ "customer" ]?.[ "address" ]} */}
+
+                    {/* {OrderDetails?.OrderDetails?.address} */}
+                  </Text>
+
+
+                   <TouchableOpacity onPress={() => navigate("Accountinfo")}>
+                  <View
+                    style={{
+                      width: 150,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      height: 40,
+                      paddingHorizontal: 15,
+                      paddingVertical: 10,
+                      backgroundColor: "#6200ED",
+                      marginHorizontal: 15,
+                      borderRadius: 7,
+                      left:70,
+                      top:10
+                    }}
+                  >
+                 <MaterialIcons name="account-balance-wallet" size={20} color="white" />
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        textAlign: "center",
+                        color: "white",
+                        fontWeight: "600",
+                        left:4,
+                        
+                      }}
+                    >
+                      ACCOUNT INFO
+                    </Text>
+                  </View>
+                </TouchableOpacity>    
+                
+
+                </View>
+                
+              </View>
+
+            </View>
+          </TouchableOpacity>
+          {/* )
+            })} */}
         </View>
-      </SafeAreaView>
-   
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -260,8 +303,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderStyle: "solid",
     borderColor: "#002B6B1F",
-    height: 250,
-    width: 185,
+    height: 260,
+    width: 370,
     borderWidth: 1,
     marginLeft: 10,
   },

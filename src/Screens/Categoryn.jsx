@@ -21,15 +21,15 @@ import GamentsCard from "../components/ui/GamentsCard";
 import CartIcon from "../components/ui/CartIcon";
 
 const categories = [
-  { id: "1", title: "Men" },
-  { id: "2", title: "Women" },
-  { id: "3", title: "Kids" },
-  { id: "4", title: "Household" },
-  { id: "5", title: "Institutional" },
-  { id: "6", title: "Others" },
-  { id: "7", title: "Office" },
-  { id: "8", title: "Kids Girls" },
-  { id: "9", title: "Kids Boys" },
+  { id: "1", title: "MEN" },
+  { id: "2", title: "WOMEN" },
+  { id: "3", title: "KIDS" },
+  { id: "4", title: "HOUSEHOLDS" },
+  { id: "5", title: "INSTITUTIONAL" },
+  { id: "6", title: "OTHERS" },
+  { id: "7", title: "OFFICE" },
+  { id: "8", title: "KIDS GIRLS" },
+  { id: "9", title: "KIDS BOYS" },
   // Add more categories as needed
 ];
 
@@ -96,11 +96,11 @@ const Categoryn = () => {
           <Text
             style={{
               textAlign: "center",
-              fontSize: 15,
-              fontWeight: "400",
+              fontSize: 16,
+              fontWeight: "600",
             }}
           >
-            Name : {account?.firstName}
+            Name : {account?.firstName} {account?.lastName}
           </Text>
         </View>
         <View
@@ -119,8 +119,8 @@ const Categoryn = () => {
           <Text
             style={{
               textAlign: "center",
-              fontSize: 15,
-              fontWeight: "400",
+              fontSize: 16,
+              fontWeight: "600",
             }}
           >
             Mobile : {account?.mobileNo}

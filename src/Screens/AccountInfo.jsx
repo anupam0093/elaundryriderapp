@@ -96,8 +96,8 @@ const balance = useStore(state => state.balance)
                   <Text
                     style={{
                       textAlign: "center",
-                      fontSize: 15,
-                      fontWeight: "400",
+                      fontSize: 17,
+                      fontWeight: "600",
                     }}>
                       Name : {account?.firstName} {account?.lastName}
                   </Text>
@@ -117,8 +117,8 @@ const balance = useStore(state => state.balance)
                   <Text
                     style={{
                       textAlign: "center",
-                      fontSize: 15,
-                      fontWeight: "400",
+                      fontSize: 17,
+                      fontWeight: "600",
                     }}>
                       Mobile: {account?.mobileNo} 
                     {/* Mobile : {item?.[ "customer" ]?.[ "mobileNo" ]} */}
@@ -180,8 +180,7 @@ const balance = useStore(state => state.balance)
                     <Text
                       style={{ color: "#002B6B", fontSize: 15, fontWeight: "400", letterSpacing: -1, }}>
                         {account?.status}
-                      {/* {accountInfo[ 0 ]?.[ "scstatus" ]} */}
-                      {}
+                     
                     </Text>
                   </View>
                 </View>

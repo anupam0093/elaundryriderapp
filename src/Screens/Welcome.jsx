@@ -1,6 +1,5 @@
 import React, {  useState } from "react";
-import {  SafeAreaView, View,Text, Image } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import {  SafeAreaView, View,Text, Image,ScrollView } from "react-native";
 import { TextInput } from "react-native";
 import { styles } from "../../Components/Styles/welcome";
 import axios from "axios";
@@ -55,8 +54,8 @@ const Welcome = ({ navigation }) => {
 
 
   return (
-      <SafeAreaView style={{top:20}}>
-     
+    <ScrollView>
+        <SafeAreaView style={{top:20}}>
         <View style={styles.container}>
           <View style={{width:'100%'}}>
             <Image
@@ -231,6 +230,8 @@ const Welcome = ({ navigation }) => {
         </View>
    
       </SafeAreaView>
+    </ScrollView>
+    
   );
 };
 

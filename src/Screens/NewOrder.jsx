@@ -106,11 +106,11 @@ const setBalance = useStore(state => state.setBalance)
                 
               }}>
 
-              <CustomButton btnTittle="Cancel" bg ="red"  _onPress={handleBack}/>
+              <CustomButton btnTittle="Cancel" bg ="#EC1D1D" textColor="white"  _onPress={handleBack}/>
               
 
  
-              <CustomButton btnTittle="Submit" bg ="green" _onPress={getOrder} />
+              <CustomButton btnTittle="Submit" bg ="green" textColor="white"  _onPress={getOrder} />
 
               
             </View>

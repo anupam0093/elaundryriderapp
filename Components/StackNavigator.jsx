@@ -19,6 +19,8 @@ import CameraView from "../src/components/cam/CameraView";
 import Cart from "../src/Screens/Cart";
 import Checkout from "../src/Screens/Checkout";
 import Payment from "../src/Screens/Payment";
+import GoogleCalendarDatePicker from "../src/Screens/TestCalendar";
+import EditAddressInfo from "../src/Screens/EditAddressInfo";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -114,6 +116,12 @@ const StackNavigator = () => {
               component={Payment}
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="Address"
+              component={EditAddressInfo}
+              options={{ headerShown: false }}
+            />
+      
           </>
         ) : (
           <>

@@ -65,7 +65,7 @@ const Payment = () => {
     
  }
 
-  console.log("line no 31", { payment });
+  // console.log("line no 31", { selectedItem });
 
   return (
     <SafeAreaView>
@@ -212,7 +212,7 @@ const Payment = () => {
           <TextInput
             style={{ width: "85%", left: 30 }}
             onChange={(amount) => setAmount(amount)}
-            value={amount}
+           
             label="Advance Amount"
           />
 

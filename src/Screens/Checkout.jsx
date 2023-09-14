@@ -140,13 +140,9 @@ const Checkout = () => {
   console.log("line103", charge);
 
   //======================================== Calculation for Gross Amount ===============================================
+  console.log("line 41",discounteditem);
 
-
-  var Gross =
-    Number(totalPrice) +
-    Number(charges?.chargeDiscount) -
-    Number(discounteditem?.chargeDiscount);
-  console.log({ Gross });
+  var Gross = (totalPrice-(discounteditem?.chargeDiscountTypeIn==="AMOUNT"? Number(discounteditem?.chargeDiscount):Number((totalPrice*discounteditem?.chargeDiscount)/100)))+(charges?.chargeDiscountTypeIn==="AMOUNT"? Number(charges?.chargeDiscount):((totalPrice*Number(charges?.chargeDiscount))/100));
 
   var Gstc = (Gross * 0.18).toFixed(2);
 
@@ -507,7 +503,7 @@ const Checkout = () => {
                   Charges (Rs):
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {charges?.chargeDiscount}
+                  {"\u20B9"} {(charges.chargeDiscountTypeIn==="AMOUNT"? Number(charges?.chargeDiscount):((totalPrice*Number(charges?.chargeDiscount))/100))||0}
                 </Text>
               </View>
 
@@ -523,7 +519,7 @@ const Checkout = () => {
                   Discount (Rs):
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {discounteditem?.chargeDiscount}
+                  {"\u20B9"} {(discounteditem?.chargeDiscountTypeIn==="AMOUNT"? Number(discounteditem?.chargeDiscount):Number((totalPrice*discounteditem?.chargeDiscount)/100))||0}
                 </Text>
               </View>
 
@@ -540,7 +536,7 @@ const Checkout = () => {
                 </Text>
 
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {Gross}
+                  {"\u20B9"} {Gross||0}
                 </Text>
               </View>
 
@@ -556,7 +552,7 @@ const Checkout = () => {
                   Taxable Amount (Rs):
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {taxableAmount}
+                  {"\u20B9"} {Number(taxableAmount)||0}
                 </Text>
               </View>
 
@@ -572,7 +568,7 @@ const Checkout = () => {
                   GST (Rs) 18% :
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {Gstc}
+                  {"\u20B9"} {Number(Gstc)||0}
                 </Text>
               </View>
 
@@ -587,7 +583,7 @@ const Checkout = () => {
                   Grand Total (Rs) :
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {GrandTotal.toFixed(2)}
+                  {"\u20B9"} {Number(GrandTotal.toFixed(2))||0}
                 </Text>
               </View>
             </View>

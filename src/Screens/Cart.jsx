@@ -26,7 +26,7 @@ const Cart = () => {
       <StatusBar style='auto'/>
         <Header
         leftContent={<Ionicons name="arrow-back" size={30} color="black" onPress={() => navigation.goBack()} />}
-        centerContent={<Text style={{ fontSize: 18, fontWeight: "bold" }}>Cart</Text>}
+        centerContent={<Text style={{ fontSize: 18, fontWeight: "bold" }}>Added Cart</Text>}
         rightContent={<Text></Text>}
         />
 

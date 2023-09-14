@@ -4,9 +4,7 @@ import {
   TouchableOpacity,
   Text,
   FlatList,
-  Image,
   StyleSheet,
-  ScrollView,
   ActivityIndicator,
 } from "react-native";
 import React, { useCallback, useState } from "react";
@@ -72,6 +70,7 @@ const Categoryn = () => {
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
   const cart = useStore((state) => state.cart);
+  const account = useStore(state => state.account)
   const [loading, setLoading] = useState(false)
   const navigation = useNavigation()
   const [selectedCategory, setSelectedCategory] = useState("TOPUP");
@@ -130,11 +129,11 @@ console.log(user)
           <Text
             style={{
               textAlign: "center",
-              fontSize: 15,
-              fontWeight: "400",
+              fontSize: 16,
+              fontWeight: "600",
             }}
           >
-            Name : {riderDetails?.userName}
+            Name : {account?.firstName} {account?.lastName}
           </Text>
         </View>
         <View
@@ -153,11 +152,11 @@ console.log(user)
           <Text
             style={{
               textAlign: "center",
-              fontSize: 15,
-              fontWeight: "400",
+              fontSize: 16,
+              fontWeight: "600",
             }}
           >
-            Mobile : {riderDetails?.mobileNo}
+            Mobile : {account?.mobileNo}
           </Text>
         </View>
       </View>
@@ -165,12 +164,12 @@ console.log(user)
       {/* Tabs Button  */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 10, paddingHorizontal: 15, paddingVertical: 10, backgroundColor: '#D9D9D9', marginHorizontal: 15, marginTop: 10 }}>
         <TouchableOpacity  onPress={() => navigation.navigate('Category')}
-        style={{ backgroundColor: '#003566', paddingHorizontal: 10, paddingVertical: 8, borderRadius: 5, width: '45%' }}>
-          <Text style={{ fontSize: 20, textAlign: 'center', color: 'white' }}>Category</Text>
+        style={{ backgroundColor: 'white', paddingHorizontal: 10, paddingVertical: 8, borderRadius: 5, width: '45%' }}>
+          <Text style={{ fontSize: 20, textAlign: 'center', color: 'black' }}>Category</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{ backgroundColor: 'white', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5, width: '45%' }}>
-          <Text style={{ fontSize: 20, textAlign: 'center' }}>Services</Text>
+        <TouchableOpacity style={{ backgroundColor: '#003566', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5, width: '45%' }}>
+          <Text style={{ fontSize: 20, textAlign: 'center',color:"white" }}>Services</Text>
         </TouchableOpacity>
       </View>
       {/* Tabs Button End */}

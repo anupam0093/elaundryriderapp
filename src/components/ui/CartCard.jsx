@@ -20,7 +20,7 @@ const CartCard = ({item}) => {
         <Text style={{ fontSize: 16, fontWeight: 600 }} numberOfLines={3} adjustsFontSizeToFit={true}>{item?.garmentName}</Text>
         <Text style={{ fontSize: 16, fontWeight: 400, }}>{'\u20B9'} {item?.price} x {item?.qty}</Text>
         <View style={{flexDirection:'row'}}>
-            <Text style={{ fontSize: 14, fontWeight: 400, }}> Color: </Text>
+            <Text style={{ fontSize: 14, fontWeight: 400, }}> Defect: </Text>
             <Text style={{ fontSize: 14, fontWeight: 400, }}>{item?.color}</Text>
         </View>
         
