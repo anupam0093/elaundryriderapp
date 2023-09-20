@@ -4,27 +4,54 @@ import {
   Text,
   ScrollView,
   SafeAreaView,
-  ImageBackground,
   Image,
   TouchableOpacity,
-} from "react-native";
+  ActivityIndicator,
+  FlatList
+  } from "react-native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import useStore from "../GlobalStore/store";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import moment from "moment";
+import { useNavigation } from "@react-navigation/native";
+import { searchAllDeliverybystoreId } from "../../networkAPI/api";
+import DeliveryCard from "../components/ui/DeliveryCard";
 
 // interface NavigationProps {
 //   navigation?: any;
 // }
 
 const OrderDelevery = ({ navigation }) => {
+  const [delivery, setDelivery] = useState([]);
+  const { navigate } = useNavigation();
+  const account = useStore((state) => state.account);
+  const riderDetails = useStore((state) => state.riderDetails);
+  const user = useStore((state) => state.user);
+
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["delivery"],
+    queryFn: async () =>
+      await searchAllDeliverybystoreId(
+        riderDetails?.storeId,
+        user?.accessToken,
+        riderDetails?.storeUserId
+      ),
+    onSuccess: (data) => setDelivery(data),
+  });
+
+  console.log(delivery[0]);
+
   return (
-    <ScrollView>
+   
       <SafeAreaView>
         <View
-          style={{ height: 926, width: "100%", backgroundColor: "#F3F1F6" }}
+          style={{ height: 970, width: "100%", backgroundColor: "#F3F1F6" }}
         >
           <View
             style={{
               marginLeft: 5,
-              marginTop: 30,
+              marginTop: 20,
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
@@ -86,237 +113,66 @@ const OrderDelevery = ({ navigation }) => {
 
           <View
             style={{
-              width: "100%",
-              height: 34,
-              marginTop: 36,
-              marginLeft: 27,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 15,
-                lineHeight: 40,
-                fontWeight: "400",
-                color: "#000000",
-              }}
-            >
-              New location
-            </Text>
-            <Text
-              style={{
-                fontSize: 10,
-                fontWeight: "400",
-                color: "#7C7777",
-              }}
-            >
-              New location found near you
-            </Text>
-          </View>
-
-          <View
-            style={{
-              width: "87%",
-              height: 60,
-              marginTop: 30,
-              marginLeft: 25,
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              gap: 4,
-            }}
-          >
-            <View style={{ flex: 1, backgroundColor: "#143FD6" }}>
-              <ImageBackground
-                source={require("../../assets/Photos/city1.png")}
-              >
-                <Text
-                  style={{
-                    color: "#FFFF",
-                    fontSize: 13,
-                    fontWeight: "600",
-                    marginTop: 10,
-                    marginLeft: 10,
-                  }}
-                >
-                  King Street 20
-                </Text>
-                <Text
-                  style={{
-                    color: "#FFFF",
-                    fontSize: 13,
-                    fontWeight: "400",
-                    marginLeft: 10,
-                  }}
-                >
-                  Bucharest,London
-                </Text>
-              </ImageBackground>
-            </View>
-
-            <View style={{ flex: 1, backgroundColor: "#ED4137" }}>
-              <ImageBackground
-                source={require("../../assets/Photos/city2.png")}
-              >
-                <Text
-                  style={{
-                    color: "#FFFF",
-                    fontSize: 13,
-                    fontWeight: "600",
-                    marginTop: 10,
-                    marginLeft: 10,
-                  }}
-                >
-                  Victory Square,18
-                </Text>
-                <Text
-                  style={{
-                    color: "#FFFF",
-                    fontSize: 13,
-                    fontWeight: "400",
-                    marginLeft: 10,
-                  }}
-                >
-                  Bucharest,London
-                </Text>
-              </ImageBackground>
-            </View>
-          </View>
-
-          <View
-            style={{
               width: 340,
               height: 60,
               display: "flex",
               flexDirection: "row",
-              marginTop: 10,
+              marginTop: 20,
               marginLeft: 25,
               justifyContent: "space-between",
             }}
           >
             <View>
               <Text
-                style={{ fontSize: 14, fontWeight: "600", color: "#000000" }}
+                style={{ fontSize: 20, fontWeight: "600", color: "#000000" }}
               >
                 Latest Order
               </Text>
             </View>
 
             <View>
-              <Text style={{ color: "#003566", fontSize: 14, marginRight: 14 }}>
+              <Text
+                style={{
+                  color: "#003566",
+                  fontSize: 17,
+                  marginRight: 14,
+                  textDecorationLine: "underline",
+                }}
+              >
                 View all orders
               </Text>
             </View>
           </View>
 
-          <View
+          {isLoading && (
+            <ActivityIndicator
+              size="large"
+              color="blue"
+              style={{ marginTop: 20 }}
+            />
+          )}
+          
+       
+        
+          {data && (
+          <FlatList
+          data={delivery}
+          renderItem={({item})=><DeliveryCard item={item} />}
+          keyExtractor={(item) => item.id}
+        />
+        )}
+
+
+
+
+          {/* <View
             style={{
               width: 350,
               height: 80,
               borderColor: "#003566",
               borderStyle: "solid",
               borderWidth: 1,
-              marginLeft: 10,
-              display: "flex",
-              flexDirection: "row",
-              borderRadius: 11,
-            }}
-          >
-            <View
-              style={{
-                width: 30,
-                height: 30,
-                borderRadius: 30,
-                marginTop: 8,
-                marginLeft: 8,
-              }}
-            >
-              <Image
-                alt="Group-1"
-                source={require("../../assets/Photos/group1.png")}
-              ></Image>
-            </View>
-
-            <View
-              style={{ width: 140, height: 65, marginLeft: 12, marginTop: 10 }}
-            >
-              <Text style={{ fontSize: 14, fontWeight: "600", marginLeft: 4 }}>
-                Picking Up Order
-              </Text>
-              <Text
-                style={{
-                  fontSize: 10,
-                  fontWeight: "400",
-                  color: "#646060",
-                  marginLeft: 4,
-                }}
-              >
-                Placed On:{" "}
-                <Text
-                  style={{ color: "#2F2D2D", fontSize: 10, fontWeight: "600" }}
-                >
-                  12th Jan 2023
-                </Text>{" "}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 10,
-                  fontWeight: "400",
-                  color: "#646060",
-                  marginLeft: 4,
-                }}
-              >
-                Placed At:{" "}
-                <Text
-                  style={{ color: "#2F2D2D", fontSize: 10, fontWeight: "600" }}
-                >
-                  East Patel Nagar
-                </Text>{" "}
-              </Text>
-            </View>
-            <View
-              style={{ width: 80, height: 60, marginLeft: 80, marginTop: 7 }}
-            >
-              <Text
-                style={{
-                  fontSize: 10,
-                  fontWeight: "400",
-                  color: "#646060",
-                  textAlign: "center",
-                }}
-              >
-                Details
-              </Text>
-              <Text
-                style={{
-                  fontSize: 10,
-                  fontWeight: "600",
-                  color: "#322F2F",
-                  textAlign: "center",
-                }}
-              >
-                Men
-              </Text>
-              <Text
-                style={{
-                  fontSize: 10,
-                  fontWeight: "600",
-                  color: "#322F2F",
-                  textAlign: "center",
-                }}
-              >
-                Household
-              </Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              width: 350,
-              height: 80,
-              borderColor: "#003566",
-              borderStyle: "solid",
-              borderWidth: 1,
-              marginLeft: 10,
+              marginLeft: 20,
               display: "flex",
               flexDirection: "row",
               borderRadius: 11,
@@ -415,7 +271,7 @@ const OrderDelevery = ({ navigation }) => {
               borderColor: "#003566",
               borderStyle: "solid",
               borderWidth: 1,
-              marginLeft: 10,
+              marginLeft: 20,
               display: "flex",
               flexDirection: "row",
               borderRadius: 11,
@@ -508,7 +364,7 @@ const OrderDelevery = ({ navigation }) => {
                 Household
               </Text>
             </View>
-          </View>
+          </View> 
 
           <View
             style={{
@@ -517,7 +373,7 @@ const OrderDelevery = ({ navigation }) => {
               borderColor: "#003566",
               borderStyle: "solid",
               borderWidth: 1,
-              marginLeft: 10,
+              marginLeft: 20,
               display: "flex",
               flexDirection: "row",
               borderRadius: 11,
@@ -607,10 +463,10 @@ const OrderDelevery = ({ navigation }) => {
                 Household
               </Text>
             </View>
-          </View>
+          </View>  */}
         </View>
       </SafeAreaView>
-    </ScrollView>
+   
   );
 };
 

@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   Text,
   FlatList,
-  Image,
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
@@ -78,7 +77,7 @@ const Categoryn = () => {
     setShowModal(false);
   }, [])
   
-
+console.log(garments)
 
 
   return (
@@ -160,7 +159,7 @@ const Categoryn = () => {
       </View>
 
       {isLoading && (
-        <ActivityIndicator size='large' color='red' style={{ marginTop: 20 }} />
+        <ActivityIndicator size='large' color='blue' style={{ marginTop: 20 }} />
       )}
       
 

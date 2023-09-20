@@ -8,7 +8,6 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-// import { ScrollView } from "native-base";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
 import useStore from "../GlobalStore/store";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -17,8 +16,7 @@ import { getChargeByStoreId, getDiscountByStoreId } from "../../networkAPI/api";
 import { Card, Button } from "react-native-paper";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-// import DateTimePickerModal from 'react-native-modal-datetime-picker';
-// import moment from 'moment';
+
 
 
 
@@ -39,23 +37,7 @@ const Checkout = () => {
   const [discountcards, setdiscountCards] = useState([]);
 
 
-  // calendar View================================================================================================
-//   const [selectedDate, setSelectedDate] = useState();
-//   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
-
-//   const showDatePicker = () => {
-//     setDatePickerVisibility(true);
-//   };
-
-//   const hideDatePicker = () => {
-//     setDatePickerVisibility(false);
-//   };
-
-//   const handleConfirm = (date) => {
-//     setSelectedDate(date);
-//     hideDatePicker();
-//   };
 
 
 
@@ -95,7 +77,6 @@ const Checkout = () => {
   const handleSelect = (item) => {
     setSelectedItem(item);
     Alert.alert("Charge Added Successfully");
-    // Create a card with the selected data
     const cardData = charge.find((d) => d.name === item);
     if (cardData) {
       setCards([...cards, cardData]);
@@ -139,18 +120,24 @@ const Checkout = () => {
 
   console.log("line103", charge);
 
+
+//  const hadleGst =(item) =>{
+  
+//  }
+
+
   //======================================== Calculation for Gross Amount ===============================================
   console.log("line 41",discounteditem);
+  
 
   var Gross = (totalPrice-(discounteditem?.chargeDiscountTypeIn==="AMOUNT"? Number(discounteditem?.chargeDiscount):Number((totalPrice*discounteditem?.chargeDiscount)/100)))+(charges?.chargeDiscountTypeIn==="AMOUNT"? Number(charges?.chargeDiscount):((totalPrice*Number(charges?.chargeDiscount))/100));
 
-  var Gstc = (Gross * 0.18).toFixed(2);
+  var Gstc = ((Gst?.[1] === "Including GST" ||Gst?.[2] === "Excluding GST" ?Number(Gross*18)/100 :0 ));
 
   var taxableAmount = Gross.toFixed(2);
   var GrandTotal = Number(Gross) + Number(Gstc);
 
-//  const setGrandTotal = useStore(state=>state.setGrandTotal)
-// setGrandTotal(GrandTotal)
+
 
 
   return (
@@ -568,7 +555,7 @@ const Checkout = () => {
                   GST (Rs) 18% :
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {Number(Gstc)||0}
+                  {"\u20B9"} {((Gst?.[1] === "Including GST" ||Gst?.[2] === "Excluding GST" ?Number(Gross*18)/100 :0 )) ||0}
                 </Text>
               </View>
 

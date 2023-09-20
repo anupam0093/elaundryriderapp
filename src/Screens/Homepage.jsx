@@ -64,24 +64,19 @@ const Homepage = ({ navigation }) => {
       />
       <View style={homepage.container}>
         {/* data coming from backend */}
-        <View style={{ left: 160 ,top:20}}>
-          <Text
-            style={{
-              marginLeft: 19,
-              fontSize: 20,
-              fontWeight: "700",
-              color: "#0000008F",
+        <View style={{ left: 220 ,top:20,width:150,height:45,color: "#0000008F",
               borderStyle: "solid",
               borderColor: "#002B6B1F",
-              borderWidth: 1,
-              width: 191,
-              padding: 10,
-              height: 35,
+              borderWidth: 2,}}>
+          <Text
+            style={{
+              marginLeft: 8,
+              fontSize: 20,
+              fontWeight: "700",         
               borderRadius: 7,
               justifyContent:"center",
-              lineHeight: 14,
-              backgroundColor: "#FFFFFF",
-              textAlign:"center"
+              marginTop:7,
+              textAlign:"center",
               
             }}
           >
@@ -286,7 +281,7 @@ const Homepage = ({ navigation }) => {
                 style={{
                   fontSize: 20,
                   fontWeight: "600",
-                  color: "#FFF500",
+                  color: "green",
                   marginTop: 15,
                   marginLeft: 13,
                 }}
@@ -296,7 +291,7 @@ const Homepage = ({ navigation }) => {
               <View style={{ height: 262, width: 177 }}>
                 <Image
                   alt="image-4"
-                  style={{ marginTop: 10 }}
+                  style={{ marginTop: 1}}
                   source={require("../../assets/Photos/coconut.png")}
                 />
               </View>

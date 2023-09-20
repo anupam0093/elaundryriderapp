@@ -211,7 +211,7 @@ const Payment = () => {
           </View>
           <TextInput
             style={{ width: "85%", left: 30 }}
-            onChange={(amount) => setAmount(amount)}
+            
            
             label="Advance Amount"
           />

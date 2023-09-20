@@ -8,12 +8,19 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { AntDesign, Entypo } from "@expo/vector-icons";
+import useStore from "../GlobalStore/store";
+import { useNavigation} from "@react-navigation/native";
+
+
+
 
 // interface NavigationProps {
 //   navigation?: any;
 // }
 
-const PickupFilter = ({ navigation }) => {
+const PickupFilter = ({navigation}) => {
+  const navigate  = useNavigation();
+  const account = useStore(state => state.account)
   return (
     <ScrollView>
       <SafeAreaView>
@@ -36,9 +43,7 @@ const PickupFilter = ({ navigation }) => {
               }}
             >
               <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("OrderDelevery");
-                }}
+                onPress={() => navigate.goBack()}
               >
                 <AntDesign
                   name="left"
@@ -130,7 +135,8 @@ const PickupFilter = ({ navigation }) => {
                       lineHeight: 45,
                     }}
                   >
-                    Aksha Tiyagi
+                     {account?.firstName}{" "}
+                  {account?.lastName}
                   </Text>
                 </View>
               </View>
@@ -160,7 +166,7 @@ const PickupFilter = ({ navigation }) => {
                       lineHeight: 45,
                     }}
                   >
-                    Customer Name
+                    Customer Mobile
                   </Text>
                 </View>
 
@@ -183,15 +189,13 @@ const PickupFilter = ({ navigation }) => {
                       lineHeight: 45,
                     }}
                   >
-                    98765790383
+                    {account?.mobileNo}
                   </Text>
                 </View>
               </View>
 
               <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("PickupDate");
-                }}
+                onPress={() => navigation.navigate("PickupDate")}
               >
                 <View
                   style={{
