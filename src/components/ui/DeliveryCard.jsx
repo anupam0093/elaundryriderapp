@@ -1,6 +1,7 @@
 import { View, Text,Image } from 'react-native'
 import React from 'react'
 import moment from "moment";
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 const DeliveryCard = ({item}) => {
@@ -27,12 +28,19 @@ const DeliveryCard = ({item}) => {
         borderRadius: 30,
         marginTop: 8,
         marginLeft: 8,
+        borderColor:"grey",
+        borderWidth:1,
+        borderStyle:"solid",
+        justifyContent:"center",
+        
+        
       }}
     >
-      <Image
+      {/* <Image
         alt="Group-1"
         source={require("../../../assets/Photos/group2.png")}
-      ></Image>
+      ></Image> */}
+      <MaterialIcons name="delivery-dining" size={23} color="black" style={{left:3}} />
     </View>
 
     <View

@@ -55,7 +55,7 @@ const Pickup = () => {
 };
 
 
-  console.log(pickup[0]);
+  // console.log(pickup[0]);
 
   return (
     <SafeAreaView>
@@ -212,7 +212,7 @@ const Pickup = () => {
                   >
                     {/* 02-07-2023 */}
                     <AntDesign name="calendar" size={17} color="black" /> {" "}
-                    {moment(Date.now()).format("MM-DD-YYYY") }
+                    {moment(Date.now()).format("DD-MM-YYYY") }
                   </Text>
                 </View>
                 <View style={{ width: "auto", backgroundColor: "#FFFCFC" }}>

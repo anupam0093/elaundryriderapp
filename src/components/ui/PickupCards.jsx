@@ -1,47 +1,44 @@
-import { View, TouchableOpacity, Text,StyleSheet } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import React from "react";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
 import { useNavigation } from "@react-navigation/native";
-import { Feather, MaterialIcons,Entypo } from "@expo/vector-icons";
-import { Linking, Platform } from 'react-native';
+import { Feather, MaterialIcons, Entypo } from "@expo/vector-icons";
+import { Linking, Platform } from "react-native";
 import moment from "moment";
 
 const PickupCards = ({ item }) => {
   const { navigate } = useNavigation();
 
-  // =================================== Calling Api ============================================================== 
+  // =================================== Calling Api ==============================================================
   const callPhoneNumber = async (number) => {
-    const phoneNumber = `${Platform.OS !== 'android' ? 'telprompt' : 'tel'}:${number}`;  
+    const phoneNumber = `${
+      Platform.OS !== "android" ? "telprompt" : "tel"
+    }:${number}`;
 
     try {
-        const supported = await Linking.canOpenURL(phoneNumber);
+      const supported = await Linking.canOpenURL(phoneNumber);
 
-        if (supported) Linking.openURL(phoneNumber);
+      if (supported) Linking.openURL(phoneNumber);
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-};
+  };
 
+  // ================================= Open Map =======================================================================
 
-// ================================= Open Map =======================================================================
+  const openMap = async (address, city, zipCode) => {
+    const destination = encodeURIComponent(`${address} ${zipCode}, ${city}`);
+    const provider = Platform.OS === "ios" ? "apple" : "google";
+    const link = `http://maps.${provider}.com/?destination=${destination}`;
 
-const openMap = async (address, city, zipCode, ) => {
-  const destination = encodeURIComponent(`${address} ${zipCode}, ${city}`);  
-  const provider = Platform.OS === 'ios' ? 'apple' : 'google'
-  const link = `http://maps.${provider}.com/?daddr=${daddr}`;
-
-  try {
+    try {
       const supported = await Linking.canOpenURL(link);
 
       if (supported) Linking.openURL(link);
-  } catch (error) {
+    } catch (error) {
       console.log(error);
-  }
-}
-
-
-
-
+    }
+  };
 
   return (
     <View
@@ -78,44 +75,48 @@ const openMap = async (address, city, zipCode, ) => {
             >
               {item?.["pickupRequest"]?.["customerDTO"]?.firstName}{" "}
               {item?.["pickupRequest"]?.["customerDTO"]?.lastName}
-
             </Text>
 
-           <TouchableOpacity onPress={() => callPhoneNumber(Number(item?.["pickupRequest"]?.["customerDTO"]?.mobileNo))} >
-             <View
-              style={{
-                width: 125,
-                flexDirection: "row",
-                justifyContent: "center",
-                height: 40,
-                paddingHorizontal: 15,
-                paddingVertical: 10,
-                backgroundColor: "#6200ED",
-                marginHorizontal: 15,
-                marginTop: 10,
-                borderRadius: 10,
-              }}
+            <TouchableOpacity
+              onPress={() =>
+                callPhoneNumber(
+                  Number(item?.["pickupRequest"]?.["customerDTO"]?.mobileNo)
+                )
+              }
             >
-              <Feather
-                name="phone-call"
-                size={17}
-                color="white"
-                style={{ top: 2, right: 4 }}
-              />
-              <Text
+              <View
                 style={{
-                  fontSize: 15,
-                  textAlign: "center",
-                  color: "white",
-                  fontWeight: "bold",
-                  left: 5,
+                  width: 125,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  height: 40,
+                  paddingHorizontal: 15,
+                  paddingVertical: 10,
+                  backgroundColor: "#6200ED",
+                  marginHorizontal: 15,
+                  marginTop: 10,
+                  borderRadius: 10,
                 }}
               >
-                {item?.["pickupRequest"]?.["customerDTO"]?.mobileNo}
-              </Text>
-            </View>
-           </TouchableOpacity>
-           
+                <Feather
+                  name="phone-call"
+                  size={17}
+                  color="white"
+                  style={{ top: 2, right: 4 }}
+                />
+                <Text
+                  style={{
+                    fontSize: 15,
+                    textAlign: "center",
+                    color: "white",
+                    fontWeight: "bold",
+                    left: 5,
+                  }}
+                >
+                  {item?.["pickupRequest"]?.["customerDTO"]?.mobileNo}
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
 
           <View
@@ -126,8 +127,6 @@ const openMap = async (address, city, zipCode, ) => {
               padding: 10,
             }}
           >
-            
-
             <View style={{ width: "auto", backgroundColor: "#FFFCFC" }}>
               <Text
                 style={{
@@ -137,7 +136,7 @@ const openMap = async (address, city, zipCode, ) => {
                   fontWeight: "bold",
                 }}
               >
-               <AntDesign name="calendar" size={17} color="black" /> {" "}
+                <AntDesign name="calendar" size={17} color="black" />{" "}
                 {moment(item?.["pickupRequest"]?.["pickupDate"]).format(
                   "DD-MM-YYYY"
                 )}
@@ -152,9 +151,8 @@ const openMap = async (address, city, zipCode, ) => {
                   fontWeight: "bold",
                 }}
               >
-                <AntDesign name="clockcircleo" size={17} color="black" /> {" "}
+                <AntDesign name="clockcircleo" size={17} color="black" />{" "}
                 {item?.["pickupRequest"]?.["pickupTime"]}
-              
               </Text>
             </View>
           </View>
@@ -163,9 +161,9 @@ const openMap = async (address, city, zipCode, ) => {
             <View>
               <AntDesign
                 name="arrowright"
-                size={14}
+                size={16}
                 color="#6200ED"
-                style={{ top: 21, left: 40 }}
+                style={{ top: 21, left: 70 }}
               />
             </View>
 
@@ -179,51 +177,65 @@ const openMap = async (address, city, zipCode, ) => {
               }}
             >
               {/* Request Received by Rider */}
-              {item?.["pickupRequest"]?.["pickupStatus"]}
+              {(item?.["pickupRequest"]?.["pickupStatus"]).replace(/_/g,  " ")}
             </Text>
           </View>
 
           <View style={{ width: "100%", height: 60, padding: 10 }}>
-            <View
+
+            <TouchableOpacity onPress={() => openMap(( item?.["pickupRequest"]?.["customerDTO"]?.address
+                        ?.addressLine1),( item?.["pickupRequest"]?.["customerDTO"]?.address
+                        ?.pin),( item?.["pickupRequest"]?.["customerDTO"]?.address
+                        ?.city))}>
+               <View
               style={{
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
               }}
             >
-              <View style={{ marginLeft: 0, width: "98%", height: 45,backgroundColor:"#6200ED",borderRadius:10 }}>
-              
+              <View
+                style={{
+                  marginLeft: 0,
+                  width: "98%",
+                  height: 45,
+                  backgroundColor: "#6200ED",
+                  borderRadius: 10,
+                }}
+              >
                 <Text
                   style={{
                     fontSize: 16,
                     color: "white",
                     fontWeight: "600",
                     top: 7,
-                    padding:5
+                    padding: 5,
                   }}
                 >
-                <Entypo name="location" size={18} color="white" />{"  "}
+                  <Entypo name="location" size={18} color="white" />
+                  {"  "}
                   {item?.["pickupRequest"]?.["customerDTO"]?.address === null
                     ? "Adress not Available"
                     : item?.["pickupRequest"]?.["customerDTO"]?.address
-                        ?.addressLine1}
+                        ?.addressLine1}{" "}
+                  {item?.["pickupRequest"]?.["customerDTO"]?.address?.city}{" "}
+                  {item?.["pickupRequest"]?.["customerDTO"]?.address?.pin}
                 </Text>
               </View>
-
-              
             </View>
-            
+            </TouchableOpacity>
+           
+
             <View
               style={{
                 width: 161,
                 height: 19,
                 marginLeft: 8,
-                display:"flex",
-                flexDirection:"row",
-                gap:50
+                display: "flex",
+                flexDirection: "row",
+                gap: 50,
               }}
             >
-            
               <TouchableOpacity onPress={() => navigate("Accountinfo")}>
                 <View
                   style={{
@@ -258,7 +270,7 @@ const openMap = async (address, city, zipCode, ) => {
                   </Text>
                 </View>
               </TouchableOpacity>
-              
+
               <TouchableOpacity onPress={() => navigate("Address")}>
                 <View
                   style={{
@@ -272,7 +284,7 @@ const openMap = async (address, city, zipCode, ) => {
                     marginHorizontal: 15,
                     borderRadius: 7,
                     left: 10,
-                    marginTop:10
+                    marginTop: 10,
                   }}
                 >
                   <AntDesign
@@ -294,7 +306,6 @@ const openMap = async (address, city, zipCode, ) => {
                   </Text>
                 </View>
               </TouchableOpacity>
-
             </View>
           </View>
         </View>

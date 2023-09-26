@@ -19,7 +19,6 @@ import { searchStoreCustomerByMobile } from "../../networkAPI/api";
 const NewOrder = () => {
   const navigation = useNavigation();
   const [mobileNo, setMobileNo] = useState("");
-  const [customer, setCustomer] = useState("");
 
   console.log(mobileNo);
 
@@ -85,6 +84,7 @@ const NewOrder = () => {
         navigation.navigate("Pickup", { OrderDetails: data[0]?.customer });
 
         console.log("Line 87",{data});
+
         // try {
         //   const accountData = await searchStoreCustomerByMobile(
         //     user?.accessToken,
@@ -101,6 +101,7 @@ const NewOrder = () => {
         // } catch (error) {
         //   console.log("Something Went Wrong");
         // }
+        
       }
     } catch (error) {
       console.log(error);

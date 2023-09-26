@@ -42,6 +42,7 @@ const OrderDelevery = ({ navigation }) => {
 
   console.log(delivery[0]);
 
+
   return (
    
       <SafeAreaView>
@@ -129,8 +130,9 @@ const OrderDelevery = ({ navigation }) => {
                 Latest Order
               </Text>
             </View>
-
-            <View>
+            
+            <TouchableOpacity >
+               <View>
               <Text
                 style={{
                   color: "#003566",
@@ -142,6 +144,8 @@ const OrderDelevery = ({ navigation }) => {
                 View all orders
               </Text>
             </View>
+            </TouchableOpacity>
+           
           </View>
 
           {isLoading && (

@@ -83,7 +83,7 @@ export const searchStoreCustomerByMobile = async (
   try {
     const { data } = await axios({
       method: "GET",
-      url: `${API_URL}/auth/customer/store-customer/${storeId}/${mobileNo}/`,
+      url: `${API_URL}/auth/customer/store-customer/${mobileNo}/${storeId}/`,
       headers: {
         "Content-Type": "application/json",
         Authorization: 'Basic' + " " + token,
