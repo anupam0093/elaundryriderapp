@@ -7,6 +7,8 @@ import { Linking, Platform } from "react-native";
 import moment from "moment";
 
 const PickupCards = ({ item }) => {
+
+  
   const { navigate } = useNavigation();
 
   // =================================== Calling Api ==============================================================
@@ -66,7 +68,7 @@ const PickupCards = ({ item }) => {
           >
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 17,
                 fontWeight: "bold",
                 color: "#6200ED",
                 marginTop: 15,
@@ -86,10 +88,10 @@ const PickupCards = ({ item }) => {
             >
               <View
                 style={{
-                  width: 125,
+                  width: 110,
                   flexDirection: "row",
                   justifyContent: "center",
-                  height: 40,
+                  height: 38,
                   paddingHorizontal: 15,
                   paddingVertical: 10,
                   backgroundColor: "#6200ED",
@@ -100,13 +102,13 @@ const PickupCards = ({ item }) => {
               >
                 <Feather
                   name="phone-call"
-                  size={17}
+                  size={14}
                   color="white"
                   style={{ top: 2, right: 4 }}
                 />
                 <Text
                   style={{
-                    fontSize: 15,
+                    fontSize: 12,
                     textAlign: "center",
                     color: "white",
                     fontWeight: "bold",
@@ -130,13 +132,13 @@ const PickupCards = ({ item }) => {
             <View style={{ width: "auto", backgroundColor: "#FFFCFC" }}>
               <Text
                 style={{
-                  fontSize: 15,
+                  fontSize: 13,
                   justifyContent: "center",
                   color: "black",
                   fontWeight: "bold",
                 }}
               >
-                <AntDesign name="calendar" size={17} color="black" />{" "}
+                <AntDesign name="calendar" size={15} color="black" />{" "}
                 {moment(item?.["pickupRequest"]?.["pickupDate"]).format(
                   "DD-MM-YYYY"
                 )}
@@ -145,25 +147,25 @@ const PickupCards = ({ item }) => {
             <View style={{ width: "auto", backgroundColor: "#FFFCFC" }}>
               <Text
                 style={{
-                  fontSize: 15,
+                  fontSize: 13,
                   justifyContent: "center",
                   color: "black",
                   fontWeight: "bold",
                 }}
               >
-                <AntDesign name="clockcircleo" size={17} color="black" />{" "}
+                <AntDesign name="clockcircleo" size={15} color="black" />{" "}
                 {item?.["pickupRequest"]?.["pickupTime"]}
               </Text>
             </View>
           </View>
 
-          <View style={{ width: "100%", height: 45, marginLeft: 10 }}>
+          <View style={{ width: "100%", height: 37, marginLeft: 10 }}>
             <View>
               <AntDesign
                 name="arrowright"
-                size={16}
+                size={14}
                 color="#6200ED"
-                style={{ top: 21, left: 70 }}
+                style={{ top: 18, left: 40 }}
               />
             </View>
 
@@ -181,7 +183,7 @@ const PickupCards = ({ item }) => {
             </Text>
           </View>
 
-          <View style={{ width: "100%", height: 60, padding: 10 }}>
+          <View style={{ width: "100%", height: 60, padding: 7 }}>
 
             <TouchableOpacity onPress={() => openMap(( item?.["pickupRequest"]?.["customerDTO"]?.address
                         ?.addressLine1),( item?.["pickupRequest"]?.["customerDTO"]?.address
@@ -198,21 +200,21 @@ const PickupCards = ({ item }) => {
                 style={{
                   marginLeft: 0,
                   width: "98%",
-                  height: 45,
+                  height: 40,
                   backgroundColor: "#6200ED",
                   borderRadius: 10,
                 }}
               >
                 <Text
                   style={{
-                    fontSize: 16,
+                    fontSize: 13,
                     color: "white",
                     fontWeight: "600",
                     top: 7,
                     padding: 5,
                   }}
                 >
-                  <Entypo name="location" size={18} color="white" />
+                  <Entypo name="location" size={15} color="white" />
                   {"  "}
                   {item?.["pickupRequest"]?.["customerDTO"]?.address === null
                     ? "Adress not Available"
@@ -228,42 +230,42 @@ const PickupCards = ({ item }) => {
 
             <View
               style={{
-                width: 161,
-                height: 19,
+                width: 118,
+                height: 30,
                 marginLeft: 8,
                 display: "flex",
                 flexDirection: "row",
-                gap: 50,
+                gap: 10,
+                left:9
               }}
             >
               <TouchableOpacity onPress={() => navigate("Accountinfo")}>
                 <View
                   style={{
-                    width: 140,
+                    width: "100%",
                     flexDirection: "row",
                     justifyContent: "center",
-                    height: 40,
+                    height: 37,
                     paddingHorizontal: 15,
                     paddingVertical: 10,
                     backgroundColor: "#6200ED",
                     marginHorizontal: 15,
                     borderRadius: 7,
-                    left: 70,
                     top: 10,
                   }}
                 >
                   <MaterialIcons
                     name="account-balance-wallet"
-                    size={20}
+                    size={17}
                     color="white"
                   />
                   <Text
                     style={{
-                      fontSize: 13,
+                      fontSize: 14,
                       textAlign: "center",
                       color: "white",
                       fontWeight: "600",
-                      left: 4,
+                      marginLeft:4
                     }}
                   >
                     ACCOUNT INFO
@@ -274,10 +276,10 @@ const PickupCards = ({ item }) => {
               <TouchableOpacity onPress={() => navigate("Address")}>
                 <View
                   style={{
-                    width: 90,
+                    width: "100%",
                     flexDirection: "row",
                     justifyContent: "center",
-                    height: 40,
+                    height: 37,
                     paddingHorizontal: 15,
                     paddingVertical: 10,
                     backgroundColor: "#6200ED",
@@ -289,20 +291,20 @@ const PickupCards = ({ item }) => {
                 >
                   <AntDesign
                     name="plus"
-                    size={16}
+                    size={17}
                     color="white"
-                    style={{ top: 2 }}
+                    style={{ top: 1 }}
                   />
                   <Text
                     style={{
-                      fontSize: 13,
+                      fontSize: 14,
                       textAlign: "center",
                       color: "white",
                       fontWeight: "600",
                       left: 3,
                     }}
                   >
-                    ADDRESS
+                  EDIT ADDRESS
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -319,11 +321,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     marginTop: 10,
     borderStyle: "solid",
-    borderColor: "#E6E6E6",
-    height: 260,
+    borderColor: "grey",
+    height: 233,
     width: 370,
-    borderWidth: 2,
+    borderWidth: 1.9,
     marginLeft: 10,
+    borderRadius:27,
   },
   input: {
     fontSize: 16,

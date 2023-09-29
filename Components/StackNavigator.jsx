@@ -25,6 +25,8 @@ import EditAddressInfo from "../src/Screens/EditAddressInfo";
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const user = useStore((state) => state.user);
+  const riderDetails = useStore((state) => state.riderDetails);
+
 
   return (
     <NavigationContainer>
@@ -33,7 +35,7 @@ const StackNavigator = () => {
           headerShown: false,
         }}
       >
-        {user ? (
+        {user && riderDetails ? (
           <>
             <Stack.Screen
               name="Homepage"

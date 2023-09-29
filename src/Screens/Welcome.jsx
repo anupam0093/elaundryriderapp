@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   ImageBackground,
+  Alert
 } from "react-native";
 import { TextInput } from "react-native";
 import { styles } from "../../Components/Styles/welcome";
@@ -49,7 +50,10 @@ const Welcome = ({ navigation }) => {
           console.log("Something Went Wrong");
         }
       }
+     
     } catch (error) {
+      Alert.alert("Rider Doesn't Exist Invalid credentials")
+
       console.log(error);
     }
   };
