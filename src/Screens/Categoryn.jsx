@@ -13,7 +13,7 @@ import useStore from "../GlobalStore/store";
 import CategoryButton from "../components/CategoryButton";
 import { searchGarmentByStoreId } from "../../networkAPI/api";
 import Header from "../components/Header/Header";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import CartModal from "../components/Modals/CartModal";
 import GamentsCard from "../components/ui/GamentsCard";
@@ -40,10 +40,18 @@ const Categoryn = () => {
   const cart = useStore((state) => state.cart);
   const [loading, setLoading] = useState(false)
   const navigation = useNavigation()
+  const route = useRoute()
   const [selectedCategory, setSelectedCategory] = useState("Men");
   const [showModal, setShowModal] = useState(false)
   const [garments, setGarments] = useState([])
   const [selectedItem, setSelectedItem] = useState()
+
+
+
+  // // const customer = route?.params?.customer
+  // console.log(route?.params?.customerDetails)
+
+  
 
 
 
@@ -77,7 +85,7 @@ const Categoryn = () => {
     setShowModal(false);
   }, [])
   
-console.log(garments)
+
 
 
   return (
@@ -99,7 +107,7 @@ console.log(garments)
               fontWeight: "600",
             }}
           >
-            Name : {account?.firstName} {account?.lastName}
+            Name : {route?.params?.customerDetails?.name}
           </Text>
         </View>
         <View
@@ -122,7 +130,7 @@ console.log(garments)
               fontWeight: "600",
             }}
           >
-            Mobile : {account?.mobileNo}
+            Mobile : {route?.params?.customerDetails?.mobileNo}
           </Text>
         </View>
       </View>

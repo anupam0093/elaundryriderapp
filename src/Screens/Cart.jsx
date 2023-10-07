@@ -13,11 +13,13 @@ import useStore from '../GlobalStore/store';
 const Cart = () => {
   const navigation = useNavigation()
   const cart = useStore((state)=>state.cart)
+  
 
   const cartTotalAmount = cart?.reduce(
     (acc, item) => acc + item.qty * item.price,
     0
   );
+  console.log(cart)
   
 
   

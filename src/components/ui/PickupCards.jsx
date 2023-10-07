@@ -42,6 +42,13 @@ const PickupCards = ({ item }) => {
     }
   };
 
+  // console.log('nehat', item)
+
+  const customerData = {
+    name:item?.pickupRequest?.customerDTO?.firstName + ' ' + item?.pickupRequest?.customerDTO?.lastName, 
+    mobileNo:item?.pickupRequest?.customerDTO?.mobileNo
+  }
+
   return (
     <View
       style={{
@@ -54,7 +61,7 @@ const PickupCards = ({ item }) => {
     >
       <TouchableOpacity
         onPress={() => {
-          navigate("Category");
+          navigate("Category",{'customerDetails':customerData});
         }}
       >
         <View style={[styles.Viewcard]}>
