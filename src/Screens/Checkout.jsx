@@ -16,33 +16,45 @@ import { getChargeByStoreId, getDiscountByStoreId } from "../../networkAPI/api";
 import { Card, Button } from "react-native-paper";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
-
-
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import moment from "moment";
 
 const Checkout = () => {
   const navigation = useNavigation();
 
-  const Gst = ["No GST", "Including GST", "Excluding GST"];
+  const Gst = ["NONE", "INCLUDE", "EXCLUDE"];
 
   const [charge, setCharge] = useState([]);
   const [charges, setCharges] = useState([]);
   const [discount, setDiscount] = useState([]);
-  console.log({ charges });
 
   const [selectedItem, setSelectedItem] = useState("");
-  const [discounSelect, setdiscountSelect] = useState("");
+  const [discountSelect, setdiscountSelect] = useState("");
   const [discounteditem, setDiscounteditem] = useState([]);
+  const [handlegst, setHandleGst] = useState("NONE");
   const [cards, setCards] = useState([]);
   const [discountcards, setdiscountCards] = useState([]);
 
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
+  const [datePickerVisible, setDatePickerVisible] = useState(false);
 
+  const showDatePicker = () => {
+    setDatePickerVisible(true);
+  };
 
+  const hideDatePicker = () => {
+    setDatePickerVisible(false);
+  };
 
+  const handleConfirm = (date) => {
+    setSelectedDate(date);
+    hideDatePicker();
+  };
 
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
+  // const account = useStore((state) => state.account);
 
   const ChargeByStoreId = React.useCallback(async () => {
     try {
@@ -52,9 +64,7 @@ const Checkout = () => {
       );
 
       setCharge(response);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }, []);
   const discountByStoreId = React.useCallback(async () => {
     try {
@@ -64,9 +74,7 @@ const Checkout = () => {
       );
 
       setDiscount(response);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }, []);
 
   useEffect(() => {
@@ -83,24 +91,21 @@ const Checkout = () => {
     }
   };
 
-
-
-   // =============================== cartreducer  =================================================================
+  // =============================== cartreducer  =================================================================
   const cart = useStore((state) => state.cart);
-  
 
+  console.log(cart);
   var totalPrice = cart?.reduce((acc, item) => acc + item.qty * item.price, 0);
 
   cart.map((item) => {
     const x = totalPrice;
-    console.log({ x });
+
     return totalPrice;
   });
 
-// =====================================================================================================================
+  // =====================================================================================================================
 
-
-  const hadndleDiscount = (item) => {
+  const handleDiscount = (item) => {
     setdiscountSelect(item);
     Alert.alert("Charge Added Successfully");
     const discountData = discount.find((d) => d.name === item);
@@ -118,27 +123,74 @@ const Checkout = () => {
     setDiscounteditem("");
   };
 
-  console.log("line103", charge);
-
-
-//  const hadleGst =(item) =>{
-  
-//  }
-
-
   //======================================== Calculation for Gross Amount ===============================================
-  console.log("line 41",discounteditem);
-  
 
-  var Gross = (totalPrice-(discounteditem?.chargeDiscountTypeIn==="AMOUNT"? Number(discounteditem?.chargeDiscount):Number((totalPrice*discounteditem?.chargeDiscount)/100)))+(charges?.chargeDiscountTypeIn==="AMOUNT"? Number(charges?.chargeDiscount):((totalPrice*Number(charges?.chargeDiscount))/100));
+  var Gross =
+    totalPrice -
+    (discounteditem?.chargeDiscountTypeIn === "AMOUNT"
+      ? Number(discounteditem?.chargeDiscount)
+      : Number((totalPrice * discounteditem?.chargeDiscount) / 100)) +
+    (charges?.chargeDiscountTypeIn === "AMOUNT"
+      ? Number(charges?.chargeDiscount)
+      : (totalPrice * Number(charges?.chargeDiscount)) / 100);
 
-  var Gstc = ((Gst?.[1] === "Including GST" ||Gst?.[2] === "Excluding GST" ?Number(Gross*18)/100 :0 ));
+  var Gstc = Math.round(
+    handlegst === "EXCLUDE"
+      ? Number(Gross * 18) / 100
+      : handlegst === "INCLUDE"
+      ? Number(Gross * 0.18) / 1.18
+      : 0
+  );
+  console.log("data on line 52", Gstc);
 
-  var taxableAmount = Gross.toFixed(2);
+  var taxableAmount = Gross.toFixed(2) - Gstc;
   var GrandTotal = Number(Gross) + Number(Gstc);
 
+  // ====================================== Charge and Discount Calculation =========================================
 
-
+  const customerCart = {
+    id: 69,
+    storeUserId: "7",
+    storeCustomerId: "3",
+    customer: null,
+    store: null,
+    orderChargeDiscount: null,
+    totalQuantity: 6,
+    itemGarmentCount: 1,
+    remarks: "",
+    totalAmount: Number(totalPrice),
+    gstType: handlegst,
+    orderSource: "BY_STORE",
+    gstPercent: 18,
+    taxableAmount: Number(taxableAmount),
+    gstAmount:Number(Gstc),
+    paymentMode: "CASH",
+    discountAmount: (discounteditem?.chargeDiscountTypeIn === "AMOUNT"
+    ? Number(discounteditem?.chargeDiscount)
+    : Number(
+        (totalPrice * discounteditem?.chargeDiscount) / 100
+      )),
+    chargeAmount:
+      (charges.chargeDiscountTypeIn === "AMOUNT"
+        ? Number(charges?.chargeDiscount)
+        : Number(totalPrice * Number(charges?.chargeDiscount)) / 100),
+    grandTotal: Number(GrandTotal),
+    depressionAmount: null,
+    status: "BOOKED",
+    deliveryOn: moment(selectedDate).format(),
+    deliveredOn: moment(selectedDate).format(),
+    prepareOn: null,
+    sttleStatus: false,
+    orderNo: "OD6799",
+    invoiceNo: "Noida6",
+    orderOn: moment(selectedDate).format(),
+    orderItem: null,
+    orderPackage: null,
+    storeCustomerGstNo: "None",
+    paymentRefNo: "",
+    deliveryRequest: false,
+    urgentDelivery: false,
+  };
 
   return (
     <SafeAreaView>
@@ -300,13 +352,12 @@ const Checkout = () => {
                   } ${"]"}`
               )}
               onSelect={(discounSelect, index) => {
-                hadndleDiscount(discounSelect);
+                handleDiscount(discounSelect);
                 setDiscounteditem(discount[index]);
-                console.log("line260", discounteditem);
               }}
               defaultButtonText={"Add Discount"}
               buttonTextAfterSelection={() =>
-                discounSelect || "Select an option"
+                discountSelect || "Select an option"
               }
               rowTextForSelection={(item, index) => {
                 return item;
@@ -332,8 +383,8 @@ const Checkout = () => {
           <View style={{ left: 30, marginBottom: 10 }}>
             <SelectDropdown
               data={Gst}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
+              onSelect={(value, index) => {
+                setHandleGst(value);
               }}
               defaultButtonText={"Select GST"}
               buttonTextAfterSelection={(selectedItem, index) => {
@@ -401,52 +452,40 @@ const Checkout = () => {
           </View>
 
           <View style={{ left: 30 }}>
+            <Text
+              style={{ fontSize: 17, fontWeight: "bold", marginBottom: 20 }}
+            >
+              {selectedDate
+                ? moment(selectedDate).format("DD/MM/YYYY")
+                : "No date selected"}
+            </Text>
             <SelectDropdown
-              data={Gst}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
-              }}
               defaultButtonText={"Delevery Date "}
-              buttonTextAfterSelection={(selectedItem, index) => {
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                return item;
-              }}
               buttonStyle={styles.dropdown1BtnStyle}
               buttonTextStyle={styles.dropdown1BtnTxtStyle}
               renderDropdownIcon={(isOpened) => {
                 return (
-                  <FontAwesome
-                    name={isOpened ? "calendar" : "calendar"}
-                    color={"#444"}
-                    size={24}
-                  />
+                  <View>
+                    <TouchableOpacity onPress={showDatePicker}>
+                      <FontAwesome
+                        name={isOpened ? "calendar" : "calendar"}
+                        color={"#444"}
+                        size={24}
+                      />
+                    </TouchableOpacity>
+                  </View>
                 );
               }}
               dropdownIconPosition={"right"}
-              dropdownStyle={styles.dropdown1DropdownStyle}
-              rowStyle={styles.dropdown1RowStyle}
-              rowTextStyle={styles.dropdown1RowTxtStyle}
             />
 
-
-   {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>{`Date:  ${selectedDate? moment(selectedDate).format("MM/DD/YYYY"):"Please select date"}`}</Text>
-      <Button title="Show Date Picker" onPress={showDatePicker} />
-      <DateTimePickerModal
-        isVisible={isDatePickerVisible}
-        mode="date"
-        onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
-      />
-    </View> */}
-
-
-
-
-
-
+            <DateTimePickerModal
+              date={selectedDate}
+              isVisible={datePickerVisible}
+              mode="date"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+            />
           </View>
 
           <View
@@ -490,7 +529,11 @@ const Checkout = () => {
                   Charges (Rs):
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {(charges.chargeDiscountTypeIn==="AMOUNT"? Number(charges?.chargeDiscount):((totalPrice*Number(charges?.chargeDiscount))/100))||0}
+                  {"\u20B9"}{" "}
+                  {(charges.chargeDiscountTypeIn === "AMOUNT"
+                    ? Number(charges?.chargeDiscount)
+                    : (totalPrice * Number(charges?.chargeDiscount)) / 100) ||
+                    0}
                 </Text>
               </View>
 
@@ -506,7 +549,12 @@ const Checkout = () => {
                   Discount (Rs):
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {(discounteditem?.chargeDiscountTypeIn==="AMOUNT"? Number(discounteditem?.chargeDiscount):Number((totalPrice*discounteditem?.chargeDiscount)/100))||0}
+                  {"\u20B9"}{" "}
+                  {(discounteditem?.chargeDiscountTypeIn === "AMOUNT"
+                    ? Number(discounteditem?.chargeDiscount)
+                    : Number(
+                        (totalPrice * discounteditem?.chargeDiscount) / 100
+                      )) || 0}
                 </Text>
               </View>
 
@@ -523,7 +571,7 @@ const Checkout = () => {
                 </Text>
 
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {Gross||0}
+                  {"\u20B9"} {Gross || 0}
                 </Text>
               </View>
 
@@ -539,7 +587,7 @@ const Checkout = () => {
                   Taxable Amount (Rs):
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {Number(taxableAmount)||0}
+                  {"\u20B9"} {Number(taxableAmount) || 0}
                 </Text>
               </View>
 
@@ -555,7 +603,14 @@ const Checkout = () => {
                   GST (Rs) 18% :
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {((Gst?.[1] === "Including GST" ||Gst?.[2] === "Excluding GST" ?Number(Gross*18)/100 :0 )) ||0}
+                  {"\u20B9"}{" "}
+                  {Math.round(
+                    handlegst === "EXCLUDE"
+                      ? Number(Gross * 18) / 100
+                      : handlegst === "INCLUDE"
+                      ? Number(Gross * 0.18) / 1.18
+                      : 0
+                  )}
                 </Text>
               </View>
 
@@ -570,14 +625,23 @@ const Checkout = () => {
                   Grand Total (Rs) :
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {Number(GrandTotal.toFixed(2))||0}
+                  {"\u20B9"} {Number(GrandTotal.toFixed(2)) || 0}
                 </Text>
               </View>
             </View>
           </View>
 
           <Button
-            onPress={() => navigation.navigate("Payment",{"grandTotal":GrandTotal.toFixed(2)})}
+            onPress={() =>
+              navigation.navigate(
+                "Payment",
+                {
+                  grandTotal: GrandTotal.toFixed(2),
+                  customerCart:customerCart
+                },
+                
+              )
+            }
             buttonColor="blue"
             textColor="white"
             style={{
@@ -593,7 +657,7 @@ const Checkout = () => {
             Booked
           </Button>
         </View>
-        </ScrollView>
+      </ScrollView>
     </SafeAreaView>
   );
 };

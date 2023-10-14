@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
@@ -13,22 +13,27 @@ import useStore from "../GlobalStore/store";
 import { getPaymentMode } from "../../networkAPI/api";
 import SelectDropdown from "react-native-select-dropdown";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { useNavigation,useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Button, TextInput } from "react-native-paper";
 import { Entypo } from "@expo/vector-icons";
-
-
-
+import { API_URL } from "../../networkAPI/env";
+import axios from "axios";
 
 const Payment = () => {
   const navigation = useNavigation();
 
-  const route = useRoute()
-  const GrandTotal = route.params
-  console.log(GrandTotal)
+  const route = useRoute();
+
+  const GrandTotal = route.params;
+
+  console.log("line 28", GrandTotal.customerCart);
+
  
- 
+
+  // console.log(route.params)
+
   const [selectedItem, setSelectedItem] = useState("");
+
   const [amount, setAmount] = useState(0);
 
   const [payment, setPayment] = useState([]);
@@ -54,18 +59,75 @@ const Payment = () => {
     setSelectedItem(item);
   };
 
- const handleFinal=()=>{
-    if(!selectedItem){
-        Alert.alert("Please select a mode of payment")
-    }
-    else{
-    Alert.alert("Ordered Placed Succesfully")
-    navigation.navigate("Homepage")
-    }
-    
- }
+  // const handleFinal = () => {
+  //   if (!selectedItem) {
+  //     Alert.alert("Please select a mode of payment");
+  //   } else {
+  //     Alert.alert("Ordered Placed Succesfully");
+  //     navigation.navigate("Homepage");
+  //   }
+  // };
 
-  // console.log("line no 31", { selectedItem });
+  const bookOrder = async () => {
+    const token = `${user?.accessToken}`;
+    try {
+      const { data } = await axios({
+        method: "POST",
+        url: `${API_URL}/auth/order/`,
+        data: {
+          id: GrandTotal.customerCart.id,
+          priceListId: null,
+          storeUserId: GrandTotal.customerCart.storeUserId,
+          storeCustomerId: GrandTotal.customerCart.storeCustomerId,
+          customer: null,
+          store: null,
+          orderChargeDiscount: null,
+          totalQuantity: GrandTotal.customerCart.totalQuantity,
+          itemGarmentCount: 1,
+          remarks: "",
+          totalAmount: GrandTotal.customerCart.totalAmount,
+          gstType: GrandTotal.customerCart.gstType,
+          orderSource: GrandTotal.customerCart.orderSource,
+          gstPercent: GrandTotal.customerCart.gstPercent,
+          taxableAmount: GrandTotal.customerCart.taxableAmount,
+          gstAmount: GrandTotal.customerCart.gstAmount,
+          paymentMode: GrandTotal.customerCart.paymentMode,
+          discountAmount: GrandTotal.customerCart.discountAmount,
+          chargeAmount: GrandTotal.customerCart.chargeAmount,
+          grandTotal: GrandTotal.customerCart.grandTotal,
+          depressionAmount: null,
+          status: GrandTotal.customerCart.status,
+          deliveryOn: GrandTotal.customerCart.deliveryOn,
+          balanceAmount:GrandTotal.customerCart.grandTotal,
+          paidAmount:0,
+          deliveredOn: null,
+          prepareOn: null,
+          sttleStatus: null,
+          orderNo: GrandTotal.customerCart.orderNo,
+          invoiceNo: GrandTotal.customerCart.invoiceNo,
+          orderOn: GrandTotal.customerCart.orderOn,
+          orderItem: null,
+          orderPackage: null,
+          storeCustomerGstNo: GrandTotal.customerCart.storeCustomerGstNo,
+          paymentRefNo: null,
+          deliveryRequest: null,
+          urgentDelivery: null,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic" + " " + token,
+        },
+      });
+      if (data) {
+        console.log({data})
+        alert("Your api has been working fine !");
+      }
+    } catch (error) {
+      console.log({error},"error in line 122")
+    }
+  };
+
+ 
 
   return (
     <SafeAreaView>
@@ -211,8 +273,6 @@ const Payment = () => {
           </View>
           <TextInput
             style={{ width: "85%", left: 30 }}
-            
-           
             label="Advance Amount"
           />
 
@@ -221,36 +281,43 @@ const Payment = () => {
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
-            width:"70%"  ,
-            left:30,
-            top:20
-
-         }}
+              width: "70%",
+              left: 30,
+              top: 20,
+            }}
           >
-            <Text style={{ fontSize: 20, fontWeight: "bold" ,color:"skyblue"}} t>
-              Total Amount  :
+            <Text
+              style={{ fontSize: 20, fontWeight: "bold", color: "skyblue" }}
+              t
+            >
+              Total Amount :
             </Text>
-            <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>{GrandTotal.grandTotal}</Text>
+            <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
+              {GrandTotal.grandTotal}
+            </Text>
           </View>
           <View
             style={{
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
-            width:"70%"  ,
-            left:30,
-            top:26
-
-         }}
+              width: "70%",
+              left: 30,
+              top: 26,
+            }}
           >
-            <Text style={{ fontSize: 20, fontWeight: "bold" ,color:"skyblue"}} >
-              Remaining Amount  :
+            <Text
+              style={{ fontSize: 20, fontWeight: "bold", color: "skyblue" }}
+            >
+              Remaining Amount :
             </Text>
-            <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>{GrandTotal.grandTotal}</Text>
+            <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
+              {GrandTotal.grandTotal}
+            </Text>
           </View>
 
-            <Button
-            onPress={handleFinal}
+          <Button
+            onPress={bookOrder}
             buttonColor="blue"
             textColor="white"
             focusable={true}
@@ -259,16 +326,16 @@ const Payment = () => {
               borderWidth: 1,
               borderStyle: "solid",
               width: "86%",
-              left:30,
+              left: 30,
               marginTop: 15,
               padding: 5,
-              top:30
+              top: 30,
             }}
           >
-            <Entypo name="save" size={25} color="white"  />
+            <Entypo name="save" size={25} color="white" />
             {"  "}
             Booked
-          </Button> 
+          </Button>
         </View>
       </ScrollView>
     </SafeAreaView>

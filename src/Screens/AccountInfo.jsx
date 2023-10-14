@@ -4,7 +4,7 @@ import {  SafeAreaView, TouchableOpacity,View,Text} from "react-native";
 import { styles } from "../../Components/Styles/welcome";
 import axios from "axios";
 import useStore from "../GlobalStore/store";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useRoute } from '@react-navigation/native';
 
 
 const AccountInfo = () => {
@@ -13,9 +13,10 @@ const AccountInfo = () => {
 
 const account = useStore(state => state.account)
 const balance = useStore(state => state.balance)
+const route = useRoute()
 
- console.log({balance},"line 45")
- console.log({account},"line 46")
+
+ 
 
 
 
@@ -99,7 +100,7 @@ const balance = useStore(state => state.balance)
                       fontSize: 17,
                       fontWeight: "600",
                     }}>
-                      Name : {account?.firstName} {account?.lastName}
+                      Name : {route?.params?.customerDetails?.name} 
                   </Text>
                 </View>
                 <View
@@ -120,7 +121,7 @@ const balance = useStore(state => state.balance)
                       fontSize: 17,
                       fontWeight: "600",
                     }}>
-                      Mobile: {account?.mobileNo} 
+                      Mobile: {route?.params?.customerDetails?.mobileNo} 
                     {/* Mobile : {item?.[ "customer" ]?.[ "mobileNo" ]} */}
                   </Text>
                 </View>

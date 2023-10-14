@@ -49,7 +49,12 @@ export const getAccountInfo = async (
 
 //=============================== AddnewCustomer========================================================================
 
-export const handleAddCustomer = async (storeId: string, firstName: string,mobileNo:string,token:string) => {
+export const handleAddCustomer = async (
+  storeId: string,
+  firstName: string,
+  mobileNo: string,
+  token: string
+) => {
   try {
     const { data } = await axios({
       method: "POST",
@@ -57,11 +62,11 @@ export const handleAddCustomer = async (storeId: string, firstName: string,mobil
       data: {
         storeId: storeId,
         firstName: firstName,
-        mobileNo: mobileNo
+        mobileNo: mobileNo,
       },
       headers: {
         "Content-Type": "application/json",
-        Authorization: 'Basic' + " " + token,
+        Authorization: "Basic" + " " + token,
       },
     });
 
@@ -71,14 +76,12 @@ export const handleAddCustomer = async (storeId: string, firstName: string,mobil
   }
 };
 
-
 // ============================= search store by mobile no ============4======================
-
 
 export const searchStoreCustomerByMobile = async (
   mobileNo: string,
-  storeId: string, 
-  token:string
+  storeId: string,
+  token: string
 ) => {
   try {
     const { data } = await axios({
@@ -86,20 +89,21 @@ export const searchStoreCustomerByMobile = async (
       url: `${API_URL}/auth/customer/store-customer/${mobileNo}/${storeId}/`,
       headers: {
         "Content-Type": "application/json",
-        Authorization: 'Basic' + " " + token,
+        Authorization: "Basic" + " " + token,
       },
     });
     return data;
   } catch (error) {
-    console.log('loveme',error);
+    console.log("loveme", error);
   }
 };
 
-
-
 //================================== Get Garments Image/price/=======================================
 
-export const searchGarmentByStoreId = async (storeId: string, accessToken:string) => {
+export const searchGarmentByStoreId = async (
+  storeId: string,
+  accessToken: string
+) => {
   try {
     const { data } = await axios({
       method: "GET",
@@ -115,10 +119,12 @@ export const searchGarmentByStoreId = async (storeId: string, accessToken:string
   }
 };
 
-
 //========================= Get Charge Store Id ===================================================================
 
-export const getChargeByStoreId = async (storeId: string, accessToken:string) => {
+export const getChargeByStoreId = async (
+  storeId: string,
+  accessToken: string
+) => {
   try {
     const { data } = await axios({
       method: "GET",
@@ -135,7 +141,10 @@ export const getChargeByStoreId = async (storeId: string, accessToken:string) =>
 };
 //========================= Get Discount by Store Id ===================================================================
 
-export const getDiscountByStoreId = async (storeId: string, accessToken:string) => {
+export const getDiscountByStoreId = async (
+  storeId: string,
+  accessToken: string
+) => {
   try {
     const { data } = await axios({
       method: "GET",
@@ -151,10 +160,9 @@ export const getDiscountByStoreId = async (storeId: string, accessToken:string) 
   }
 };
 
-
 //======================== Payment mode ============================================================================
 
-export const getPaymentMode = async ( accessToken:string) => {
+export const getPaymentMode = async (accessToken: string) => {
   try {
     const { data } = await axios({
       method: "GET",
@@ -170,11 +178,13 @@ export const getPaymentMode = async ( accessToken:string) => {
   }
 };
 
-
-
 //=============================== All Pickups by storeId ===============================================================
 
-export const searchAllPickupbystoreId = async (storeId: string, accessToken:string,storeUserId:string) => {
+export const searchAllPickupbystoreId = async (
+  storeId: string,
+  accessToken: string,
+  storeUserId: string
+) => {
   try {
     const { data } = await axios({
       method: "GET",
@@ -190,11 +200,13 @@ export const searchAllPickupbystoreId = async (storeId: string, accessToken:stri
   }
 };
 
-
-
 // ============================ All deliver by storeId ===============================================================
 
-export const searchAllDeliverybystoreId = async (storeId: string, accessToken:string,storeUserId:string) => {
+export const searchAllDeliverybystoreId = async (
+  storeId: string,
+  accessToken: string,
+  storeUserId: string
+) => {
   try {
     const { data } = await axios({
       method: "GET",
@@ -207,5 +219,102 @@ export const searchAllDeliverybystoreId = async (storeId: string, accessToken:st
     return data;
   } catch (error) {
     console.log(error);
+  }
+};
+
+// ======================================== Post OrderApi============================================================
+
+export const handlPostOrder = async (
+  token: string,
+  id: number,
+  priceListId: number,
+  storeUserId: number,
+  storeCustomerId: number,
+  customer: null,
+  store: null,
+  orderChargeDiscount: null,
+  totalQuantity: number,
+  itemGarmentCount: number,
+  remarks: null,
+  totalAmount: number,
+  gstType: string,
+  orderSource: string,
+  gstPercent: number,
+  taxableAmount: number,
+  gstAmount: number,
+  paymentMode: string,
+  discountAmount: number,
+  chargeAmount: number,
+  grandTotal:number,
+  depressionAmount:null,
+  status:string,
+  deliveryOn:string,
+  deliveredOn:null,
+  prepareOn:null,
+  sttleStatus:null,
+  orderNo:string,
+  invoiceNo:string,
+  orderOn:string,
+  orderItem:null,
+  orderPackage:null,
+  storeCustomerGstNo:string,
+  paymentRefNo:null,
+  deliveryRequest:null,
+  urgentDelivery:null
+
+
+) => {
+  try {
+    const { data } = await axios({
+      method: "POST",
+      url: `${API_URL}/auth/order`,
+      data: {
+        token: token,
+        id: id,
+        priceListId: priceListId,
+        storeUserId: store,
+        storeCustomerId: storeCustomerId,
+        customer: customer,
+        store: store,
+        orderChargeDiscount: orderChargeDiscount,
+        totalQuantity: totalQuantity,
+        itemGarmentCount: itemGarmentCount,
+        remarks: remarks,
+        totalAmount: totalAmount,
+        gstType: gstType,
+        orderSource: orderSource,
+        gstPercent: gstPercent,
+        taxableAmount: taxableAmount,
+        gstAmount: gstAmount,
+        paymentMode: paymentMode,
+        discountAmount: discountAmount,
+        chargeAmount: chargeAmount,
+        grandTotal:grandTotal,
+        depressionAmount:depressionAmount,
+        status:status,
+        deliveryOn:deliveryOn,
+        deliveredOn:deliveredOn,
+        prepareOn:prepareOn,
+        sttleStatus:sttleStatus,
+        orderNo:orderNo,
+        invoiceNo:invoiceNo,
+        orderOn:orderOn,
+        orderItem:orderItem,
+        orderPackage:orderPackage,
+        storeCustomerGstNo:storeCustomerGstNo,
+        paymentRefNo:paymentRefNo,
+        deliveryRequest:deliveryRequest,
+        urgentDelivery:urgentDelivery
+      
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic" + " " + token,
+      },
+    });
+
+    return data;
+  } catch (error) {
+    console.log("Error:", error);
   }
 };

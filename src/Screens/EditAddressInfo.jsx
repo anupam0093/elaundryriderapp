@@ -3,11 +3,13 @@ import useStore from "../GlobalStore/store";
 import React from "react";
 import CustomButton from "../../Components/CommonComponent/CustomButton";
 import {TextInput } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation,useRoute } from "@react-navigation/native";
 
 
 const EditAddressInfo = () => {
   const navigation = useNavigation();
+  const route = useRoute()
+
 
   const account = useStore((state) => state.account);
 
@@ -44,7 +46,18 @@ const EditAddressInfo = () => {
                   fontSize: 17,
                 }}
               >
-                Customer Mobile : {account?.mobileNo}{" "}
+                Customer Name : {route?.params?.customerDetails?.name} {" "}
+              </Text>
+              <Text
+                style={{
+                  color: "white",
+                  textAlign: "center",
+                  marginTop: 10,
+                  fontWeight: "bold",
+                  fontSize: 17,
+                }}
+              >
+                Customer Mobile : {route?.params?.customerDetails?.mobileNo} {" "}
               </Text>
             </View>
        

@@ -42,8 +42,7 @@ const PickupCards = ({ item }) => {
     }
   };
 
-  // console.log('nehat', item)
-
+ 
   const customerData = {
     name:item?.pickupRequest?.customerDTO?.firstName + ' ' + item?.pickupRequest?.customerDTO?.lastName, 
     mobileNo:item?.pickupRequest?.customerDTO?.mobileNo
@@ -246,7 +245,7 @@ const PickupCards = ({ item }) => {
                 left:9
               }}
             >
-              <TouchableOpacity onPress={() => navigate("Accountinfo")}>
+              <TouchableOpacity onPress={() => navigate("Accountinfo",{'customerDetails':customerData})}>
                 <View
                   style={{
                     width: "100%",
@@ -280,7 +279,7 @@ const PickupCards = ({ item }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigate("Address")}>
+              <TouchableOpacity onPress={() => navigate("Address",{'customerDetails':customerData})}>
                 <View
                   style={{
                     width: "100%",

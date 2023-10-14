@@ -40,7 +40,7 @@ const OrderDelevery = ({ navigation }) => {
     onSuccess: (data) => setDelivery(data),
   });
 
-  console.log(delivery[0]);
+  console.log(delivery[1]);
 
 
   return (

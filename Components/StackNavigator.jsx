@@ -21,6 +21,8 @@ import Checkout from "../src/Screens/Checkout";
 import Payment from "../src/Screens/Payment";
 import GoogleCalendarDatePicker from "../src/Screens/TestCalendar";
 import EditAddressInfo from "../src/Screens/EditAddressInfo";
+import DeliveryPayment from "../src/Screens/Deliverypayment";
+import Test from "../src/Screens/Test";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -123,6 +125,16 @@ const StackNavigator = () => {
               component={EditAddressInfo}
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="deliveryPayment"
+              component={DeliveryPayment}
+              options={{ headerShown: false }}
+            />
+            {/* <Stack.Screen
+              name="test"
+              component={Test}
+              options={{ headerShown: false }}
+            /> */}
       
           </>
         ) : (

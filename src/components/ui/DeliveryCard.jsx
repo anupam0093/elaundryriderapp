@@ -1,15 +1,29 @@
-import { View, Text,Image } from 'react-native'
+import { View, Text ,TouchableOpacity} from 'react-native'
 import React from 'react'
 import moment from "moment";
 import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/native";
 
 
 const DeliveryCard = ({item}) => {
+  const { navigate } = useNavigation();
+
+const customerData = {
+  name:item?.deliveryRequest?.customerDTO?.firstName, 
+  mobileNo:item?.deliveryRequest?.customerDTO?.mobileNo
+}
+
+
   return (
+    <TouchableOpacity 
+    onPress={() => {
+      navigate("deliveryPayment",{'customerDetails':customerData});
+    }}
+    >
     <View
     style={{
-      width: 350,
-      height: 90,
+      width: 360,
+      height: 97,
       borderColor: "#003566",
       borderStyle: "solid",
       borderWidth: 1,
@@ -18,7 +32,8 @@ const DeliveryCard = ({item}) => {
       flexDirection: "row",
       borderRadius: 11,
       marginBottom: 10,
-      justifyContent:"center"
+      justifyContent:"center",
+      
     }}
   >
     <View
@@ -32,21 +47,18 @@ const DeliveryCard = ({item}) => {
         borderWidth:1,
         borderStyle:"solid",
         justifyContent:"center",
-        
+      
         
       }}
     >
-      {/* <Image
-        alt="Group-1"
-        source={require("../../../assets/Photos/group2.png")}
-      ></Image> */}
+     
       <MaterialIcons name="delivery-dining" size={23} color="black" style={{left:3}} />
     </View>
 
     <View
       style={{
-        width: 140,
-        height: 65,
+        width: 150,
+        height: 100,
         marginLeft: 12,
         marginTop: 10,
       }}
@@ -125,6 +137,27 @@ const DeliveryCard = ({item}) => {
                     ?.address?.addressLine1}
         </Text>{" "}
       </Text>
+      <Text
+        style={{
+          fontSize: 10,
+          fontWeight: "400",
+          color: "#646060",
+          marginLeft: 4,
+        }}
+      >
+        Name :{" "}
+        <Text
+          style={{
+            color: "#2F2D2D",
+            fontSize: 10,
+            fontWeight: "600",
+          }}
+        >
+          
+          {item?.["deliveryRequest"]?.["customerDTO"]?.firstName}{" "}
+              {item?.["deliveryRequest"]?.["customerDTO"]?.lastName}
+        </Text>{" "}
+      </Text>
     </View>
     <View
       style={{
@@ -166,6 +199,8 @@ const DeliveryCard = ({item}) => {
       </Text>
     </View>
   </View>
+    </TouchableOpacity>
+
   )
 }
 

@@ -13,8 +13,8 @@ import useStore from "../GlobalStore/store";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { API_URL } from "../../networkAPI/env";
-import { searchStoreCustomerByMobile } from "../../networkAPI/api";
-// import { handleAddCustomer } from "../../networkAPI/api";
+// import { searchStoreCustomerByMobile } from "../../networkAPI/api";
+//  import { handleAddCustomer } from "../../networkAPI/api";
 
 const NewOrder = () => {
   const navigation = useNavigation();
@@ -85,22 +85,7 @@ const NewOrder = () => {
 
         console.log("Line 87",{data});
 
-        // try {
-        //   const accountData = await searchStoreCustomerByMobile(
-        //     user?.accessToken,
-        //     riderDetails?.storeId,
-        //     `${mobileNo}`
-        //   );
-        //   if (accountData) {
-        //     setAccount(data[0]?.customer);
-        //     setBalance(data[0]?.storeCustomerAccountDTO);
-        //     Alert.alert("Succesfully created the Order");
-        //     navigation.navigate("Pickup", { OrderDetails: data[0]?.customer });
-            
-        //   }
-        // } catch (error) {
-        //   console.log("Something Went Wrong");
-        // }
+        
         
       }
     } catch (error) {

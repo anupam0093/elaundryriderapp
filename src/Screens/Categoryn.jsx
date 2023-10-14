@@ -49,7 +49,7 @@ const Categoryn = () => {
 
 
   // // const customer = route?.params?.customer
-  // console.log(route?.params?.customerDetails)
+  console.log(route?.params?.customerDetails)
 
   
 
@@ -107,7 +107,7 @@ const Categoryn = () => {
               fontWeight: "600",
             }}
           >
-            Name : {route?.params?.customerDetails?.name}
+            Name : {route?.params?.customerDetails?.name} 
           </Text>
         </View>
         <View
@@ -130,7 +130,7 @@ const Categoryn = () => {
               fontWeight: "600",
             }}
           >
-            Mobile : {route?.params?.customerDetails?.mobileNo}
+            Mobile : {route?.params?.customerDetails?.mobileNo}  
           </Text>
         </View>
       </View>
