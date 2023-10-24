@@ -3,7 +3,7 @@ import React from 'react'
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-const DropdownComp = ({value, isFocus, data, setIsFocus, setValue}) => {
+const DropdownCompColor = ({value, isFocus, data, setIsFocus, setValue}) => {
 
     const renderLabel = () => {
         if (value || isFocus) {
@@ -24,14 +24,14 @@ const DropdownComp = ({value, isFocus, data, setIsFocus, setValue}) => {
     iconStyle={styles.iconStyle}
     data={data}
     maxHeight={200}
-    labelField="label"
-    valueField="label"
+    labelField="garmentColorName"
+    valueField="garmentColorName"
     placeholder={!isFocus ? 'Select Color' : '...'}
     value={value}
     onFocus={() => setIsFocus(true)}
     onBlur={() => setIsFocus(false)}
     onChange={item => {
-        setValue(item.label);
+        setValue(item);
         setIsFocus(false);
     }}
     renderLeftIcon={() => (
@@ -46,7 +46,7 @@ const DropdownComp = ({value, isFocus, data, setIsFocus, setValue}) => {
   )
 }
 
-export default DropdownComp
+export default DropdownCompColor
 
 const styles = StyleSheet.create({
     container: {

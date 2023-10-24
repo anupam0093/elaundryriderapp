@@ -1,104 +1,99 @@
-import { View, Text, TouchableOpacity, TextInput, StyleSheet , Keyboard, TouchableWithoutFeedback, Image, Alert} from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet , Keyboard, TouchableWithoutFeedback, Image, Alert, ActivityIndicator} from 'react-native'
 import React, { useCallback, useState } from 'react'
 import Modal from "react-native-modal";
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import DropdownComp from '../Dropdown/DropdownComp';
+import DropdownComp from '../Dropdown/DropdownCompDefect';
 import { Camera, CameraType } from 'expo-camera';
 import { ScrollView } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import CamModal from '../cam/CamModal';
 import useStore from '../../GlobalStore/store';
-
-
-const data = [
-    { label: 'RED', value: '1' },
-    { label: 'GREEN', value: '2' },
-    { label: 'BLUE', value: '3' },
-    { label: 'YELLOW CHECK', value: '4' },
-    { label: 'BLACK', value: '5' },
-    { label: 'SILK', value: '6' },
-    { label: 'PINK', value: '7' },
-    { label: 'PURPLE', value: '8' },
-    { label: 'WHITE', value: '9' },
-    { label: 'SKY BLUE', value: '10' },
-    { label: 'CREAM', value: '11' },
-    { label: 'PEACH', value: '12' },
-    { label: 'LIGHT BLUE', value: '13' },
-    { label: 'NAVY BLUE', value: '14' },
-    { label: 'YELLOW', value: '15' },
-    { label: 'YELLOW STRIPES', value: '16' },
-    { label: 'BROWN', value: '17' },
-    { label: 'GREY', value: '18' },
-    { label: 'GOLD', value: '19' },
-    { label: 'HARLEQUIN', value: '20' },
-    { label: 'INDIGO', value: '21' },
-    { label: 'LAVENDER', value: '22' },
-    { label: 'LEMON', value: '23' },
-    { label: 'MAGENTA', value: '24' },
-    { label: 'MAROON', value: '25' },
-    { label: 'ORANGE', value: '26' },
-    { label: 'PURPLE', value: '27' },
-    { label: 'SILVER', value: '28' },
-    { label: 'VIOLET', value: '29' },
-    { label: 'SKIN', value: '30' },
-    { label: 'COFEE', value: '31' },
-    { label: 'OLIVE', value: '32' },
-    { label: 'DARK PINK', value: '33' },
-  ];
-
-  const defect = [
-    { label: 'RAFU ALREADY ', value: '1' },
-    { label: 'RING MISSING', value: '2' },
-    { label: 'BURN HOLE', value: '3' },
-    { label: 'BUTTON-LOOSE', value: '4' },
-    { label: 'FABRIC WEAK', value: '5' },
-    { label: 'GREECE STAINS', value: '6' },
-    { label: 'COLOR BLEED', value: '7' },
-    { label: 'BURN MARKS', value: '8' },
-    { label: 'COLOR BLEED UNDER-ARM', value: '9' },
-    { label: 'TORN', value: '10' },
-    { label: 'OIL STAINS', value: '11' },
-    { label: 'PEACH', value: '12' },
-    { label: 'STICH OPEN', value: '13' },
-    { label: 'COLOR FADE', value: '14' },
-    { label: 'PRESS MARK', value: '15' },
-    { label: 'BUTTON-BROKEN', value: '16' },
-    { label: 'HUK MISSING', value: '17' },
-    { label: 'SHINING MARKS', value: '18' },
-    { label: 'BUTTON-MISSING', value: '19' },
-    { label: 'COLOR MARK', value: '20' },
-    { label: 'INDIGO', value: '21' },
-    { label: 'LINING INCREASED ALREADY', value: '22' },
-    { label: 'PIN HOLES', value: '23' },
-    { label: 'CUTTING', value: '24' },
-    { label: 'FALL OPEN', value: '25' },
-    { label: 'YELLOW STAIN', value: '26' },
-
-  ];
+import { GarmentsColors } from '../../constans/GarmentColors';
+import DropdownCompColor from '../Dropdown/DropdownComp_Color';
+import DropdownCompDefect from '../Dropdown/DropdownCompDefect';
+import { GarmentDefects } from '../../constans/GarmentDefect';
+import DropdownCompBrand from '../Dropdown/DropdownCompBrand';
+import { GarmentBrands } from '../../constans/GarmentBrand';
+import axios from 'axios';
 
 
 
-const CartModal = ({showModal, setShowModal, closeModal, selectedItem}) => {
-    const [value, setValue] = useState('');
+const CartModal = ({showModal, setShowModal, closeModal, selectedItem, customerDetails}) => {
+    const riderDetails = useStore((state)=>state.riderDetails)
+    const user = useStore((state)=>state.user)
+    const [loading, setLoading] = useState(false)
+
+    const [value, setValue] = useState([]);
+    const [colorValue, setColorValue] = useState([]);
+    const [garmentBrand, setGarmentBrand] = useState([])
+    const [brandisFocus, setBrnadIsFocus] = useState(false)
+    
+
     const [isFocus, setIsFocus] = useState(false);
+    const [colorIsFocus, setColorIsFocus] = useState(false)
     const [showCameModal, setShowCamModal]= useState(false)
     const [capturedImage, setCapturedImage] = useState()
     const [qty, setQty] = useState()
 
     const addToCart = useStore((state)=>state.addToCart)
 
-    const _addtoCart = ()=>{
-        selectedItem.qty=Number(qty)
-        selectedItem.color = value
-        if(capturedImage){
-          selectedItem.defectImage = capturedImage
-        }   
-        addToCart(selectedItem)
-        closeModal()
+  
+    const _addtoCart = async()=>{
+        setLoading(true)
+      const cart_url = `https://api.elaundry.co.in/oit-elaundry/api/auth/customer/${customerDetails?.storeCustomerId}/cart`
+      const payload = {
+        "priceListId": selectedItem?.priceListId,
+        "status": "ADD",
+        "storeUserId": riderDetails?.storeUserId,
+        "storeCustomerId": customerDetails?.storeCustomerId, 
+        "itemGarmentCount": Number(qty),
+        "garmentBrandId": garmentBrand?.id,
+        "garmentColorId": colorValue?.id,
+        "garmentDefectId": value?.id,
+        "garmentPackId": null,
+        "count": Number(qty),
+        "countGram": 0.0,
+        "offerPrice": 0.0,
+        "totalPrice": selectedItem?.price * Number(qty)
+      }
+
+      try {
+        const response = await axios.post(cart_url, payload, {
+          headers:{
+            "Content-Type": "application/json",
+            Authorization: `Basic ${user?.accessToken}`,
+          }
+        })
+        
+        console.log(response?.data)
+        setLoading(false)
         Alert.alert('Item Added Successfully')
+        closeModal()
+        
+      } catch (error) {
+        console.log(error);
+        setLoading(false)
+       
+      }
+
+        // selectedItem.qty=Number(qty)
+        // selectedItem.color = value
+        // if(capturedImage){
+        //   selectedItem.defectImage = capturedImage
+        // }   
+
+
+        // addToCart(selectedItem)
+        // closeModal()
+
+
+
+       
+        // console.log('nehat cart payload', payload)
     }
-    console.log(qty)
+    // console.log('nehat color', user)
+
     
     
     
@@ -125,16 +120,44 @@ const CartModal = ({showModal, setShowModal, closeModal, selectedItem}) => {
                      onChangeText={setQty}
                      style={{height:50, paddingLeft:20,  borderWidth:1, padding:1, borderRadius:10,  backgroundColor:'white', fontSize:20}}/>
                 </ScrollView>
+
+                
+
+
+                <View>
+                    <Text style={{fontSize:16, marginBottom:6}}>Choose Colors</Text>
+                    <DropdownCompColor
+                    value={colorValue}
+                    setValue={setColorValue}
+                    isFocus={colorIsFocus}
+                    setIsFocus={setColorIsFocus}
+                    data={GarmentsColors}
+                    />
+                </View>
                 <View>
                     <Text style={{fontSize:16, marginBottom:6}}>Choose Defect</Text>
-                    <DropdownComp
+                    <DropdownCompDefect
                     value={value}
                     setValue={setValue}
                     isFocus={isFocus}
                     setIsFocus={setIsFocus}
-                    data={defect}
+                    data={GarmentDefects}
                     />
                 </View>
+
+                <View>
+                    <Text style={{fontSize:16, marginBottom:6}}>Choose Brand</Text>
+                    <DropdownCompBrand
+                    value={garmentBrand}
+                    setValue={setGarmentBrand}
+                    isFocus={brandisFocus}
+                    setIsFocus={setBrnadIsFocus}
+                    data={GarmentBrands}
+                    />
+                </View>
+                
+
+
                 <View style={{justifyContent:'flex-end', flexDirection:'row', alignItems:'center', gap:15}}>
                     <Image source={{uri: "data:image/jpg;base64," + capturedImage?.base64}} style={{width:40, height:40, resizeMode:'cover'}}/>
                     <TouchableOpacity style={{paddingHorizontal:10, paddingVertical:10, borderRadius:10,  backgroundColor:'#003566', width:'55%', flexDirection:'row', alignItems:'center', justifyContent:'space-between'}} onPress={()=>setShowCamModal(true)}>
@@ -146,10 +169,14 @@ const CartModal = ({showModal, setShowModal, closeModal, selectedItem}) => {
 
             {/* Modal Actions */}
                 <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:10, marginBottom:10}}>
-                
-                <TouchableOpacity  onPress={()=>_addtoCart()} style={{borderWidth:1, paddingHorizontal:10, paddingVertical:10, borderRadius:10, backgroundColor:'#D9D9D9'}} >             
-                    <Text style={{alignSelf:'center', fontSize:18, textTransform:'uppercase'}}>Add To Cart</Text> 
-                </TouchableOpacity>
+                {loading  &&(
+                   <ActivityIndicator size="large" color="#00ff00" />
+                )}
+                {!loading && (
+                  <TouchableOpacity  onPress={()=>_addtoCart()} style={{borderWidth:1, paddingHorizontal:10, paddingVertical:10, borderRadius:10, backgroundColor:'#D9D9D9'}} >             
+                      <Text style={{alignSelf:'center', fontSize:18, textTransform:'uppercase'}}>Add To Cart</Text> 
+                  </TouchableOpacity>
+                )}
 
 
                 <TouchableOpacity  onPress={()=>closeModal()} style={{borderWidth:1, paddingHorizontal:10, paddingVertical:10, borderRadius:10}} >             

@@ -2,12 +2,17 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import React from 'react'
 import useStore from '../../GlobalStore/store';
+import { getBrandName, getDefectName, getItemColor } from '../../utils';
 
-const CartCard = ({item}) => {
+const CartCard = ({item, deleteItemFromCart}) => {
   const removeItemFromCart = useStore((state)=>state.removeItemFromCart)
   const increment = useStore((state)=>state.increment)
   const decrement = useStore((state)=>state.decrement)
   const IMAGE_BASE_URL = 'https://nehat.pythonanywhere.com/media/garment-images/'
+
+ 
+
+
   return (
     <View style={{ flexDirection: 'row', margin:8,  height:150, marginHorizontal: 15, paddingVertical: 10, paddingHorizontal: 20, backgroundColor: 'white', alignItems: 'center', justifyContent: 'space-around', elevation: 2, borderRadius: 5 }}>
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20 }}>
@@ -19,10 +24,11 @@ const CartCard = ({item}) => {
       {/* )} */}
       <View style={{ gap: 10, width:'60%' }}>
         <Text style={{ fontSize: 16, fontWeight: 600 }} numberOfLines={3} adjustsFontSizeToFit={true}>{item?.garmentName}</Text>
-        <Text style={{ fontSize: 16, fontWeight: 400, }}>{'\u20B9'} {item?.price} x {item?.qty}</Text>
-        <View style={{flexDirection:'row'}}>
-            <Text style={{ fontSize: 14, fontWeight: 400, }}> Defect: </Text>
-            <Text style={{ fontSize: 14, fontWeight: 400, }}>{item?.color}</Text>
+        <Text style={{ fontSize: 16, fontWeight: 400, }}>{'\u20B9'} {item?.totalPrice}</Text>
+        <View style={{flexDirection:'row', gap:6}}>
+            <Text style={{ fontSize: 14, fontWeight: 400, }}> Defect: {getDefectName(item?.garmentDefectId)} </Text>
+            <Text style={{ fontSize: 14, fontWeight: 400, }}> Color: {getItemColor(item?.garmentColorId)}</Text>
+            <Text style={{ fontSize: 14, fontWeight: 400, }}> Brand: {getBrandName(item?.garmentBrandId)}</Text>
         </View>
         <View style={{flexDirection:'row',}}>
         {item?.defectImage && (
@@ -40,23 +46,24 @@ const CartCard = ({item}) => {
     </View>
     
     <View style={{justifyContent:'space-between', height:'100%'}} >
-      <TouchableOpacity style={{alignSelf:'flex-end', paddingRight:10}} onPress={()=>removeItemFromCart(item?.priceListId)}>
+      <TouchableOpacity style={{alignSelf:'flex-end', paddingRight:10}} onPress={()=>deleteItemFromCart(item?.id)}>
           <AntDesign name="close" size={24} color="black" />
+          
       </TouchableOpacity>
       <View>
         
-        <View style={{flexDirection:'row', alignItems:'center', gap:15, paddingRight:10}}>
+        {/* <View style={{flexDirection:'row', alignItems:'center', gap:15, paddingRight:10}}>
           
-          <TouchableOpacity style={{backgroundColor: '#D9D9D9', padding:2, borderRadius:12}} onPress={()=>decrement(item?.priceListId)}>
+          <TouchableOpacity style={{backgroundColor: '#D9D9D9', padding:2, borderRadius:12}} >
           <AntDesign name="minus" size={24} color="black" />
           </TouchableOpacity>
 
           <Text style={{fontSize:20, fontWeight:600}}>{item?.qty}</Text>
 
-          <TouchableOpacity style={{backgroundColor: '#D9D9D9',  padding:2, borderRadius:12}} onPress={()=>increment(item?.priceListId)}>
+          <TouchableOpacity style={{backgroundColor: '#D9D9D9',  padding:2, borderRadius:12}}>
               <AntDesign name="plus" size={24} color="black" />
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
     </View>
 </View>

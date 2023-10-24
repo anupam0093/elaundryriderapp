@@ -15,7 +15,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import { getChargeByStoreId, getDiscountByStoreId } from "../../networkAPI/api";
 import { Card, Button } from "react-native-paper";
 import { Entypo } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
 
@@ -23,6 +23,9 @@ const Checkout = () => {
   const navigation = useNavigation();
 
   const Gst = ["NONE", "INCLUDE", "EXCLUDE"];
+  const route = useRoute()
+
+  console.log('shailder', route?.params?.totalAmout)
 
   const [charge, setCharge] = useState([]);
   const [charges, setCharges] = useState([]);

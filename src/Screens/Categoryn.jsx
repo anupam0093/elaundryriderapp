@@ -93,7 +93,7 @@ const Categoryn = () => {
       <Header
         leftContent={<Ionicons name="arrow-back" size={30} color="black" onPress={() => navigation.goBack()} />}
         centerContent={<Text style={{ fontSize: 18, fontWeight: "bold" }}>Book Now</Text>} 
-        rightContent={<CartIcon path='Cart' cartLength={cart?.length}/>} />
+        rightContent={<CartIcon path='Cart' cartLength={cart?.length} customerDetails={route?.params?.customerDetails}/>} />
       <View
         style={{ marginTop: 30, marginLeft: 19, display: "flex", flexDirection: "row", }}>
         <View style={{
@@ -182,7 +182,7 @@ const Categoryn = () => {
         )}
         {/* <GamentsCard setShowModal={setShowModal}/> */}
       {showModal && (
-        <CartModal showModal={showModal} setShowModal={setShowModal} key={selectedItem?.priceListId} closeModal={closeModal} selectedItem={selectedItem} />
+        <CartModal showModal={showModal} setShowModal={setShowModal} key={selectedItem?.priceListId} closeModal={closeModal} selectedItem={selectedItem} customerDetails = {route?.params?.customerDetails}/>
       )}
     </SafeAreaView>
   );

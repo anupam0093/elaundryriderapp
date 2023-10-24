@@ -45,8 +45,9 @@ const PickupCards = ({ item }) => {
  
   const customerData = {
     name:item?.pickupRequest?.customerDTO?.firstName + ' ' + item?.pickupRequest?.customerDTO?.lastName, 
-    mobileNo:item?.pickupRequest?.customerDTO?.mobileNo
+    mobileNo:item?.pickupRequest?.customerDTO?.mobileNo, storeCustomerId : item?.pickupRequest?.storeCustomerId
   }
+
 
   return (
     <View

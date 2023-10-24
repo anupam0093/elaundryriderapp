@@ -74,7 +74,7 @@ const openMap = async (address, city, zipCode) => {
 
 
 
-  // console.log(pickup[0]);
+  console.log(pickup[0]);
 
   return (
     <SafeAreaView>
