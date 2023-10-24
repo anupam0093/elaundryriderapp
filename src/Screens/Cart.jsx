@@ -130,7 +130,7 @@ const Cart = () => {
               <Text style={{ fontSize: 16 }}>{'\u20B9'} {cartTotalAmount}</Text>
             </View>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('Checkout', {'totalAmout':cartTotalAmount})}
+          <TouchableOpacity onPress={() => navigation.navigate('Checkout', {'totalAmount':cartTotalAmount})}
             style={{ backgroundColor: '#003566', marginHorizontal: 15, paddingHorizontal: 15, paddingVertical: 10, borderRadius: 20, marginTop: 20 }}>
             <Text style={{ color: 'white', textAlign: 'center', fontSize: 20 }}>Checkout</Text>
           </TouchableOpacity>

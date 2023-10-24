@@ -25,7 +25,7 @@ const Checkout = () => {
   const Gst = ["NONE", "INCLUDE", "EXCLUDE"];
   const route = useRoute()
 
-  console.log('shailder', route?.params?.totalAmout)
+  console.log('shail', route?.params?.totalAmount)
 
   const [charge, setCharge] = useState([]);
   const [charges, setCharges] = useState([]);
@@ -98,13 +98,9 @@ const Checkout = () => {
   const cart = useStore((state) => state.cart);
 
   console.log(cart);
-  var totalPrice = cart?.reduce((acc, item) => acc + item.qty * item.price, 0);
+  var totalPrice =  route?.params?.totalAmount;
 
-  cart.map((item) => {
-    const x = totalPrice;
-
-    return totalPrice;
-  });
+  
 
   // =====================================================================================================================
 
@@ -144,6 +140,7 @@ const Checkout = () => {
       ? Number(Gross * 0.18) / 1.18
       : 0
   );
+  
   console.log("data on line 52", Gstc);
 
   var taxableAmount = Gross.toFixed(2) - Gstc;
