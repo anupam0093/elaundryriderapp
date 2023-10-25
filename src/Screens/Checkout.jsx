@@ -18,6 +18,8 @@ import { Entypo } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
+import { API_URL } from "../../networkAPI/env";
+import axios from "axios";
 
 const Checkout = () => {
   const navigation = useNavigation();
@@ -25,7 +27,9 @@ const Checkout = () => {
   const Gst = ["NONE", "INCLUDE", "EXCLUDE"];
   const route = useRoute()
 
-  console.log('shail', route?.params?.totalAmount)
+
+  console.log('shail', route?.params?.cart_details?.totalQuantity)
+  
 
   const [charge, setCharge] = useState([]);
   const [charges, setCharges] = useState([]);
@@ -57,6 +61,7 @@ const Checkout = () => {
 
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
+  // console.log('nehat',riderDetails )
   // const account = useStore((state) => state.account);
 
   const ChargeByStoreId = React.useCallback(async () => {
@@ -94,10 +99,9 @@ const Checkout = () => {
     }
   };
 
-  // =============================== cartreducer  =================================================================
-  const cart = useStore((state) => state.cart);
 
-  console.log(cart);
+
+  // console.log(cart);
   var totalPrice =  route?.params?.totalAmount;
 
   
@@ -141,55 +145,101 @@ const Checkout = () => {
       : 0
   );
   
-  console.log("data on line 52", Gstc);
+  // console.log("data on line 52", Gstc);
 
   var taxableAmount = Gross.toFixed(2) - Gstc;
   var GrandTotal = Number(Gross) + Number(Gstc);
 
+
+
+
+
+
   // ====================================== Charge and Discount Calculation =========================================
 
+
   const customerCart = {
-    id: 69,
-    storeUserId: "7",
-    storeCustomerId: "3",
-    customer: null,
-    store: null,
-    orderChargeDiscount: null,
-    totalQuantity: 6,
-    itemGarmentCount: 1,
-    remarks: "",
-    totalAmount: Number(totalPrice),
-    gstType: handlegst,
-    orderSource: "BY_STORE",
-    gstPercent: 18,
-    taxableAmount: Number(taxableAmount),
-    gstAmount:Number(Gstc),
-    paymentMode: "CASH",
-    discountAmount: (discounteditem?.chargeDiscountTypeIn === "AMOUNT"
-    ? Number(discounteditem?.chargeDiscount)
-    : Number(
-        (totalPrice * discounteditem?.chargeDiscount) / 100
-      )),
-    chargeAmount:
-      (charges.chargeDiscountTypeIn === "AMOUNT"
-        ? Number(charges?.chargeDiscount)
-        : Number(totalPrice * Number(charges?.chargeDiscount)) / 100),
-    grandTotal: Number(GrandTotal),
-    depressionAmount: null,
-    status: "BOOKED",
-    deliveryOn: moment(selectedDate).format(),
-    deliveredOn: moment(selectedDate).format(),
-    prepareOn: null,
-    sttleStatus: false,
-    orderNo: "OD6799",
-    invoiceNo: "Noida6",
-    orderOn: moment(selectedDate).format(),
-    orderItem: null,
-    orderPackage: null,
-    storeCustomerGstNo: "None",
-    paymentRefNo: "",
-    deliveryRequest: false,
-    urgentDelivery: false,
+
+    "storeUserId": riderDetails?.storeUserId,
+    "storeCustomerId": route?.params?.customer_details?.storeCustomerId,
+    "totalQuantity": route?.params?.cart_details?.totalQuantity,
+    "itemGarmentCount": route?.params?.cart_details?.totalQuantity,
+    "totalAmount": totalPrice,
+    "gstType": "INCLUDE",
+    "gstPercent": 18,
+    "taxableAmount": 212110,
+    "gstAmount": 38180,
+    "discountAmount": 15,
+    "chargeAmount": 15,
+    "grandTotal": 250290,
+    "status": "BOOKED",
+    "orderSource": "BY_STORE",
+    "deliveryOn": "2023-10-29",
+    "balanceAmount": '',
+    "paidAmount": 0,
+    "paymentMode": "COD",
+    "urgentDelivery": false,
+    "deliveryRequest": false,
+    "paymentRefNo": "",
+    "remarks": "",
+
+
+
+    // storeUserId: riderDetails?.storeUserId,
+    // storeCustomerId: route?.params?.customer_details?.storeCustomerId,
+    // totalQuantity: route?.params?.cart_details?.totalQuantity,
+    // itemGarmentCount: route?.params?.cart_details?.totalQuantity,
+    // remarks: "",
+    // totalAmount: Number(totalPrice),
+    // gstType: handlegst,
+    // orderSource: "BY_STORE",
+    // gstPercent: 18,
+    // taxableAmount: Number(taxableAmount),
+    // gstAmount:Number(Gstc),
+    // paymentMode: "CASH",
+    // discountAmount: (discounteditem?.chargeDiscountTypeIn === "AMOUNT"
+    // ? Number(discounteditem?.chargeDiscount)
+    // : Number(
+    //     (totalPrice * discounteditem?.chargeDiscount) / 100
+    //   )),
+    // chargeAmount:
+    //   (charges.chargeDiscountTypeIn === "AMOUNT"
+    //     ? Number(charges?.chargeDiscount)
+    //     : Number(totalPrice * Number(charges?.chargeDiscount)) / 100),
+    // grandTotal: Number(GrandTotal),
+    // depressionAmount: null,
+    // status: "BOOKED",
+    // // deliveryOn: moment(selectedDate).format(),
+    // // deliveredOn: moment(selectedDate).format(),
+    // // orderOn: moment(selectedDate).format(),
+   
+    // // paymentRefNo: "",
+    // deliveryRequest: false,
+    // urgentDelivery: false,
+  };
+
+
+  const bookOrder = async () => {
+    const token = `${user?.accessToken}`;
+    try {
+      const { data } = await axios({
+        method: "POST",
+        url: `${API_URL}/auth/order/`,
+        data: customerCart,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic" + " " + token,
+        },
+      });
+      if (data?.success) {
+        console.log(data?.message)
+        alert(`Your order has been created with order id ${data?.message}`);
+        navigation.navigate('Pickup')
+      }
+    } catch (error) {
+      console.log({error},"error in line 122")
+      alert("Something Went Wrong");
+    }
   };
 
   return (
@@ -632,15 +682,15 @@ const Checkout = () => {
           </View>
 
           <Button
-            onPress={() =>
-              navigation.navigate(
-                "Payment",
-                {
-                  grandTotal: GrandTotal.toFixed(2),
-                  customerCart:customerCart
-                },
+            onPress={() =>bookOrder()
+              // navigation.navigate(
+              //   "Payment",
+              //   {
+              //     grandTotal: GrandTotal.toFixed(2),
+              //     customerCart:customerCart
+              //   },
                 
-              )
+              // )
             }
             buttonColor="blue"
             textColor="white"

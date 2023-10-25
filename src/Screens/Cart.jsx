@@ -19,7 +19,7 @@ const Cart = () => {
   const route = useRoute()
   const customer_details = route?.params?.customerDetails
   const [backendCartItems, setBackendCartItems] = useState([])
-  console.log(customer_details)
+ 
 
 
  
@@ -29,7 +29,7 @@ const Cart = () => {
   //   queryFn: async () => await getUserCartItems(),
   //   // onSuccess: (data) => setGarments(data?.filter((item) => item?.["categoryName"] == selectedCategory && item?.price !==0))
   // })
-  console.log(backendCartItems)
+  // console.log('nehat', backendCartItems)
 
 
   const getUserCartItems = async () => {
@@ -84,6 +84,13 @@ const Cart = () => {
     0
   );
 
+  const cartGarmetCount = backendCartItems?.reduce(
+    (acc, item) => acc + item?.itemGarmentCount, 
+    0
+  );
+
+ 
+
 
 
   return (
@@ -130,7 +137,7 @@ const Cart = () => {
               <Text style={{ fontSize: 16 }}>{'\u20B9'} {cartTotalAmount}</Text>
             </View>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('Checkout', {'totalAmount':cartTotalAmount})}
+          <TouchableOpacity onPress={() => navigation.navigate('Checkout', {'totalAmount':cartTotalAmount, 'customer_details':customer_details, 'cart_details':{'totalQuantity':cartGarmetCount}})}
             style={{ backgroundColor: '#003566', marginHorizontal: 15, paddingHorizontal: 15, paddingVertical: 10, borderRadius: 20, marginTop: 20 }}>
             <Text style={{ color: 'white', textAlign: 'center', fontSize: 20 }}>Checkout</Text>
           </TouchableOpacity>

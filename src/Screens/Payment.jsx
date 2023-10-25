@@ -24,9 +24,9 @@ const Payment = () => {
 
   const route = useRoute();
 
-  const GrandTotal = route.params;
+ 
 
-  console.log("line 28", GrandTotal.customerCart);
+  console.log("line 28", route?.params?.customerCart);
 
  
 
@@ -59,14 +59,35 @@ const Payment = () => {
     setSelectedItem(item);
   };
 
-  // const handleFinal = () => {
-  //   if (!selectedItem) {
-  //     Alert.alert("Please select a mode of payment");
-  //   } else {
-  //     Alert.alert("Ordered Placed Succesfully");
-  //     navigation.navigate("Homepage");
-  //   }
-  // };
+
+
+
+  const payLoad = {
+    
+    "storeUserId": "69",
+    "storeCustomerId": "4933",
+    "totalQuantity": 52,
+    "itemGarmentCount": 52,
+    "totalAmount": 250290,
+    "gstType": "INCLUDE",
+    "gstPercent": 18,
+    "taxableAmount": 212110,
+    "gstAmount": 38180,
+    "discountAmount": 15,
+    "chargeAmount": 15,
+    "grandTotal": 250290,
+    "status": "BOOKED",
+    "orderSource": "BY_STORE",
+    "deliveryOn": "2023-10-29",
+    "balanceAmount": 250290,
+    "paidAmount": 0,
+    "paymentMode": "COD",
+    "urgentDelivery": false,
+    "deliveryRequest": false,
+    "paymentRefNo": "",
+    "remarks": "test",
+    
+}
 
   const bookOrder = async () => {
     const token = `${user?.accessToken}`;
@@ -74,56 +95,20 @@ const Payment = () => {
       const { data } = await axios({
         method: "POST",
         url: `${API_URL}/auth/order/`,
-        data: {
-          id: GrandTotal.customerCart.id,
-          priceListId: null,
-          storeUserId: GrandTotal.customerCart.storeUserId,
-          storeCustomerId: GrandTotal.customerCart.storeCustomerId,
-          customer: null,
-          store: null,
-          orderChargeDiscount: null,
-          totalQuantity: GrandTotal.customerCart.totalQuantity,
-          itemGarmentCount: 1,
-          remarks: "",
-          totalAmount: GrandTotal.customerCart.totalAmount,
-          gstType: GrandTotal.customerCart.gstType,
-          orderSource: GrandTotal.customerCart.orderSource,
-          gstPercent: GrandTotal.customerCart.gstPercent,
-          taxableAmount: GrandTotal.customerCart.taxableAmount,
-          gstAmount: GrandTotal.customerCart.gstAmount,
-          paymentMode: GrandTotal.customerCart.paymentMode,
-          discountAmount: GrandTotal.customerCart.discountAmount,
-          chargeAmount: GrandTotal.customerCart.chargeAmount,
-          grandTotal: GrandTotal.customerCart.grandTotal,
-          depressionAmount: null,
-          status: GrandTotal.customerCart.status,
-          deliveryOn: GrandTotal.customerCart.deliveryOn,
-          balanceAmount:GrandTotal.customerCart.grandTotal,
-          paidAmount:0,
-          deliveredOn: null,
-          prepareOn: null,
-          sttleStatus: null,
-          orderNo: GrandTotal.customerCart.orderNo,
-          invoiceNo: GrandTotal.customerCart.invoiceNo,
-          orderOn: GrandTotal.customerCart.orderOn,
-          orderItem: null,
-          orderPackage: null,
-          storeCustomerGstNo: GrandTotal.customerCart.storeCustomerGstNo,
-          paymentRefNo: null,
-          deliveryRequest: null,
-          urgentDelivery: null,
-        },
+        data: route?.params?.customerCart,
         headers: {
           "Content-Type": "application/json",
           Authorization: "Basic" + " " + token,
         },
       });
-      if (data) {
-        console.log({data})
-        alert("Your api has been working fine !");
+      if (data?.success) {
+        console.log(data?.message)
+        alert(`Your order has been created with order id ${data?.message}`);
+        navigation.navigate('Pickup')
       }
     } catch (error) {
       console.log({error},"error in line 122")
+      alert("Something Went Wrong");
     }
   };
 
@@ -293,7 +278,7 @@ const Payment = () => {
               Total Amount :
             </Text>
             <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-              {GrandTotal.grandTotal}
+              {route?.params?.grandTotal}
             </Text>
           </View>
           <View
@@ -312,7 +297,7 @@ const Payment = () => {
               Remaining Amount :
             </Text>
             <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-              {GrandTotal.grandTotal}
+            {route?.params?.grandTotal}
             </Text>
           </View>
 
