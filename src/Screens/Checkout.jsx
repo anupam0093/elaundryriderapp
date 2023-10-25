@@ -139,9 +139,9 @@ const Checkout = () => {
 
   var Gstc = Math.round(
     handlegst === "EXCLUDE"
-      ? Number(Gross * 18) / 100
+      ? Number(totalPrice * 18) / 100
       : handlegst === "INCLUDE"
-      ? Number(Gross * 0.18) / 1.18
+      ? Number(totalPrice * 0.18) / 1.18
       : 0
   );
   
@@ -165,16 +165,22 @@ const Checkout = () => {
     "totalQuantity": route?.params?.cart_details?.totalQuantity,
     "itemGarmentCount": route?.params?.cart_details?.totalQuantity,
     "totalAmount": totalPrice,
-    "gstType": "INCLUDE",
+    "gstType": handlegst,
     "gstPercent": 18,
-    "taxableAmount": 212110,
+    "taxableAmount":  Number(taxableAmount),
     "gstAmount": 38180,
-    "discountAmount": 15,
-    "chargeAmount": 15,
-    "grandTotal": 250290,
+    "discountAmount": (discounteditem?.chargeDiscountTypeIn === "AMOUNT"
+     ? Number(discounteditem?.chargeDiscount)
+    : Number(
+        (totalPrice * discounteditem?.chargeDiscount) / 100
+      )),
+    "chargeAmount":  (charges.chargeDiscountTypeIn === "AMOUNT"
+        ? Number(charges?.chargeDiscount)
+        : Number(totalPrice * Number(charges?.chargeDiscount)) / 100),
+    "grandTotal": Number(GrandTotal),
     "status": "BOOKED",
     "orderSource": "BY_STORE",
-    "deliveryOn": "2023-10-29",
+    "deliveryOn": moment(selectedDate).format(),
     "balanceAmount": '',
     "paidAmount": 0,
     "paymentMode": "COD",
@@ -233,8 +239,8 @@ const Checkout = () => {
       });
       if (data?.success) {
         console.log(data?.message)
-        alert(`Your order has been created with order id ${data?.message}`);
-        navigation.navigate('Pickup')
+        alert(`Your order has been succesfully created with order id ${data?.message}`);
+        navigation.navigate('Homepage')
       }
     } catch (error) {
       console.log({error},"error in line 122")
