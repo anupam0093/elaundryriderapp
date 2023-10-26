@@ -19,9 +19,6 @@ import { API_URL } from "../../networkAPI/env";
 const NewOrder = () => {
   const navigation = useNavigation();
   const [mobileNo, setMobileNo] = useState("");
-
-  console.log(mobileNo);
-
   const handleBack = () => {
     navigation.navigate("Homepage");
   };
@@ -63,7 +60,7 @@ const NewOrder = () => {
    const token = `${user?.accessToken}`
    
     try {
-      const { data } = await axios({
+      const {data}  = await axios({
         method: "POST",
         url: `${API_URL}/auth/customer/store-customer/${storeId}/`,
         data: {
@@ -76,17 +73,18 @@ const NewOrder = () => {
           Authorization: 'Basic' + " " + token,
         },
       });
+      console.log('nehat shailender', data)
+
+      const customerData = {
+        name:data[0]?.customer.firstName + ' ' + data[0]?.customer?.lastName, 
+        mobileNo:data[0]?.customer?.mobileNo, storeCustomerId : data[0]?.customer?.id
+      }
 
       if (data) {
-        setAccount(data[0]?.customer);
-        setBalance(data[0]?.storeCustomerAccountDTO);
+        // setAccount(data[0]?.customer);
+        // setBalance(data[0]?.storeCustomerAccountDTO);
         Alert.alert("Succesfully created the Order");
-        navigation.navigate("Pickup", { OrderDetails: data[0]?.customer });
-
-        console.log("Line 87",{data});
-
-        
-        
+        navigation.navigate("Pickup", { OrderDetails: customerData });  
       }
     } catch (error) {
       console.log(error);

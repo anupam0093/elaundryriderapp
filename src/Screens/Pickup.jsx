@@ -12,7 +12,7 @@ import {
 import React, { useState } from "react";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
 import Octicons from "@expo/vector-icons/build/Octicons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Entypo, Feather, MaterialIcons } from "@expo/vector-icons";
 import useStore from "../GlobalStore/store";
 import { searchAllPickupbystoreId } from "../../networkAPI/api";
@@ -24,7 +24,8 @@ import { Linking, Platform } from 'react-native';
 
 const Pickup = () => {
   const [pickup, setPickup] = useState([]);
-  const { navigate } = useNavigation();
+  const navigation  = useNavigation();
+  const route = useRoute()
   const account = useStore((state) => state.account);
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
@@ -74,7 +75,7 @@ const openMap = async (address, city, zipCode) => {
 
 
 
-  console.log(pickup[0]);
+  console.log('nehat route', route.params);
 
   return (
     <SafeAreaView>
@@ -90,7 +91,7 @@ const openMap = async (address, city, zipCode) => {
         >
           <TouchableOpacity
             onPress={() => {
-              navigate("Homepage");
+              navigation.navigate("Homepage");
             }}
           >
             <AntDesign
@@ -136,8 +137,8 @@ const openMap = async (address, city, zipCode) => {
           />
         )}
 
-
-        {account && (
+        
+        {route?.params?.OrderDetails && (
                   <View
           style={{
             display: "flex",
@@ -149,7 +150,7 @@ const openMap = async (address, city, zipCode) => {
         >
           <TouchableOpacity
             onPress={() => {
-              navigate("Category");
+              navigation.navigate("Category",{'customerDetails':route.params.OrderDetails});
             }}
           >
             <View style={[styles.Viewcard]}>
@@ -170,7 +171,7 @@ const openMap = async (address, city, zipCode) => {
                     marginLeft: 10,
                   }}
                 >
-                  {account?.firstName} {account?.lastName}
+                  {route?.params?.OrderDetails?.name} {route?.params?.OrderDetails?.lastName}
                 </Text>
                
                <TouchableOpacity onPress={() => callPhoneNumber(account.mobileNo)} >
@@ -205,7 +206,7 @@ const openMap = async (address, city, zipCode) => {
                       left: 5,
                     }}
                   >
-                    { account.mobileNo}
+                    { route?.params?.OrderDetails?.mobileNo}
                   </Text>
                 </View>
                </TouchableOpacity>
@@ -320,7 +321,7 @@ const openMap = async (address, city, zipCode) => {
                 >
                 
        
-                  <TouchableOpacity onPress={() => navigate("Accountinfo")}>
+                  <TouchableOpacity onPress={() => navigation.navigate("Accountinfo")}>
                     <View
                       style={{
                         width: "100%",
@@ -354,7 +355,7 @@ const openMap = async (address, city, zipCode) => {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => navigate("Address")}>
+                  <TouchableOpacity onPress={() => navigation.navigate("Address")}>
                     <View
                       style={{
                         width: "100%",

@@ -25,7 +25,7 @@ const CartCard = ({item, deleteItemFromCart}) => {
       <View style={{ gap: 10, width:'80%' }}>
         <Text style={{ fontSize: 16, fontWeight: 600 }} numberOfLines={3} adjustsFontSizeToFit={true}>{item?.garmentName}</Text>
         <Text style={{ fontSize: 16, fontWeight: 400, }}>{'\u20B9'} {item?.totalPrice}</Text>
-        <View style={{flexWrap:'wrap', gap:6}}>
+        <View style={{flexDirection:'row', flexWrap:'wrap', gap:6}}>
             <Text style={{ fontSize: 14, fontWeight: 600,color:"#508FEF" }}> Defect: {getDefectName(item?.garmentDefectId)} </Text>
             <Text style={{ fontSize: 14, fontWeight: 600,color:"#508FEF" }}> Color: {getItemColor(item?.garmentColorId)}</Text>
             <Text style={{ fontSize: 14, fontWeight: 600,color:"#508FEF" }}> Brand: {getBrandName(item?.garmentBrandId)}</Text>
