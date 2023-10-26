@@ -308,7 +308,7 @@ const Checkout = () => {
               flexDirection: "row",
             }}
           >
-            <View
+            {/* <View
               style={{
                 marginLeft: 6,
                 width: 165,
@@ -353,7 +353,7 @@ const Checkout = () => {
               >
                 Mobile: {riderDetails?.mobileNo}
               </Text>
-            </View>
+            </View> */}
           </View>
 
           {/* CHARGES  COMING FROM BACKEND */}
