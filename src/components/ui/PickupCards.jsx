@@ -77,7 +77,7 @@ const PickupCards = ({ item }) => {
               style={{
                 fontSize: 17,
                 fontWeight: "bold",
-                color: "#6200ED",
+                color: "black",
                 marginTop: 15,
                 marginLeft: 10,
               }}
@@ -101,7 +101,7 @@ const PickupCards = ({ item }) => {
                   height: 38,
                   paddingHorizontal: 15,
                   paddingVertical: 10,
-                  backgroundColor: "#6200ED",
+                  backgroundColor: "#508FEF",
                   marginHorizontal: 15,
                   marginTop: 10,
                   borderRadius: 10,
@@ -110,16 +110,16 @@ const PickupCards = ({ item }) => {
                 <Feather
                   name="phone-call"
                   size={14}
-                  color="white"
+                  color="black"
                   style={{ top: 2, right: 4 }}
                 />
                 <Text
                   style={{
-                    fontSize: 12,
+                    fontSize: 13,
                     textAlign: "center",
-                    color: "white",
+                    color: "black",
                     fontWeight: "bold",
-                    left: 5,
+                    left: 4,
                   }}
                 >
                   {item?.["pickupRequest"]?.["customerDTO"]?.mobileNo}
@@ -178,7 +178,7 @@ const PickupCards = ({ item }) => {
 
             <Text
               style={{
-                color: "#6200ED",
+                color: "#B12EAC",
                 textAlign: "center",
                 fontSize: 17,
                 fontWeight: "500",
@@ -208,7 +208,7 @@ const PickupCards = ({ item }) => {
                   marginLeft: 0,
                   width: "98%",
                   height: 40,
-                  backgroundColor: "#6200ED",
+                  backgroundColor: "#B12EAC",
                   borderRadius: 10,
                 }}
               >
@@ -255,7 +255,7 @@ const PickupCards = ({ item }) => {
                     height: 37,
                     paddingHorizontal: 15,
                     paddingVertical: 10,
-                    backgroundColor: "#6200ED",
+                    backgroundColor: "#32D8D8",
                     marginHorizontal: 15,
                     borderRadius: 7,
                     top: 10,

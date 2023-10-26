@@ -12,6 +12,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 import Feather from "@expo/vector-icons/build/Feather";
 import { useNavigation } from "@react-navigation/native";
@@ -20,8 +21,10 @@ import { useNavigation } from "@react-navigation/native";
 //   navigation?: any;
 // }
 
-const Offline = ({ navigation }) => {
+const Offline = ({navigation}) => {
   // validation starts here //
+
+  const { navigate } = useNavigation();
 
   const [email, setEmail] = useState("");
 
@@ -48,6 +51,7 @@ const Offline = ({ navigation }) => {
         <View
           style={{ height: 926, width: "100%", backgroundColor: "#F3F1F6",left:0 }}
         >
+          
           <View
             style={{
               marginLeft: 49,
@@ -56,7 +60,20 @@ const Offline = ({ navigation }) => {
               flexDirection: "row",
               justifyContent: "space-between",
             }}
+            
           >
+              <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Homepage");
+              }}
+            >
+              <AntDesign
+                name="left"
+                size={24}
+                color="#5D7EFC"
+                style={{ marginTop: 30, marginLeft: 10 }}
+              />
+            </TouchableOpacity>
             <Image
               style={{
                 width: 45,

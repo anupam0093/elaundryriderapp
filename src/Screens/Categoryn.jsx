@@ -95,16 +95,17 @@ const Categoryn = () => {
         centerContent={<Text style={{ fontSize: 18, fontWeight: "bold" }}>Book Now</Text>} 
         rightContent={<CartIcon path='Cart' cartLength={cart?.length} customerDetails={route?.params?.customerDetails}/>} />
       <View
-        style={{ marginTop: 30, marginLeft: 19, display: "flex", flexDirection: "row", }}>
+        style={{ marginTop: 30, marginLeft: 19, display: "flex", flexDirection: "row", width: "100%"}}>
         <View style={{
-          marginLeft: 6, width: "40%", height: 38, borderColor: "#FFFF", borderStyle: "solid", borderWidth: 1, justifyContent: "center", backgroundColor: "#FFFFFF", borderRadius: 6,
+          marginLeft: 6, width: "40%", height: 38, borderColor: "#FFFF", borderStyle: "solid", borderWidth: 1, backgroundColor: "#FFFFFF", borderRadius: 6,justifyContent:"center"
         }}
         >
           <Text
             style={{
               textAlign: "center",
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: "600",
+            
             }}
           >
             Name : {route?.params?.customerDetails?.name} 
@@ -113,7 +114,7 @@ const Categoryn = () => {
         <View
           style={{
             marginLeft: 8,
-            width: 178,
+            width: 180,
             height: 38,
             borderColor: "#FFFF",
             borderStyle: "solid",
