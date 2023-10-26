@@ -22,10 +22,10 @@ const CartCard = ({item, deleteItemFromCart}) => {
 
         <Image source={{ uri: `${IMAGE_BASE_URL}${item?.garmentImagePath}` }} style={{ width: 70, height: 70, resizeMode: 'contain' }} /> 
       {/* )} */}
-      <View style={{ gap: 10, width:'60%' }}>
+      <View style={{ gap: 10, width:'80%' }}>
         <Text style={{ fontSize: 16, fontWeight: 600 }} numberOfLines={3} adjustsFontSizeToFit={true}>{item?.garmentName}</Text>
         <Text style={{ fontSize: 16, fontWeight: 400, }}>{'\u20B9'} {item?.totalPrice}</Text>
-        <View style={{flexDirection:'row', gap:6}}>
+        <View style={{flexWrap:'wrap', gap:6}}>
             <Text style={{ fontSize: 14, fontWeight: 400, }}> Defect: {getDefectName(item?.garmentDefectId)} </Text>
             <Text style={{ fontSize: 14, fontWeight: 400, }}> Color: {getItemColor(item?.garmentColorId)}</Text>
             <Text style={{ fontSize: 14, fontWeight: 400, }}> Brand: {getBrandName(item?.garmentBrandId)}</Text>
@@ -47,7 +47,7 @@ const CartCard = ({item, deleteItemFromCart}) => {
     
     <View style={{justifyContent:'space-between', height:'100%'}} >
       <TouchableOpacity style={{alignSelf:'flex-end', paddingRight:10}} onPress={()=>deleteItemFromCart(item?.id)}>
-          <AntDesign name="close" size={24} color="black" />
+          <AntDesign name="close" size={24} color="red" />
           
       </TouchableOpacity>
       <View>
