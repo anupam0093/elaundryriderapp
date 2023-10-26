@@ -73,11 +73,11 @@ const NewOrder = () => {
           Authorization: 'Basic' + " " + token,
         },
       });
-      console.log('nehat shailender', data)
+      console.log('nehat shailender', data[0]?.storeCustomerAccountDTO?.storeCustomerId)
 
       const customerData = {
         name:data[0]?.customer.firstName + ' ' + data[0]?.customer?.lastName, 
-        mobileNo:data[0]?.customer?.mobileNo, storeCustomerId : data[0]?.customer?.id
+        mobileNo:data[0]?.customer?.mobileNo, storeCustomerId : data[0]?.storeCustomerAccountDTO?.storeCustomerId
       }
 
       if (data) {

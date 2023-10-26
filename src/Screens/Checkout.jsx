@@ -28,7 +28,7 @@ const Checkout = () => {
   const route = useRoute()
 
 
-  console.log('shail', route?.params?.cart_details?.totalQuantity)
+  // console.log('shail', route?.params?.cart_details?.totalQuantity)
   
 
   const [charge, setCharge] = useState([]);
@@ -190,38 +190,6 @@ const Checkout = () => {
     "remarks": "",
 
 
-
-    // storeUserId: riderDetails?.storeUserId,
-    // storeCustomerId: route?.params?.customer_details?.storeCustomerId,
-    // totalQuantity: route?.params?.cart_details?.totalQuantity,
-    // itemGarmentCount: route?.params?.cart_details?.totalQuantity,
-    // remarks: "",
-    // totalAmount: Number(totalPrice),
-    // gstType: handlegst,
-    // orderSource: "BY_STORE",
-    // gstPercent: 18,
-    // taxableAmount: Number(taxableAmount),
-    // gstAmount:Number(Gstc),
-    // paymentMode: "CASH",
-    // discountAmount: (discounteditem?.chargeDiscountTypeIn === "AMOUNT"
-    // ? Number(discounteditem?.chargeDiscount)
-    // : Number(
-    //     (totalPrice * discounteditem?.chargeDiscount) / 100
-    //   )),
-    // chargeAmount:
-    //   (charges.chargeDiscountTypeIn === "AMOUNT"
-    //     ? Number(charges?.chargeDiscount)
-    //     : Number(totalPrice * Number(charges?.chargeDiscount)) / 100),
-    // grandTotal: Number(GrandTotal),
-    // depressionAmount: null,
-    // status: "BOOKED",
-    // // deliveryOn: moment(selectedDate).format(),
-    // // deliveredOn: moment(selectedDate).format(),
-    // // orderOn: moment(selectedDate).format(),
-   
-    // // paymentRefNo: "",
-    // deliveryRequest: false,
-    // urgentDelivery: false,
   };
 
 
