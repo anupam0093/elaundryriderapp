@@ -35,9 +35,9 @@ const Welcome = ({ navigation }) => {
         },
       });
 
-      console.log(data);
+      console.log('nehat access token', data);
+      setUser(data);
       if (data) {
-
         try {
           const accountData = await getAccountInfo(
             data?.accessToken,

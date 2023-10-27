@@ -14,6 +14,8 @@ import useStore from "../GlobalStore/store";
 import CustomButton from "../../Components/CommonComponent/CustomButton";
 import Header from "../components/Header/Header";
 import { MaterialIcons } from "@expo/vector-icons";
+import { getAccountInfo } from "../../networkAPI/api";
+import axios from "axios";
 
 const LeftBrand = () => {
   return (
@@ -42,14 +44,13 @@ const RightContent = ({ setLogOutUser, navigator }) => {
 const Homepage = ({ navigation }) => {
   const user = useStore((state) => state.user);
   const riderDetails = useStore((state) => state.riderDetails);
+  const setRiderDetails = useStore((state) => state.setRiderDetails);
   const setLogOutUser = useStore((state) => state.setLogOutUser);
-  console.log(user)
+
 
   const navigator = () => {
     navigation.navigate("Notification");
   };
-
-
 
   return (
     <SafeAreaView style={{ top: 35 }}>
