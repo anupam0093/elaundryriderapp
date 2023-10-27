@@ -37,6 +37,7 @@ const Welcome = ({ navigation }) => {
 
       console.log(data);
       if (data) {
+
         try {
           const accountData = await getAccountInfo(
             data?.accessToken,

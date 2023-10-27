@@ -8,7 +8,7 @@ import {
   Button,
 } from "react-native";
 import { homepage } from "../../Components/Styles/homepage";
-import React from "react";
+import React, { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import useStore from "../GlobalStore/store";
 import CustomButton from "../../Components/CommonComponent/CustomButton";
@@ -48,6 +48,8 @@ const Homepage = ({ navigation }) => {
   const navigator = () => {
     navigation.navigate("Notification");
   };
+
+
 
   return (
     <SafeAreaView style={{ top: 35 }}>
