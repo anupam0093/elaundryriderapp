@@ -8,12 +8,14 @@ import {
   Button,
 } from "react-native";
 import { homepage } from "../../Components/Styles/homepage";
-import React from "react";
+import React, { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import useStore from "../GlobalStore/store";
 import CustomButton from "../../Components/CommonComponent/CustomButton";
 import Header from "../components/Header/Header";
 import { MaterialIcons } from "@expo/vector-icons";
+import { getAccountInfo } from "../../networkAPI/api";
+import axios from "axios";
 
 const LeftBrand = () => {
   return (
@@ -42,12 +44,36 @@ const RightContent = ({ setLogOutUser, navigator }) => {
 const Homepage = ({ navigation }) => {
   const user = useStore((state) => state.user);
   const riderDetails = useStore((state) => state.riderDetails);
+  const setRiderDetails = useStore((state) => state.setRiderDetails);
   const setLogOutUser = useStore((state) => state.setLogOutUser);
-  console.log(user)
+
 
   const navigator = () => {
     navigation.navigate("Notification");
   };
+
+  const fetchRiderDetails = async ()=>{
+    try {
+      const response  = await axios.get(`https://api.elaundry.co.in/oit-elaundry/api/home/loginsuccess`,{
+        headers:{
+          "Content-Type": "application/json",
+          Authorization: user?.tokenType + " " + user?.accessToken,
+        }
+      })
+      console.log(response)
+      if (response) {
+        setRiderDetails(response?.data);
+      }
+    } catch (error) {
+      console.log('nehat error login', error);
+      setLogOutUser()
+    }
+  }
+
+  useEffect(()=>{
+    fetchRiderDetails()
+  }, [])
+
 
   return (
     <SafeAreaView style={{ top: 35 }}>

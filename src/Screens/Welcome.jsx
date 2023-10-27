@@ -35,20 +35,21 @@ const Welcome = ({ navigation }) => {
         },
       });
 
-      console.log(data);
+      console.log('nehat access token', data);
+      setUser(data);
       if (data) {
-        try {
-          const accountData = await getAccountInfo(
-            data?.accessToken,
-            data?.tokenType
-          );
-          if (accountData) {
-            setRiderDetails(accountData?.data);
-            setUser(data);
-          }
-        } catch (error) {
-          console.log("Something Went Wrong");
-        }
+        // try {
+        //   const accountData = await getAccountInfo(
+        //     data?.accessToken,
+        //     data?.tokenType
+        //   );
+        //   if (accountData) {
+        //     setRiderDetails(accountData?.data);
+        //     setUser(data);
+        //   }
+        // } catch (error) {
+        //   console.log("Something Went Wrong");
+        // }
       }
      
     } catch (error) {
