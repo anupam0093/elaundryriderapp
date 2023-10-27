@@ -85,6 +85,12 @@ const Categoryn = () => {
     setShowModal(false);
   }, [])
   
+   const customerInfo = {
+        name:route?.params?.customerDetails?.name,
+        mobileNo:route?.params?.customerDetails?.mobileNo,
+        storeCustomerId:route?.params?.customerDetails?.storeCustomerId
+
+   }
 
 
 
@@ -143,7 +149,7 @@ const Categoryn = () => {
           <Text style={{ fontSize: 20, textAlign: 'center', color: 'white' }}>Category</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity   onPress={() => navigation.navigate('Services')}
+        <TouchableOpacity   onPress={() => navigation.navigate('Services',{'customerInfo':customerInfo})}
          style={{ backgroundColor: 'white', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5, width: '45%' }}>
           <Text style={{ fontSize: 20, textAlign: 'center' }}>Services</Text>
         </TouchableOpacity>

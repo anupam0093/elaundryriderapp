@@ -13,8 +13,8 @@ import useStore from "../GlobalStore/store";
 import CategoryButton from "../components/CategoryButton";
 import { searchGarmentByStoreId } from "../../networkAPI/api";
 import Header from "../components/Header/Header";
-import { useNavigation } from "@react-navigation/native";
-import { useQuery,UseRoute } from "@tanstack/react-query";
+import { useNavigation ,useRoute} from "@react-navigation/native";
+import { useQuery } from "@tanstack/react-query";
 import CartModal from "../components/Modals/CartModal";
 import GamentsCard from "../components/ui/GamentsCard";
 import CartIcon from "../components/ui/CartIcon";
@@ -80,6 +80,7 @@ const Categoryn = () => {
   const route = useRoute()
 
 
+  console.log(route?.params?.customerInfo)
 
 
 
@@ -115,8 +116,10 @@ const Categoryn = () => {
   
 
 
+ 
 
-console.log(user)
+
+
 
   return (
     <SafeAreaView style={{ flex: 1,marginTop:30 }}>
@@ -137,7 +140,7 @@ console.log(user)
               fontWeight: "600",
             }}
           >
-            Name : {account?.firstName} {account?.lastName}
+            Name : {route?.params?.customerInfo?.name}
           </Text>
         </View>
         <View
@@ -160,7 +163,7 @@ console.log(user)
               fontWeight: "600",
             }}
           >
-            Mobile : {account?.mobileNo}
+            Mobile : {route?.params?.customerInfo?.mobileNo}
           </Text>
         </View>
       </View>
