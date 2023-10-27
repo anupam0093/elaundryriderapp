@@ -47,10 +47,34 @@ const Homepage = ({ navigation }) => {
   const setRiderDetails = useStore((state) => state.setRiderDetails);
   const setLogOutUser = useStore((state) => state.setLogOutUser);
 
-
   const navigator = () => {
     navigation.navigate("Notification");
   };
+
+  const fetchRiderDetails = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.elaundry.co.in/oit-elaundry/api/home/loginsuccess`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: user?.tokenType + " " + user?.accessToken,
+          },
+        }
+      );
+      console.log(response);
+      if (response) {
+        setRiderDetails(response?.data);
+      }
+    } catch (error) {
+      console.log("nehat error login", error);
+      setLogOutUser();
+    }
+  };
+
+  useEffect(() => {
+    fetchRiderDetails();
+  }, []);
 
   return (
     <SafeAreaView style={{ top: 35 }}>
@@ -68,20 +92,27 @@ const Homepage = ({ navigation }) => {
       />
       <View style={homepage.container}>
         {/* data coming from backend */}
-        <View style={{ left: 220 ,top:20,width:150,height:45,color: "#0000008F",
-              borderStyle: "solid",
-              borderColor: "#002B6B1F",
-              borderWidth: 2,}}>
+        <View
+          style={{
+            left: 220,
+            top: 20,
+            width: 150,
+            height: 45,
+            color: "#0000008F",
+            borderStyle: "solid",
+            borderColor: "#002B6B1F",
+            borderWidth: 2,
+          }}
+        >
           <Text
             style={{
               marginLeft: 8,
               fontSize: 20,
-              fontWeight: "700",         
+              fontWeight: "700",
               borderRadius: 7,
-              justifyContent:"center",
-              marginTop:7,
-              textAlign:"center",
-              
+              justifyContent: "center",
+              marginTop: 7,
+              textAlign: "center",
             }}
           >
             {/* data coming from backend */}
@@ -295,7 +326,7 @@ const Homepage = ({ navigation }) => {
               <View style={{ height: 262, width: 177 }}>
                 <Image
                   alt="image-4"
-                  style={{ marginTop: 1}}
+                  style={{ marginTop: 1 }}
                   source={require("../../assets/Photos/coconut.png")}
                 />
               </View>

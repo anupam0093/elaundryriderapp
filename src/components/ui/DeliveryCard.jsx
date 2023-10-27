@@ -10,9 +10,12 @@ const DeliveryCard = ({item}) => {
 
 const customerData = {
   name:item?.deliveryRequest?.customerDTO?.firstName, 
-  mobileNo:item?.deliveryRequest?.customerDTO?.mobileNo
+  mobileNo:item?.deliveryRequest?.customerDTO?.mobileNo,
+  storeCustomerId:item?.deliveryRequest?.storeCustomerId,
+  orderId:item?.deliveryRequest?.orderId
 }
 
+// console.log("line 17",item?.deliveryRequest?.storeCustomerId)
 
   return (
     <TouchableOpacity 

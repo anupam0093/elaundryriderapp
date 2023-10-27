@@ -25,7 +25,6 @@ import DeliveryCard from "../components/ui/DeliveryCard";
 const OrderDelevery = ({ navigation }) => {
   const [delivery, setDelivery] = useState([]);
   const { navigate } = useNavigation();
-  const account = useStore((state) => state.account);
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
 

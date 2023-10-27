@@ -8,14 +8,19 @@ import {
     ScrollView
   } from "react-native";
   import React, { useEffect, useState } from "react";
+  import axios from "axios";
   import AntDesign from "@expo/vector-icons/build/AntDesign";
   import useStore from "../GlobalStore/store";
-  import { getPaymentMode } from "../../networkAPI/api";
+  import { getPaymentMode, searchDeliveryData } from "../../networkAPI/api";
   import SelectDropdown from "react-native-select-dropdown";
   import FontAwesome from "react-native-vector-icons/FontAwesome";
   import { useNavigation,useRoute } from "@react-navigation/native";
   import { Button, TextInput } from "react-native-paper";
   import { Entypo } from "@expo/vector-icons";
+  import { useQuery } from "@tanstack/react-query";
+  import { API_URL } from "../../networkAPI/env";
+
+
   
   
   
@@ -24,18 +29,38 @@ import {
     const navigation = useNavigation();
   
     const route = useRoute()
-    const GrandTotal = route.params
-    console.log(GrandTotal)
-   
-   
+    const [delivery, setDelivery] = useState([]);
     const [selectedItem, setSelectedItem] = useState("");
-    const [amount, setAmount] = useState(0);
-  
     const [payment, setPayment] = useState([]);
     const [payments, setPayments] = useState([]);
-    const riderDetails = useStore((state) => state.riderDetails);
     const user = useStore((state) => state.user);
+    const [text,setText] = useState("")
+
   
+    const getDeliveryData = async () => {
+      const token = `${user?.accessToken}`
+      
+       try {
+         const {data}  = await axios({
+           method: "GET",
+           url: `${API_URL}/auth/order/${route?.params?.customerDetails?.storeCustomerId}/${route?.params?.customerDetails?.orderId}`,
+        
+           headers: {
+             "Content-Type": "application/json",
+             Authorization: 'Basic' + " " + token,
+           },
+         });
+ 
+         if (data) {
+           setDelivery(data);
+         }
+       } catch (error) {
+         console.log(error);
+       }
+     };
+
+    
+
     const paymentMode = React.useCallback(async () => {
       try {
         const response = await getPaymentMode(user?.accessToken);
@@ -45,9 +70,15 @@ import {
         console.log(error);
       }
     }, []);
-  
+
+
+   
+
     useEffect(() => {
+
       paymentMode();
+      getDeliveryData()
+ 
     }, []);
   
     const handleSelect = (item) => {
@@ -59,13 +90,17 @@ import {
           Alert.alert("Please select a mode of payment")
       }
       else{
-      Alert.alert("Ordered Placed Succesfully")
+     
       navigation.navigate("Homepage")
       }
       
+
    }
-  
-    // console.log("line no 31", { selectedItem });
+
+   const remain = Number(delivery[0]?.grandTotal) - Number(text)
+  //  console.log("line 62",delivery[0]?.totalAmount)
+  console.log(text)
+
   
     return (
       <SafeAreaView>
@@ -211,11 +246,12 @@ import {
             </View>
             <TextInput
               style={{ width: "85%", left: 30 }}
-              
-             
+              value={text}
+             onChangeText={text => setText(text)}
               label="Advance Amount"
             />
   
+
             <View
               style={{
                 display: "flex",
@@ -230,7 +266,7 @@ import {
               <Text style={{ fontSize: 20, fontWeight: "bold" ,color:"skyblue"}} t>
                 Total Amount  :
               </Text>
-              <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>0</Text>
+              <Text style={{ fontSize: 17, fontWeight: "500", top: 5 }}>₹ {delivery[0]?.grandTotal}</Text>
             </View>
             <View
               style={{
@@ -246,7 +282,7 @@ import {
               <Text style={{ fontSize: 20, fontWeight: "bold" ,color:"skyblue"}} >
                 Remaining Amount  :
               </Text>
-              <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>0</Text>
+              <Text style={{ fontSize: 17, fontWeight: "500", top: 5 }}>₹ {remain}</Text>
             </View>
   
               <Button
