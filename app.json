@@ -39,7 +39,10 @@
       "permissions": [
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE",
-        "android.permission.ACCESS_MEDIA_LOCATION"
+        "android.permission.ACCESS_MEDIA_LOCATION",
+        "android.permission.INTERNET",   // Add internet permission
+        "android.permission.ACCESS_FINE_LOCATION",  // Add location permission
+        "android.permission.ACCESS_COARSE_LOCATION"
       ],
       "package": "com.shail_009.Omra"
     },
