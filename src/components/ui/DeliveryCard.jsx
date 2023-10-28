@@ -26,7 +26,7 @@ const customerData = {
     <View
     style={{
       width: 360,
-      height: 97,
+      height: 105,
       borderColor: "#003566",
       borderStyle: "solid",
       borderWidth: 1,
@@ -45,7 +45,7 @@ const customerData = {
         height: 30,
         borderRadius: 30,
         marginTop: 8,
-        marginLeft: 8,
+        
         borderColor:"grey",
         borderWidth:1,
         borderStyle:"solid",
@@ -60,7 +60,7 @@ const customerData = {
 
     <View
       style={{
-        width: 150,
+        width: "40%",
         height: 100,
         marginLeft: 12,
         marginTop: 10,

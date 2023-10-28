@@ -102,8 +102,10 @@ const Homepage = ({ navigation }) => {
             height: 45,
             color: "#0000008F",
             borderStyle: "solid",
-            borderColor: "#002B6B1F",
+            borderColor: "#00000059",
             borderWidth: 2,
+            borderRadius: 8,
+            
           }}
         >
           <Text
@@ -111,7 +113,6 @@ const Homepage = ({ navigation }) => {
               marginLeft: 8,
               fontSize: 20,
               fontWeight: "700",
-              borderRadius: 7,
               justifyContent: "center",
               marginTop: 7,
               textAlign: "center",

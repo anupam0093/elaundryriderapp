@@ -72,14 +72,13 @@ const OrderDelevery = ({ navigation }) => {
             <View
               style={{
                 width: 242,
-                height: 34,
                 marginTop: 16,
+
               }}
             >
               <Text
                 style={{
-                  fontSize: 24,
-                  lineHeight: 44,
+                  fontSize: 22,
                   fontWeight: "600",
                   color: "#002B6B",
                 }}
