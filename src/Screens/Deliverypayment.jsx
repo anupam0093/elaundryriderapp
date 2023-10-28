@@ -79,9 +79,9 @@ const DeliveryPayment = () => {
     }
   };
 
-  const remain = Number(delivery[0]?.grandTotal) - Number(text);
-  //  console.log("line 62",delivery[0]?.totalAmount)
-  console.log(text);
+  const remain = Number(delivery[0]?.grandTotal) - Number(delivery[0]?.paidAmount);
+  console.log("line 62", delivery[0]?.orderPaymentStatus);
+  // console.log(text);
 
   return (
     <SafeAreaView>
@@ -231,6 +231,52 @@ const DeliveryPayment = () => {
             onChangeText={(text) => setText(text)}
             label="Advance Amount"
           />
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "70%",
+              left: 30,
+              top: 20,
+              marginBottom: 10,
+            }}
+          >
+            <Text
+              style={{ fontSize: 20, fontWeight: "bold", color: "black" }}
+              t
+            >
+              Payment Status :
+            </Text>
+            <Text
+              style={{ fontSize: 17, fontWeight: "500", top: 5, color: "red" }}
+            >
+              {delivery[0]?.orderPaymentStatus}
+            </Text>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "70%",
+              left: 30,
+              top: 20,
+              marginBottom: 10,
+            }}
+          >
+            <Text
+              style={{ fontSize: 20, fontWeight: "bold", color: "black" }}
+              t
+            >
+              Paid Amount :
+            </Text>
+            <Text
+              style={{ fontSize: 17, fontWeight: "500", top: 5, color: "red" }}
+            >
+              {delivery[0]?.paidAmount}
+            </Text>
+          </View>
 
           <View
             style={{

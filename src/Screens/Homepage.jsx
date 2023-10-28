@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Text,
   StatusBar,
+  Alert,
   Button,
 } from "react-native";
 import { homepage } from "../../Components/Styles/homepage";
@@ -68,6 +69,7 @@ const Homepage = ({ navigation }) => {
       }
     } catch (error) {
       console.log("nehat error login", error);
+      Alert.alert("Full authentication is required to access this resource")
       setLogOutUser();
     }
   };
