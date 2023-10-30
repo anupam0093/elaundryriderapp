@@ -13,8 +13,6 @@ import useStore from "../GlobalStore/store";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { API_URL } from "../../networkAPI/env";
-// import { searchStoreCustomerByMobile } from "../../networkAPI/api";
-//  import { handleAddCustomer } from "../../networkAPI/api";
 
 const NewOrder = () => {
   const navigation = useNavigation();

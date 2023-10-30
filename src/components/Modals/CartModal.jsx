@@ -24,9 +24,9 @@ const CartModal = ({showModal, setShowModal, closeModal, selectedItem, customerD
     const user = useStore((state)=>state.user)
     const [loading, setLoading] = useState(false)
 
-    const [value, setValue] = useState([]);
-    const [colorValue, setColorValue] = useState([]);
-    const [garmentBrand, setGarmentBrand] = useState([])
+    const [value, setValue] = useState("");
+    const [colorValue, setColorValue] = useState("");
+    const [garmentBrand, setGarmentBrand] = useState("")
     const [brandisFocus, setBrnadIsFocus] = useState(false)
     
 
@@ -34,7 +34,7 @@ const CartModal = ({showModal, setShowModal, closeModal, selectedItem, customerD
     const [colorIsFocus, setColorIsFocus] = useState(false)
     const [showCameModal, setShowCamModal]= useState(false)
     const [capturedImage, setCapturedImage] = useState()
-    const [qty, setQty] = useState()
+    const [qty, setQty] = useState(1)
 
     const addToCart = useStore((state)=>state.addToCart)
 
@@ -47,16 +47,17 @@ const CartModal = ({showModal, setShowModal, closeModal, selectedItem, customerD
         "status": "ADD",
         "storeUserId": riderDetails?.storeUserId,
         "storeCustomerId": customerDetails?.storeCustomerId, 
-        "itemGarmentCount": Number(qty),
-        "garmentBrandId": garmentBrand?.id,
-        "garmentColorId": colorValue?.id,
-        "garmentDefectId": value?.id,
+        "itemGarmentCount": Number(qty)|| 1,
+        "garmentBrandId": garmentBrand?.id || "0",
+        "garmentColorId": colorValue?.id || "0",
+        "garmentDefectId": value?.id || "0",
         "garmentPackId": null,
-        "count": Number(qty),
+        "count": Number(qty) || 1,
         "countGram": 0.0,
         "offerPrice": 0.0,
         "totalPrice": selectedItem?.price * Number(qty)
       }
+
 
       try {
         const response = await axios.post(cart_url, payload, {
@@ -87,9 +88,10 @@ const CartModal = ({showModal, setShowModal, closeModal, selectedItem, customerD
         // addToCart(selectedItem)
         // closeModal()
 
-
-
-       
+console.log(qty)
+      console.log(garmentBrand)   
+      console.log(value)    
+      console.log(colorValue)    
         // console.log('nehat cart payload', payload)
     }
     // console.log('nehat color', user)
