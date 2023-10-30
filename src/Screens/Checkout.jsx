@@ -38,7 +38,7 @@ const Checkout = () => {
   const [selectedItem, setSelectedItem] = useState("");
   const [discountSelect, setdiscountSelect] = useState("");
   const [discounteditem, setDiscounteditem] = useState([]);
-  const [handlegst, setHandleGst] = useState("NONE");
+  const [handlegst, setHandleGst] = useState("INCLUDE");
   const [cards, setCards] = useState([]);
   const [discountcards, setdiscountCards] = useState([]);
 
@@ -61,6 +61,7 @@ const Checkout = () => {
 
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
+
   // console.log('nehat',riderDetails )
   // const account = useStore((state) => state.account);
 
@@ -151,9 +152,7 @@ const Checkout = () => {
   var taxableAmount = Gross.toFixed(2) - Gstc;
   var GrandTotal = Number(Gross) + Number(Gstc);
 
-  const handleDiscount125 = ()=>{
 
-  }
 
 
 
@@ -169,11 +168,11 @@ const Checkout = () => {
     "storeCustomerId": route?.params?.customer_details?.storeCustomerId,
     "totalQuantity": route?.params?.cart_details?.totalQuantity,
     "itemGarmentCount": route?.params?.cart_details?.totalQuantity,
-    "totalAmount": totalPrice,
-    "gstType": 'INCLUDE',
+    "totalAmount": totalPrice ,
+    "gstType": handlegst,
     "gstPercent": 18,
-    "taxableAmount":  Number(totalPrice * 0.18) / 1.18, 
-    "gstAmount": totalPrice - Number(totalPrice * 0.18) / 1.18 ,
+    "taxableAmount": Number(taxableAmount) ||  Math.round(Number((totalPrice * 0.18) / 1.18).toFixed()), 
+    "gstAmount":Gstc ,
     // "discountAmount": (discounteditem?.chargeDiscountTypeIn === "AMOUNT"
     //  ? Number(discounteditem?.chargeDiscount)
     // : Number(
@@ -184,9 +183,7 @@ const Checkout = () => {
     //     : Number(totalPrice * Number(charges?.chargeDiscount)) / 100),
     "discountAmount":0, 
     "chargeAmount":0, 
-
-
-    "grandTotal": Number(GrandTotal) || totalPrice,
+    "grandTotal": Math.round(Number(GrandTotal)) ||  Math.round(totalPrice + Number(totalPrice * 0.18) / 1.18.toFixed()),
     "status": "BOOKED",
     "orderSource": "BY_STORE",
     "deliveryOn": moment(selectedDate).format(),
@@ -622,7 +619,7 @@ const Checkout = () => {
                   Taxable Amount (Rs):
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {Number(taxableAmount) || (Number(totalPrice * 0.18) / 1.18).toFixed() }
+                  {"\u20B9"} {Number(taxableAmount) || Math.round(Number(totalPrice * 0.18) / 1.18.toFixed()) }
                 </Text>
               </View>
 
@@ -639,13 +636,7 @@ const Checkout = () => {
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
                   {"\u20B9"}{" "}
-                  {Math.round(
-                    handlegst === "EXCLUDE"
-                      ? Number(Gross * 18) / 100
-                      : handlegst === "INCLUDE"
-                      ? Number(Gross * 0.18) / 1.18
-                      : 0
-                  )}
+                  {Gstc.toFixed()}
                 </Text>
               </View>
 
@@ -660,7 +651,7 @@ const Checkout = () => {
                   Grand Total (Rs) :
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {Number(GrandTotal.toFixed(2)) || totalPrice + Number(totalPrice * 0.18) / 1.18.toFixed()}
+                  {"\u20B9"} {Number(GrandTotal.toFixed(2)) || Math.round(totalPrice + Number(totalPrice * 0.18) / 1.18.toFixed())}
                 </Text>
               </View>
             </View>
