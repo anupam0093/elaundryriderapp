@@ -110,6 +110,7 @@ const Checkout = () => {
 
   const handleDiscount = (item) => {
     setdiscountSelect(item);
+    console.log('love', item)
     Alert.alert("Charge Added Successfully");
     const discountData = discount.find((d) => d.name === item);
     if (discountData) {
@@ -150,6 +151,10 @@ const Checkout = () => {
   var taxableAmount = Gross.toFixed(2) - Gstc;
   var GrandTotal = Number(Gross) + Number(Gstc);
 
+  const handleDiscount125 = ()=>{
+
+  }
+
 
 
 
@@ -165,19 +170,23 @@ const Checkout = () => {
     "totalQuantity": route?.params?.cart_details?.totalQuantity,
     "itemGarmentCount": route?.params?.cart_details?.totalQuantity,
     "totalAmount": totalPrice,
-    "gstType": handlegst,
+    "gstType": 'INCLUDE',
     "gstPercent": 18,
-    "taxableAmount":  Number(taxableAmount),
-    "gstAmount": 38180,
-    "discountAmount": (discounteditem?.chargeDiscountTypeIn === "AMOUNT"
-     ? Number(discounteditem?.chargeDiscount)
-    : Number(
-        (totalPrice * discounteditem?.chargeDiscount) / 100
-      )),
-    "chargeAmount":  (charges.chargeDiscountTypeIn === "AMOUNT"
-        ? Number(charges?.chargeDiscount)
-        : Number(totalPrice * Number(charges?.chargeDiscount)) / 100),
-    "grandTotal": Number(GrandTotal),
+    "taxableAmount":  Number(totalPrice * 0.18) / 1.18, 
+    "gstAmount": totalPrice - Number(totalPrice * 0.18) / 1.18 ,
+    // "discountAmount": (discounteditem?.chargeDiscountTypeIn === "AMOUNT"
+    //  ? Number(discounteditem?.chargeDiscount)
+    // : Number(
+    //     (totalPrice * discounteditem?.chargeDiscount) / 100
+    //   )),
+    // "chargeAmount":  (charges.chargeDiscountTypeIn === "AMOUNT"
+    //     ? Number(charges?.chargeDiscount)
+    //     : Number(totalPrice * Number(charges?.chargeDiscount)) / 100),
+    "discountAmount":0, 
+    "chargeAmount":0, 
+
+
+    "grandTotal": Number(GrandTotal) || totalPrice,
     "status": "BOOKED",
     "orderSource": "BY_STORE",
     "deliveryOn": moment(selectedDate).format(),
@@ -205,6 +214,7 @@ const Checkout = () => {
           Authorization: "Basic" + " " + token,
         },
       });
+      console.log(data)
       if (data?.success) {
         console.log(data?.message)
         alert(`Your order has been succesfully created with order id ${data?.message}`);
@@ -337,6 +347,7 @@ const Checkout = () => {
                   } ${"]"}`
               )}
               onSelect={(selectedItem, index) => {
+                console.log( 'hola como estas', selectedItem, index)
                 handleSelect(selectedItem);
                 setCharges(charge[index]);
               }}
@@ -595,7 +606,7 @@ const Checkout = () => {
                 </Text>
 
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {Gross || 0}
+                  {"\u20B9"} {Gross || totalPrice}
                 </Text>
               </View>
 
@@ -611,7 +622,7 @@ const Checkout = () => {
                   Taxable Amount (Rs):
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {Number(taxableAmount) || 0}
+                  {"\u20B9"} {Number(taxableAmount) || (Number(totalPrice * 0.18) / 1.18).toFixed() }
                 </Text>
               </View>
 
@@ -649,7 +660,7 @@ const Checkout = () => {
                   Grand Total (Rs) :
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {Number(GrandTotal.toFixed(2)) || 0}
+                  {"\u20B9"} {Number(GrandTotal.toFixed(2)) || totalPrice + Number(totalPrice * 0.18) / 1.18.toFixed()}
                 </Text>
               </View>
             </View>

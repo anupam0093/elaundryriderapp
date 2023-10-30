@@ -47,6 +47,7 @@ const Homepage = ({ navigation }) => {
   const riderDetails = useStore((state) => state.riderDetails);
   const setRiderDetails = useStore((state) => state.setRiderDetails);
   const setLogOutUser = useStore((state) => state.setLogOutUser);
+  console.log(user)
 
   const navigator = () => {
     navigation.navigate("Notification");

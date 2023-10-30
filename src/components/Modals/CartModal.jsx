@@ -115,7 +115,7 @@ console.log(qty)
                     <Text style={{fontSize:16, marginBottom:6}}>Item Quantity</Text>
                     <TextInput
                      inputMode='numeric'
-                     placeholder='Enter Item Quantity'
+                     placeholder='1'
                      placeholderTextColor='black'
                      keyboardShouldPersistTaps='never'
                      value={qty}
