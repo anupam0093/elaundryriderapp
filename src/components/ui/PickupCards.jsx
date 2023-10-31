@@ -1,4 +1,10 @@
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 import React from "react";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
 import { useNavigation } from "@react-navigation/native";
@@ -7,11 +13,11 @@ import { Linking, Platform } from "react-native";
 import moment from "moment";
 
 const PickupCards = ({ item }) => {
-
-  
   const { navigate } = useNavigation();
+  const windowWidth = Dimensions.get("window").width;
 
   // =================================== Calling Api ==============================================================
+
   const callPhoneNumber = async (number) => {
     const phoneNumber = `${
       Platform.OS !== "android" ? "telprompt" : "tel"
@@ -42,12 +48,14 @@ const PickupCards = ({ item }) => {
     }
   };
 
- 
   const customerData = {
-    name:item?.pickupRequest?.customerDTO?.firstName + ' ' + item?.pickupRequest?.customerDTO?.lastName, 
-    mobileNo:item?.pickupRequest?.customerDTO?.mobileNo, storeCustomerId : item?.pickupRequest?.storeCustomerId
-  }
-
+    name:
+      item?.pickupRequest?.customerDTO?.firstName +
+      " " +
+      item?.pickupRequest?.customerDTO?.lastName,
+    mobileNo: item?.pickupRequest?.customerDTO?.mobileNo,
+    storeCustomerId: item?.pickupRequest?.storeCustomerId,
+  };
 
   return (
     <View
@@ -61,10 +69,10 @@ const PickupCards = ({ item }) => {
     >
       <TouchableOpacity
         onPress={() => {
-          navigate("Category",{'customerDetails':customerData});
+          navigate("Category", { customerDetails: customerData });
         }}
       >
-        <View style={[styles.Viewcard]}>
+        <View style={[styles.Viewcard, { width: windowWidth * 0.9 }]}>
           <View
             style={{
               display: "flex",
@@ -115,7 +123,7 @@ const PickupCards = ({ item }) => {
                 />
                 <Text
                   style={{
-                    fontSize: 13,
+                    fontSize: 12,
                     textAlign: "center",
                     color: "black",
                     fontWeight: "bold",
@@ -182,71 +190,77 @@ const PickupCards = ({ item }) => {
                 textAlign: "center",
                 fontSize: 17,
                 fontWeight: "500",
-                marginTop: 0,
               }}
             >
               {/* Request Received by Rider */}
-              {(item?.["pickupRequest"]?.["pickupStatus"]).replace(/_/g,  " ")}
+              {(item?.["pickupRequest"]?.["pickupStatus"]).replace(/_/g, " ")}
             </Text>
           </View>
 
           <View style={{ width: "100%", height: 60, padding: 7 }}>
-
-            <TouchableOpacity onPress={() => openMap(( item?.["pickupRequest"]?.["customerDTO"]?.address
-                        ?.addressLine1),( item?.["pickupRequest"]?.["customerDTO"]?.address
-                        ?.pin),( item?.["pickupRequest"]?.["customerDTO"]?.address
-                        ?.city))}>
-               <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
+            <TouchableOpacity
+              onPress={() =>
+                openMap(
+                  item?.["pickupRequest"]?.["customerDTO"]?.address
+                    ?.addressLine1,
+                  item?.["pickupRequest"]?.["customerDTO"]?.address?.pin,
+                  item?.["pickupRequest"]?.["customerDTO"]?.address?.city
+                )
+              }
             >
               <View
                 style={{
-                  marginLeft: 0,
-                  width: "98%",
-                  height: 40,
-                  backgroundColor: "#B12EAC",
-                  borderRadius: 10,
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
                 }}
               >
-                <Text
+                <View
                   style={{
-                    fontSize: 13,
-                    color: "white",
-                    fontWeight: "600",
-                    top: 7,
-                    padding: 5,
+                    marginLeft: 0,
+                    width: "98%",
+                    height: 40,
+                    backgroundColor: "#B12EAC",
+                    borderRadius: 10,
                   }}
                 >
-                  <Entypo name="location" size={15} color="white" />
-                  {"  "}
-                  {item?.["pickupRequest"]?.["customerDTO"]?.address === null
-                    ? "Adress not Available"
-                    : item?.["pickupRequest"]?.["customerDTO"]?.address
-                        ?.addressLine1}{" "}
-                  {item?.["pickupRequest"]?.["customerDTO"]?.address?.city}{" "}
-                  {item?.["pickupRequest"]?.["customerDTO"]?.address?.pin}
-                </Text>
+                  <Text
+                    style={{
+                      fontSize: 13,
+                      color: "white",
+                      fontWeight: "600",
+                      top: 7,
+                      padding: 5,
+                    }}
+                  >
+                    <Entypo name="location" size={15} color="white" />
+                    {"  "}
+                    {item?.["pickupRequest"]?.["customerDTO"]?.address === null
+                      ? "Adress not Available"
+                      : item?.["pickupRequest"]?.["customerDTO"]?.address
+                          ?.addressLine1}{" "}
+                    {item?.["pickupRequest"]?.["customerDTO"]?.address?.city}{" "}
+                    {item?.["pickupRequest"]?.["customerDTO"]?.address?.pin}
+                  </Text>
+                </View>
               </View>
-            </View>
             </TouchableOpacity>
-           
 
             <View
               style={{
-                width: 118,
+                width: "32%",
                 height: 30,
-                marginLeft: 8,
                 display: "flex",
                 flexDirection: "row",
-                gap: 10,
-                left:9
+                left: 4,
+                gap:6
               }}
             >
-              <TouchableOpacity onPress={() => navigate("Accountinfo",{'customerDetails':customerData})}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigate("Accountinfo", { customerDetails: customerData })
+                }
+              >
                 <View
                   style={{
                     width: "100%",
@@ -272,7 +286,7 @@ const PickupCards = ({ item }) => {
                       textAlign: "center",
                       color: "white",
                       fontWeight: "600",
-                      marginLeft:4
+                      marginLeft: 4,
                     }}
                   >
                     ACCOUNT INFO
@@ -280,7 +294,11 @@ const PickupCards = ({ item }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigate("Address",{'customerDetails':customerData})}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigate("Address", { customerDetails: customerData })
+                }
+              >
                 <View
                   style={{
                     width: "100%",
@@ -311,7 +329,7 @@ const PickupCards = ({ item }) => {
                       left: 3,
                     }}
                   >
-                  EDIT ADDRESS
+                    EDIT ADDRESS
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -322,7 +340,6 @@ const PickupCards = ({ item }) => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   Viewcard: {
     backgroundColor: "#FFFFFF",
@@ -334,6 +351,10 @@ const styles = StyleSheet.create({
     borderWidth: 1.9,
     marginLeft: 10,
     borderRadius:27,
+   
+    
+   
+    
   },
   input: {
     fontSize: 16,
@@ -347,11 +368,7 @@ const styles = StyleSheet.create({
     color: "black",
     backgroundColor: "#FFFCFC",
   },
-  shadowProp: {
-    shadowColor: "#52006A",
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-  },
+
 });
+
 export default PickupCards;

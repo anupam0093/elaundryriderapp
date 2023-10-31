@@ -133,7 +133,7 @@ const Categoryn = () => {
           <Text
             style={{
               textAlign: "center",
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: "600",
             }}
           >

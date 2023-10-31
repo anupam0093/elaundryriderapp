@@ -8,7 +8,7 @@ const CartIcon = ({ path, cartLength, customerDetails}) => {
     <View style={{position:'relative', width:40}}>
         <Text style={{position:'absolute', right:3, top:-10, fontSize:16}}></Text>
       <AntDesign name="shoppingcart" size={30} color="#508FEF"  onPress={() => navigation.navigate(path,{'customerDetails':customerDetails} )} />
-        <Text style={{color:"red",textAlign:"justify"}}>➡Cart</Text>
+        
         </View>
   )
 }
