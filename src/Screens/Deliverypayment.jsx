@@ -71,17 +71,67 @@ const DeliveryPayment = () => {
     setSelectedItem(item);
   };
 
-  const handleFinal = () => {
-    if (!selectedItem) {
-      Alert.alert("Please select a mode of payment");
-    } else {
-      navigation.navigate("Homepage");
-    }
-  };
+  // const handleFinal = () => {
+  //   if (!selectedItem) {
+  //     Alert.alert("Please select a mode of payment");
+  //   } else {
+  //     navigation.navigate("Homepage");
+  //   }
+  // };
 
   const remain = Number(delivery[0]?.grandTotal) - Number(delivery[0]?.paidAmount);
-  console.log("line 62", delivery[0]?.orderPaymentStatus);
+  // console.log("line 62", delivery[0]?.orderPaymentStatus);
   // console.log(text);
+  
+console.log(route?.params?.customerDetails)
+console.log(delivery[0]?.orderItem[1]?.qrCode[0])
+
+
+
+const customDeliver = {
+    "orderChargeDiscountDTO": {},
+    "paymentDTO": {
+        "receivedBy": "7",
+        "paidBy": route?.params?.customerDetails?.storeCustomerId,
+        "amount": remain,
+        "paymentMode": selectedItem,
+        "paymentRefNo": ""
+    },
+    "garmentList": [
+      Number(delivery[0]?.orderItem[0]?.qrCode[0]?.orderItemId)
+    ]
+}
+
+//========================================= deliver Post aPi=======================================================
+
+const deliverOrder = async () => {
+  const token = `${user?.accessToken}`;
+  try {
+    const { data } = await axios({
+      method: "POST",
+      url: `${API_URL}/auth/order/delivery`,
+      data: customDeliver,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic" + " " + token,
+      },
+    });
+    console.log(data)
+    if (data?.success) {
+      console.log(data?.message)
+      alert(`${data?.message}`);
+      navigation.navigate('OrderDelevery')
+    }
+  } catch (error) {
+    console.log({error},"error in line 122")
+    alert("Something Went Wrong");
+  }
+};
+
+
+
+
+
 
   return (
     <SafeAreaView>
@@ -151,8 +201,8 @@ const DeliveryPayment = () => {
               style={{
                 marginLeft: 6,
                 width: 165,
-                height: 38,
-                borderColor: "#FFFF",
+                height: 40,
+                borderColor: "black",
                 borderStyle: "solid",
                 borderWidth: 1,
                 justifyContent: "center",
@@ -167,20 +217,20 @@ const DeliveryPayment = () => {
                   fontWeight: "500",
                 }}
               >
-                Name : {route?.params?.customerDetails?.name}
+                Name  {route?.params?.customerDetails?.name}{" "}{route?.params?.customerDetails?.nameL}
               </Text>
             </View>
             <View
               style={{
                 marginLeft: 8,
-                width: 165,
-                height: 38,
-                borderColor: "#FFFF",
+                width: 160,  
+                height: 40,
+                borderColor: "black",
                 borderStyle: "solid",
                 borderWidth: 1,
                 justifyContent: "center",
                 backgroundColor: "#FFFFFF",
-                borderRadius: 6,
+                borderRadius: 5,
               }}
             >
               <Text
@@ -190,7 +240,7 @@ const DeliveryPayment = () => {
                   fontWeight: "500",
                 }}
               >
-                Mobile : {route?.params?.customerDetails?.mobileNo}
+                Mobile  {route?.params?.customerDetails?.mobileNo}
               </Text>
             </View>
           </View>
@@ -319,7 +369,7 @@ const DeliveryPayment = () => {
           </View>
 
           <Button
-            onPress={handleFinal}
+            onPress={deliverOrder}
             buttonColor="blue"
             textColor="white"
             focusable={true}
@@ -334,9 +384,9 @@ const DeliveryPayment = () => {
               top: 30,
             }}
           >
-            <Entypo name="save" size={25} color="white" />
+            <Entypo name="save" size={25} color="white" style={{marginTop:2}} />
             {"  "}
-            Booked
+            Pay Now
           </Button>
         </View>
       </ScrollView>

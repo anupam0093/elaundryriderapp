@@ -8,7 +8,8 @@ const DeliveryCard = ({ item }) => {
   const { navigate } = useNavigation();
 
   const customerData = {
-    name: item?.deliveryRequest?.customerDTO?.firstName,
+    name: item?.deliveryRequest?.customerDTO?.firstName  ,
+      nameL: item?.deliveryRequest?.customerDTO?.lastName,
     mobileNo: item?.deliveryRequest?.customerDTO?.mobileNo,
     storeCustomerId: item?.deliveryRequest?.storeCustomerId,
     orderId: item?.deliveryRequest?.orderId,

@@ -25,33 +25,7 @@ const NewOrder = () => {
   const setAccount = useStore((state) => state.setAccount);
   const setBalance = useStore((state) => state.setBalance);
 
-  //  const getOrder = async()=>{
-  //   try {
-  //     // https://api.elaundry.co.in/oit-elaundry/api/auth/customer/store-customer/5/9718409025
-  //     const {data, status} = await axios.post(`https://api.elaundry.co.in/oit-elaundry/api/auth/customer/store-customer/${riderDetails?.storeId}/${mobileNo}`, {
-  //      data:{
-  //       "storeId":"5",
-  //       "firstName":"Customer",
-  //       "mobileNo":`${mobileNo}`
-  //      },
-  //     headers:{
-  //         "Content-Type": "application/json",
-  //         'Authorization': `Basic ${user?.accessToken}`
-  //       }
-  //     })
-  //     // console.log('salman khan',  data)
-  //     if(status === 200){
-  //       setAccount(data[0]?.customer)
-  //       setBalance(data[0]?.storeCustomerAccountDTO)
-  //       Alert.alert("Succesfully created the Order")
-  //       navigation.navigate('Pickup', {'OrderDetails':data[0]?.customer})
-
-  //     }
-  //     // console.log(data)
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //  }
+  
 
   const getOrder = async () => {
    const storeId = `${riderDetails.storeId}`
@@ -79,8 +53,7 @@ const NewOrder = () => {
       }
 
       if (data) {
-        // setAccount(data[0]?.customer);
-        // setBalance(data[0]?.storeCustomerAccountDTO);
+      
         Alert.alert("Succesfully created the Order");
         navigation.navigate("Pickup", { OrderDetails: customerData });  
       }
@@ -142,12 +115,14 @@ const NewOrder = () => {
                 btnTittle="Cancel"
                 bg="#EC1D1D"
                 textColor="white"
+                _width="40%"
                 _onPress={handleBack}
               />
               <CustomButton
                 btnTittle="Submit"
                 bg="green"
                 textColor="white"
+                _width="40%"
                 _onPress={getOrder}
               />
             </View>

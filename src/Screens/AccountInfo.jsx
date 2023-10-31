@@ -52,7 +52,7 @@ const route = useRoute()
             style={{
               width: "45%",
               height: 40,
-              borderColor: "#FFFF",
+              borderColor: "black",
               borderWidth: 1,
               justifyContent: "center",
               backgroundColor: "#FFFFFF",
@@ -66,7 +66,7 @@ const route = useRoute()
                 fontWeight: "600",
               }}
             >
-              Name: {route?.params?.customerDetails?.name}
+              Name: {route?.params?.customerDetails?.name}{" "}{route?.params?.customerDetails?.nameL}
             </Text>
           </View>
           <View
@@ -74,7 +74,7 @@ const route = useRoute()
               marginLeft: "2%",
               width: "49%",
               height: 40,
-              borderColor: "#FFFF",
+              borderColor: "black",
               borderWidth: 1,
               justifyContent: "center",
               backgroundColor: "#FFFFFF",

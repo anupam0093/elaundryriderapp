@@ -97,7 +97,7 @@ const Homepage = ({ navigation }) => {
         {/* data coming from backend */}
         <View
           style={{
-            left: 220,
+            left: 200,
             top: 20,
             width: 150,
             height: 45,

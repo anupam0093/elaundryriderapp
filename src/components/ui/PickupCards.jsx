@@ -248,12 +248,11 @@ const PickupCards = ({ item }) => {
 
             <View
               style={{
-                width: "32%",
+                width: "33%",
                 height: 30,
                 display: "flex",
                 flexDirection: "row",
-                left: 4,
-                gap:6
+                
               }}
             >
               <TouchableOpacity

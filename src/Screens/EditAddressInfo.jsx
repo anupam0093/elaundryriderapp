@@ -41,7 +41,7 @@ const EditAddressInfo = () => {
                 display: "flex",
               }}
             >
-              <View style={{ width: "100%", display: "flex" }}>
+              <View style={{ width: "100%", display: "flex",justifyContent:"center" }}>
                 <Text
                   style={{
                     color: "white",
@@ -79,12 +79,12 @@ const EditAddressInfo = () => {
 
               <View
                 style={{
-                  width: 258,
+                  width: "90%",
                   height: 310,
                   marginTop: 10,
                   display: "flex",
                   gap: 8,
-                  left: 20,
+                  left: 10,
                   top: 30,
                 }}
               >
@@ -126,7 +126,7 @@ const EditAddressInfo = () => {
                     display: "flex",
                     flexDirection: "row",
                     gap: 7,
-                    marginTop: 10,
+                    marginTop: 5,
                     width: 258,
                   }}
                 >
@@ -134,7 +134,8 @@ const EditAddressInfo = () => {
                     btnTittle="Cancel"
                     bg="#EC1D1D"
                     textColor="white"
-                    _width="50%"
+                    _width="47%"
+                    
                     _onPress={() => navigation.goBack()}
                   />
 
@@ -142,7 +143,7 @@ const EditAddressInfo = () => {
                     btnTittle="Submit"
                     bg="green"
                     textColor="white"
-                    _width="50%"
+                    _width="47%"
                   />
                 </View>
               </View>
