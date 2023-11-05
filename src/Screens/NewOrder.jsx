@@ -22,8 +22,7 @@ const NewOrder = () => {
   };
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
-  const setAccount = useStore((state) => state.setAccount);
-  const setBalance = useStore((state) => state.setBalance);
+ 
 
   
 
@@ -54,7 +53,7 @@ const NewOrder = () => {
 
       if (data) {
       
-        Alert.alert("Succesfully created the Order");
+        Alert.alert("Order Response Success","Pickup requested received");
         navigation.navigate("Pickup", { OrderDetails: customerData });  
       }
     } catch (error) {

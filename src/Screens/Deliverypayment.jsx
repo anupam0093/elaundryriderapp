@@ -17,7 +17,6 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Button, TextInput } from "react-native-paper";
 import { Entypo } from "@expo/vector-icons";
-import { useQuery } from "@tanstack/react-query";
 import { API_URL } from "../../networkAPI/env";
 
 const DeliveryPayment = () => {
@@ -68,7 +67,12 @@ const DeliveryPayment = () => {
   }, []);
 
   const handleSelect = (item) => {
-    setSelectedItem(item);
+    if (!selectedItem) {
+          Alert.alert("Please select a mode of payment");
+        } else {
+          setSelectedItem(item);
+        }
+   
   };
 
   // const handleFinal = () => {
@@ -79,59 +83,51 @@ const DeliveryPayment = () => {
   //   }
   // };
 
-  const remain = Number(delivery[0]?.grandTotal) - Number(delivery[0]?.paidAmount);
-  // console.log("line 62", delivery[0]?.orderPaymentStatus);
+  const remain =
+    Number(delivery[0]?.grandTotal) - Number(delivery[0]?.paidAmount);
+  console.log("line 62", delivery[0]?.orderPaymentStatus);
   // console.log(text);
-  
-console.log(route?.params?.customerDetails)
-console.log(delivery[0]?.orderItem[1]?.qrCode[0])
 
+  console.log(route?.params?.customerDetails);
+  console.log(delivery[0]?.orderItem[1]?.qrCode[0]);
 
-
-const customDeliver = {
-    "orderChargeDiscountDTO": {},
-    "paymentDTO": {
-        "receivedBy": "7",
-        "paidBy": route?.params?.customerDetails?.storeCustomerId,
-        "amount": remain,
-        "paymentMode": selectedItem,
-        "paymentRefNo": ""
+  const customDeliver = {
+    orderChargeDiscountDTO: {},
+    paymentDTO: {
+      receivedBy: "7",
+      paidBy: route?.params?.customerDetails?.storeCustomerId,
+      amount: remain,
+      paymentMode: selectedItem || "",
+      paymentRefNo: "",
     },
-    "garmentList": [
-      Number(delivery[0]?.orderItem[0]?.qrCode[0]?.orderItemId)
-    ]
-}
+    garmentList: [Number(delivery[0]?.orderItem[0]?.qrCode[0]?.orderItemId)],
+  };
 
-//========================================= deliver Post aPi=======================================================
+  //========================================= deliver Post aPi=======================================================
 
-const deliverOrder = async () => {
-  const token = `${user?.accessToken}`;
-  try {
-    const { data } = await axios({
-      method: "POST",
-      url: `${API_URL}/auth/order/delivery`,
-      data: customDeliver,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic" + " " + token,
-      },
-    });
-    console.log(data)
-    if (data?.success) {
-      console.log(data?.message)
-      alert(`${data?.message}`);
-      navigation.navigate('OrderDelevery')
+  const deliverOrder = async () => {
+    const token = `${user?.accessToken}`;
+    try {
+      const { data } = await axios({
+        method: "POST",
+        url: `${API_URL}/auth/order/delivery`,
+        data: customDeliver,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic" + " " + token,
+        },
+      });
+      console.log(data);
+      if (data?.success) {
+        console.log(data?.message);
+        alert(`${data?.message}`);
+        navigation.navigate("OrderDelevery");
+      }
+    } catch (error) {
+      console.log({ error }, "error in line 122");
+      alert("Something Went Wrong Please select Payment mode and Advance Amount");
     }
-  } catch (error) {
-    console.log({error},"error in line 122")
-    alert("Something Went Wrong");
-  }
-};
-
-
-
-
-
+  };
 
   return (
     <SafeAreaView>
@@ -141,7 +137,7 @@ const deliverOrder = async () => {
         >
           <View
             style={{
-              marginLeft: 5,
+             
               marginTop: 30,
               display: "flex",
               flexDirection: "row",
@@ -157,7 +153,7 @@ const deliverOrder = async () => {
                 name="left"
                 size={24}
                 color="#5D7EFC"
-                style={{ marginTop: 30, marginLeft: 10 }}
+                style={{ marginTop: 30,  }}
               />
             </TouchableOpacity>
 
@@ -170,22 +166,24 @@ const deliverOrder = async () => {
             >
               <Text
                 style={{
-                  fontSize: 24,
+                  fontSize: 28,
                   lineHeight: 44,
                   fontWeight: "600",
                   color: "#002B6B",
                 }}
               >
-                Order Submit
+                Order Delivery
               </Text>
               <Text
                 style={{
-                  fontSize: 16,
+                  fontSize: 17,
                   fontWeight: "400",
                   color: "#000000",
+                  marginTop:7
                 }}
               >
-                Order Submit Now
+                Order Delivery : {route?.params?.customerDetails?.name}{" "}
+                {route?.params?.customerDetails?.nameL}
               </Text>
             </View>
           </View>
@@ -217,13 +215,14 @@ const deliverOrder = async () => {
                   fontWeight: "500",
                 }}
               >
-                Name  {route?.params?.customerDetails?.name}{" "}{route?.params?.customerDetails?.nameL}
+                Name {route?.params?.customerDetails?.name}{" "}
+                {route?.params?.customerDetails?.nameL}
               </Text>
             </View>
             <View
               style={{
                 marginLeft: 8,
-                width: 160,  
+                width: 160,
                 height: 40,
                 borderColor: "black",
                 borderStyle: "solid",
@@ -240,11 +239,69 @@ const deliverOrder = async () => {
                   fontWeight: "500",
                 }}
               >
-                Mobile  {route?.params?.customerDetails?.mobileNo}
+                Mobile {route?.params?.customerDetails?.mobileNo}
               </Text>
             </View>
           </View>
-          <View style={{ top: 10, left: 30, marginBottom: 20 }}>
+
+          {delivery[0]?.orderPaymentStatus === "PAID" ?(
+           <>
+ 
+         <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "70%",
+              left: 30,
+              top: 20,
+              marginBottom: 10,
+            }}
+          >
+            <Text
+              style={{ fontSize: 20, fontWeight: "bold", color: "black" }}
+              t
+            >
+              Payment Status :
+            </Text>
+            <Text
+              style={{ fontSize: 17, fontWeight: "500", top: 5, color: "red" }}
+            >
+              {delivery[0]?.orderPaymentStatus}
+            </Text>
+          </View>
+          <Button
+            onPress={deliverOrder}
+            buttonColor="blue"
+            textColor="white"
+            focusable={true}
+            style={{
+              borderColor: "cyan",
+              borderWidth: 1,
+              borderStyle: "solid",
+              width: "86%",
+              left: 30,
+              marginTop: 15,
+              padding: 5,
+              top: 30,
+            }}
+          >
+            <Entypo
+              name="save"
+              size={25}
+              color="white"
+              style={{ marginTop: 2 }}
+            />
+            {"  "}
+            Deliver Now
+          </Button>
+           </>
+            
+            
+          ):
+          (
+            <>
+                      <View style={{ top: 10, left: 30, marginBottom: 20 }}>
             <SelectDropdown
               data={payment.map((item) => item)}
               onSelect={(selectedItem, index) => {
@@ -281,6 +338,7 @@ const deliverOrder = async () => {
             onChangeText={(text) => setText(text)}
             label="Advance Amount"
           />
+
           <View
             style={{
               display: "flex",
@@ -304,6 +362,7 @@ const deliverOrder = async () => {
               {delivery[0]?.orderPaymentStatus}
             </Text>
           </View>
+
           <View
             style={{
               display: "flex",
@@ -348,6 +407,7 @@ const deliverOrder = async () => {
               ₹ {delivery[0]?.grandTotal}
             </Text>
           </View>
+
           <View
             style={{
               display: "flex",
@@ -384,10 +444,19 @@ const deliverOrder = async () => {
               top: 30,
             }}
           >
-            <Entypo name="save" size={25} color="white" style={{marginTop:2}} />
+            <Entypo
+              name="save"
+              size={25}
+              color="white"
+              style={{ marginTop: 2 }}
+            />
             {"  "}
             Pay Now
           </Button>
+            </>
+          )
+          }
+
         </View>
       </ScrollView>
     </SafeAreaView>

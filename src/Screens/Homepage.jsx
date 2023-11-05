@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   View,
   SafeAreaView,
@@ -6,17 +7,14 @@ import {
   Text,
   StatusBar,
   Alert,
-  Button,
+  StyleSheet,
+  Modal,
 } from "react-native";
-import { homepage } from "../../Components/Styles/homepage";
-import React, { useEffect } from "react";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import useStore from "../GlobalStore/store";
-import CustomButton from "../../Components/CommonComponent/CustomButton";
 import Header from "../components/Header/Header";
-import { MaterialIcons } from "@expo/vector-icons";
-import { getAccountInfo } from "../../networkAPI/api";
 import axios from "axios";
+import { homepage } from "../../Components/Styles/homepage";
 
 const LeftBrand = () => {
   return (
@@ -31,9 +29,9 @@ const LeftBrand = () => {
 
 const RightContent = ({ setLogOutUser, navigator }) => {
   return (
-    <View style={{ flexDirection: "row", gap: 17 }}>
+    <View style={{ flexDirection: "row", gap: 20 }}>
       <TouchableOpacity onPress={setLogOutUser}>
-        <MaterialIcons name="logout" size={24} color="black" />
+        <FontAwesome name="sign-out" size={24} color="black" />
       </TouchableOpacity>
       <TouchableOpacity onPress={navigator}>
         <Ionicons name="notifications" size={24} color="black" />
@@ -42,15 +40,56 @@ const RightContent = ({ setLogOutUser, navigator }) => {
   );
 };
 
+
+const LogoutModal = ({ visible, onConfirm, onCancel }) => {
+  return (
+    <Modal
+      visible={visible}
+      animationType="slide"
+      transparent={true}
+    >
+      <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+          <Text style={styles.modalTitle}>Confirm Logout</Text>
+          <Text style={styles.modalText}>Are you sure you want to log out?</Text>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={onConfirm} style={styles.confirmButton}>
+              <Text style={styles.buttonText}>Yes</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onCancel} style={styles.cancelButton}>
+              <Text style={styles.buttonText}>No</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  );
+};
+
+
 const Homepage = ({ navigation }) => {
+  const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
   const user = useStore((state) => state.user);
   const riderDetails = useStore((state) => state.riderDetails);
   const setRiderDetails = useStore((state) => state.setRiderDetails);
   const setLogOutUser = useStore((state) => state.setLogOutUser);
-  console.log(user)
 
   const navigator = () => {
     navigation.navigate("Notification");
+  };
+
+  const handleLogout = () => {
+    setLogoutModalVisible(true);
+  };
+
+  const confirmLogout = () => {
+  
+    setLogoutModalVisible(false);
+    setLogOutUser();
+  };
+
+  const cancelLogout = () => {
+    setLogoutModalVisible(false);
   };
 
   const fetchRiderDetails = async () => {
@@ -64,13 +103,11 @@ const Homepage = ({ navigation }) => {
           },
         }
       );
-      console.log(response);
       if (response) {
         setRiderDetails(response?.data);
       }
     } catch (error) {
-      console.log("nehat error login", error);
-      Alert.alert("Full authentication is required to access this resource")
+      Alert.alert("Full authentication is required to access this resource");
       setLogOutUser();
     }
   };
@@ -90,10 +127,17 @@ const Homepage = ({ navigation }) => {
           </Text>
         }
         rightContent={
-          <RightContent setLogOutUser={setLogOutUser} navigator={navigator} />
+          <RightContent setLogOutUser={handleLogout} navigator={navigator} />
         }
       />
-      <View style={homepage.container}>
+      {/* ... Your content ... */}
+
+      <LogoutModal
+        visible={isLogoutModalVisible}
+        onConfirm={confirmLogout}
+        onCancel={cancelLogout}
+      />
+<View style={homepage.container}>
         {/* data coming from backend */}
         <View
           style={{
@@ -338,8 +382,56 @@ const Homepage = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
+
     </SafeAreaView>
   );
 };
 
 export default Homepage;
+
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
+    width: 300,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  modalText: {
+    fontSize: 16,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    gap:20
+  },
+  confirmButton: {
+    backgroundColor: 'green',
+    padding: 10,
+    borderRadius: 5,
+  },
+  cancelButton: {
+    backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+});

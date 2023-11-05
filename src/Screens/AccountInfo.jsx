@@ -1,20 +1,48 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { styles } from "../../Components/Styles/welcome";
 import useStore from "../GlobalStore/store";
-
+import axios from "axios";
+import { API_URL } from "../../networkAPI/env";
 
 const AccountInfo = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   // const windowWidth = Dimensions.get("window").width;
 
+  const user = useStore((state) => state.user);
+  const route = useRoute();
+  console.log(route?.params?.customerDetails?.storeCustomerId);
 
-const account = useStore(state => state.account)
-const balance = useStore(state => state.balance)
-const route = useRoute()
+  const [balanceAmount, setBalanceAccount] = React.useState([]);
+  console.log(balanceAmount[0]?.scstatus)
 
+  const walletBalance = async () => {
+    const token = `${user?.accessToken}`;
+    try {
+      const { data } = await axios({
+        method: "GET",
+        url: `${API_URL}/auth/customer/store-customer/${route?.params?.customerDetails?.storeCustomerId}`,
+
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic" + " " + token,
+        },
+      });
+      setBalanceAccount(data)
+      // console.log("data in on ", data?.storeCustomerAccountDTO);
+    } catch (error) {
+      console.log({ error }, "error in line 122");
+    }
+  };
+
+  useEffect(() => {
+    walletBalance();
+  }, []);
+
+
+  console.log(balanceAmount[0]?.storeCustomerAccountDTO)
 
   return (
     <SafeAreaView>
@@ -66,7 +94,8 @@ const route = useRoute()
                 fontWeight: "600",
               }}
             >
-              Name: {route?.params?.customerDetails?.name}{" "}{route?.params?.customerDetails?.nameL}
+              Name: {route?.params?.customerDetails?.name}{" "}
+              {route?.params?.customerDetails?.nameL}
             </Text>
           </View>
           <View
@@ -96,7 +125,7 @@ const route = useRoute()
         <View
           style={{
             width: "90%",
-            height:300,
+            height: 300,
             borderColor: "#D9D9D9",
             borderWidth: 1,
             marginTop: "5%",
@@ -106,11 +135,11 @@ const route = useRoute()
             backgroundColor: "#D9D9D9",
           }}
         >
-          {renderInfo("Wallet Status", "status")}
-          {renderInfo("Credit Limit", "creditLimit")}
-          {renderInfo("Available Limit", "balanceUnit")}
-          {renderInfo("Balance Unit", "balanceUnit")}
-          {renderInfo("Advance Limit", "advanceUnit")}
+          {renderInfo("Wallet Status", balanceAmount[0]?.scstatus)}
+          {renderInfo("Credit Limit", balanceAmount[0]?.storeCustomerAccountDTO?.creditLimit )}
+          {renderInfo("Available Limit",  balanceAmount[0]?.storeCustomerAccountDTO?.availableLimit)}
+          {renderInfo("Balance Unit",  balanceAmount[0]?.storeCustomerAccountDTO?.balanceUnit)}
+          {renderInfo("Advance Limit",  balanceAmount[0]?.storeCustomerAccountDTO?.advanceUnit)}
         </View>
       </View>
     </SafeAreaView>
@@ -127,7 +156,6 @@ const route = useRoute()
           borderWidth: 1,
           backgroundColor: "#CDCACA",
           marginTop: "5%",
-         
         }}
       >
         <View style={{ width: "70%" }}>
@@ -136,16 +164,23 @@ const route = useRoute()
               color: "#000000",
               fontSize: 15,
               fontWeight: "bold",
-              marginTop:"3%",
-              marginLeft:"2%"
+              marginTop: "3%",
+              marginLeft: "3%",
             }}
           >
             {label}
           </Text>
         </View>
         <View style={{ width: "50%" }}>
-          <Text style={{ color: "#002B6B", fontSize: 16, fontWeight: "400" }}>
-            {balance ? balance[value] : ""}
+          <Text
+            style={{
+              color: "#002B6B",
+              fontSize: 16,
+              fontWeight: "400",
+              marginTop: "5%",
+            }}
+          >
+            {value}
           </Text>
         </View>
       </View>

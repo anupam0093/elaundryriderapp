@@ -37,7 +37,7 @@ const Checkout = () => {
 
   const [selectedItem, setSelectedItem] = useState("");
   const [discountSelect, setdiscountSelect] = useState("");
-  const [discounteditem, setDiscounteditem] = useState([]);
+  const [discounteditem, setDiscounteditem] = useState("");
   const [handlegst, setHandleGst] = useState("INCLUDE");
   const [cards, setCards] = useState([]);
   const [discountcards, setdiscountCards] = useState([]);

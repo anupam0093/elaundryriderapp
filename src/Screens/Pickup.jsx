@@ -39,8 +39,13 @@ const Pickup = () => {
         user?.accessToken,
         riderDetails?.storeUserId
       ),
-    onSuccess: (data) => setPickup(data),
+    onSuccess: (data) => setPickup(data?.filter((item) => item?.pickupRequest?.storeCustomerId === item?.pickupRequest?.storeCustomerId)),
   });
+
+
+ 
+
+  console.log(pickup[0])
 
   //========================== Calling API ======================================================================
   const callPhoneNumber = async (number) => {
@@ -94,9 +99,9 @@ const Pickup = () => {
           >
             <AntDesign
               name="left"
-              size={24}
+              size={30}
               color="#5D7EFC"
-              style={{ marginTop: 30, marginLeft: 10 }}
+              style={{ marginTop: 25, marginLeft: 10 }}
             />
           </TouchableOpacity>
           <View
