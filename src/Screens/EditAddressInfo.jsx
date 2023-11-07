@@ -30,7 +30,7 @@ const EditAddressInfo = () => {
 
 const addressCart = {
 
-  "id": 0,
+  "id": route?.params?.customerDetails?.id || route?.params?.my.id,
   "addressLine1": ad1,
   "addressLine2": ad2,
   "city": city,
@@ -54,14 +54,16 @@ setPincode(pin)
 setLandmark(land)
 }
 
+console.log(ad1)
 
 console.log(route?.params?.customerDetails)
+console.log(route?.params?.my)
 
   const updatAddress = async () => {
     const token = `${user?.accessToken}`;
     try {
       const { data } = await axios({
-        method: "POST",
+        method: "PUT",
         url: `${API_URL}/auth/customer/${route?.params?.customerDetails?.storeCustomerId}/customer-address`,
         data: addressCart,
         headers: {

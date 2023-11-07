@@ -53,9 +53,14 @@ const PickupCards = ({ item }) => {
       item?.pickupRequest?.customerDTO?.firstName +
       " " +
       item?.pickupRequest?.customerDTO?.lastName,
-    mobileNo: item?.pickupRequest?.customerDTO?.mobileNo,
+    mobileNo: item?.pickupRequest?.customerDTO?.address?.contactNo,
     storeCustomerId: item?.pickupRequest?.storeCustomerId,
+    id: item?.pickupRequest?.customerDTO?.address?.id,
+   
+
+
   };
+  // console.log( item?.pickupRequest?.customerDTO?.address?.contactNo)
 
   return (
     <View
@@ -97,7 +102,7 @@ const PickupCards = ({ item }) => {
             <TouchableOpacity
               onPress={() =>
                 callPhoneNumber(
-                  Number(item?.["pickupRequest"]?.["customerDTO"]?.mobileNo)
+                  Number(item?.["pickupRequest"]?.["customerDTO"]?.["address"]?.contactNo)
                 )
               }
             >
@@ -130,7 +135,11 @@ const PickupCards = ({ item }) => {
                     left: 4,
                   }}
                 >
-                  {item?.["pickupRequest"]?.["customerDTO"]?.mobileNo}
+                  {item?.["pickupRequest"]?.["customerDTO"]?.["address"]?.contactNo === null
+                  ? item?.["pickupRequest"]?.["customerDTO"]?.mobileNo
+                  :item?.["pickupRequest"]?.["customerDTO"]?.["address"]?.contactNo
+
+                   }
                 </Text>
               </View>
             </TouchableOpacity>

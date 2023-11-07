@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   View,
   SafeAreaView,
@@ -10,7 +11,6 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
-import React, { useState } from "react";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
 import Octicons from "@expo/vector-icons/build/Octicons";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -39,15 +39,60 @@ const Pickup = () => {
         user?.accessToken,
         riderDetails?.storeUserId
       ),
-    onSuccess: (data) => setPickup(data?.filter((item) => item?.pickupRequest?.storeCustomerId === item?.pickupRequest?.storeCustomerId)),
+    onSuccess: (data) =>
+      setPickup(
+        data?.filter(
+          (item) =>
+            item?.pickupRequest?.storeCustomerId ===
+            item?.pickupRequest?.storeCustomerId
+        )
+      ),
   });
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredPickup, setFilteredPickup] = useState([]);
 
- 
+  // useEffect(() => {
+  //   const filterPickupData = () => {
+  //     const filteredData = pickup.filter((item) => {
+  //       const customer = item.pickupRequest.customerDTO;
+  //       const customerName = customer.firstName.toLowerCase();
+  //       const customerMobile = customer.mobileNumber.toLowerCase();
+  //       const query = searchQuery.toLowerCase();
+  //       return customerName.includes(query) || customerMobile.includes(query);
+  //     });
+  //     setFilteredPickup(filteredData);
+  //   };
 
-  console.log(pickup[0])
+  //   const debouncedFilter = setTimeout(filterPickupData, 300);
 
-  //========================== Calling API ======================================================================
+  //   return () => clearTimeout(debouncedFilter);
+
+  // }, [searchQuery, pickup]);
+  
+  useEffect(() => {
+    const filterPickupData = () => {
+      const filteredData = pickup.filter((item) => {
+        const customer = item.pickupRequest.customerDTO;
+        const customer2 = item.pickupRequest.customerDTO.address;
+        if (!customer || !customer2) {
+          return false; 
+        }
+        const customerName = customer.firstName ? customer.firstName.toLowerCase() : "";
+        const customerMobile = customer2.contactNo ? customer2.contactNo.toLowerCase() : "";
+        const query = searchQuery.toLowerCase();
+        return customerName.includes(query) || customerMobile.includes(query);
+      });
+      setFilteredPickup(filteredData);
+    };
+  
+    const debouncedFilter = setTimeout(filterPickupData, 3);
+  
+    return () => clearTimeout(debouncedFilter);
+  
+  }, [searchQuery, pickup]);
+  
+
   const callPhoneNumber = async (number) => {
     const phoneNumber = `${
       Platform.OS !== "android" ? "telprompt" : "tel"
@@ -62,8 +107,6 @@ const Pickup = () => {
     }
   };
 
-  //======================== Open Map ==============================
-
   const openMap = async (address, city, zipCode) => {
     const destination = encodeURIComponent(`${address} ${zipCode}, ${city}`);
     const provider = Platform.OS === "ios" ? "apple" : "google";
@@ -77,8 +120,6 @@ const Pickup = () => {
       console.log(error);
     }
   };
-
-  console.log("nehat route", route.params);
 
   return (
     <SafeAreaView>
@@ -119,8 +160,10 @@ const Pickup = () => {
             </View>
             <View style={{ height: 23, width: 90 }}>
               <TextInput
-                style={[styles.input]}
+                style={styles.input}
                 placeholder="Search Here"
+                onChangeText={(text) => setSearchQuery(text)}
+                value={searchQuery}
               ></TextInput>
             </View>
           </View>
@@ -140,278 +183,14 @@ const Pickup = () => {
           />
         )}
 
-        {route?.params?.OrderDetails && (
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              top: 10,
-              right: 5,
-              justifyContent: "center",
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Category", {
-                  customerDetails: route.params.OrderDetails,
-                });
-              }}
-            >
-              <View style={[styles.Viewcard, { width: windowWidth * 0.9 }]}>
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 17,
-                      fontWeight: "bold",
-                      color: "#6200ED",
-                      marginTop: 15,
-                      marginLeft: 10,
-                    }}
-                  >
-                    {route?.params?.OrderDetails?.name}{" "}
-                    {route?.params?.OrderDetails?.lastName}
-                  </Text>
-
-                  <TouchableOpacity
-                    onPress={() => callPhoneNumber(account.mobileNo)}
-                  >
-                    <View
-                      style={{
-                        width: 110,
-                        flexDirection: "row",
-                        justifyContent: "center",
-                        height: 38,
-                        paddingHorizontal: 15,
-                        paddingVertical: 10,
-                        backgroundColor: "#6200ED",
-                        marginHorizontal: 15,
-                        marginTop: 10,
-                        borderRadius: 10,
-                      }}
-                    >
-                      <Feather
-                        name="phone-call"
-                        size={14}
-                        color="white"
-                        style={{ top: 2, right: 4 }}
-                      />
-
-                      <Text
-                        style={{
-                          fontSize: 12,
-                          textAlign: "center",
-                          color: "white",
-                          fontWeight: "bold",
-                          left: 5,
-                        }}
-                      >
-                        {route?.params?.OrderDetails?.mobileNo}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-
-                <View
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    flexDirection: "row",
-                    padding: 10,
-                  }}
-                >
-                  <View style={{ width: "auto", backgroundColor: "#FFFCFC" }}>
-                    <Text
-                      style={{
-                        fontSize: 13,
-                        justifyContent: "center",
-                        color: "black",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {/* 02-07-2023 */}
-                      <AntDesign name="calendar" size={15} color="black" />{" "}
-                      {moment(Date.now()).format("DD-MM-YYYY")}
-                    </Text>
-                  </View>
-                  <View style={{ width: "auto", backgroundColor: "#FFFCFC" }}>
-                    <Text
-                      style={{
-                        fontSize: 13,
-                        justifyContent: "center",
-                        color: "black",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      <AntDesign name="clockcircleo" size={15} color="black" />{" "}
-                      09 AM To 10:00 PM
-                    </Text>
-                  </View>
-                </View>
-
-                <View style={{ width: "100%", height: 37, marginLeft: 10 }}>
-                  <View>
-                    <AntDesign
-                      name="arrowright"
-                      size={14}
-                      color="#6200ED"
-                      style={{ top: 18, left: 40 }}
-                    />
-                  </View>
-
-                  <Text
-                    style={{
-                      color: "#6200ED",
-                      textAlign: "center",
-                      fontSize: 17,
-                      fontWeight: "500",
-                    }}
-                  >
-                    Request Received by Rider
-                  </Text>
-                </View>
-
-                <View style={{ width: "100%", height: 60, padding: 7 }}>
-                  <TouchableOpacity onPress={() => openMap()}>
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <View
-                        style={{
-                          marginLeft: 0,
-                          width: "98%",
-                          height: 40,
-                          backgroundColor: "#6200ED",
-                          borderRadius: 10,
-                        }}
-                      >
-                        <Text
-                          style={{
-                            fontSize: 13,
-                            color: "white",
-                            fontWeight: "600",
-                            top: 7,
-                            padding: 5,
-                          }}
-                        >
-                          <Entypo name="location" size={15} color="white" />
-                          {"  "}
-                          {account?.address === null || account
-                            ? "Adress not Available"
-                            : account?.address?.city}
-                        </Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-
-                  <View
-                    style={{
-                      width: "32%",
-                      height: 30,
-                      display: "flex",
-                      flexDirection: "row",
-                      left: 4,
-                      gap:12
-                    }}
-                  >
-                    <TouchableOpacity
-                      onPress={() => navigation.navigate("Accountinfo",{
-                        customerDetails: route.params.OrderDetails,
-                      })}
-                    >
-                      <View
-                        style={{
-                          width: "100%",
-                          flexDirection: "row",
-                          justifyContent: "center",
-                          height: 37,
-                          paddingHorizontal: 15,
-                          paddingVertical: 10,
-                          backgroundColor: "#6200ED",
-                          marginHorizontal: 15,
-                          borderRadius: 7,
-                          top: 10,
-                        }}
-                      >
-                        <MaterialIcons
-                          name="account-balance-wallet"
-                          size={17}
-                          color="white"
-                        />
-                        <Text
-                          style={{
-                            fontSize: 14,
-                            textAlign: "center",
-                            color: "white",
-                            fontWeight: "600",
-                            marginLeft: 4,
-                          }}
-                        >
-                          ACCOUNT INFO
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => navigation.navigate("Address",{
-                        customerDetails: route.params.OrderDetails,
-                      })}
-                    >
-                      <View
-                        style={{
-                          width: "100%",
-                          flexDirection: "row",
-                          justifyContent: "center",
-                          height: 37,
-                          paddingHorizontal: 15,
-                          paddingVertical: 10,
-                          backgroundColor: "#6200ED",
-                          marginHorizontal: 15,
-                          borderRadius: 7,
-                          marginTop: 10,
-                        }}
-                      >
-                        <AntDesign
-                          name="plus"
-                          size={17}
-                          color="white"
-                          style={{ top: 1 }}
-                        />
-                        <Text
-                          style={{
-                            fontSize: 14,
-                            textAlign: "center",
-                            color: "white",
-                            fontWeight: "600",
-                            left: 3,
-                          }}
-                        >
-                          EDIT ADDRESS
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </TouchableOpacity>
-          </View>
-        )}
-
-        {data && (
+        {filteredPickup.length > 0 ? (
           <FlatList
-            data={pickup}
+            data={filteredPickup}
             renderItem={({ item }) => <PickupCards item={item} />}
             keyExtractor={(item) => item.id}
           />
+        ) : (
+          <Text style={{fontSize:10}}>No matching pickups found.</Text>
         )}
       </View>
     </SafeAreaView>
@@ -443,4 +222,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFCFC",
   },
 });
+
 export default Pickup;

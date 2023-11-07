@@ -32,6 +32,7 @@ const RightContent = ({ setLogOutUser, navigator }) => {
     <View style={{ flexDirection: "row", gap: 20 }}>
       <TouchableOpacity onPress={setLogOutUser}>
         <FontAwesome name="sign-out" size={24} color="black" />
+        <Text>Logout</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={navigator}>
         <Ionicons name="notifications" size={24} color="black" />
@@ -50,7 +51,7 @@ const LogoutModal = ({ visible, onConfirm, onCancel }) => {
     >
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>Confirm Logout</Text>
+          <Text style={styles.modalTitle}>Confirm Rider Logout</Text>
           <Text style={styles.modalText}>Are you sure you want to log out?</Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={onConfirm} style={styles.confirmButton}>
@@ -123,14 +124,16 @@ const Homepage = ({ navigation }) => {
         leftContent={<LeftBrand />}
         centerContent={
           <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-            Welcome Rider 😎
+            Hi Rider 
           </Text>
         }
         rightContent={
           <RightContent setLogOutUser={handleLogout} navigator={navigator} />
+          
         }
+        
       />
-      {/* ... Your content ... */}
+     
 
       <LogoutModal
         visible={isLogoutModalVisible}
@@ -150,6 +153,8 @@ const Homepage = ({ navigation }) => {
             borderColor: "#00000059",
             borderWidth: 2,
             borderRadius: 8,
+            display:"flex",
+            justifyContent:"center"
             
           }}
         >
@@ -161,6 +166,7 @@ const Homepage = ({ navigation }) => {
               justifyContent: "center",
               marginTop: 7,
               textAlign: "center",
+             
             }}
           >
             {/* data coming from backend */}
@@ -417,21 +423,25 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    gap:20
+    gap:20,
+
   },
   confirmButton: {
     backgroundColor: 'green',
     padding: 10,
     borderRadius: 5,
+    width:70
   },
   cancelButton: {
     backgroundColor: 'red',
     padding: 10,
     borderRadius: 5,
+    width:70
   },
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
+    textAlign:"center"
   },
 });

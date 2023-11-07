@@ -48,13 +48,16 @@ const NewOrder = () => {
 
       const customerData = {
         name:data[0]?.customer.firstName + ' ' + data[0]?.customer?.lastName, 
-        mobileNo:data[0]?.customer?.mobileNo, storeCustomerId : data[0]?.storeCustomerAccountDTO?.storeCustomerId
-      }
+        mobileNo:data[0]?.customer?.mobileNo, 
+        storeCustomerId : data[0]?.storeCustomerAccountDTO?.storeCustomerId,
+       
 
+      }
+      console.log("pickup data sallu",data)
       if (data) {
       
         Alert.alert("Order Response Success","Pickup requested received");
-        navigation.navigate("Pickup", { OrderDetails: customerData });  
+        navigation.navigate("Pickupn", { OrderDetails: customerData });  
       }
     } catch (error) {
       console.log(error);

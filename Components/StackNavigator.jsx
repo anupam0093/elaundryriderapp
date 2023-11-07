@@ -23,6 +23,8 @@ import GoogleCalendarDatePicker from "../src/Screens/TestCalendar";
 import EditAddressInfo from "../src/Screens/EditAddressInfo";
 import DeliveryPayment from "../src/Screens/Deliverypayment";
 import Test from "../src/Screens/Test";
+import Pickupn from "../src/Screens/Pickupn";
+import EditAddressNew from "../src/Screens/EditAddressNew";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -128,6 +130,17 @@ const StackNavigator = () => {
             <Stack.Screen
               name="deliveryPayment"
               component={DeliveryPayment}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Pickupn"
+              component={Pickupn}
+              options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+              name="AddressN"
+              component={EditAddressNew}
               options={{ headerShown: false }}
             />
             {/* <Stack.Screen

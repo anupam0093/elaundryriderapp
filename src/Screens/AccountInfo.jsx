@@ -42,7 +42,7 @@ const AccountInfo = () => {
   }, []);
 
 
-  console.log(balanceAmount[0]?.storeCustomerAccountDTO)
+  console.log(balanceAmount[0])
 
   return (
     <SafeAreaView>
