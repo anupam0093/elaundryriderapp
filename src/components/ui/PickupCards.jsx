@@ -354,10 +354,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderStyle: "solid",
     borderColor: "grey",
-    height: 233,
+    height: 240,
     width: 370,
     borderWidth: 1.9,
-    marginLeft: 10,
+    marginLeft: 8,
     borderRadius:27,
    
     

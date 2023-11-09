@@ -218,7 +218,7 @@ console.log(ad1)
                     }}
                   >
                     <CustomButton
-                      btnTittle="Cancel"
+                      btnTittle="Back"
                       bg="#EC1D1D"
                       textColor="white"
                       _width="47%"

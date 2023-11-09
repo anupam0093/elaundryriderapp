@@ -215,7 +215,7 @@ console.log(route?.params?.my)
                   }}
                 >
                   <CustomButton
-                    btnTittle="Cancel"
+                    btnTittle="Back"
                     bg="#EC1D1D"
                     textColor="white"
                     _width="47%"
@@ -224,7 +224,7 @@ console.log(route?.params?.my)
                   />
 
                   <CustomButton
-                    btnTittle="Submit"
+                    btnTittle="Update"
                     bg="green"
                     textColor="white"
                     _width="47%"

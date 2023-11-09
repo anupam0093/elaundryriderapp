@@ -67,12 +67,9 @@ const DeliveryPayment = () => {
   }, []);
 
   const handleSelect = (item) => {
-    if (!selectedItem) {
-          Alert.alert("Please select a mode of payment");
-        } else {
-          setSelectedItem(item);
-        }
-   
+
+      setSelectedItem(item);
+     
   };
 
   // const handleFinal = () => {
@@ -167,7 +164,7 @@ const DeliveryPayment = () => {
               <Text
                 style={{
                   fontSize: 28,
-                  lineHeight: 44,
+                  lineHeight: 30,
                   fontWeight: "600",
                   color: "#002B6B",
                 }}
@@ -336,7 +333,7 @@ const DeliveryPayment = () => {
             style={{ width: "85%", left: 30 }}
             value={text}
             onChangeText={(text) => setText(text)}
-            label="Advance Amount"
+            label="Remain Amount"
           />
 
           <View

@@ -35,7 +35,7 @@ const Welcome = ({ navigation }) => {
         },
       });
 
-      console.log('nehat access token', data);
+      console.log('Rider token', data);
       setUser(data);
       if (data) {
         try {

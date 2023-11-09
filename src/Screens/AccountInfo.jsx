@@ -56,9 +56,9 @@ const AccountInfo = () => {
           }}
         >
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <AntDesign name="left" size={24} color="#5D7EFC" />
+            <AntDesign name="left" size={30} color="#5D7EFC" />
           </TouchableOpacity>
-          <View style={{ width: "52%", marginTop: "2%" }}>
+          <View style={{ width: "52%", marginTop: "0%" }}>
             <Text style={{ fontSize: 24, fontWeight: "600", color: "#002B6B" }}>
               Account Info
             </Text>

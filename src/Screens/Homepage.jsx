@@ -163,8 +163,7 @@ const Homepage = ({ navigation }) => {
               marginLeft: 8,
               fontSize: 20,
               fontWeight: "700",
-              justifyContent: "center",
-              marginTop: 7,
+              justifyContent: "center",           
               textAlign: "center",
              
             }}

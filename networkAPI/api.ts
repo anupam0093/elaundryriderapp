@@ -223,3 +223,26 @@ export const searchAllDeliverybystoreId = async (
 };
 
 
+//======================================== Customer Detail=============================================================//
+
+
+
+export const customerDetails = async (
+ 
+  accessToken: string,
+  storeCustomerId: string
+) => {
+  try {
+    const { data } = await axios({
+      method: "GET",
+      url: `${API_URL}auth/customer/store-customer/${storeCustomerId}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${accessToken}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

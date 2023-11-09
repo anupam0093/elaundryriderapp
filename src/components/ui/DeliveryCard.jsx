@@ -58,7 +58,7 @@ const DeliveryCard = ({ item }) => {
           }}
         >
           <Text style={{ fontSize: 13, fontWeight: '600', color: 'blue' }}>
-            {item?.deliveryRequest?.deliveryStatus}
+            {item?.deliveryRequest?.deliveryStatus.replace(/_/g, " ")}
           </Text>
           <Text style={{ fontSize: 10, fontWeight: '400', color: '#646060' }}>
             Placed On:{' '}

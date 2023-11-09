@@ -14,22 +14,22 @@ import {
 import AntDesign from "@expo/vector-icons/build/AntDesign";
 import Octicons from "@expo/vector-icons/build/Octicons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Entypo, Feather, MaterialIcons } from "@expo/vector-icons";
 import useStore from "../GlobalStore/store";
 import { searchAllPickupbystoreId } from "../../networkAPI/api";
 import { useQuery } from "@tanstack/react-query";
-import moment from "moment";
 import PickupCards from "../components/ui/PickupCards";
 import { Linking, Platform } from "react-native";
 
 const Pickup = () => {
-  const windowWidth = Dimensions.get("window").width;
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredPickup, setFilteredPickup] = useState([]);
   const [pickup, setPickup] = useState([]);
   const navigation = useNavigation();
   const route = useRoute();
   const account = useStore((state) => state.account);
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
+
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["pickup"],
@@ -47,29 +47,12 @@ const Pickup = () => {
             item?.pickupRequest?.storeCustomerId
         )
       ),
-  });
+       
+  },[refetch]);
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredPickup, setFilteredPickup] = useState([]);
 
-  // useEffect(() => {
-  //   const filterPickupData = () => {
-  //     const filteredData = pickup.filter((item) => {
-  //       const customer = item.pickupRequest.customerDTO;
-  //       const customerName = customer.firstName.toLowerCase();
-  //       const customerMobile = customer.mobileNumber.toLowerCase();
-  //       const query = searchQuery.toLowerCase();
-  //       return customerName.includes(query) || customerMobile.includes(query);
-  //     });
-  //     setFilteredPickup(filteredData);
-  //   };
-
-  //   const debouncedFilter = setTimeout(filterPickupData, 300);
-
-  //   return () => clearTimeout(debouncedFilter);
-
-  // }, [searchQuery, pickup]);
-  
+console.log(pickup[0]?.pickupRequest?.storeCustomerId)
+ 
   useEffect(() => {
     const filterPickupData = () => {
       const filteredData = pickup.filter((item) => {
@@ -90,7 +73,7 @@ const Pickup = () => {
   
     return () => clearTimeout(debouncedFilter);
   
-  }, [searchQuery, pickup]);
+  }, [searchQuery, pickup],[refetch()]);
   
 
   const callPhoneNumber = async (number) => {
@@ -190,7 +173,7 @@ const Pickup = () => {
             keyExtractor={(item) => item.id}
           />
         ) : (
-          <Text style={{fontSize:10}}>No matching pickups found.</Text>
+          <Text style={{fontSize:20,display:"flex",textAlign:"center",top:40,color:"red"}}>No matching pickups found.</Text>
         )}
       </View>
     </SafeAreaView>
