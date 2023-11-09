@@ -52,14 +52,14 @@ const Offline = ({navigation}) => {
                 name="left"
                 size={30}
                 color="#5D7EFC"
-                style={{ marginTop: 30, marginLeft: 10 }}
+                style={{ marginTop: 20, marginLeft: 10 }}
               />
             </TouchableOpacity>
         
             <Image
             alt="ios-bars"
             source={require("../../assets/Photos/bar.png")}
-            style={{ marginTop: 32, marginRight: 20, height: 22, width: 22 }}
+            style={{ marginTop: 20, marginRight: 20, height: 22, width: 22 }}
           />
           </View>
 
@@ -103,7 +103,7 @@ const Offline = ({navigation}) => {
               color: "#002B6B",
               width: 165,
               padding: 10,
-              height: 31,
+              height: 33,
               borderRadius: 7,
               textAlign: "center",
               lineHeight: 14,
