@@ -7,8 +7,9 @@ import {
   StyleSheet,
   ActivityIndicator,
   TextInput,
+ 
 } from "react-native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState,useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Octicons from "@expo/vector-icons/build/Octicons";
 import useStore from "../GlobalStore/store";
@@ -20,6 +21,8 @@ import { useQuery } from "@tanstack/react-query";
 import CartModal from "../components/Modals/CartModal";
 import GamentsCard from "../components/ui/GamentsCard";
 import CartIcon from "../components/ui/CartIcon";
+import axios from "axios";
+import { QueryCache } from "react-query";
 
 const categories = [
   { id: "1", title: "Men" },
@@ -47,6 +50,8 @@ const Categoryn = () => {
   const [garments, setGarments] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
   const [searchQuery, setSearchQuery] = useState("");
+  const [backendCartItems, setBackendCartItems] = useState([])
+
 
   // // const customer = route?.params?.customer
   console.log(route?.params?.customerDetails);
@@ -62,7 +67,7 @@ const Categoryn = () => {
             item?.["categoryName"] == selectedCategory && item?.price !== 0
         )
       ),
-  });
+  },[refetch]);
 
   const filterGarments = useCallback(
     (categoryName) => {
@@ -77,18 +82,21 @@ const Categoryn = () => {
       setSelectedCategory(categoryName);
       setLoading(false);
     },
-    [data, setGarments, setSelectedCategory, garments]
+    [data, setGarments, setSelectedCategory, garments,refetch]
   );
 
   const openModal = useCallback((item) => {
     setSelectedItem(item);
     setShowModal(true);
-  }, []);
+  }, [refetch]);
 
+  
   const closeModal = useCallback(() => {
     setSelectedItem(null);
     setShowModal(false);
-  }, []);
+    refetch();
+    getUserCartItems();
+  }, [refetch, getUserCartItems])
 
   const customerInfo = {
     name: route?.params?.customerDetails?.name,
@@ -107,6 +115,64 @@ const Categoryn = () => {
     setGarments(filteredGarments);
   };
 
+
+// ================================================= Cart Icon session mentain========================================================
+
+const getUserCartItems = async () => {
+
+  const cart_url = `https://api.elaundry.co.in/oit-elaundry/api/auth/customer/${customerInfo?.storeCustomerId}/cart`
+  try {
+    const {data} = await axios.get(cart_url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${user?.accessToken}`,
+      }
+    })
+    console.log('yes yes nehat',  data)
+    setBackendCartItems(data)
+    
+  } catch (error) {
+    console.log(error,"error in line 43");
+  }
+}
+
+const deleteItemFromCart = async(cartItemId)=>{
+  const cart_url = `https://api.elaundry.co.in/oit-elaundry/api/auth/customer/${customer_details?.storeCustomerId}/cart/${cartItemId}`
+  try {
+    const {data} = await axios.delete(cart_url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${user?.accessToken}`,
+      }
+    })
+
+    Alert.alert(data?.message)
+    const updatedCart = backendCartItems?.filter((item)=>item.id !== cartItemId)
+    setBackendCartItems(updatedCart)
+    
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+useEffect(()=>{
+
+    getUserCartItems()
+
+}, [refetch,data])
+
+useEffect(() => {
+  const unsubscribeFocus = navigation.addListener('focus', () => {
+    refetch();
+    getUserCartItems(); 
+  });
+
+  return unsubscribeFocus;
+}, [navigation, refetch])
+
+
   return (
     <SafeAreaView style={{ flex: 1, marginTop: 30 }}>
       <Header
@@ -124,7 +190,7 @@ const Categoryn = () => {
         rightContent={
           <CartIcon
             path="Cart"
-            cartLength={cart?.length}
+            cartLength={backendCartItems?.length}
             customerDetails={route?.params?.customerDetails}
           />
         }
@@ -282,9 +348,10 @@ const Categoryn = () => {
             />
           )}
           keyExtractor={(item) => item?.priceListId}
+          
         />
       )}
-      {/* <GamentsCard setShowModal={setShowModal}/> */}
+ 
       {showModal && (
         <CartModal
           showModal={showModal}

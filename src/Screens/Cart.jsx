@@ -14,13 +14,13 @@ import axios from 'axios';
 
 const Cart = () => {
   const navigation = useNavigation()
-  const cart = useStore((state) => state.cart)
+  const setCart = useStore((state) => state.setCart)
   const user = useStore((state) => state.user)
   const route = useRoute()
-  const customer_details = route?.params?.customerDetails
+  const customer_details = route?.params?.customerDetails || route?.params?.customerInfo
   const [backendCartItems, setBackendCartItems] = useState([])
  
-
+  
 
  
 
@@ -40,10 +40,12 @@ console.log(route?.params?.customerDetails,"line no 29")
       })
       console.log('yes yes nehat',  data)
       setBackendCartItems(data)
+      
     } catch (error) {
       console.log(error,"error in line 43");
     }
   }
+
 
 
   const deleteItemFromCart = async(cartItemId)=>{
@@ -59,6 +61,7 @@ console.log(route?.params?.customerDetails,"line no 29")
       Alert.alert(data?.message)
       const updatedCart = backendCartItems?.filter((item)=>item.id !== cartItemId)
       setBackendCartItems(updatedCart)
+      setCart(updatedCart)
       
     } catch (error) {
       console.log(error);
@@ -87,7 +90,7 @@ console.log(route?.params?.customerDetails,"line no 29")
 
  
 
-
+console.log(backendCartItems.length)
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#D9D9D9', marginTop: 30 }}>

@@ -12,6 +12,7 @@ const useStore = create(
             cart: [],
             account:[],
             balance:[],
+            setCart:[],
         
 
             setUser: (data) =>
@@ -25,6 +26,9 @@ const useStore = create(
 
             setBalance: (data) =>
                 set((state) => ({ balance: data })),
+
+            setCart: (data) =>
+                set((state) => ({ setCart: data })),
 
              
 
