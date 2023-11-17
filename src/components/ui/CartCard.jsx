@@ -16,6 +16,8 @@ const CartCard = ({item, deleteItemFromCart}) => {
   return (
     <View style={{ flexDirection: 'row', margin:8,  height:150, marginHorizontal: 15, paddingVertical: 10, paddingHorizontal: 20, backgroundColor: 'white', alignItems: 'center', justifyContent: 'space-around', elevation: 2, borderRadius: 5 }}>
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20 }}>
+     
+     
       {/* {item?.defectImage ? (
         <Image source={{ uri: "data:image/jpg;base64," + item?.defectImage?.base64 }} style={{ width: 70, height: 70, resizeMode: 'contain' }} />
       ): ( */}

@@ -33,7 +33,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/Photos/elaundry.png",
+        "foregroundImage": "./assets/app.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [

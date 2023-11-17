@@ -24,13 +24,9 @@ const Cart = () => {
 
  
 
-  // const { data, isLoading, error, refetch } = useQuery({
-  //   queryKey: ['cartItems'],
-  //   queryFn: async () => await getUserCartItems(),
-  //   // onSuccess: (data) => setGarments(data?.filter((item) => item?.["categoryName"] == selectedCategory && item?.price !==0))
-  // })
-  // console.log('nehat', backendCartItems)
 
+
+console.log(route?.params?.customerDetails,"line no 29")
 
   const getUserCartItems = async () => {
 
@@ -45,7 +41,7 @@ const Cart = () => {
       console.log('yes yes nehat',  data)
       setBackendCartItems(data)
     } catch (error) {
-      console.log(error);
+      console.log(error,"error in line 43");
     }
   }
 

@@ -38,7 +38,7 @@ const CartModal = ({showModal, setShowModal, closeModal, selectedItem, customerD
 
     const addToCart = useStore((state)=>state.addToCart)
 
-  
+ 
     const _addtoCart = async()=>{
         setLoading(true)
       const cart_url = `https://api.elaundry.co.in/oit-elaundry/api/auth/customer/${customerDetails?.storeCustomerId}/cart`
@@ -88,10 +88,7 @@ const CartModal = ({showModal, setShowModal, closeModal, selectedItem, customerD
         // addToCart(selectedItem)
         // closeModal()
 
-console.log(qty)
-      console.log(garmentBrand)   
-      console.log(value)    
-      console.log(colorValue)    
+       
         // console.log('nehat cart payload', payload)
     }
     // console.log('nehat color', user)
@@ -160,8 +157,9 @@ console.log(qty)
                 
 
 
-                <View style={{justifyContent:'flex-end', flexDirection:'row', alignItems:'center', gap:15}}>
+                <View style={{justifyContent:'flex-end', flexDirection:'row', alignItems:'center', gap:10}}>
                     <Image source={{uri: "data:image/jpg;base64," + capturedImage?.base64}} style={{width:40, height:40, resizeMode:'cover'}}/>
+
                     <TouchableOpacity style={{paddingHorizontal:10, paddingVertical:10, borderRadius:10,  backgroundColor:'#003566', width:'55%', flexDirection:'row', alignItems:'center', justifyContent:'space-between'}} onPress={()=>setShowCamModal(true)}>
                         <Text style={{color:'white', textAlign:'center', fontSize:20}}>Item Image</Text>
                         <AntDesign name="camera" size={24} color="white" />

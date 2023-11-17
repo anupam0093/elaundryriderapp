@@ -44,7 +44,7 @@ import {
   
   }
   
-  
+
   const handleContact = (cont,ad_1,ad_2,cit,st,pin,land )=>{
   setContact(cont)
   setAd1(ad_1)
@@ -78,7 +78,7 @@ console.log(ad1)
         if (data?.success) {
           console.log(data?.message)
           alert(`${data?.message}`);
-          ;
+        
          
         }
       } catch (error) {

@@ -6,9 +6,11 @@ import {
   FlatList,
   StyleSheet,
   ActivityIndicator,
+  TextInput
 } from "react-native";
 import React, { useCallback, useState } from "react";
 import { Ionicons } from '@expo/vector-icons';
+import Octicons from "@expo/vector-icons/build/Octicons";
 import useStore from "../GlobalStore/store";
 import CategoryButton from "../components/CategoryButton";
 import { searchGarmentByStoreId } from "../../networkAPI/api";
@@ -78,9 +80,11 @@ const Categoryn = () => {
   const [garments, setGarments] = useState([])
   const [selectedItem, setSelectedItem] = useState()
   const route = useRoute()
+  const [searchQuery, setSearchQuery] = useState("");
 
 
-  console.log(route?.params?.customerInfo)
+
+  console.log(route?.params?.customerInfo?.mobileNo)
 
 
 
@@ -115,7 +119,16 @@ const Categoryn = () => {
   }, [])
   
 
-
+  const handleSearch = (text) => {
+    setSearchQuery(text);
+    const filteredGarments = data?.filter(
+      (item) =>
+        item?.["serviceName"] === selectedCategory &&
+        item?.["price"] !== 0 &&
+        item?.["garmentName"].toLowerCase().includes(text.toLowerCase())
+    );
+    setGarments(filteredGarments);
+  };
  
 
 
@@ -126,7 +139,7 @@ const Categoryn = () => {
       <Header
         leftContent={<Ionicons name="arrow-back" size={30} color="black" onPress={() => navigation.goBack()} />}
         centerContent={<Text style={{ fontSize: 18, fontWeight: "bold" }}>Book Now</Text>} 
-        rightContent={<CartIcon path='Cart' cartLength={cart?.length}/>} />
+        rightContent={<CartIcon path='Cart' cartLength={cart?.length} customerDetails={route?.params?.customerDetails}/>} />
       <View
         style={{ marginTop: 30, marginLeft: 19, display: "flex", flexDirection: "row", }}>
         <View style={{
@@ -170,7 +183,7 @@ const Categoryn = () => {
 
       {/* Tabs Button  */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 10, paddingHorizontal: 15, paddingVertical: 10, backgroundColor: '#D9D9D9', marginHorizontal: 15, marginTop: 10 }}>
-        <TouchableOpacity  onPress={() => navigation.navigate('Category')}
+        <TouchableOpacity  onPress={() => navigation.goBack()}
         style={{ backgroundColor: 'white', paddingHorizontal: 10, paddingVertical: 8, borderRadius: 5, width: '45%' }}>
           <Text style={{ fontSize: 20, textAlign: 'center', color: 'black' }}>Category</Text>
         </TouchableOpacity>
@@ -180,6 +193,22 @@ const Categoryn = () => {
         </TouchableOpacity>
       </View>
       {/* Tabs Button End */}
+
+      <View style={styles.maininput}>
+        <TextInput
+          style={styles.searchbar}
+          placeholder="Search Here"
+          onChangeText={handleSearch}
+          value={searchQuery}
+        ></TextInput>
+        <Octicons
+          name="search"
+          size={20}
+          color="black"
+          style={styles.searchicon}
+        />
+      </View>
+
 
       <View style={{ marginTop: 10, paddingHorizontal: 15 }}>
         <FlatList
@@ -248,5 +277,27 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 14,
     color: "gray",
+  },
+  maininput: {
+   
+    position: "relative",
+    width: "93%",
+    marginLeft: 14,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  searchbar: {
+    paddingLeft: 40,
+    fontSize: 18,
+    height: 40,
+    width: "auto",
+  },
+  searchicon: {
+    position: "absolute",
+    top: 4,
+    width: 20,
+    paddingTop: 4,
+    left: 10,
   },
 });

@@ -6,9 +6,11 @@ import {
   FlatList,
   StyleSheet,
   ActivityIndicator,
+  TextInput,
 } from "react-native";
 import React, { useCallback, useState } from "react";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
+import Octicons from "@expo/vector-icons/build/Octicons";
 import useStore from "../GlobalStore/store";
 import CategoryButton from "../components/CategoryButton";
 import { searchGarmentByStoreId } from "../../networkAPI/api";
@@ -33,88 +35,130 @@ const categories = [
 ];
 
 const Categoryn = () => {
-
-  const account = useStore(state => state.account)
-  const riderDetails = useStore(state => state.riderDetails)
+  const account = useStore((state) => state.account);
+  const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
   const cart = useStore((state) => state.cart);
-  const [loading, setLoading] = useState(false)
-  const navigation = useNavigation()
-  const route = useRoute()
+  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
+  const route = useRoute();
   const [selectedCategory, setSelectedCategory] = useState("Men");
-  const [showModal, setShowModal] = useState(false)
-  const [garments, setGarments] = useState([])
-  const [selectedItem, setSelectedItem] = useState()
-
-
+  const [showModal, setShowModal] = useState(false);
+  const [garments, setGarments] = useState([]);
+  const [selectedItem, setSelectedItem] = useState();
+  const [searchQuery, setSearchQuery] = useState("");
 
   // // const customer = route?.params?.customer
-  console.log(route?.params?.customerDetails)
-
-  
-
-
+  console.log(route?.params?.customerDetails);
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['garments'],
-    queryFn: async () => await searchGarmentByStoreId(riderDetails?.storeId, user?.accessToken),
-    onSuccess: (data) => setGarments(data?.filter((item) => item?.["categoryName"] == selectedCategory && item?.price !==0))
-  })
+    queryKey: ["garments"],
+    queryFn: async () =>
+      await searchGarmentByStoreId(riderDetails?.storeId, user?.accessToken),
+    onSuccess: (data) =>
+      setGarments(
+        data?.filter(
+          (item) =>
+            item?.["categoryName"] == selectedCategory && item?.price !== 0
+        )
+      ),
+  });
 
-  const filterGarments = useCallback((categoryName)=>{
-    setLoading(true)
-    const sortedGarments = data?.sort((a, b) =>
-    a.garmentName.localeCompare(b.garmentName)
+  const filterGarments = useCallback(
+    (categoryName) => {
+      setLoading(true);
+      const sortedGarments = data?.sort((a, b) =>
+        a.garmentName.localeCompare(b.garmentName)
+      );
+      const newFilteredGarments = sortedGarments?.filter((item) => {
+        return item?.["categoryName"] == categoryName && item?.["price"] !== 0;
+      });
+      setGarments(newFilteredGarments);
+      setSelectedCategory(categoryName);
+      setLoading(false);
+    },
+    [data, setGarments, setSelectedCategory, garments]
   );
-    const newFilteredGarments = sortedGarments?.filter((item) => {
-      return item?.["categoryName"] == categoryName && item?.["price"] !== 0
-    })
-    setGarments(newFilteredGarments);
-    setSelectedCategory(categoryName)
-    setLoading(false)
-  }, [data, setGarments, setSelectedCategory, garments])
 
-
-  const openModal= useCallback((item)=>{
-    setSelectedItem(item)
+  const openModal = useCallback((item) => {
+    setSelectedItem(item);
     setShowModal(true);
-  }, [])
+  }, []);
 
-  const closeModal = useCallback(()=>{
-    setSelectedItem(null)
+  const closeModal = useCallback(() => {
+    setSelectedItem(null);
     setShowModal(false);
-  }, [])
-  
-   const customerInfo = {
-        name:route?.params?.customerDetails?.name,
-        mobileNo:route?.params?.customerDetails?.mobileNo,
-        storeCustomerId:route?.params?.customerDetails?.storeCustomerId
+  }, []);
 
-   }
+  const customerInfo = {
+    name: route?.params?.customerDetails?.name,
+    mobileNo: route?.params?.customerDetails?.mobileNo,
+    storeCustomerId: route?.params?.customerDetails?.storeCustomerId,
+  };
 
-
+  const handleSearch = (text) => {
+    setSearchQuery(text);
+    const filteredGarments = data?.filter(
+      (item) =>
+        item?.["categoryName"] === selectedCategory &&
+        item?.["price"] !== 0 &&
+        item?.["garmentName"].toLowerCase().includes(text.toLowerCase())
+    );
+    setGarments(filteredGarments);
+  };
 
   return (
-    <SafeAreaView style={{ flex: 1,marginTop:30 }}>
+    <SafeAreaView style={{ flex: 1, marginTop: 30 }}>
       <Header
-        leftContent={<Ionicons name="arrow-back" size={30} color="black" onPress={() => navigation.goBack()} />}
-        centerContent={<Text style={{ fontSize: 18, fontWeight: "bold" }}>Book Now</Text>} 
-        rightContent={<CartIcon path='Cart' cartLength={cart?.length} customerDetails={route?.params?.customerDetails}/>} />
+        leftContent={
+          <Ionicons
+            name="arrow-back"
+            size={30}
+            color="black"
+            onPress={() => navigation.goBack()}
+          />
+        }
+        centerContent={
+          <Text style={{ fontSize: 18, fontWeight: "bold" }}>Book Now</Text>
+        }
+        rightContent={
+          <CartIcon
+            path="Cart"
+            cartLength={cart?.length}
+            customerDetails={route?.params?.customerDetails}
+          />
+        }
+      />
       <View
-        style={{ marginTop: 30, marginLeft: 19, display: "flex", flexDirection: "row", width: "100%"}}>
-        <View style={{
-          marginLeft: 6, width: "40%", height: 38, borderColor: "#FFFF", borderStyle: "solid", borderWidth: 1, backgroundColor: "#FFFFFF", borderRadius: 6,justifyContent:"center"
+        style={{
+          marginTop: 30,
+          marginLeft: 19,
+          display: "flex",
+          flexDirection: "row",
+          width: "100%",
         }}
+      >
+        <View
+          style={{
+            marginLeft: 6,
+            width: "40%",
+            height: 38,
+            borderColor: "#FFFF",
+            borderStyle: "solid",
+            borderWidth: 1,
+            backgroundColor: "#FFFFFF",
+            borderRadius: 6,
+            justifyContent: "center",
+          }}
         >
           <Text
             style={{
               textAlign: "center",
               fontSize: 14,
               fontWeight: "600",
-            
             }}
           >
-            Name : {route?.params?.customerDetails?.name} 
+            Name : {route?.params?.customerDetails?.name}
           </Text>
         </View>
         <View
@@ -137,24 +181,69 @@ const Categoryn = () => {
               fontWeight: "600",
             }}
           >
-            Mobile : {route?.params?.customerDetails?.mobileNo}  
+            Mobile : {route?.params?.customerDetails?.mobileNo}
           </Text>
         </View>
       </View>
 
       {/* Tabs Button  */}
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 10, paddingHorizontal: 15, paddingVertical: 10, backgroundColor: '#D9D9D9', marginHorizontal: 15, marginTop: 10 }}>
-        <TouchableOpacity 
-        style={{ backgroundColor: '#003566', paddingHorizontal: 10, paddingVertical: 8, borderRadius: 5, width: '45%' }}>
-          <Text style={{ fontSize: 20, textAlign: 'center', color: 'white' }}>Category</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          gap: 10,
+          paddingHorizontal: 15,
+          paddingVertical: 10,
+          backgroundColor: "#D9D9D9",
+          marginHorizontal: 15,
+          marginTop: 10,
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#003566",
+            paddingHorizontal: 10,
+            paddingVertical: 8,
+            borderRadius: 5,
+            width: "45%",
+          }}
+        >
+          <Text style={{ fontSize: 20, textAlign: "center", color: "white" }}>
+            Category
+          </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity   onPress={() => navigation.navigate('Services',{'customerInfo':customerInfo})}
-         style={{ backgroundColor: 'white', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5, width: '45%' }}>
-          <Text style={{ fontSize: 20, textAlign: 'center' }}>Services</Text>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("Services", { customerInfo: customerInfo })
+          }
+          style={{
+            backgroundColor: "white",
+            paddingHorizontal: 10,
+            paddingVertical: 5,
+            borderRadius: 5,
+            width: "45%",
+          }}
+        >
+          <Text style={{ fontSize: 20, textAlign: "center" }}>Services</Text>
         </TouchableOpacity>
       </View>
       {/* Tabs Button End */}
+
+      <View style={styles.maininput}>
+        <TextInput
+          style={styles.searchbar}
+          placeholder="Search Here"
+          onChangeText={handleSearch}
+          value={searchQuery}
+        ></TextInput>
+        <Octicons
+          name="search"
+          size={20}
+          color="black"
+          style={styles.searchicon}
+        />
+      </View>
 
       <View style={{ marginTop: 10, paddingHorizontal: 15 }}>
         <FlatList
@@ -165,7 +254,6 @@ const Categoryn = () => {
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
               filterGarments={filterGarments}
-              
             />
           )}
           keyExtractor={(item) => item.id}
@@ -174,22 +262,38 @@ const Categoryn = () => {
       </View>
 
       {isLoading && (
-        <ActivityIndicator size='large' color='blue' style={{ marginTop: 20 }} />
+        <ActivityIndicator
+          size="large"
+          color="blue"
+          style={{ marginTop: 20 }}
+        />
       )}
-      
 
-        {/* Data */}
+      {/* Data */}
 
-        {data && (
-          <FlatList
+      {data && (
+        <FlatList
           data={garments}
-          renderItem={({item})=><GamentsCard item={item} setShowModal={setShowModal} openModal={openModal}/>}
+          renderItem={({ item }) => (
+            <GamentsCard
+              item={item}
+              setShowModal={setShowModal}
+              openModal={openModal}
+            />
+          )}
           keyExtractor={(item) => item?.priceListId}
         />
-        )}
-        {/* <GamentsCard setShowModal={setShowModal}/> */}
+      )}
+      {/* <GamentsCard setShowModal={setShowModal}/> */}
       {showModal && (
-        <CartModal showModal={showModal} setShowModal={setShowModal} key={selectedItem?.priceListId} closeModal={closeModal} selectedItem={selectedItem} customerDetails = {route?.params?.customerDetails}/>
+        <CartModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          key={selectedItem?.priceListId}
+          closeModal={closeModal}
+          selectedItem={selectedItem}
+          customerDetails={route?.params?.customerDetails}
+        />
       )}
     </SafeAreaView>
   );
@@ -211,8 +315,7 @@ const styles = StyleSheet.create({
     width: 90,
     height: 80,
     borderRadius: 10,
-    resizeMode: 'contain'
-
+    resizeMode: "contain",
   },
   name: {
     marginTop: 5,
@@ -223,5 +326,36 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 14,
     color: "gray",
+  },
+  maininput: {
+    position: "relative",
+    width: "93%",
+    marginLeft: 14,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  searchbar: {
+    paddingLeft: 40,
+    fontSize: 18,
+    height: 40,
+    width: "auto",
+  },
+  searchicon: {
+    position: "absolute",
+    top: 4,
+    width: 20,
+    paddingTop: 4,
+    left: 10,
+  },
+  input: {
+    fontSize: 20,
+    lineHeight: 22.5,
+    marginTop: 7,
+    marginLeft: 5,
+    fontWeight: "400",
+    textAlign: "center",
+    color: "black",
+    backgroundColor: "#FFFCFC",
   },
 });

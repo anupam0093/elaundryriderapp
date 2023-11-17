@@ -51,7 +51,7 @@ const Pickup = () => {
   },[refetch]);
 
 
-console.log(pickup[0]?.pickupRequest?.storeCustomerId)
+// console.log(pickup[0]?.pickupRequest?.storeCustomerId)
  
   useEffect(() => {
     const filterPickupData = () => {

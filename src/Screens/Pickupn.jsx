@@ -6,10 +6,10 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
-
+  FlatList,
   Dimensions,
 } from "react-native";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
 import Octicons from "@expo/vector-icons/build/Octicons";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -21,8 +21,7 @@ import PickupCards from "../components/ui/PickupCards";
 import { Linking, Platform } from "react-native";
 import axios from "axios";
 import { API_URL } from "../../networkAPI/env";
-
-
+import { customerDetails } from "../../networkAPI/api";
 
 const Pickupn = () => {
   const windowWidth = Dimensions.get("window").width;
@@ -31,37 +30,22 @@ const Pickupn = () => {
   const user = useStore((state) => state.user);
   const [balanceAmount, setBalanceAccount] = React.useState([]);
 
+  const { data, isLoading, error, refetch } = useQuery(
+    {
+      queryKey: [route?.params?.OrderDetails?.storeCustomerId],
+      queryFn: async () =>
+        await customerDetails(
+          user?.accessToken,
+          route?.params?.OrderDetails?.storeCustomerId
+        ),
+    },
+    [refetch]
+  );
 
-  
-  const walletBalance = async () => {
-    const token = `${user?.accessToken}`;
-    try {
-      const { data } = await axios({
-        method: "GET",
-        url: `${API_URL}/auth/customer/store-customer/${route?.params?.OrderDetails?.storeCustomerId}`,
-
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic" + " " + token,
-        },
-      });
-      setBalanceAccount(data)
-     
-    } catch (error) {
-      console.log({ error }, "error in line 122");
-    }
+  const handleRefresh = () => {
+    refetch();
   };
-
-  useEffect(() => {
-    walletBalance();
-  }, []);
-
-
-  console.log(balanceAmount[0]?.customer?.address)
-
-
-
-
+  console.log(data);
 
   //========================== Calling API ======================================================================
   const callPhoneNumber = async (number) => {
@@ -95,7 +79,6 @@ const Pickupn = () => {
   };
 
   console.log("nehat route", route.params);
-
 
   return (
     <SafeAreaView>
@@ -141,12 +124,14 @@ const Pickupn = () => {
               ></TextInput>
             </View>
           </View>
-
+          <TouchableOpacity onPress={handleRefresh} >
           <Image
             alt="ios-bars"
             source={require("../../assets/Photos/bar.png")}
             style={{ marginTop: 32, marginRight: 20, height: 22, width: 22 }}
           />
+          </TouchableOpacity>
+       
         </View>
 
         {/* {isLoading &&  (
@@ -157,7 +142,7 @@ const Pickupn = () => {
           />
         )} */}
 
-        {balanceAmount && (
+        {data && (
           <View
             style={{
               display: "flex",
@@ -167,6 +152,7 @@ const Pickupn = () => {
               justifyContent: "center",
             }}
           >
+         
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("Category", {
@@ -197,7 +183,9 @@ const Pickupn = () => {
                   </Text>
 
                   <TouchableOpacity
-                    onPress={() => callPhoneNumber(balanceAmount[0]?.customer?.mobileNo)}
+                    onPress={() =>
+                      callPhoneNumber(route?.params?.OrderDetails?.mobileNo)
+                    }
                   >
                     <View
                       style={{
@@ -229,7 +217,7 @@ const Pickupn = () => {
                           left: 5,
                         }}
                       >
-                        {balanceAmount[0]?.customer?.mobileNo}
+                        {route?.params?.OrderDetails?.mobileNo}
                       </Text>
                     </View>
                   </TouchableOpacity>
@@ -323,12 +311,11 @@ const Pickupn = () => {
                         >
                           <Entypo name="location" size={15} color="white" />
                           {"  "}
-                          {balanceAmount[0]?.customer?.address === null 
-                          ? "address not available"
-                         : balanceAmount[0]?.customer?.address.city } {" "}
-                         {balanceAmount[0]?.customer?.address?.addressLine1}{" "}
-                         {balanceAmount[0]?.customer?.address?.pin}
-
+                          {data[0]?.customer?.address === null
+                            ? "address not available"
+                            : data[0]?.customer?.address.city || ""}{" "}
+                          {data[0]?.customer?.address?.addressLine1 || ""}{" "}
+                          {data[0]?.customer?.address?.pin || ""}
                         </Text>
                       </View>
                     </View>
@@ -341,13 +328,15 @@ const Pickupn = () => {
                       display: "flex",
                       flexDirection: "row",
                       left: 4,
-                      gap:12
+                      gap: 12,
                     }}
                   >
                     <TouchableOpacity
-                      onPress={() => navigation.navigate("Accountinfo",{
-                        customerDetails: route.params.OrderDetails,
-                      })}
+                      onPress={() =>
+                        navigation.navigate("Accountinfo", {
+                          customerDetails: route.params.OrderDetails,
+                        })
+                      }
                     >
                       <View
                         style={{
@@ -382,10 +371,12 @@ const Pickupn = () => {
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      onPress={() => navigation.navigate("AddressN",{
-                        customerDetails: route.params.OrderDetails,
-                        // myN:my
-                      })}
+                      onPress={() =>
+                        navigation.navigate("AddressN", {
+                          customerDetails: route.params.OrderDetails,
+                          // myN:my
+                        })
+                      }
                     >
                       <View
                         style={{
@@ -426,8 +417,6 @@ const Pickupn = () => {
             </TouchableOpacity>
           </View>
         )}
-
-    
       </View>
     </SafeAreaView>
   );
