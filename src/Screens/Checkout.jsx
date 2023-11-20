@@ -25,11 +25,9 @@ const Checkout = () => {
   const navigation = useNavigation();
 
   const Gst = ["NONE", "INCLUDE", "EXCLUDE"];
-  const route = useRoute()
-
+  const route = useRoute();
 
   // console.log('shail', route?.params?.cart_details?.totalQuantity)
-  
 
   const [charge, setCharge] = useState([]);
   const [charges, setCharges] = useState([]);
@@ -39,11 +37,7 @@ const Checkout = () => {
   const [discountSelect, setdiscountSelect] = useState("");
   const [discounteditem, setDiscounteditem] = useState("");
   const [handlegst, setHandleGst] = useState("INCLUDE");
-  const [cards, setCards] = useState([]);
-  const [discountcards, setdiscountCards] = useState([]);
-
   const [selectedDate, setSelectedDate] = useState(new Date());
-
   const [datePickerVisible, setDatePickerVisible] = useState(false);
 
   const showDatePicker = () => {
@@ -96,26 +90,21 @@ const Checkout = () => {
     Alert.alert("Charge Added Successfully");
     const cardData = charge.find((d) => d.name === item);
     if (cardData) {
-      setCards([...cards, cardData]);
+      setCharges([cardData]);
     }
   };
 
-
-
   // console.log(cart);
-  var totalPrice =  route?.params?.totalAmount;
-
-  
+  var totalPrice = route?.params?.totalAmount;
 
   // =====================================================================================================================
 
   const handleDiscount = (item) => {
     setdiscountSelect(item);
-    console.log('love', item)
-    Alert.alert("Charge Added Successfully");
+    Alert.alert("Discount Added Successfully");
     const discountData = discount.find((d) => d.name === item);
     if (discountData) {
-      setdiscountCards([...discountcards, discountData]);
+      setDiscounteditem([discountData]);
     }
   };
 
@@ -130,74 +119,69 @@ const Checkout = () => {
 
   //======================================== Calculation for Gross Amount ===============================================
 
-  var Gross =
-    totalPrice -
-    (discounteditem?.chargeDiscountTypeIn === "AMOUNT"
-      ? Number(discounteditem?.chargeDiscount)
-      : Number((totalPrice * discounteditem?.chargeDiscount) / 100)) +
-    (charges?.chargeDiscountTypeIn === "AMOUNT"
-      ? Number(charges?.chargeDiscount)
-      : (totalPrice * Number(charges?.chargeDiscount)) / 100);
+  const chargesValue = charges
+    ? (charges.chargeDiscountTypeIn === "AMOUNT"
+        ? Number(charges?.chargeDiscount)
+        : (totalPrice * Number(charges?.chargeDiscount)) / 100) || 0
+    : 0;
 
-  var Gstc = Math.round(
+  const discountValue = discounteditem
+    ? (discounteditem.chargeDiscountTypeIn === "AMOUNT"
+        ? Number(discounteditem?.chargeDiscount)
+        : Number((totalPrice * discounteditem?.chargeDiscount) / 100)) || 0
+    : 0;
+
+  const Gross = totalPrice - discountValue + chargesValue;
+
+  const Gstc = Math.round(
     handlegst === "EXCLUDE"
       ? Number(totalPrice * 18) / 100
       : handlegst === "INCLUDE"
       ? Number(totalPrice * 0.18) / 1.18
       : 0
   );
-  
-  // console.log("data on line 52", Gstc);
 
-  var taxableAmount = Gross.toFixed(2) - Gstc;
-  var GrandTotal = Number(Gross) + Number(Gstc);
-
-
-
-
-
-
-
+  const taxableAmount = Gross.toFixed(2) - Gstc;
+  const GrandTotal = Number(Gross) + Number(Gstc);
 
   // ====================================== Charge and Discount Calculation =========================================
 
-
   const customerCart = {
-
-    "storeUserId": riderDetails?.storeUserId,
-    "storeCustomerId": route?.params?.customer_details?.storeCustomerId,
-    "totalQuantity": route?.params?.cart_details?.totalQuantity,
-    "itemGarmentCount": route?.params?.cart_details?.totalQuantity,
-    "totalAmount": totalPrice ,
-    "gstType": handlegst,
-    "gstPercent": 18,
-    "taxableAmount": Number(taxableAmount) ||  Math.round(Number((totalPrice * 0.18) / 1.18).toFixed()), 
-    "gstAmount":Gstc ,
-    // "discountAmount": (discounteditem?.chargeDiscountTypeIn === "AMOUNT"
-    //  ? Number(discounteditem?.chargeDiscount)
-    // : Number(
-    //     (totalPrice * discounteditem?.chargeDiscount) / 100
-    //   )),
-    // "chargeAmount":  (charges.chargeDiscountTypeIn === "AMOUNT"
-    //     ? Number(charges?.chargeDiscount)
-    //     : Number(totalPrice * Number(charges?.chargeDiscount)) / 100),
-    "discountAmount":0, 
-    "chargeAmount":0, 
-    "grandTotal": Math.round(Number(GrandTotal)) ||  Math.round(totalPrice + Number(totalPrice * 0.18) / 1.18.toFixed()),
-    "status": "BOOKED",
-    "orderSource": "BY_STORE",
-    "deliveryOn": moment(selectedDate).format(),
-    "balanceAmount": '',
-    "paidAmount": 0,
-    "paymentMode": "COD",
-    "urgentDelivery": false,
-    "deliveryRequest": false,
-    "paymentRefNo": "",
-    "remarks": "",
-
-
+    storeUserId: riderDetails?.storeUserId,
+    storeCustomerId: route?.params?.customer_details?.storeCustomerId,
+    totalQuantity: route?.params?.cart_details?.totalQuantity,
+    itemGarmentCount: route?.params?.cart_details?.totalQuantity,
+    totalAmount: totalPrice,
+    gstType: handlegst,
+    gstPercent: 18,
+    taxableAmount:
+      Number(taxableAmount) ||
+      Math.round(Number((totalPrice * 0.18) / 1.18).toFixed()),
+    gstAmount: Gstc,
+    discountAmount:
+      discounteditem?.chargeDiscountTypeIn === "AMOUNT"
+        ? Number(discounteditem?.chargeDiscount)
+        : Number((totalPrice * discounteditem?.chargeDiscount) / 100),
+    chargeAmount:
+      charges.chargeDiscountTypeIn === "AMOUNT"
+        ? Number(charges?.chargeDiscount)
+        : Number(totalPrice * Number(charges?.chargeDiscount)) / 100,
+    discountAmount: 0,
+    chargeAmount: 0,
+    grandTotal:
+      Math.round(Number(GrandTotal)) ||
+      Math.round(totalPrice + Number(totalPrice * 0.18) / (1.18).toFixed()),
+    status: "BOOKED",
+    orderSource: "BY_STORE",
+    deliveryOn: moment(selectedDate).format(),
+    balanceAmount: "",
+    paidAmount: 0,
+    paymentMode: "COD",
+    urgentDelivery: false,
+    deliveryRequest: false,
+    paymentRefNo: "",
+    remarks: "",
   };
-
 
   const bookOrder = async () => {
     const token = `${user?.accessToken}`;
@@ -211,14 +195,16 @@ const Checkout = () => {
           Authorization: "Basic" + " " + token,
         },
       });
-      console.log(data)
+      console.log(data);
       if (data?.success) {
-        console.log(data?.message)
-        alert(`Your order has been succesfully created with order id ${data?.message}`);
-        navigation.navigate('Homepage')
+        console.log(data?.message);
+        alert(
+          `Your order has been succesfully created with order id ${data?.message}`
+        );
+        navigation.navigate("Homepage");
       }
     } catch (error) {
-      console.log({error},"error in line 122")
+      console.log({ error }, "error in line 122");
       alert("Something Went Wrong");
     }
   };
@@ -282,54 +268,7 @@ const Checkout = () => {
               display: "flex",
               flexDirection: "row",
             }}
-          >
-            {/* <View
-              style={{
-                marginLeft: 6,
-                width: 165,
-                height: 38,
-                borderColor: "#FFFF",
-                borderStyle: "solid",
-                borderWidth: 1,
-                justifyContent: "center",
-                backgroundColor: "#FFFFFF",
-                borderRadius: 6,
-              }}
-            >
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 15,
-                  fontWeight: "400",
-                }}
-              >
-                Name : {riderDetails?.userName}
-              </Text>
-            </View>
-            <View
-              style={{
-                marginLeft: 8,
-                width: 165,
-                height: 38,
-                borderColor: "#FFFF",
-                borderStyle: "solid",
-                borderWidth: 1,
-                justifyContent: "center",
-                backgroundColor: "#FFFFFF",
-                borderRadius: 6,
-              }}
-            >
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 15,
-                  fontWeight: "400",
-                }}
-              >
-                Mobile: {riderDetails?.mobileNo}
-              </Text>
-            </View> */}
-          </View>
+          ></View>
 
           {/* CHARGES  COMING FROM BACKEND */}
 
@@ -344,7 +283,7 @@ const Checkout = () => {
                   } ${"]"}`
               )}
               onSelect={(selectedItem, index) => {
-                console.log( 'hola como estas', selectedItem, index)
+                console.log("hola como estas", selectedItem, index);
                 handleSelect(selectedItem);
                 setCharges(charge[index]);
               }}
@@ -443,7 +382,7 @@ const Checkout = () => {
             />
 
             <ScrollView style={styles.cardsContainer}>
-              {charges && (
+              {charges && selectedItem && (
                 <Card style={styles.card}>
                   <Text>{charges.name}</Text>
                   <View>
@@ -466,7 +405,6 @@ const Checkout = () => {
                   <View>
                     <Text>{discounteditem.name}</Text>
                   </View>
-
                   <View>
                     <Text>Description: {discounteditem.description}</Text>
                     <Text>Charge: {discounteditem.chargeDiscount} Rs</Text>
@@ -619,7 +557,9 @@ const Checkout = () => {
                   Taxable Amount (Rs):
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {Number(taxableAmount) || Math.round(Number(totalPrice * 0.18) / 1.18.toFixed()) }
+                  {"\u20B9"}{" "}
+                  {Number(taxableAmount) ||
+                    Math.round(Number(totalPrice * 0.18) / (1.18).toFixed())}
                 </Text>
               </View>
 
@@ -635,8 +575,7 @@ const Checkout = () => {
                   GST (Rs) 18% :
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"}{" "}
-                  {Gstc.toFixed()}
+                  {"\u20B9"} {Gstc.toFixed()}
                 </Text>
               </View>
 
@@ -651,21 +590,26 @@ const Checkout = () => {
                   Grand Total (Rs) :
                 </Text>
                 <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                  {"\u20B9"} {Number(GrandTotal.toFixed(2)) || Math.round(totalPrice + Number(totalPrice * 0.18) / 1.18.toFixed())}
+                  {"\u20B9"}{" "}
+                  {Number(GrandTotal.toFixed(2)) ||
+                    Math.round(
+                      totalPrice + Number(totalPrice * 0.18) / (1.18).toFixed()
+                    )}
                 </Text>
               </View>
             </View>
           </View>
 
           <Button
-            onPress={() =>bookOrder()
+            onPress={
+              () => bookOrder()
               // navigation.navigate(
               //   "Payment",
               //   {
               //     grandTotal: GrandTotal.toFixed(2),
               //     customerCart:customerCart
               //   },
-                
+
               // )
             }
             buttonColor="blue"

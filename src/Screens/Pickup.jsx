@@ -19,6 +19,7 @@ import { searchAllPickupbystoreId } from "../../networkAPI/api";
 import { useQuery } from "@tanstack/react-query";
 import PickupCards from "../components/ui/PickupCards";
 import { Linking, Platform } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const Pickup = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -29,6 +30,9 @@ const Pickup = () => {
   const account = useStore((state) => state.account);
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
+
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
 
   const { data, isLoading, error, refetch } = useQuery({
