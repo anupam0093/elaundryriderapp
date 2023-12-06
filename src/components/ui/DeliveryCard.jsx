@@ -8,11 +8,11 @@ const DeliveryCard = ({ item }) => {
   const { navigate } = useNavigation();
 
   const customerData = {
-    name: item?.deliveryRequest?.customerDTO?.firstName  ,
-      nameL: item?.deliveryRequest?.customerDTO?.lastName,
-    mobileNo: item?.deliveryRequest?.customerDTO?.mobileNo,
-    storeCustomerId: item?.deliveryRequest?.storeCustomerId,
-    orderId: item?.deliveryRequest?.orderId,
+    name: item?.customer?.firstName  ,
+    nameL: item?.customer?.lastName,
+    mobileNo: item?.customer?.mobileNo,
+    storeCustomerId: item?.storeCustomerId,
+    orderId: item?.id,
   };
 
   return (
@@ -58,7 +58,14 @@ const DeliveryCard = ({ item }) => {
           }}
         >
           <Text style={{ fontSize: 13, fontWeight: '600', color: 'blue' }}>
-            {item?.deliveryRequest?.deliveryStatus.replace(/_/g, " ")}
+            {/* {item?.deliveryRequest?.deliveryStatus.replace(/_/g, " ")} */}
+          </Text>
+
+          <Text style={{ fontSize: 10, fontWeight: '400', color: '#646060' }}>
+          orderId:{' '}
+            <Text style={{ color: '#2F2D2D', fontSize: 10, fontWeight: '600' }}>
+              {item?.id}
+            </Text>
           </Text>
           <Text style={{ fontSize: 10, fontWeight: '400', color: '#646060' }}>
             Placed On:{' '}
@@ -75,18 +82,27 @@ const DeliveryCard = ({ item }) => {
           <Text style={{ fontSize: 10, fontWeight: '400', color: '#646060' }}>
             Placed At:{' '}
             <Text style={{ color: '#2F2D2D', fontSize: 10, fontWeight: '600' }}>
-              {item?.pickupRequest?.customerDTO?.address
-                ? item?.pickupRequest?.customerDTO?.address.addressLine1
+              {item?.address
+                ? item?.address
                 : 'Address not Available'}
             </Text>
           </Text>
           <Text style={{ fontSize: 10, fontWeight: '400', color: '#646060' }}>
             Name:{' '}
             <Text style={{ color: '#2F2D2D', fontSize: 10, fontWeight: '600' }}>
-              {item?.deliveryRequest?.customerDTO?.firstName}{' '}
-              {item?.deliveryRequest?.customerDTO?.lastName}
+              {item?.customer?.firstName}{' '}
+              {item?.customer?.lastName}
             </Text>
           </Text>
+
+
+          <Text style={{ fontSize: 10, fontWeight: '400', color: '#646060' }}>
+            Status:{' '}
+            <Text style={{ color: '#2F2D2D', fontSize: 10, fontWeight: '600' }}>
+              {item?.orderPaymentStatus}
+            </Text>
+          </Text>
+
         </View>
         <View style={{ width: '20%', alignItems: 'center' }}>
           <Text style={{ fontSize: 10, fontWeight: '400', textAlign: 'center' }}>

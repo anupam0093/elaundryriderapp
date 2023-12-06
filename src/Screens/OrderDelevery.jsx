@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -17,6 +17,7 @@ import moment from "moment";
 import { useNavigation } from "@react-navigation/native";
 import { searchAllDeliverybystoreId } from "../../networkAPI/api";
 import DeliveryCard from "../components/ui/DeliveryCard";
+import axios from "axios";
 
 // interface NavigationProps {
 //   navigation?: any;
@@ -27,19 +28,65 @@ const OrderDelevery = ({ navigation }) => {
   const { navigate } = useNavigation();
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
+  const [loading, setIsloading] = useState(false);
 
-  const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["delivery"],
-    queryFn: async () =>
-      await searchAllDeliverybystoreId(
-        riderDetails?.storeId,
-        user?.accessToken,
-        riderDetails?.storeUserId
-      ),
-    onSuccess: (data) => setDelivery(data),
-  });
 
-  console.log(delivery[1]);
+
+
+  const getDeliverys = async (storeid)=>{
+    setIsloading(true)
+    try {
+      const {data} = await axios.post(`https://api.elaundry.co.in/oit-elaundry/api/auth/store/5/store-order-by-status`, {
+        "startDate": "2023-06-06",
+        "endDate": "2023-12-06",
+        "recordType": "DeliveryOn",
+        "storeId": riderDetails?.storeId,
+        "statusIn": [
+            "BOOKED",
+            "INPROCESS",
+            "PROCESSED",
+            "UNPROCESSED",
+            "OUT_FOR_DELIVERY",
+            "DELAY"
+        ]
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${user?.accessToken}`,
+        },})
+        if (data){
+          const fitleredData = data?.filter((item)=>item?.orderPaymentStatus === "UNPAID")
+          setDelivery(fitleredData)
+        }
+        setIsloading(false)
+    } catch (error) {
+      console.log('nehat error', error)
+      setIsloading(false)
+    }
+   
+
+      
+  }
+
+  // const { data, isLoading, error, refetch } = useQuery({
+  //   queryKey: ["delivery", riderDetails?.storeId, user?.accessToken],
+  //   queryFn: async () => await getDeliverys(storeId, user?.accessToken),
+  //     // await searchAllDeliverybystoreId(
+  //     //   riderDetails?.storeId,
+  //     //   user?.accessToken,
+  //     //   riderDetails?.storeUserId
+  //     // ),
+  //   onSuccess: (data) => setDelivery(data),
+  //   refetchOnMount: true,
+  //   staleTime: 0,
+  // });
+
+  useEffect(() => {
+    getDeliverys(riderDetails?.storeId)
+  },[user] );
+
+
+  
 
 
   return (
@@ -83,7 +130,7 @@ const OrderDelevery = ({ navigation }) => {
                   color: "#002B6B",
                 }}
               >
-                Order Delivery
+                Order Delivery 
               </Text>
               <Text
                 style={{
@@ -146,7 +193,7 @@ const OrderDelevery = ({ navigation }) => {
            
           </View>
 
-          {isLoading && (
+          {loading && (
             <ActivityIndicator
               size="large"
               color="blue"
@@ -156,7 +203,7 @@ const OrderDelevery = ({ navigation }) => {
           
        
         
-          {data && (
+          {delivery && (
           <FlatList
           data={delivery}
           renderItem={({item})=><DeliveryCard item={item} />}

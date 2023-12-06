@@ -27,7 +27,7 @@ const DeliveryPayment = () => {
   const [payment, setPayment] = useState([]);
   const [payments, setPayments] = useState([]);
   const user = useStore((state) => state.user);
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
 
   const getDeliveryData = async () => {
     const token = `${user?.accessToken}`;
@@ -45,6 +45,8 @@ const DeliveryPayment = () => {
 
       if (data) {
         setDelivery(data);
+        setText(()=>data[0]?.balanceAmount?.toString());
+        
       }
     } catch (error) {
       console.log(error);
@@ -72,21 +74,10 @@ const DeliveryPayment = () => {
      
   };
 
-  // const handleFinal = () => {
-  //   if (!selectedItem) {
-  //     Alert.alert("Please select a mode of payment");
-  //   } else {
-  //     navigation.navigate("Homepage");
-  //   }
-  // };
-
   const remain =
     Number(delivery[0]?.grandTotal) - Number(delivery[0]?.paidAmount);
-  console.log("line 62", delivery[0]?.orderPaymentStatus);
-  // console.log(text);
+  console.log("line 62", delivery[0]);
 
-  console.log(route?.params?.customerDetails);
-  console.log(delivery[0]?.orderItem[1]?.qrCode[0]);
 
   const customDeliver = {
     orderChargeDiscountDTO: {},
@@ -116,9 +107,9 @@ const DeliveryPayment = () => {
       });
       console.log(data);
       if (data?.success) {
-        console.log(data?.message);
-        alert(`${data?.message}`);
-        navigation.navigate("OrderDelevery");
+        console.log(data);
+        // alert(`${data?.message}`);
+        // navigation.navigate("OrderDelevery");
       }
     } catch (error) {
       console.log({ error }, "error in line 122");
@@ -329,12 +320,14 @@ const DeliveryPayment = () => {
               rowTextStyle={styles.dropdown1RowTxtStyle}
             />
           </View>
-          <TextInput
+
+          {/* <TextInput
             style={{ width: "85%", left: 30 }}
             value={text}
             onChangeText={(text) => setText(text)}
             label="Remain Amount"
-          />
+          /> */}
+          <Text>Receivel Amount {delivery[0]?.balanceAmount}</Text>
 
           <View
             style={{
