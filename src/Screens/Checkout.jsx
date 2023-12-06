@@ -217,7 +217,7 @@ const Checkout = () => {
         >
           <View
             style={{
-              marginLeft: 5,
+              marginLeft: 0,
               marginTop: 30,
               display: "flex",
               flexDirection: "row",
@@ -227,9 +227,9 @@ const Checkout = () => {
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <AntDesign
                 name="left"
-                size={24}
+                size={32}
                 color="#5D7EFC"
-                style={{ marginTop: 30, marginLeft: 10 }}
+                style={{ marginTop: 30, marginLeft: 0 }}
               />
             </TouchableOpacity>
 
@@ -603,15 +603,9 @@ const Checkout = () => {
           <Button
             onPress={
               () => bookOrder()
-              // navigation.navigate(
-              //   "Payment",
-              //   {
-              //     grandTotal: GrandTotal.toFixed(2),
-              //     customerCart:customerCart
-              //   },
-
-              // )
+             
             }
+           rippleColor="yellow"
             buttonColor="blue"
             textColor="white"
             style={{

@@ -333,7 +333,7 @@ const DeliveryPayment = () => {
             style={{ width: "85%", left: 30 }}
             value={text}
             onChangeText={(text) => setText(text)}
-            label="Remain Amount"
+            label="Receive Amount"
           />
 
           <View
