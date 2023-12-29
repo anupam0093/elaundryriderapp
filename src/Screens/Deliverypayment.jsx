@@ -76,29 +76,94 @@ const DeliveryPayment = () => {
 
   const remain =
     Number(delivery[0]?.grandTotal) - Number(delivery[0]?.paidAmount);
-  console.log("line 62", delivery[0]);
+  
 
 
   const customDeliver = {
-    orderChargeDiscountDTO: {},
+    receivedBy:delivery[0]?.storeUserId, 
+    paidBy: delivery[0]?.storeCustomerId,
     paymentDTO: {
       receivedBy: "7",
       paidBy: route?.params?.customerDetails?.storeCustomerId,
       amount: remain,
-      paymentMode: selectedItem || "",
-      paymentRefNo: "",
+      paymentMode: 'CASH'
     },
-    garmentList: [Number(delivery[0]?.orderItem[0]?.qrCode[0]?.orderItemId)],
   };
 
+
+  // console.log('nehat deliver', JSON.stringify(delivery[0]?.storeCustomerId, null, 2));
+
+  let storeUserId = delivery[0]?.storeUserId;
+  let storeCustomerId = delivery[0]?.storeCustomerId;
+  let orderId = delivery[0]?.orderItem[0]?.orderId
+
+
+  console.log('nehat deliver', storeUserId, storeCustomerId, orderId, route?.params?.customerDetails?.orderId);
+
   //========================================= deliver Post aPi=======================================================
+
+  // const deliverOrder = async () => {
+  //   const token = `${user?.accessToken}`;
+  //   try {
+  //     const { data } = await axios({
+  //       method: "POST",
+  //       url: `${API_URL}/auth/order/delivery`,
+  //       data: customDeliver,
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "Basic" + " " + token,
+  //       },
+  //     });
+  //     console.log(data);
+  //     if (data?.success) {
+  //       console.log(data);
+  //       // alert(`${data?.message}`);
+  //       // navigation.navigate("OrderDelevery");
+  //     }
+  //   } catch (error) {
+  //     console.log({ error }, "error in line 122");
+  //     alert("Something Went Wrong Please select Payment mode and Advance Amount");
+  //   }
+  // };
+
+
+
+
+  const updateOrder = async ()=>{
+    const token = `${user?.accessToken}`;
+    try {
+      const {data} = await axios.post(`${API_URL}/auth/order/${route?.params?.customerDetails?.orderId}/payment`, {
+          receivedBy: delivery[0]?.storeUserId, 
+          paidBy: delivery[0]?.storeCustomerId,
+          amount: remain,
+          paymentMode: 'CASH'
+        
+      }, {
+        headers:{
+          "Content-Type": "application/json",
+          Authorization: `Basic ${token}`,
+        }
+      })
+      console.log(data)
+      if (data?.success){
+        alert('Order Payment Received Successfully')
+        navigation.navigate("OrderDelevery", {orderId:orderId});
+      }
+
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
+  }
+
+
 
   const deliverOrder = async () => {
     const token = `${user?.accessToken}`;
     try {
       const { data } = await axios({
         method: "POST",
-        url: `${API_URL}/auth/order/delivery`,
+        url: `${API_URL}/auth/order/${route?.params?.customerDetails?.orderId}/payment`,
         data: customDeliver,
         headers: {
           "Content-Type": "application/json",
@@ -106,13 +171,12 @@ const DeliveryPayment = () => {
         },
       });
       console.log(data);
-      if (data?.success) {
-        console.log(data);
-        // alert(`${data?.message}`);
-        // navigation.navigate("OrderDelevery");
+      if(data.success == true){
+        alert('Order Payment Received Successfully')
+        navigation.navigate("OrderDelevery", {orderId:orderId});
       }
     } catch (error) {
-      console.log({ error }, "error in line 122");
+      // console.log({ error }, "error in line 122");
       alert("Something Went Wrong Please select Payment mode and Advance Amount");
     }
   };
@@ -327,7 +391,7 @@ const DeliveryPayment = () => {
             onChangeText={(text) => setText(text)}
             label="Remain Amount"
           /> */}
-          <Text>Receivel Amount {delivery[0]?.balanceAmount}</Text>
+          {/* <Text>Receivel Amount {delivery[0]?.balanceAmount}</Text> */}
 
           <View
             style={{
@@ -419,7 +483,7 @@ const DeliveryPayment = () => {
           </View>
 
           <Button
-            onPress={deliverOrder}
+            onPress={()=>updateOrder()}
             buttonColor="blue"
             textColor="white"
             focusable={true}

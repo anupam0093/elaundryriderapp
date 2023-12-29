@@ -14,7 +14,7 @@ import useStore from "../GlobalStore/store";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { searchAllDeliverybystoreId } from "../../networkAPI/api";
 import DeliveryCard from "../components/ui/DeliveryCard";
 import axios from "axios";
@@ -30,26 +30,34 @@ const OrderDelevery = ({ navigation }) => {
   const user = useStore((state) => state.user);
   const [loading, setIsloading] = useState(false);
 
+  const router = useRoute();
+  console.log(router?.params?.orderId)
 
 
+  const endDate = new Date();
+  endDate.setDate(endDate.getDate()); 
+  const startDate = new Date(endDate);
+  startDate.setMonth(startDate.getMonth() - 1);
 
-  const getDeliverys = async (storeid)=>{
+  
+  const formattedStartDate = startDate.toISOString().slice(0, 10);
+  const formattedEndDate = endDate.toISOString().slice(0, 10);
+
+  // console.log('formattedStartDate', formattedEndDate)
+
+
+  useEffect(()=>{
+      if(router?.params?.orderId && delivery?.length > 0){
+        const filteredData = delivery?.filter((item)=>item?.id != router?.params?.orderId)
+        setDelivery(filteredData)  
+      }
+  }, [router?.params?.orderId])
+
+
+    const getDeliverys = async (storeid)=>{
     setIsloading(true)
     try {
-      const {data} = await axios.post(`https://api.elaundry.co.in/oit-elaundry/api/auth/store/5/store-order-by-status`, {
-        "startDate": "2023-06-06",
-        "endDate": "2023-12-06",
-        "recordType": "DeliveryOn",
-        "storeId": riderDetails?.storeId,
-        "statusIn": [
-            "BOOKED",
-            "INPROCESS",
-            "PROCESSED",
-            "UNPROCESSED",
-            "OUT_FOR_DELIVERY",
-            "DELAY"
-        ]
-      }, {
+      const {data} = await axios.get(`https://api.elaundry.co.in/oit-elaundry/api/auth/store/5/store-order/${formattedStartDate}/${formattedEndDate}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Basic ${user?.accessToken}`,
@@ -68,6 +76,42 @@ const OrderDelevery = ({ navigation }) => {
       
   }
 
+
+  // const getDeliverys = async (storeid)=>{
+  //   setIsloading(true)
+  //   try {
+  //     const {data} = await axios.post(`https://api.elaundry.co.in/oit-elaundry/api/auth/store/5/store-order-by-status`, {
+  //       "startDate": "2023-06-06",
+  //       "endDate": "2023-12-06",
+  //       "recordType": "DeliveryOn",
+  //       "storeId": riderDetails?.storeId,
+  //       "statusIn": [
+  //           "BOOKED",
+  //           "INPROCESS",
+  //           "PROCESSED",
+  //           "UNPROCESSED",
+  //           "OUT_FOR_DELIVERY",
+  //           "DELAY"
+  //       ]
+  //     }, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Basic ${user?.accessToken}`,
+  //       },})
+  //       if (data){
+  //         const fitleredData = data?.filter((item)=>item?.orderPaymentStatus === "UNPAID")
+  //         setDelivery(fitleredData)
+  //       }
+  //       setIsloading(false)
+  //   } catch (error) {
+  //     console.log('nehat error', error)
+  //     setIsloading(false)
+  //   }
+   
+
+      
+  // }
+
   // const { data, isLoading, error, refetch } = useQuery({
   //   queryKey: ["delivery", riderDetails?.storeId, user?.accessToken],
   //   queryFn: async () => await getDeliverys(storeId, user?.accessToken),
@@ -83,7 +127,7 @@ const OrderDelevery = ({ navigation }) => {
 
   useEffect(() => {
     getDeliverys(riderDetails?.storeId)
-  },[user] );
+  },[] );
 
 
   

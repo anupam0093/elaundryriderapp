@@ -12,7 +12,7 @@ const DeliveryCard = ({ item }) => {
     nameL: item?.customer?.lastName,
     mobileNo: item?.customer?.mobileNo,
     storeCustomerId: item?.storeCustomerId,
-    orderId: item?.id,
+    orderId: item?.orderItem[0]?.orderId,
   };
 
   return (
