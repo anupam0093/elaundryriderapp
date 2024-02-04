@@ -40,11 +40,11 @@
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.ACCESS_MEDIA_LOCATION",
-        "android.permission.INTERNET",
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission"
-      ],
+        "android.permission.INTERNET"
+     ],
+     
       "package": "com.shail_009.Omra"
     },
     "web": {

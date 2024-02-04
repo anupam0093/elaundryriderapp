@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Alert,
   ScrollView,
+  Image,
 } from "react-native";
 import React, { useRef, useState, useEffect } from "react";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
@@ -25,10 +26,14 @@ import { captureRef } from "react-native-view-shot";
 import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
 import * as FileSystem from "expo-file-system";
+// import {Logo} from "../../assets/Photos/logo-1.png"
+
 
 const Checkout = () => {
   const navigation = useNavigation();
   const captureRef = useRef(null);
+
+  const Logo = require("../../assets/Photos/logo-1.png");
 
   const Gst = ["NONE", "INCLUDE", "EXCLUDE"];
   const route = useRoute();
@@ -160,7 +165,7 @@ const Checkout = () => {
     parseFloat(totalPrice) -
     parseFloat(discountValue) +
     parseFloat(chargesValue)
-  ).toFixed(2);
+  ).toFixed(1);
 
   const Gstc =
     handlegst === "EXCLUDE"
@@ -252,10 +257,151 @@ const Checkout = () => {
   const generatePDF = async (uri) => {
     console.log(uri, "uri");
 
+    // <html><body><img src="${uri}" /></body></html>
+
     try {
       const options = {
-        html: `<html><body><img src="${uri}" /></body></html>`,
-        fileName: "captured-screen",
+        html: `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>ELaundry Invoice</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+            }
+        
+            #invoice {
+              max-width: 600px;
+              margin: 20px auto;
+              padding: 20px;
+              border: 1px solid #ccc;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+        
+            h1, #div {
+              text-align: center;
+            }
+        
+            p {
+              margin: 5px 0;
+            }
+        
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-top: 20px;
+            }
+        
+            table, th, td {
+              border: 1px solid #ccc;
+            }
+        
+            th, td {
+              padding: 10px;
+              text-align: left;
+            }
+        
+            #totals {
+              margin-top: 20px;
+            }
+        
+            #totals p {
+              margin: 5px 0;
+            }
+          </style>
+        </head>
+        <body>
+          <div id="invoice">
+          <img src="https://scontent.fdel3-2.fna.fbcdn.net/v/t39.30808-6/241300820_894464941485545_6643307466864457944_n.png?_nc_cat=105&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=bCEw2NYAAZEAX_vvhgL&_nc_ht=scontent.fdel3-2.fna&oh=00_AfCaqZOrPIWWKZsTjRQL_wNPLm38932kfqSQcgt8mc-tbw&oe=65C54098" alt="Description of the image" style="width: 300px; height: 200px; display: block; margin: 0 auto;">
+          <h1>ELaundry Invoice</h1>
+           <div id="div">
+           <p>Printed on: 04-02-2024 02:22:52 PM</p>
+           <p>Store Name: Omra Laundry</p>
+           <p>7428839663 | support@elaundry.co.in</p>
+           <p>H-169, Sector 63 , 7428839663, Noida - 301302, Uttar Pradesh</p>
+           <p>Order On: Feb 2, 2024 | Delivery On: Feb 9, 2024</p>
+           <p>Order: Test_520240202 3762 | Invoice: 260</p>
+           <p>GST No: 09AIPPB1338M2ZZ</p>
+           <p>Elaundry Test (7982518911)</p>
+           <p>omra.info20@gmail.com</p>
+           <p>A-105, Sector 65, Noida, Uttar Pradesh-.</p>
+           </div>
+
+        
+            <table>
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Customer Name</th>
+                  <th>Phone No.</th>
+                  <th>Qty</th>
+                  <th>Customer ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Add your invoice item rows here -->
+                <tr>
+                  <td>${productName}</td>
+                  <td>${customerName}</td>
+                  <td>${customerPhoneNo}</td>
+                  <td>${totalQuantityofProduct}</td>
+                  <td>${customerId}</td>
+                </tr>
+              </tbody>
+            </table>
+            <table>
+            <thead>
+              <tr>
+                <th>Total Amount</th>
+                <th>Charges</th>
+                <th>Discount</th>
+                <th>Gross Amount</th>
+                <th>Taxable Amount</th>
+                <th>GST 18%</th>
+                <th>Grand Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Add your invoice item rows here -->
+              <tr>
+                <td> ₹${totalPrice}</td>
+                <td> ₹${
+                  (charges.chargeDiscountTypeIn === "AMOUNT"
+                    ? Number(charges?.chargeDiscount)
+                    : (totalPrice * Number(charges?.chargeDiscount)) / 100) || 0
+                }</td>
+                <td>₹${
+                  (discounteditem?.chargeDiscountTypeIn === "AMOUNT"
+                    ? Number(discounteditem?.chargeDiscount)
+                    : Number(
+                        (totalPrice * discounteditem?.chargeDiscount) / 100
+                      )) || 0
+                }</td>
+                <td> ₹${
+                  Number(taxableAmount) ||
+                  Math.round(Number(totalPrice * 0.18) / (1.18).toFixed())
+                }</td>
+                <td>₹${Gross || totalPrice}</td>
+                <td>₹${Gstc.toFixed()}</td>
+                <td> ₹${
+                  Number(GrandTotal.toFixed(2)) ||
+                  Math.round(
+                    totalPrice + Number(totalPrice * 0.18) / (1.18).toFixed()
+                  )
+                }</td>
+              </tr>
+            </tbody>
+          </table>
+      
+          </div>
+        </body>
+        </html>
+        
+  `,
+        fileName: `Elaundry${customerName}Invoice`,
         directory: FileSystem.documentDirectory,
       };
 
@@ -276,7 +422,7 @@ const Checkout = () => {
       });
 
       // Move the PDF file to the 'Download' directory
-      const newPdfUri = `${downloadDirectory}captured-screen.pdf`;
+      const newPdfUri = `${downloadDirectory}Elaundry${customerName}Invoice.pdf`;
       await FileSystem.moveAsync({
         from: pdfUri.uri, // Use pdfUri.uri as the source file URI
         to: newPdfUri,
@@ -840,3 +986,4 @@ const styles = StyleSheet.create({
     padding: 7,
   },
 });
+
