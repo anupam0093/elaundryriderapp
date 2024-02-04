@@ -33,8 +33,6 @@ const Checkout = () => {
   const Gst = ["NONE", "INCLUDE", "EXCLUDE"];
   const route = useRoute();
 
-  // console.log('shail', route?.params?.cart_details?.totalQuantity)
-
   const [charge, setCharge] = useState([]);
   const [charges, setCharges] = useState([]);
   const [discount, setDiscount] = useState([]);
@@ -46,7 +44,14 @@ const Checkout = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [datePickerVisible, setDatePickerVisible] = useState(false);
 
-  console.log(handlegst, "handlegst");
+  // console.log(handlegst, "handlegst");
+  console.log("nehat route line 48", route.params);
+
+  const customerName = route.params.customer_details.name;
+  const customerPhoneNo = route.params.customer_details.mobileNo;
+  const totalQuantityofProduct = route.params.cart_details.totalQuantity;
+  const customerId = route.params.customer_details.storeCustomerId;
+  const productName = route.params.productDetails;
 
   const showDatePicker = () => {
     setDatePickerVisible(true);
@@ -128,40 +133,47 @@ const Checkout = () => {
   //======================================== Calculation for Gross Amount ===============================================
 
   totalPrice =
-  handlegst === "INCLUDE"
-    ? parseFloat(totalPrice) - parseFloat((parseFloat(totalPrice) * 18) / 100)
-    : handlegst === "EXCLUDE"
-    ? parseFloat(totalPrice)
-    : parseFloat(totalPrice);
+    handlegst === "INCLUDE"
+      ? parseFloat(totalPrice) - parseFloat((parseFloat(totalPrice) * 18) / 100)
+      : handlegst === "EXCLUDE"
+      ? parseFloat(totalPrice)
+      : parseFloat(totalPrice);
 
-const chargesValue = charges
-  ? (charges.chargeDiscountTypeIn === "AMOUNT"
-      ? parseFloat(charges?.chargeDiscount)
-      : (parseFloat(totalPrice) * parseFloat(charges?.chargeDiscount)) / 100) || 0
-  : 0;
-
-const discountValue = discounteditem
-  ? (discounteditem.chargeDiscountTypeIn === "AMOUNT"
-      ? parseFloat(discounteditem?.chargeDiscount)
-      : parseFloat((parseFloat(totalPrice) * parseFloat(discounteditem?.chargeDiscount)) / 100)) || 0
-  : 0;
-
-const Gross = parseFloat(totalPrice) - parseFloat(discountValue) + parseFloat(chargesValue);
-
-const Gstc = 
-  handlegst === "EXCLUDE"
-    ? parseFloat(route?.params?.totalAmount).toFixed(2) * 18 / 100
-    : handlegst === "INCLUDE"
-    ? parseFloat(route?.params?.totalAmount) * 18 / 100
+  const chargesValue = charges
+    ? (charges.chargeDiscountTypeIn === "AMOUNT"
+        ? parseFloat(charges?.chargeDiscount)
+        : (parseFloat(totalPrice) * parseFloat(charges?.chargeDiscount)) /
+          100) || 0
     : 0;
 
-// If you need Gstc to be a string with two decimal places for display purposes
-const GstcString = Gstc.toFixed(2);
+  const discountValue = discounteditem
+    ? (discounteditem.chargeDiscountTypeIn === "AMOUNT"
+        ? parseFloat(discounteditem?.chargeDiscount)
+        : parseFloat(
+            (parseFloat(totalPrice) *
+              parseFloat(discounteditem?.chargeDiscount)) /
+              100
+          )) || 0
+    : 0;
 
+  const Gross = (
+    parseFloat(totalPrice) -
+    parseFloat(discountValue) +
+    parseFloat(chargesValue)
+  ).toFixed(2);
 
-const taxableAmount = parseFloat(Gross).toFixed(2);
-const GrandTotal = parseFloat(Gross) + parseFloat(GstcString);
+  const Gstc =
+    handlegst === "EXCLUDE"
+      ? (parseFloat(route?.params?.totalAmount).toFixed(2) * 18) / 100
+      : handlegst === "INCLUDE"
+      ? (parseFloat(route?.params?.totalAmount) * 18) / 100
+      : 0;
 
+  // If you need Gstc to be a string with two decimal places for display purposes
+  const GstcString = Gstc.toFixed(2);
+
+  const taxableAmount = parseFloat(Gross).toFixed(2);
+  const GrandTotal = parseFloat(Gross) + parseFloat(GstcString);
 
   // ====================================== Charge and Discount Calculation =========================================
 
@@ -224,7 +236,7 @@ const GrandTotal = parseFloat(Gross) + parseFloat(GstcString);
       }
     } catch (error) {
       console.log({ error }, "error in line 122");
-      alert("Something Went Wrong");
+      alert("Please Select The Delivery Date And GST Type");
     }
   };
 
@@ -281,359 +293,312 @@ const GrandTotal = parseFloat(Gross) + parseFloat(GstcString);
   return (
     <SafeAreaView>
       <ScrollView>
-        <ViewShot ref={captureRef} style={styles.viewShot}>
+        <View
+          style={{ height: 1140, width: "100%", backgroundColor: "#F3F1F6" }}
+        >
           <View
-            style={{ height: 1140, width: "100%", backgroundColor: "#F3F1F6" }}
+            style={{
+              marginLeft: 0,
+              marginTop: 30,
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+            }}
           >
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <AntDesign
+                name="left"
+                size={32}
+                color="#5D7EFC"
+                style={{ marginTop: 30, marginLeft: 0 }}
+              />
+            </TouchableOpacity>
+
             <View
               style={{
-                marginLeft: 0,
-                marginTop: 30,
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-around",
+                width: 242,
+                height: 34,
+                marginTop: 16,
               }}
             >
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <AntDesign
-                  name="left"
-                  size={32}
-                  color="#5D7EFC"
-                  style={{ marginTop: 30, marginLeft: 0 }}
+              <Text
+                style={{
+                  fontSize: 24,
+                  lineHeight: 44,
+                  fontWeight: "600",
+                  color: "#002B6B",
+                }}
+              >
+                Checkout
+              </Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: "400",
+                  color: "#000000",
+                }}
+              >
+                Checkout Final Submission
+              </Text>
+            </View>
+          </View>
+          <View
+            style={{
+              marginTop: 30,
+              marginLeft: 22,
+              display: "flex",
+              flexDirection: "row",
+            }}
+          ></View>
+
+          {/* CHARGES  COMING FROM BACKEND */}
+
+          <View style={{ top: 10, left: 30, marginBottom: 20 }}>
+            <SelectDropdown
+              data={charge.map(
+                (item) =>
+                  ` ${item.name}  ${"["} ${item.chargeDiscountType}${":"} ${
+                    item.chargeDiscount
+                  }${
+                    item.chargeDiscountTypeIn === "AMOUNT" ? " Rs" : "%"
+                  } ${"]"}`
+              )}
+              onSelect={(selectedItem, index) => {
+                console.log("hola como estas", selectedItem, index);
+                handleSelect(selectedItem);
+                setCharges(charge[index]);
+              }}
+              defaultButtonText={"Add Charges"}
+              buttonTextAfterSelection={() =>
+                selectedItem || "Select an option"
+              }
+              rowTextForSelection={(item, index) => {
+                return item;
+              }}
+              buttonStyle={styles.dropdown1BtnStyle}
+              buttonTextStyle={styles.dropdown1BtnTxtStyle}
+              renderDropdownIcon={(isOpened) => {
+                return (
+                  <FontAwesome
+                    name={isOpened ? "chevron-up" : "chevron-down"}
+                    color={"#444"}
+                    size={17}
+                  />
+                );
+              }}
+              dropdownIconPosition={"right"}
+              dropdownStyle={styles.dropdown1DropdownStyle}
+              rowStyle={styles.dropdown1RowStyle}
+              rowTextStyle={styles.dropdown1RowTxtStyle}
+            />
+          </View>
+
+          <View style={{ left: 30, marginBottom: 10 }}>
+            <SelectDropdown
+              data={discount.map(
+                (item) =>
+                  ` ${item.name}  ${"["} ${item.chargeDiscountType}${":"} ${
+                    item.chargeDiscount
+                  }${
+                    item.chargeDiscountTypeIn === "AMOUNT" ? " Rs" : "%"
+                  } ${"]"}`
+              )}
+              onSelect={(discounSelect, index) => {
+                handleDiscount(discounSelect);
+                setDiscounteditem(discount[index]);
+              }}
+              defaultButtonText={"Add Discount"}
+              buttonTextAfterSelection={() =>
+                discountSelect || "Select an option"
+              }
+              rowTextForSelection={(item, index) => {
+                return item;
+              }}
+              buttonStyle={styles.dropdown1BtnStyle}
+              buttonTextStyle={styles.dropdown1BtnTxtStyle}
+              renderDropdownIcon={(isOpened) => {
+                return (
+                  <FontAwesome
+                    name={isOpened ? "chevron-up" : "chevron-down"}
+                    color={"#444"}
+                    size={18}
+                  />
+                );
+              }}
+              dropdownIconPosition={"right"}
+              dropdownStyle={styles.dropdown1DropdownStyle}
+              rowStyle={styles.dropdown1RowStyle}
+              rowTextStyle={styles.dropdown1RowTxtStyle}
+            />
+          </View>
+
+          <View style={{ left: 30, marginBottom: 10 }}>
+            <SelectDropdown
+              data={Gst}
+              onSelect={(value, index) => {
+                setHandleGst(value);
+              }}
+              defaultButtonText={"Select GST"}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                return item;
+              }}
+              buttonStyle={styles.dropdown1BtnStyle}
+              buttonTextStyle={styles.dropdown1BtnTxtStyle}
+              renderDropdownIcon={(isOpened) => {
+                return (
+                  <FontAwesome
+                    name={isOpened ? "chevron-up" : "chevron-down"}
+                    color={"#444"}
+                    size={18}
+                  />
+                );
+              }}
+              dropdownIconPosition={"right"}
+              dropdownStyle={styles.dropdown1DropdownStyle}
+              rowStyle={styles.dropdown1RowStyle}
+              rowTextStyle={styles.dropdown1RowTxtStyle}
+            />
+
+            <ScrollView style={styles.cardsContainer}>
+              {charges && selectedItem && (
+                <Card style={styles.card}>
+                  <Text>{charges.name}</Text>
+                  <View>
+                    <Text>Description: {charges.description}</Text>
+                    <Text>Charge: {charges.chargeDiscount} Rs</Text>
+                  </View>
+                  <Entypo
+                    style={{ left: 300, bottom: 40 }}
+                    onPress={RemoveCharge}
+                    name="circle-with-cross"
+                    size={24}
+                    color="red"
+                  />
+                </Card>
+              )}
+            </ScrollView>
+            <ScrollView style={styles.cardsContainer}>
+              {discounteditem && (
+                <Card style={styles.card}>
+                  <View>
+                    <Text>{discounteditem.name}</Text>
+                  </View>
+                  <View>
+                    <Text>Description: {discounteditem.description}</Text>
+                    <Text>Charge: {discounteditem.chargeDiscount} Rs</Text>
+                  </View>
+                  <Entypo
+                    style={{ left: 300, bottom: 40 }}
+                    onPress={RemoveDiscount}
+                    name="circle-with-cross"
+                    size={24}
+                    color="red"
+                  />
+                </Card>
+              )}
+            </ScrollView>
+          </View>
+          <ViewShot ref={captureRef}>
+            <View>
+              <View
+                style={{
+                  marginLeft: 30,
+                  marginBottom: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 15,
+                  }}
+                >
+                  Products : {productName}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 15,
+                  }}
+                >
+                  Customer Name : {customerName}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 15,
+                  }}
+                >
+                  Customer Phone No.: {customerPhoneNo}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 15,
+                  }}
+                >
+                  Total Quantity : {totalQuantityofProduct}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 15,
+                  }}
+                >
+                  Customer ID : {customerId}
+                </Text>
+              </View>
+
+              <View style={{ left: 30 }}>
+                <Text
+                  style={{ fontSize: 15, fontWeight: "bold", marginBottom: 5 }}
+                >
+                  {selectedDate
+                    ? moment(selectedDate).format("DD/MM/YYYY")
+                    : "No date selected"}
+                </Text>
+                <SelectDropdown
+                  defaultButtonText={"Delevery Date "}
+                  buttonStyle={styles.dropdown1BtnStyle}
+                  buttonTextStyle={styles.dropdown1BtnTxtStyle}
+                  renderDropdownIcon={(isOpened) => {
+                    return (
+                      <View>
+                        <TouchableOpacity onPress={showDatePicker}>
+                          <FontAwesome
+                            name={isOpened ? "calendar" : "calendar"}
+                            color={"#444"}
+                            size={24}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    );
+                  }}
+                  dropdownIconPosition={"right"}
                 />
-              </TouchableOpacity>
+
+                <DateTimePickerModal
+                  date={selectedDate}
+                  isVisible={datePickerVisible}
+                  mode="date"
+                  onConfirm={handleConfirm}
+                  onCancel={hideDatePicker}
+                />
+              </View>
 
               <View
                 style={{
-                  width: 242,
-                  height: 34,
-                  marginTop: 16,
+                  width: "85%",
+                  height: 280,
+                  borderColor: "cyan",
+                  borderStyle: "solid",
+                  borderWidth: 1,
+                  marginTop: 14,
+                  left: 30,
+                  display: "flex",
+                  padding: 10,
+                  backgroundColor: "white",
+                  borderRadius: 10,
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: 24,
-                    lineHeight: 44,
-                    fontWeight: "600",
-                    color: "#002B6B",
-                  }}
-                >
-                  Checkout
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: "400",
-                    color: "#000000",
-                  }}
-                >
-                  Checkout Final Submission
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                marginTop: 30,
-                marginLeft: 22,
-                display: "flex",
-                flexDirection: "row",
-              }}
-            ></View>
-
-            {/* CHARGES  COMING FROM BACKEND */}
-
-            <View style={{ top: 10, left: 30, marginBottom: 20 }}>
-              <SelectDropdown
-                data={charge.map(
-                  (item) =>
-                    ` ${item.name}  ${"["} ${item.chargeDiscountType}${":"} ${
-                      item.chargeDiscount
-                    }${
-                      item.chargeDiscountTypeIn === "AMOUNT" ? " Rs" : "%"
-                    } ${"]"}`
-                )}
-                onSelect={(selectedItem, index) => {
-                  console.log("hola como estas", selectedItem, index);
-                  handleSelect(selectedItem);
-                  setCharges(charge[index]);
-                }}
-                defaultButtonText={"Add Charges"}
-                buttonTextAfterSelection={() =>
-                  selectedItem || "Select an option"
-                }
-                rowTextForSelection={(item, index) => {
-                  return item;
-                }}
-                buttonStyle={styles.dropdown1BtnStyle}
-                buttonTextStyle={styles.dropdown1BtnTxtStyle}
-                renderDropdownIcon={(isOpened) => {
-                  return (
-                    <FontAwesome
-                      name={isOpened ? "chevron-up" : "chevron-down"}
-                      color={"#444"}
-                      size={17}
-                    />
-                  );
-                }}
-                dropdownIconPosition={"right"}
-                dropdownStyle={styles.dropdown1DropdownStyle}
-                rowStyle={styles.dropdown1RowStyle}
-                rowTextStyle={styles.dropdown1RowTxtStyle}
-              />
-            </View>
-
-            <View style={{ left: 30, marginBottom: 10 }}>
-              <SelectDropdown
-                data={discount.map(
-                  (item) =>
-                    ` ${item.name}  ${"["} ${item.chargeDiscountType}${":"} ${
-                      item.chargeDiscount
-                    }${
-                      item.chargeDiscountTypeIn === "AMOUNT" ? " Rs" : "%"
-                    } ${"]"}`
-                )}
-                onSelect={(discounSelect, index) => {
-                  handleDiscount(discounSelect);
-                  setDiscounteditem(discount[index]);
-                }}
-                defaultButtonText={"Add Discount"}
-                buttonTextAfterSelection={() =>
-                  discountSelect || "Select an option"
-                }
-                rowTextForSelection={(item, index) => {
-                  return item;
-                }}
-                buttonStyle={styles.dropdown1BtnStyle}
-                buttonTextStyle={styles.dropdown1BtnTxtStyle}
-                renderDropdownIcon={(isOpened) => {
-                  return (
-                    <FontAwesome
-                      name={isOpened ? "chevron-up" : "chevron-down"}
-                      color={"#444"}
-                      size={18}
-                    />
-                  );
-                }}
-                dropdownIconPosition={"right"}
-                dropdownStyle={styles.dropdown1DropdownStyle}
-                rowStyle={styles.dropdown1RowStyle}
-                rowTextStyle={styles.dropdown1RowTxtStyle}
-              />
-            </View>
-
-            <View style={{ left: 30, marginBottom: 10 }}>
-              <SelectDropdown
-                data={Gst}
-                onSelect={(value, index) => {
-                  setHandleGst(value);
-                }}
-                defaultButtonText={"Select GST"}
-                buttonTextAfterSelection={(selectedItem, index) => {
-                  return selectedItem;
-                }}
-                rowTextForSelection={(item, index) => {
-                  return item;
-                }}
-                buttonStyle={styles.dropdown1BtnStyle}
-                buttonTextStyle={styles.dropdown1BtnTxtStyle}
-                renderDropdownIcon={(isOpened) => {
-                  return (
-                    <FontAwesome
-                      name={isOpened ? "chevron-up" : "chevron-down"}
-                      color={"#444"}
-                      size={18}
-                    />
-                  );
-                }}
-                dropdownIconPosition={"right"}
-                dropdownStyle={styles.dropdown1DropdownStyle}
-                rowStyle={styles.dropdown1RowStyle}
-                rowTextStyle={styles.dropdown1RowTxtStyle}
-              />
-
-              <ScrollView style={styles.cardsContainer}>
-                {charges && selectedItem && (
-                  <Card style={styles.card}>
-                    <Text>{charges.name}</Text>
-                    <View>
-                      <Text>Description: {charges.description}</Text>
-                      <Text>Charge: {charges.chargeDiscount} Rs</Text>
-                    </View>
-                    <Entypo
-                      style={{ left: 300, bottom: 40 }}
-                      onPress={RemoveCharge}
-                      name="circle-with-cross"
-                      size={24}
-                      color="red"
-                    />
-                  </Card>
-                )}
-              </ScrollView>
-              <ScrollView style={styles.cardsContainer}>
-                {discounteditem && (
-                  <Card style={styles.card}>
-                    <View>
-                      <Text>{discounteditem.name}</Text>
-                    </View>
-                    <View>
-                      <Text>Description: {discounteditem.description}</Text>
-                      <Text>Charge: {discounteditem.chargeDiscount} Rs</Text>
-                    </View>
-                    <Entypo
-                      style={{ left: 300, bottom: 40 }}
-                      onPress={RemoveDiscount}
-                      name="circle-with-cross"
-                      size={24}
-                      color="red"
-                    />
-                  </Card>
-                )}
-              </ScrollView>
-            </View>
-
-            <View style={{ left: 30 }}>
-              <Text
-                style={{ fontSize: 17, fontWeight: "bold", marginBottom: 20 }}
-              >
-                {selectedDate
-                  ? moment(selectedDate).format("DD/MM/YYYY")
-                  : "No date selected"}
-              </Text>
-              <SelectDropdown
-                defaultButtonText={"Delevery Date "}
-                buttonStyle={styles.dropdown1BtnStyle}
-                buttonTextStyle={styles.dropdown1BtnTxtStyle}
-                renderDropdownIcon={(isOpened) => {
-                  return (
-                    <View>
-                      <TouchableOpacity onPress={showDatePicker}>
-                        <FontAwesome
-                          name={isOpened ? "calendar" : "calendar"}
-                          color={"#444"}
-                          size={24}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  );
-                }}
-                dropdownIconPosition={"right"}
-              />
-
-              <DateTimePickerModal
-                date={selectedDate}
-                isVisible={datePickerVisible}
-                mode="date"
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
-              />
-            </View>
-
-            <View
-              style={{
-                width: "85%",
-                height: 340,
-                borderColor: "cyan",
-                borderStyle: "solid",
-                borderWidth: 1,
-                marginTop: 14,
-                left: 30,
-                display: "flex",
-                padding: 20,
-              }}
-            >
-              <View>
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    marginBottom: 20,
-                  }}
-                >
-                  <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                    Total Amount (Rs):
-                  </Text>
-                  <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                    {"\u20B9"} {totalPrice}
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    marginBottom: 20,
-                  }}
-                >
-                  <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                    Charges (Rs):
-                  </Text>
-                  <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                    {"\u20B9"}{" "}
-                    {(charges.chargeDiscountTypeIn === "AMOUNT"
-                      ? Number(charges?.chargeDiscount)
-                      : (totalPrice * Number(charges?.chargeDiscount)) / 100) ||
-                      0}
-                  </Text>
-                </View>
-
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    marginBottom: 20,
-                  }}
-                >
-                  <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                    Discount (Rs):
-                  </Text>
-                  <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                    {"\u20B9"}{" "}
-                    {(discounteditem?.chargeDiscountTypeIn === "AMOUNT"
-                      ? Number(discounteditem?.chargeDiscount)
-                      : Number(
-                          (totalPrice * discounteditem?.chargeDiscount) / 100
-                        )) || 0}
-                  </Text>
-                </View>
-
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    marginBottom: 20,
-                  }}
-                >
-                  <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                    Gross Amount (Rs):
-                  </Text>
-
-                  <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                    {"\u20B9"} {Gross || totalPrice}
-                  </Text>
-                </View>
-
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    marginBottom: 20,
-                  }}
-                >
-                  <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                    Taxable Amount (Rs):
-                  </Text>
-                  <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                    {"\u20B9"}{" "}
-                    {Number(taxableAmount) ||
-                      Math.round(Number(totalPrice * 0.18) / (1.18).toFixed())}
-                  </Text>
-                </View>
-
-                {handlegst == "EXCLUDE" || handlegst == "INCLUDE" ? (
+                <View>
                   <View
                     style={{
                       display: "flex",
@@ -642,72 +607,168 @@ const GrandTotal = parseFloat(Gross) + parseFloat(GstcString);
                       marginBottom: 20,
                     }}
                   >
-                    <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                      GST (Rs) 18% :
+                    <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                      Total Amount (Rs):
                     </Text>
                     <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                      {"\u20B9"} {Gstc.toFixed()}
+                      {"\u20B9"} {totalPrice}
                     </Text>
                   </View>
-                ) : null}
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      marginBottom: 20,
+                    }}
+                  >
+                    <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                      Charges (Rs):
+                    </Text>
+                    <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
+                      {"\u20B9"}{" "}
+                      {(charges.chargeDiscountTypeIn === "AMOUNT"
+                        ? Number(charges?.chargeDiscount)
+                        : (totalPrice * Number(charges?.chargeDiscount)) /
+                          100) || 0}
+                    </Text>
+                  </View>
 
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Text style={{ fontSize: 18, fontWeight: "bold" }} t>
-                    Grand Total (Rs) :
-                  </Text>
-                  <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                    {"\u20B9"}{" "}
-                    {Number(GrandTotal.toFixed(2)) ||
-                      Math.round(
-                        totalPrice +
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      marginBottom: 20,
+                    }}
+                  >
+                    <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                      Discount (Rs):
+                    </Text>
+                    <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
+                      {"\u20B9"}{" "}
+                      {(discounteditem?.chargeDiscountTypeIn === "AMOUNT"
+                        ? Number(discounteditem?.chargeDiscount)
+                        : Number(
+                            (totalPrice * discounteditem?.chargeDiscount) / 100
+                          )) || 0}
+                    </Text>
+                  </View>
+
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      marginBottom: 20,
+                    }}
+                  >
+                    <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                      Gross Amount (Rs):
+                    </Text>
+
+                    <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
+                      {"\u20B9"} {Gross || totalPrice}
+                    </Text>
+                  </View>
+
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      marginBottom: 20,
+                    }}
+                  >
+                    <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                      Taxable Amount (Rs):
+                    </Text>
+                    <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
+                      {"\u20B9"}{" "}
+                      {Number(taxableAmount) ||
+                        Math.round(
                           Number(totalPrice * 0.18) / (1.18).toFixed()
-                      )}
-                  </Text>
+                        )}
+                    </Text>
+                  </View>
+
+                  {handlegst == "EXCLUDE" || handlegst == "INCLUDE" ? (
+                    <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        marginBottom: 20,
+                      }}
+                    >
+                      <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                        GST (Rs) 18% :
+                      </Text>
+                      <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
+                        {"\u20B9"} {Gstc.toFixed()}
+                      </Text>
+                    </View>
+                  ) : null}
+
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Text style={{ fontSize: 15, fontWeight: "bold" }} t>
+                      Grand Total (Rs) :
+                    </Text>
+                    <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
+                      {"\u20B9"}{" "}
+                      {Number(GrandTotal.toFixed(2)) ||
+                        Math.round(
+                          totalPrice +
+                            Number(totalPrice * 0.18) / (1.18).toFixed()
+                        )}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
-            <Button
-              onPress={() => bookOrder()}
-              rippleColor="yellow"
-              buttonColor="blue"
-              textColor="white"
-              style={{
-                borderColor: "cyan",
-                borderWidth: 1,
-                borderStyle: "solid",
-                width: "40%",
-                left: 110,
-                marginTop: 15,
-                padding: 5,
-              }}
-            >
-              Booked
-            </Button>
+          </ViewShot>
 
-            <Button
-              onPress={handleCapture}
-              buttonColor="blue"
-              textColor="white"
-              style={{
-                borderColor: "cyan",
-                borderWidth: 1,
-                borderStyle: "solid",
-                width: "40%",
-                left: 110,
-                marginTop: 15,
-                padding: 5,
-              }}
-            >
-              Print
-            </Button>
-          </View>
-        </ViewShot>
+          <Button
+            onPress={() => bookOrder()}
+            rippleColor="yellow"
+            buttonColor="blue"
+            textColor="white"
+            style={{
+              borderColor: "cyan",
+              borderWidth: 1,
+              borderStyle: "solid",
+              width: "40%",
+              left: 110,
+              marginTop: 15,
+              padding: 5,
+            }}
+          >
+            Booked
+          </Button>
+
+          <Button
+            onPress={handleCapture}
+            buttonColor="blue"
+            textColor="white"
+            style={{
+              borderColor: "cyan",
+              borderWidth: 1,
+              borderStyle: "solid",
+              width: "40%",
+              left: 110,
+              marginTop: 15,
+              padding: 5,
+            }}
+          >
+            Print
+          </Button>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

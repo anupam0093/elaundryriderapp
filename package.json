@@ -19,7 +19,7 @@
     "@react-navigation/stack": "^6.3.16",
     "@tanstack/react-query": "^4.33.0",
     "@web/dev-server": "^0.3.0",
-    "axios": "^1.4.0",
+    "axios": "^1.6.7",
     "dotenv": "^16.3.1",
     "expo": "^50.0.0",
     "expo-camera": "~14.0.3",

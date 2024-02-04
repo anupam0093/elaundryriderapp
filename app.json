@@ -42,7 +42,8 @@
         "android.permission.ACCESS_MEDIA_LOCATION",
         "android.permission.INTERNET",
         "android.permission.ACCESS_FINE_LOCATION",
-        "android.permission.ACCESS_COARSE_LOCATION"
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission"
       ],
       "package": "com.shail_009.Omra"
     },

@@ -6,7 +6,7 @@ import {
   Image,
   ScrollView,
   ImageBackground,
-  Alert
+  Alert,
 } from "react-native";
 import { TextInput } from "react-native";
 import { styles } from "../../Components/Styles/welcome";
@@ -15,8 +15,6 @@ import { API_URL } from "../../networkAPI/env";
 import useStore from "../GlobalStore/store";
 import CustomButton from "../../Components/CommonComponent/CustomButton";
 import { getAccountInfo } from "../../networkAPI/api";
-
-
 
 const Welcome = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -35,7 +33,7 @@ const Welcome = ({ navigation }) => {
         },
       });
 
-      console.log('Rider token', data);
+      console.log("Rider token", data);
       setUser(data);
       if (data) {
         try {
@@ -51,9 +49,8 @@ const Welcome = ({ navigation }) => {
           console.log("Something Went Wrong");
         }
       }
-     
     } catch (error) {
-      Alert.alert("Rider Doesn't Exist Invalid credentials")
+      Alert.alert("Rider Doesn't Exist Invalid credentials");
 
       console.log(error);
     }
