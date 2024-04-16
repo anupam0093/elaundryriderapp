@@ -134,7 +134,7 @@ const CartModal = ({ showModal, setShowModal, closeModal, selectedItem, customer
                 )}
               />
               <TouchableOpacity style={{ paddingHorizontal: 10, paddingVertical: 10, borderRadius: 10, backgroundColor: '#003566', width: '55%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} onPress={() => setShowCamModal(true)}>
-                <Text style={{ color: 'white', textAlign: 'center', fontSize: 20 }}>Item Image</Text>
+                <Text style={{ color: 'white', textAlign: 'zcenter', fontSize: 20 }}>Item Image</Text>
                 <AntDesign name="camera" size={24} color="white" />
               </TouchableOpacity>
             </View>

@@ -28,7 +28,6 @@ import * as Sharing from "expo-sharing";
 import * as FileSystem from "expo-file-system";
 // import {Logo} from "../../assets/Photos/logo-1.png"
 
-
 const Checkout = () => {
   const navigation = useNavigation();
   const captureRef = useRef(null);
@@ -48,15 +47,44 @@ const Checkout = () => {
   const [handlegst, setHandleGst] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [datePickerVisible, setDatePickerVisible] = useState(false);
+  const [backendCartItems, setBackendCartItems] = useState([]);
 
   // console.log(handlegst, "handlegst");
-  console.log("nehat route line 48", route.params);
+  // console.log("nehat route line 48", route.params);
 
   const customerName = route.params.customer_details.name;
   const customerPhoneNo = route.params.customer_details.mobileNo;
   const totalQuantityofProduct = route.params.cart_details.totalQuantity;
   const customerId = route.params.customer_details.storeCustomerId;
   const productName = route.params.productDetails;
+
+  const getUserCartItems = async () => {
+    const cart_url = `https://api.elaundry.co.in/oit-elaundry/api/auth/customer/${route.params.customer_details?.storeCustomerId}/cart`;
+    try {
+      const { data } = await axios.get(cart_url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${user?.accessToken}`,
+        },
+      });
+      // console.log("yes yes suraj dubey", data);
+      setBackendCartItems(data);
+    } catch (error) {
+      console.log(error, "error in line 43");
+    }
+  };
+
+  React.useEffect(() => {
+    getUserCartItems();
+  }, []);
+
+  const addedItems =
+    backendCartItems && backendCartItems?.map((item) => item?.garmentName);
+
+  const addItemPrice =
+    backendCartItems && backendCartItems?.map((item) => item?.totalPrice);
+
+  // console.log(addedItems);
 
   const showDatePicker = () => {
     setDatePickerVisible(true);
@@ -253,6 +281,31 @@ const Checkout = () => {
       console.error("Error capturing the screen:", error);
     }
   };
+  const currentDate = new Date();
+
+  const options = {
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: true, // Set to false if you want 24-hour format
+    day: "numeric",
+    month: "long", // You can use 'short' or 'numeric' for different formats
+    year: "numeric",
+  };
+
+  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+    currentDate
+  );
+
+  {
+    /* <td></td>
+  <td></td>
+  <td></td>
+  <td> ₹${
+    Number(GrandTotal.toFixed(2)) ||
+    Math.round(totalPrice + Number(totalPrice * 0.18) / (1.18).toFixed())
+  }</td> */
+  }
 
   const generatePDF = async (uri) => {
     console.log(uri, "uri");
@@ -316,86 +369,59 @@ const Checkout = () => {
         <body>
           <div id="invoice">
           <img src="https://scontent.fdel3-2.fna.fbcdn.net/v/t39.30808-6/241300820_894464941485545_6643307466864457944_n.png?_nc_cat=105&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=bCEw2NYAAZEAX_vvhgL&_nc_ht=scontent.fdel3-2.fna&oh=00_AfCaqZOrPIWWKZsTjRQL_wNPLm38932kfqSQcgt8mc-tbw&oe=65C54098" alt="Description of the image" style="width: 300px; height: 200px; display: block; margin: 0 auto;">
-          <h1>ELaundry Invoice</h1>
+          <h1>Receipt</h1>
            <div id="div">
-           <p>Printed on: 04-02-2024 02:22:52 PM</p>
-           <p>Store Name: Omra Laundry</p>
-           <p>7428839663 | support@elaundry.co.in</p>
-           <p>H-169, Sector 63 , 7428839663, Noida - 301302, Uttar Pradesh</p>
-           <p>Order On: Feb 2, 2024 | Delivery On: Feb 9, 2024</p>
-           <p>Order: Test_520240202 3762 | Invoice: 260</p>
-           <p>GST No: 09AIPPB1338M2ZZ</p>
-           <p>Elaundry Test (7982518911)</p>
-           <p>omra.info20@gmail.com</p>
-           <p>A-105, Sector 65, Noida, Uttar Pradesh-.</p>
+     
+           <p>Customer Name: ${customerName}</p>
+           <p>Customer Phone No.: ${customerPhoneNo}</p>
+           <p>Customer ID:  ${customerId}</p>
+           <p>Printed on: ${formattedDate}</p>
+         
            </div>
+           <table>
+           <thead>
+             <tr>
+             <th>Item</th>
+             <th>Quantity</th>
+             <th>Price</th>
+             </tr>
+           </thead>
+           <tbody>            
+               ${backendCartItems
+                 ?.map(
+                   (item, index) => `
+               <tr>
+                 <td key=${index}>${item.garmentName}</td>
+                 <td key=${index}>${item.itemGarmentCount}</td>
+                 <td key=${index}>${item.totalPrice}</td>
+                 </tr>
+               `
+                 )
+                 .join("")}
+                 <td>Total Amount : ₹${totalPrice}</td>
+                 <td></td>
+                 <td></td>
+                
 
-        
-            <table>
-              <thead>
-                <tr>
-                  <th>Item</th>
-                  <th>Customer Name</th>
-                  <th>Phone No.</th>
-                  <th>Qty</th>
-                  <th>Customer ID</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Add your invoice item rows here -->
-                <tr>
-                  <td>${productName}</td>
-                  <td>${customerName}</td>
-                  <td>${customerPhoneNo}</td>
-                  <td>${totalQuantityofProduct}</td>
-                  <td>${customerId}</td>
-                </tr>
-              </tbody>
-            </table>
-            <table>
-            <thead>
-              <tr>
-                <th>Total Amount</th>
-                <th>Charges</th>
-                <th>Discount</th>
-                <th>Gross Amount</th>
-                <th>Taxable Amount</th>
-                <th>GST 18%</th>
-                <th>Grand Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Add your invoice item rows here -->
-              <tr>
-                <td> ₹${totalPrice}</td>
-                <td> ₹${
-                  (charges.chargeDiscountTypeIn === "AMOUNT"
-                    ? Number(charges?.chargeDiscount)
-                    : (totalPrice * Number(charges?.chargeDiscount)) / 100) || 0
-                }</td>
-                <td>₹${
-                  (discounteditem?.chargeDiscountTypeIn === "AMOUNT"
-                    ? Number(discounteditem?.chargeDiscount)
-                    : Number(
-                        (totalPrice * discounteditem?.chargeDiscount) / 100
-                      )) || 0
-                }</td>
-                <td> ₹${
-                  Number(taxableAmount) ||
-                  Math.round(Number(totalPrice * 0.18) / (1.18).toFixed())
-                }</td>
-                <td>₹${Gross || totalPrice}</td>
-                <td>₹${Gstc.toFixed()}</td>
-                <td> ₹${
+                 </tr>
+                 <tr>
+                 <td>GST 18% : ₹${Gstc.toFixed()}</td>
+                 <td></td>
+                 <td></td>
+                 </tr>
+                 <tr>
+                 <td> Grand Total : ₹${
                   Number(GrandTotal.toFixed(2)) ||
                   Math.round(
                     totalPrice + Number(totalPrice * 0.18) / (1.18).toFixed()
                   )
                 }</td>
-              </tr>
-            </tbody>
-          </table>
-      
+                 <td></td>
+                 <td></td>
+             
+                 </tr>
+         </tbody>
+         </table>      
           </div>
         </body>
         </html>
@@ -651,8 +677,19 @@ const Checkout = () => {
             <View>
               <View
                 style={{
-                  marginLeft: 30,
-                  marginBottom: 10,
+                  width: "85%",
+                  height: "auto",
+                  borderColor: "cyan",
+                  borderStyle: "solid",
+                  borderWidth: 1,
+                  marginTop: 14,
+                  left: 30,
+                  display: "flex",
+                  padding: 10,
+                  overflow: "hidden",
+
+                  backgroundColor: "white",
+                  borderRadius: 10,
                 }}
               >
                 <Text
@@ -692,7 +729,7 @@ const Checkout = () => {
                 </Text>
               </View>
 
-              <View style={{ left: 30 }}>
+              <View style={{ left: 30, marginVertical: 10 }}>
                 <Text
                   style={{ fontSize: 15, fontWeight: "bold", marginBottom: 5 }}
                 >
@@ -732,7 +769,7 @@ const Checkout = () => {
               <View
                 style={{
                   width: "85%",
-                  height: 280,
+                  height: "auto",
                   borderColor: "cyan",
                   borderStyle: "solid",
                   borderWidth: 1,
@@ -740,6 +777,8 @@ const Checkout = () => {
                   left: 30,
                   display: "flex",
                   padding: 10,
+                  overflow: "hidden",
+
                   backgroundColor: "white",
                   borderRadius: 10,
                 }}
@@ -912,7 +951,7 @@ const Checkout = () => {
               padding: 5,
             }}
           >
-            Print
+            Print / Share
           </Button>
         </View>
       </ScrollView>
@@ -986,4 +1025,3 @@ const styles = StyleSheet.create({
     padding: 7,
   },
 });
-

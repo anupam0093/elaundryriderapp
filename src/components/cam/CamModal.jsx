@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, Image, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { Alert, Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import Modal from "react-native-modal";
 import { useNavigation } from '@react-navigation/native';
 import { Camera } from 'expo-camera';
@@ -26,6 +26,7 @@ const CamModal = ({ showCameModal, setShowCamModal, setCapturedImage }) => {
       };
 
       let newPhoto = await cameraRef.current.takePictureAsync(options);
+      console.log(newPhoto)
       setPhotos(prevPhotos => [...prevPhotos, newPhoto]);
 
       setCapturing(false);
@@ -43,7 +44,7 @@ const CamModal = ({ showCameModal, setShowCamModal, setCapturedImage }) => {
         Alert.alert('Images Saved');
         setCapturedImage(photos);
         setPhotos([]);
-        setShowCamModal(false);
+        // setShowCamModal(false);
       })
       .catch(error => {
         console.error('Error saving images:', error);
@@ -69,11 +70,16 @@ const CamModal = ({ showCameModal, setShowCamModal, setCapturedImage }) => {
     <Modal isVisible={showCameModal} avoidKeyboard={true} animationIn="fadeInUp" animationOut="fadeOutDown">
       {photos.length > 0 && (
         <SafeAreaView style={styles.container}>
-          <View style={styles.photosContainer}>
+         
+            <ScrollView>
+            <View style={styles.photosContainer}>
             {photos.map((photo, index) => (
               <Image key={index} style={styles.preview} source={{ uri: 'data:image/jpg;base64,' + photo.base64 }} />
             ))}
-          </View>
+               </View>
+            </ScrollView>
+          
+       
 
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={() => setPhotos([])}>
@@ -85,7 +91,7 @@ const CamModal = ({ showCameModal, setShowCamModal, setCapturedImage }) => {
           </View>
         </SafeAreaView>
       )}
-      {photos.length < 3 && (
+      {photos.length < 50 && (
         <Camera style={styles.container} ref={cameraRef}>
           <TouchableOpacity style={styles.closeButton} onPress={() => setShowCamModal(false)}>
             <EvilIcons name="close" size={30} color="white" />
@@ -129,12 +135,13 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   photosContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    position: 'absolute',
-    top: '5%',
+    display: "flex",
+    flexWrap: "wrap",
+    width: "100%",
+    flexDirection: "row",
+    overflowY: 'auto',
   },
+  
   preview: {
     width: 100,
     height: 100,

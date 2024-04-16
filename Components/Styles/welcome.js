@@ -3,9 +3,8 @@ import { StyleSheet } from "react-native";
 const welcome = StyleSheet.create({
   container: {
     backgroundColor: "#F3F1F6",
-    height: 990,
+    height: 900,
     width: "100%",
-    overflow: "scroll",
   },
   input: {
     marginTop: 10,

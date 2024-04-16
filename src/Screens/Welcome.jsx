@@ -57,14 +57,14 @@ const Welcome = ({ navigation }) => {
   };
 
   return (
-    <ScrollView>
-      <SafeAreaView style={{ top: 20 }}>
+    <SafeAreaView style={{ top: 20 }}>
+      <ScrollView>
         <View style={styles.container}>
           <ImageBackground
             source={require("../../assets/Photos/backg.png")}
             alt="background"
-            resizeMode="cover"
-            style={{ height: 990, width: "100%" }}
+   
+            style={{ height: "100%", width: "100%", position: "fixed"   ,objectFit:"cover" }}
           >
             <View style={{ width: "100%" }}>
               <Image
@@ -80,8 +80,8 @@ const Welcome = ({ navigation }) => {
               <View
                 style={{
                   width: "100%",
-                  height: 270,
-                  marginTop: 10,
+                  height: 220,
+                  marginTop: 0,
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
@@ -93,17 +93,15 @@ const Welcome = ({ navigation }) => {
                   style={{
                     margin: "auto",
                     width: "100%",
-                    height: "100%",
-                    resizeMode: "contain",
+                    height: "70%",
+                    objectFit:"contain"
                   }}
                 />
               </View>
             </View>
 
             <View
-              style={{
-                top: 35,
-              }}
+        
             >
               <View>
                 <Text
@@ -135,6 +133,7 @@ const Welcome = ({ navigation }) => {
                     justifyContent: "center",
                     alignItems: "center",
                     marginRight: 20,
+                    marginVertical: 10,
                   }}
                 >
                   <Text
@@ -183,7 +182,7 @@ const Welcome = ({ navigation }) => {
 
             <View
               style={{
-                marginTop: 40,
+                // marginTop: 40,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -259,8 +258,8 @@ const Welcome = ({ navigation }) => {
             </View>
           </ImageBackground>
         </View>
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

@@ -77,14 +77,15 @@ const NewOrder = () => {
         >
           <View
             style={{
-              width: "68%",
+              width: "100vw",
               height: 200,
               display: "flex",
+              justifyContent:"center",
               alignItems: "center",
               top: 300,
               left: 63,
-              borderStyle: "solid",
-              borderColor: "#f3f1f6",
+              borderColor: "#fff",
+              backgroundColor: "#fff",
               borderWidth: 1,
             }}
           >
@@ -108,9 +109,10 @@ const NewOrder = () => {
             <View
               style={{
                 flexDirection: "row",
+                justifyContent: "center",
                 top: 239,
                 gap: 6,
-                marginLeft: 100,
+                marginLeft: 0,
               }}
             >
               <CustomButton
