@@ -63,8 +63,12 @@ const Welcome = ({ navigation }) => {
           <ImageBackground
             source={require("../../assets/Photos/backg.png")}
             alt="background"
-   
-            style={{ height: "100%", width: "100%", position: "fixed"   ,objectFit:"cover" }}
+            style={{
+              height: "100%",
+              width: "100%",
+              position: "fixed",
+              objectFit: "cover",
+            }}
           >
             <View style={{ width: "100%" }}>
               <Image
@@ -94,15 +98,13 @@ const Welcome = ({ navigation }) => {
                     margin: "auto",
                     width: "100%",
                     height: "70%",
-                    objectFit:"contain"
+                    objectFit: "contain",
                   }}
                 />
               </View>
             </View>
 
-            <View
-        
-            >
+            <View>
               <View>
                 <Text
                   style={{
