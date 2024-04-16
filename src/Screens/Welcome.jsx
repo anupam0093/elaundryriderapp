@@ -7,6 +7,7 @@ import {
   ScrollView,
   ImageBackground,
   Alert,
+  StatusBar,
 } from "react-native";
 import { TextInput } from "react-native";
 import { styles } from "../../Components/Styles/welcome";
@@ -15,6 +16,7 @@ import { API_URL } from "../../networkAPI/env";
 import useStore from "../GlobalStore/store";
 import CustomButton from "../../Components/CommonComponent/CustomButton";
 import { getAccountInfo } from "../../networkAPI/api";
+import { Header } from "react-native/Libraries/NewAppScreen";
 
 const Welcome = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -57,211 +59,214 @@ const Welcome = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ top: 20 }}>
+    <>
+      <StatusBar backgroundColor={"white"} barStyle={"dark-content"} />
       <ScrollView>
-        <View style={styles.container}>
-          <ImageBackground
-            source={require("../../assets/Photos/backg.png")}
-            alt="background"
-            style={{
-              height: "100%",
-              width: "100%",
-              position: "fixed",
-              objectFit: "cover",
-            }}
-          >
-            <View style={{ width: "100%" }}>
-              <Image
-                alt="logo"
-                source={require("../../assets/Photos/elaundry.png")}
-                style={{
-                  width: 200,
-                  height: 100,
-                  resizeMode: "contain",
-                  alignSelf: "center",
-                }}
-              />
-              <View
-                style={{
-                  width: "100%",
-                  height: 220,
-                  marginTop: 0,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+        <SafeAreaView>
+          <View style={styles.container}>
+            <ImageBackground
+              source={require("../../assets/Photos/backg.png")}
+              alt="background"
+              resizeMode="cover"
+              style={{ height: "100%", width: "100%" }}
+            >
+              <View style={{ width: "100%", paddingTop: 10 }}>
                 <Image
-                  alt="image-2"
-                  source={require("../../assets/Photos/pngwing.png")}
+                  alt="logo"
+                  source={require("../../assets/Photos/elaundry.png")}
                   style={{
-                    margin: "auto",
-                    width: "100%",
-                    height: "70%",
-                    objectFit: "contain",
+                    width: 150,
+                    height: 60,
+                    resizeMode: "contain",
+                    alignSelf: "center",
                   }}
                 />
-              </View>
-            </View>
-
-            <View>
-              <View>
-                <Text
-                  style={{
-                    textAlign: "center",
-                    fontSize: 35,
-                    lineHeight: 35,
-                    fontWeight: "bold",
-                    color: "#002B6B",
-                  }}
-                >
-                  Get top
-                </Text>
-
-                <Text
-                  style={{
-                    fontSize: 35,
-                    lineHeight: 35,
-                    fontWeight: "700",
-                    color: "#002B6B",
-                    textAlign: "center",
-                  }}
-                >
-                  washing facilities
-                </Text>
                 <View
                   style={{
+                    width: "100%",
+                    height: 270,
+                    marginTop: 10,
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    marginRight: 20,
-                    marginVertical: 10,
                   }}
                 >
+                  <Image
+                    alt="image-2"
+                    source={require("../../assets/Photos/pngwing.png")}
+                    style={{
+                      margin: "auto",
+                      width: "100%",
+                      height: "100%",
+                      resizeMode: "contain",
+                    }}
+                  />
+                </View>
+              </View>
+
+              <View
+                style={{
+                  top: 35,
+                }}
+              >
+                <View>
                   <Text
                     style={{
-                      fontSize: 15,
-                      lineHeight: 23,
-                      fontWeight: "500",
+                      textAlign: "center",
+                      fontSize: 32,
+                      lineHeight: 35,
+                      fontWeight: "bold",
+                      color: "#002B6B",
+                    }}
+                  >
+                    Get top
+                  </Text>
+
+                  <Text
+                    style={{
+                      fontSize: 32,
+                      lineHeight: 35,
+                      fontWeight: "bold",
+                      color: "#002B6B",
+                      textAlign: "center",
+                      marginBottom: 4,
+                    }}
+                  >
+                    washing facilities
+                  </Text>
+                  <View
+                    style={{
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      textAlign: "center",
-                      color: "#878686",
+                      marginRight: 20,
                     }}
                   >
-                    We care about our customer first.
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      lineHeight: 23,
-                      fontWeight: "500",
-                      display: "flex",
-                      justifyContent: "center",
-                      textAlign: "center",
-                      color: "#878686",
-                    }}
-                  >
-                    After submitting order, we will pickup your
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      lineHeight: 23,
-                      fontWeight: "500",
-                      display: "flex",
-                      justifyContent: "center",
-                      textAlign: "center",
-                      color: "#878686",
-                    }}
-                  >
-                    clothes as you set the time
-                  </Text>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        lineHeight: 23,
+                        fontWeight: "500",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        textAlign: "center",
+                        color: "#878686",
+                      }}
+                    >
+                      We care about our customer first.
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        lineHeight: 23,
+                        fontWeight: "500",
+                        display: "flex",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        color: "#878686",
+                      }}
+                    >
+                      After submitting order, we will pickup your
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        lineHeight: 23,
+                        fontWeight: "500",
+                        display: "flex",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        color: "#878686",
+                      }}
+                    >
+                      clothes as you set the time
+                    </Text>
+                  </View>
                 </View>
               </View>
-            </View>
 
-            <View
-              style={{
-                // marginTop: 40,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {/* <Text style={{ fontSize: 15, fontWeight: "500" }}>Username</Text> */}
-            </View>
-            <View style={{ display: "flex" }}>
               <View
                 style={{
+                  marginTop: 40,
                   display: "flex",
-                  flexDirection: "row",
-                  marginLeft: 10,
-                  alignItems: "center",
                   justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                <TextInput
-                  style={styles.input}
-                  placeholder="Enter your username"
-                  keyboardType="ascii-capable"
-                  value={username}
-                  onChangeText={(e) => {
-                    setUsername(e);
-                  }}
-                />
+                {/* <Text style={{ fontSize: 15, fontWeight: "500" }}>Username</Text> */}
               </View>
-            </View>
-            <View
-              style={{
-                marginTop: 20,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {/* <Text style={{ fontSize: 15, fontWeight: "500" }}>Password</Text> */}
-            </View>
-            <View style={{ display: "flex" }}>
+              <View style={{ display: "flex" }}>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter your username"
+                    keyboardType="ascii-capable"
+                    value={username}
+                    onChangeText={(e) => {
+                      setUsername(e);
+                    }}
+                  />
+                </View>
+              </View>
               <View
                 style={{
+                  marginTop: 4,
                   display: "flex",
-                  flexDirection: "row",
-                  marginLeft: 10,
-                  alignItems: "center",
                   justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                <TextInput
-                  style={styles.input}
-                  placeholder="Enter your password"
-                  keyboardType="ascii-capable"
-                  textContentType="password"
-                  secureTextEntry={true}
-                  value={password}
-                  onChangeText={(e) => {
-                    setPassword(e);
-                  }}
-                />
+                {/* <Text style={{ fontSize: 15, fontWeight: "500" }}>Password</Text> */}
               </View>
-            </View>
+              <View style={{ display: "flex" }}>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
 
-            <View style={styles.viewButtonTop}>
-              <View style={styles.viewButtonSection}>
-                <CustomButton
-                  btnTittle="Submit"
-                  bg="green"
-                  _width={300}
-                  _onPress={customUserLogin}
-                  textColor="white"
-                />
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter your password"
+                    keyboardType="ascii-capable"
+                    textContentType="password"
+                    secureTextEntry={true}
+                    value={password}
+                    onChangeText={(e) => {
+                      setPassword(e);
+                    }}
+                  />
+                </View>
               </View>
-            </View>
-          </ImageBackground>
-        </View>
+
+              <View style={styles.viewButtonTop}>
+                <View style={styles.viewButtonSection}>
+                  <CustomButton
+                    btnTittle="Submit"
+                    bg="green"
+                    _width={300}
+                    _onPress={customUserLogin}
+                    textColor="white"
+                  />
+                </View>
+              </View>
+            </ImageBackground>
+          </View>
+        </SafeAreaView>
       </ScrollView>
-    </SafeAreaView>
+    </>
   );
 };
 

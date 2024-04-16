@@ -77,22 +77,27 @@ const NewOrder = () => {
         >
           <View
             style={{
-              width: "100vw",
-              height: 200,
+              width: "100%",
+              flex:1,
+              // height: "100%",
               display: "flex",
               justifyContent:"center",
               alignItems: "center",
-              top: 300,
-              left: 63,
-              borderColor: "#fff",
-              backgroundColor: "#fff",
-              borderWidth: 1,
+              justifyContent:"center",
+              padding:20,
+
+              // top: 300,
+              // left: 63,
+              // borderStyle: "solid",
+              // borderColor: "#f3f1f6",
+              // borderWidth: 1,
+              
             }}
           >
             <Text style={{ fontSize: 20, fontWeight: "600" }}>
               NEW ORDER BOOKING
             </Text>
-            <Text style={{ fontSize: 16, fontWeight: "400", marginTop: 19 }}>
+            <Text style={{ fontSize: 16, fontWeight: "400", marginTop: 10, marginBottom:20 }}>
               Customer Mobile No
             </Text>
 
@@ -109,24 +114,25 @@ const NewOrder = () => {
             <View
               style={{
                 flexDirection: "row",
-                justifyContent: "center",
-                top: 239,
-                gap: 6,
-                marginLeft: 0,
+                // top: 239,
+                gap: 10,
+                paddingLeft:10,
+                paddingRight:10,
+                // marginLeft: 100,
               }}
             >
               <CustomButton
                 btnTittle="Cancel"
                 bg="#EC1D1D"
                 textColor="white"
-                _width="40%"
+                _width="48%"
                 _onPress={handleBack}
               />
               <CustomButton
                 btnTittle="Submit"
                 bg="green"
                 textColor="white"
-                _width="40%"
+                _width="48%"
                 _onPress={getOrder}
               />
             </View>
@@ -142,9 +148,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     justifyContent: "center",
     marginTop: 7,
-    marginLeft: 5,
+    // marginLeft: 5,
     fontWeight: "400",
-    width: 210,
+    width: "100%",
     height: 40,
     textAlign: "center",
     color: "black",

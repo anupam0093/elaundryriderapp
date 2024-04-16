@@ -192,7 +192,7 @@ const Pickupn = () => {
                         width: 110,
                         flexDirection: "row",
                         justifyContent: "center",
-                        height: 38,
+                        height: 34,
                         paddingHorizontal: 15,
                         paddingVertical: 10,
                         backgroundColor: "#6200ED",
@@ -266,7 +266,7 @@ const Pickupn = () => {
                       name="arrowright"
                       size={14}
                       color="#6200ED"
-                      style={{ top: 18, left: 40 }}
+                      style={{ top: 18, left: 60 }}
                     />
                   </View>
 
@@ -274,7 +274,7 @@ const Pickupn = () => {
                     style={{
                       color: "#6200ED",
                       textAlign: "center",
-                      fontSize: 17,
+                      fontSize: 14,
                       fontWeight: "500",
                     }}
                   >
@@ -294,10 +294,11 @@ const Pickupn = () => {
                       <View
                         style={{
                           marginLeft: 0,
-                          width: "98%",
+                          width: "100%",
                           height: 40,
                           backgroundColor: "#6200ED",
                           borderRadius: 10,
+                          paddingLeft:5
                         }}
                       >
                         <Text
@@ -312,7 +313,7 @@ const Pickupn = () => {
                           <Entypo name="location" size={15} color="white" />
                           {"  "}
                           {data[0]?.customer?.address === null
-                            ? "address not available"
+                            ? "Address not available"
                             : data[0]?.customer?.address.city || ""}{" "}
                           {data[0]?.customer?.address?.addressLine1 || ""}{" "}
                           {data[0]?.customer?.address?.pin || ""}
@@ -323,15 +324,16 @@ const Pickupn = () => {
 
                   <View
                     style={{
-                      width: "32%",
+                      width: "35%",
                       height: 30,
                       display: "flex",
                       flexDirection: "row",
-                      left: 4,
-                      gap: 12,
+                      left: 0,
+                      // gap: 12,
                     }}
                   >
                     <TouchableOpacity
+                    style={{marginRight:5, marginLeft:-3}}
                       onPress={() =>
                         navigation.navigate("Accountinfo", {
                           customerDetails: route.params.OrderDetails,
@@ -363,7 +365,7 @@ const Pickupn = () => {
                             textAlign: "center",
                             color: "white",
                             fontWeight: "600",
-                            marginLeft: 4,
+                            // marginLeft: 4,
                           }}
                         >
                           ACCOUNT INFO
@@ -371,6 +373,7 @@ const Pickupn = () => {
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity
+                        style={{marginLeft:5}}
                       onPress={() =>
                         navigation.navigate("AddressN", {
                           customerDetails: route.params.OrderDetails,

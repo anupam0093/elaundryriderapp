@@ -29,30 +29,28 @@ const LeftBrand = () => {
 
 const RightContent = ({ setLogOutUser, navigator }) => {
   return (
-    <View style={{ flexDirection: "row", gap: 20 }}>
-      <TouchableOpacity onPress={setLogOutUser}>
-        <FontAwesome name="sign-out" size={24} color="black" />
+    <View style={{ flexDirection: "row", gap: 10 }}>
+      <TouchableOpacity onPress={navigator}>
+        <Ionicons name="notifications" size={20} color="black" />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={setLogOutUser} style={{display: "grid", alignItems:"center"}}>
+        <FontAwesome name="sign-out" size={20} color="black" />
         <Text>Logout</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={navigator}>
-        <Ionicons name="notifications" size={24} color="black" />
-      </TouchableOpacity>
+      
     </View>
   );
 };
 
-
 const LogoutModal = ({ visible, onConfirm, onCancel }) => {
   return (
-    <Modal
-      visible={visible}
-      animationType="slide"
-      transparent={true}
-    >
+    <Modal visible={visible} animationType="slide" transparent={true}>
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <Text style={styles.modalTitle}>Confirm Rider Logout</Text>
-          <Text style={styles.modalText}>Are you sure you want to log out?</Text>
+          <Text style={styles.modalText}>
+            Are you sure you want to log out?
+          </Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={onConfirm} style={styles.confirmButton}>
               <Text style={styles.buttonText}>Yes</Text>
@@ -66,7 +64,6 @@ const LogoutModal = ({ visible, onConfirm, onCancel }) => {
     </Modal>
   );
 };
-
 
 const Homepage = ({ navigation }) => {
   const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
@@ -84,7 +81,6 @@ const Homepage = ({ navigation }) => {
   };
 
   const confirmLogout = () => {
-  
     setLogoutModalVisible(false);
     setLogOutUser();
   };
@@ -118,31 +114,26 @@ const Homepage = ({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView style={{ top: 35 }}>
+    <SafeAreaView style={{ top: 10 }}>
       <StatusBar style="auto" />
       <Header
         leftContent={<LeftBrand />}
-        centerContent={
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-            Hi Rider 
-          </Text>
-        }
+        // centerContent={
+          
+        // }
         rightContent={
           <RightContent setLogOutUser={handleLogout} navigator={navigator} />
-          
         }
-        
       />
-     
 
       <LogoutModal
         visible={isLogoutModalVisible}
         onConfirm={confirmLogout}
         onCancel={cancelLogout}
       />
-<View style={homepage.container}>
+      <View style={homepage.container}>
         {/* data coming from backend */}
-        <View
+        {/* <View
           style={{
             left: 200,
             top: 20,
@@ -158,21 +149,23 @@ const Homepage = ({ navigation }) => {
             
           }}
         >
-          <Text
+           <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+            Hi Rider 
+          </Text>
+        </View> */}
+      <Text
             style={{
-              marginLeft: 8,
+              marginTop:10,
+              // marginLeft: 8,
               fontSize: 20,
               fontWeight: "700",
-              justifyContent: "center",           
+              justifyContent: "center",
               textAlign: "center",
-             
             }}
           >
             {/* data coming from backend */}
-            {riderDetails?.userName}
+           Hi, {riderDetails?.userName}
           </Text>
-        </View>
-
         <View
           style={{
             display: "flex",
@@ -183,16 +176,16 @@ const Homepage = ({ navigation }) => {
           <View
             style={{
               flexDirection: "row",
-              marginTop: 20,
+              // marginTop: 20,
               gap: 5,
-              marginLeft: 1,
+              // marginLeft: 1,
             }}
           >
             {/* <Button color="blue" title="OFFLINE"></Button>
             <Button color="blue" title="ONLINE"></Button> */}
           </View>
         </View>
-        <View style={{ marginTop: 20, marginLeft: 40 }}>
+        <View style={{ marginTop: 20, marginLeft: 20 }}>
           <Text
             style={{
               fontWeight: "600",
@@ -213,6 +206,8 @@ const Homepage = ({ navigation }) => {
             width: "100%",
             justifyContent: "center",
             gap: 7,
+            // marginLeft:10,
+            marginRight:10,
           }}
         >
           <TouchableOpacity
@@ -227,7 +222,7 @@ const Homepage = ({ navigation }) => {
                 borderStyle: "solid",
                 borderColor: "#002B6B1F",
                 height: 262,
-                width: 177,
+                width: 167,
                 borderWidth: 1,
                 borderRadius: 18,
               }}
@@ -243,7 +238,7 @@ const Homepage = ({ navigation }) => {
               >
                 New Order
               </Text>
-              <View style={{ height: 262, width: 177, right: 10 }}>
+              <View style={{ height: 200, width: 157, right: 18 }}>
                 <Image
                   alt="image-2"
                   style={{ marginTop: 30 }}
@@ -266,7 +261,7 @@ const Homepage = ({ navigation }) => {
                 borderStyle: "solid",
                 borderColor: "#002B6B1F",
                 height: 262,
-                width: 177,
+                width: 167,
                 borderWidth: 1,
                 borderRadius: 18,
               }}
@@ -282,17 +277,17 @@ const Homepage = ({ navigation }) => {
               >
                 Delivery
               </Text>
-              <View style={{ height: 60, width: 79 }}>
+              <View style={{ height: 60, width: 79,right:10 }}>
                 <Image
                   alt="imagee-3"
                   style={{ marginLeft: 97 }}
                   source={require("../../assets/Photos/sun.png")}
                 />
               </View>
-              <View style={{ height: 169, width: 211, right: 10 }}>
+              <View style={{ height: 200, width: 157,left:4 }}>
                 <Image
                   alt="image-2"
-                  style={{ right: 10, height: 160, width: 211 }}
+                  style={{  height: 160, width: 157 }}
                   source={require("../../assets/Photos/scooter.png")}
                 />
               </View>
@@ -321,7 +316,7 @@ const Homepage = ({ navigation }) => {
                 borderStyle: "solid",
                 borderColor: "#002B6B1F",
                 height: 262,
-                width: 177,
+                width: 167,
                 borderWidth: 1,
                 borderRadius: 18,
               }}
@@ -338,7 +333,7 @@ const Homepage = ({ navigation }) => {
                 User Profile
               </Text>
               <View
-                style={{ height: 167, width: 172, right: 3, marginTop: 87 }}
+                style={{ height: 200, width: 157, right: 7, marginTop: 87 }}
               >
                 <Image
                   alt="image-3"
@@ -360,7 +355,7 @@ const Homepage = ({ navigation }) => {
                 borderStyle: "solid",
                 borderColor: "#002B6B1F",
                 height: 262,
-                width: 177,
+                width: 167,
                 borderWidth: 1,
                 borderRadius: 18,
               }}
@@ -376,10 +371,10 @@ const Homepage = ({ navigation }) => {
               >
                 Pickup
               </Text>
-              <View style={{ height: 262, width: 177 }}>
+              <View style={{ height: 127, width: 157, left:5 }}>
                 <Image
                   alt="image-4"
-                  style={{ marginTop: 1 }}
+                  style={{ marginTop: 1, width:157 }}
                   source={require("../../assets/Photos/coconut.png")}
                 />
               </View>
@@ -387,60 +382,57 @@ const Homepage = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-
     </SafeAreaView>
   );
 };
 
 export default Homepage;
 
-
 const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
     elevation: 5,
     width: 300,
-    alignItems: 'center',
+    alignItems: "center",
   },
   modalTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   modalText: {
     fontSize: 16,
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    gap:20,
-
+    flexDirection: "row",
+    justifyContent: "space-around",
+    gap: 20,
   },
   confirmButton: {
-    backgroundColor: 'green',
+    backgroundColor: "green",
     padding: 10,
     borderRadius: 5,
-    width:70
+    width: 70,
   },
   cancelButton: {
-    backgroundColor: 'red',
+    backgroundColor: "red",
     padding: 10,
     borderRadius: 5,
-    width:70
+    width: 70,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 16,
-    textAlign:"center"
+    textAlign: "center",
   },
 });

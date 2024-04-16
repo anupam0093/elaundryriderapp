@@ -5,6 +5,8 @@ const welcome = StyleSheet.create({
     backgroundColor: "#F3F1F6",
     height: 900,
     width: "100%",
+    overflow: "scroll",
+    margin:"auto",
   },
   input: {
     marginTop: 10,
@@ -15,7 +17,8 @@ const welcome = StyleSheet.create({
     color: "#000000",
     backgroundColor: "#DCDCDE",
     borderRadius: 10,
-    alignItems:"center"
+    alignItems:"center",
+    // marginRight:10,
   },
   viewButtonSection: {
     flexDirection: "row",
@@ -23,7 +26,7 @@ const welcome = StyleSheet.create({
     gap: 10,
     justifyContent:"center",
     alignItems:"center",
-    left:6
+    // left:6
       
   },
   viewButtonTop: {
