@@ -82,7 +82,7 @@ const Pickupn = () => {
 
   return (
     <SafeAreaView>
-      <View style={{ width: "100%", backgroundColor: "#F3F1F6" }}>
+      <View style={{ width: "100%", backgroundColor: "#fff" }}>
         <View
           style={{
             marginLeft: 5,
@@ -124,14 +124,13 @@ const Pickupn = () => {
               ></TextInput>
             </View>
           </View>
-          <TouchableOpacity onPress={handleRefresh} >
-          <Image
-            alt="ios-bars"
-            source={require("../../assets/Photos/bar.png")}
-            style={{ marginTop: 32, marginRight: 20, height: 22, width: 22 }}
-          />
+          <TouchableOpacity onPress={handleRefresh}>
+            <Image
+              alt="ios-bars"
+              source={require("../../assets/Photos/bar.png")}
+              style={{ marginTop: 32, marginRight: 20, height: 22, width: 22 }}
+            />
           </TouchableOpacity>
-       
         </View>
 
         {/* {isLoading &&  (
@@ -152,7 +151,6 @@ const Pickupn = () => {
               justifyContent: "center",
             }}
           >
-         
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("Category", {
@@ -298,7 +296,7 @@ const Pickupn = () => {
                           height: 40,
                           backgroundColor: "#6200ED",
                           borderRadius: 10,
-                          paddingLeft:5
+                          paddingLeft: 5,
                         }}
                       >
                         <Text
@@ -333,7 +331,7 @@ const Pickupn = () => {
                     }}
                   >
                     <TouchableOpacity
-                    style={{marginRight:5, marginLeft:-3}}
+                      style={{ marginRight: 5, marginLeft: -3 }}
                       onPress={() =>
                         navigation.navigate("Accountinfo", {
                           customerDetails: route.params.OrderDetails,
@@ -373,7 +371,7 @@ const Pickupn = () => {
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={{marginLeft:5}}
+                      style={{ marginLeft: 5 }}
                       onPress={() =>
                         navigation.navigate("AddressN", {
                           customerDetails: route.params.OrderDetails,

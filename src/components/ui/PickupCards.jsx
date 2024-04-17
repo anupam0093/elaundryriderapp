@@ -56,9 +56,6 @@ const PickupCards = ({ item }) => {
     mobileNo: item?.pickupRequest?.customerDTO?.address?.contactNo,
     storeCustomerId: item?.pickupRequest?.storeCustomerId,
     id: item?.pickupRequest?.customerDTO?.address?.id,
-   
-
-
   };
   // console.log( item?.pickupRequest?.customerDTO?.address?.contactNo)
 
@@ -102,7 +99,10 @@ const PickupCards = ({ item }) => {
             <TouchableOpacity
               onPress={() =>
                 callPhoneNumber(
-                  Number(item?.["pickupRequest"]?.["customerDTO"]?.["address"]?.contactNo)
+                  Number(
+                    item?.["pickupRequest"]?.["customerDTO"]?.["address"]
+                      ?.contactNo
+                  )
                 )
               }
             >
@@ -135,11 +135,11 @@ const PickupCards = ({ item }) => {
                     left: 4,
                   }}
                 >
-                  {item?.["pickupRequest"]?.["customerDTO"]?.["address"]?.contactNo === null
-                  ? item?.["pickupRequest"]?.["customerDTO"]?.mobileNo
-                  :item?.["pickupRequest"]?.["customerDTO"]?.["address"]?.contactNo
-
-                   }
+                  {item?.["pickupRequest"]?.["customerDTO"]?.["address"]
+                    ?.contactNo === null
+                    ? item?.["pickupRequest"]?.["customerDTO"]?.mobileNo
+                    : item?.["pickupRequest"]?.["customerDTO"]?.["address"]
+                        ?.contactNo}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -261,7 +261,6 @@ const PickupCards = ({ item }) => {
                 height: 30,
                 display: "flex",
                 flexDirection: "row",
-                
               }}
             >
               <TouchableOpacity
@@ -358,11 +357,7 @@ const styles = StyleSheet.create({
     width: 370,
     borderWidth: 1.9,
     marginLeft: 8,
-    borderRadius:27,
-   
-    
-   
-    
+    borderRadius: 27,
   },
   input: {
     fontSize: 16,
@@ -376,7 +371,6 @@ const styles = StyleSheet.create({
     color: "black",
     backgroundColor: "#FFFCFC",
   },
-
 });
 
 export default PickupCards;

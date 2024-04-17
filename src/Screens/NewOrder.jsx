@@ -13,6 +13,7 @@ import useStore from "../GlobalStore/store";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { API_URL } from "../../networkAPI/env";
+import { ScrollView } from "native-base";
 
 const NewOrder = () => {
   const navigation = useNavigation();
@@ -22,16 +23,13 @@ const NewOrder = () => {
   };
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
- 
-
-  
 
   const getOrder = async () => {
-   const storeId = `${riderDetails.storeId}`
-   const token = `${user?.accessToken}`
-   
+    const storeId = `${riderDetails.storeId}`;
+    const token = `${user?.accessToken}`;
+
     try {
-      const {data}  = await axios({
+      const { data } = await axios({
         method: "POST",
         url: `${API_URL}/auth/customer/store-customer/${storeId}/`,
         data: {
@@ -41,23 +39,23 @@ const NewOrder = () => {
         },
         headers: {
           "Content-Type": "application/json",
-          Authorization: 'Basic' + " " + token,
+          Authorization: "Basic" + " " + token,
         },
       });
-      console.log('nehat shailender', data[0]?.storeCustomerAccountDTO?.storeCustomerId)
+      console.log(
+        "nehat shailender",
+        data[0]?.storeCustomerAccountDTO?.storeCustomerId
+      );
 
       const customerData = {
-        name:data[0]?.customer.firstName + ' ' + data[0]?.customer?.lastName, 
-        mobileNo:data[0]?.customer?.mobileNo, 
-        storeCustomerId : data[0]?.storeCustomerAccountDTO?.storeCustomerId,
-       
-
-      }
-      console.log("pickup data sallu",data)
+        name: data[0]?.customer.firstName + " " + data[0]?.customer?.lastName,
+        mobileNo: data[0]?.customer?.mobileNo,
+        storeCustomerId: data[0]?.storeCustomerAccountDTO?.storeCustomerId,
+      };
+      console.log("pickup data sallu", data);
       if (data) {
-      
-        Alert.alert("Order Response Success","Pickup requested received");
-        navigation.navigate("Pickupn", { OrderDetails: customerData });  
+        Alert.alert("Order Response Success", "Pickup requested received");
+        navigation.navigate("Pickupn", { OrderDetails: customerData });
       }
     } catch (error) {
       console.log(error);
@@ -65,80 +63,97 @@ const NewOrder = () => {
   };
 
   return (
-    <SafeAreaView
-      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-    >
-      <View style={{ flex: 1, width: "100%", backgroundColor: "#F3F1F6" }}>
-        <ImageBackground
-          source={require("../../assets/Photos/backg.png")}
-          alt="background"
-          resizeMode="contain"
-          style={{ width: "100%", height: "100%" }}
-        >
-          <View
+    <SafeAreaView>
+      <ScrollView>
+        <View style={{ width: "100%", backgroundColor: "#F3F1F6" }}>
+          <ImageBackground
+            source={require("../../assets/Photos/backg.png")}
+            alt="background"
+            resizeMode="cover"
             style={{
               width: "100%",
-              flex:1,
-              // height: "100%",
+              height: 720,
               display: "flex",
-              justifyContent:"center",
-              alignItems: "center",
-              justifyContent:"center",
-              padding:20,
-
-              // top: 300,
-              // left: 63,
-              // borderStyle: "solid",
-              // borderColor: "#f3f1f6",
-              // borderWidth: 1,
-              
+              alignItems: "baseline",
             }}
           >
-            <Text style={{ fontSize: 20, fontWeight: "600" }}>
-              NEW ORDER BOOKING
-            </Text>
-            <Text style={{ fontSize: 16, fontWeight: "400", marginTop: 10, marginBottom:20 }}>
-              Customer Mobile No
-            </Text>
-
-            <TextInput
-              style={[styles.input]}
-              keyboardType="numeric"
-              placeholder="Customer mobile"
-              value={mobileNo}
-              onChangeText={setMobileNo}
-            />
-          </View>
-
-          <View style={{ display: "flex" }}>
             <View
               style={{
-                flexDirection: "row",
-                // top: 239,
-                gap: 10,
-                paddingLeft:10,
-                paddingRight:10,
-                // marginLeft: 100,
+                display: "flex",
+                height: "100%",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              <CustomButton
-                btnTittle="Cancel"
-                bg="#EC1D1D"
-                textColor="white"
-                _width="48%"
-                _onPress={handleBack}
-              />
-              <CustomButton
-                btnTittle="Submit"
-                bg="green"
-                textColor="white"
-                _width="48%"
-                _onPress={getOrder}
-              />
+              <View
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: 20,
+                }}
+              >
+                <Text style={{ fontSize: 20, fontWeight: "600" }}>
+                  NEW ORDER BOOKING
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: "400",
+                    marginTop: 10,
+                    marginBottom: 20,
+                  }}
+                >
+                  Customer Mobile No
+                </Text>
+
+                <TextInput
+                  style={[styles.input]}
+                  keyboardType="numeric"
+                  placeholder="Customer mobile"
+                  value={mobileNo}
+                  onChangeText={setMobileNo}
+                />
+              </View>
+
+              <View
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    // top: 239,
+                    gap: 10,
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    // marginLeft: 100,
+                  }}
+                >
+                  <CustomButton
+                    btnTittle="Cancel"
+                    bg="#EC1D1D"
+                    textColor="white"
+                    _width="48%"
+                    _onPress={handleBack}
+                  />
+                  <CustomButton
+                    btnTittle="Submit"
+                    bg="green"
+                    textColor="white"
+                    _width="48%"
+                    _onPress={getOrder}
+                  />
+                </View>
+              </View>
             </View>
-          </View>
-        </ImageBackground>
-      </View>
+          </ImageBackground>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -150,7 +165,7 @@ const styles = StyleSheet.create({
     marginTop: 7,
     // marginLeft: 5,
     fontWeight: "400",
-    width: "100%",
+    width: 300,
     height: 40,
     textAlign: "center",
     color: "black",
