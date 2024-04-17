@@ -165,12 +165,13 @@ const Checkout = () => {
 
   //======================================== Calculation for Gross Amount ===============================================
 
-  totalPrice =
-    handlegst === "INCLUDE"
-      ? parseFloat(totalPrice) - parseFloat((parseFloat(totalPrice) * 18) / 100)
-      : handlegst === "EXCLUDE"
-      ? parseFloat(totalPrice)
-      : parseFloat(totalPrice);
+  // Calculate GST based on whether it's included or excluded
+  const Gstc =
+    handlegst === "EXCLUDE"
+      ? (parseFloat(totalPrice) * 18) / 100
+      : handlegst === "INCLUDE"
+      ? (parseFloat(totalPrice) * 18) / (100 + 18) // Adjusting for included GST
+      : 0;
 
   const chargesValue = charges
     ? (charges.chargeDiscountTypeIn === "AMOUNT"
@@ -179,62 +180,52 @@ const Checkout = () => {
           100) || 0
     : 0;
 
-  const discountValue = discounteditem
-    ? (discounteditem.chargeDiscountTypeIn === "AMOUNT"
-        ? parseFloat(discounteditem?.chargeDiscount)
-        : parseFloat(
-            (parseFloat(totalPrice) *
-              parseFloat(discounteditem?.chargeDiscount)) /
-              100
-          )) || 0
-    : 0;
-
-  const Gross = (
-    parseFloat(totalPrice) -
-    parseFloat(discountValue) +
-    parseFloat(chargesValue)
-  ).toFixed(1);
-
-  const Gstc =
-    handlegst === "EXCLUDE"
-      ? (parseFloat(route?.params?.totalAmount).toFixed(2) * 18) / 100
-      : handlegst === "INCLUDE"
-      ? (parseFloat(route?.params?.totalAmount) * 18) / 100
-      : 0;
-
   // If you need Gstc to be a string with two decimal places for display purposes
   const GstcString = Gstc.toFixed(2);
 
-  const taxableAmount = parseFloat(Gross).toFixed(2);
-  const GrandTotal = parseFloat(Gross) + parseFloat(GstcString);
+  const discountValue = discounteditem
+    ? (discounteditem.chargeDiscountTypeIn === "AMOUNT"
+        ? parseFloat(discounteditem?.chargeDiscount)
+        : (parseFloat(totalPrice) *
+            parseFloat(discounteditem?.chargeDiscount)) /
+          100) || 0
+    : 0;
 
-  // ====================================== Charge and Discount Calculation =========================================
+  const Gross =
+    handlegst === "INCLUDE"
+      ? (parseFloat(totalPrice) - parseFloat(Gstc)).toFixed(1)
+      : (
+          parseFloat(totalPrice) -
+          parseFloat(discountValue) +
+          parseFloat(chargesValue)
+        ).toFixed(1);
 
+  // Update taxable amount calculation
+  const taxableAmount =
+    handlegst === "INCLUDE"
+      ? ((parseFloat(Gross) * 100) / 118).toFixed(2) // Adjusting for included GST
+      : parseFloat(Gross).toFixed(2);
+
+  // Update Grand Total calculation
+  const GrandTotal =
+    handlegst === "INCLUDE"
+      ? parseFloat(totalPrice) // No additional calculation needed if GST is included
+      : parseFloat(Gross) + parseFloat(GstcString);
+
+  // Update the customerCart object with corrected calculations
   const customerCart = {
     storeUserId: riderDetails?.storeUserId,
     storeCustomerId: route?.params?.customer_details?.storeCustomerId,
     totalQuantity: route?.params?.cart_details?.totalQuantity,
     itemGarmentCount: route?.params?.cart_details?.totalQuantity,
-    totalAmount: totalPrice,
+    totalAmount: parseFloat(totalPrice).toFixed(2),
     gstType: handlegst,
     gstPercent: 18,
-    taxableAmount:
-      Number(taxableAmount) ||
-      Math.round(Number((totalPrice * 0.18) / 1.18).toFixed()),
-    gstAmount: Gstc,
-    discountAmount:
-      discounteditem?.chargeDiscountTypeIn === "AMOUNT"
-        ? Number(discounteditem?.chargeDiscount)
-        : Number((totalPrice * discounteditem?.chargeDiscount) / 100),
-    chargeAmount:
-      charges.chargeDiscountTypeIn === "AMOUNT"
-        ? Number(charges?.chargeDiscount)
-        : Number(totalPrice * Number(charges?.chargeDiscount)) / 100,
-    discountAmount: 0,
-    chargeAmount: 0,
-    grandTotal:
-      Math.round(Number(GrandTotal)) ||
-      Math.round(totalPrice + Number(totalPrice * 0.18) / (1.18).toFixed()),
+    taxableAmount: parseFloat(taxableAmount).toFixed(2),
+    gstAmount: parseFloat(Gstc),
+    discountAmount: parseFloat(discountValue),
+    chargeAmount: parseFloat(chargesValue),
+    grandTotal: parseFloat(GrandTotal),
     status: "BOOKED",
     orderSource: "BY_STORE",
     deliveryOn: moment(selectedDate).format(),
@@ -411,11 +402,11 @@ const Checkout = () => {
                  </tr>
                  <tr>
                  <td> Grand Total : ₹${
-                  Number(GrandTotal.toFixed(2)) ||
-                  Math.round(
-                    totalPrice + Number(totalPrice * 0.18) / (1.18).toFixed()
-                  )
-                }</td>
+                   Number(GrandTotal.toFixed(2)) ||
+                   Math.round(
+                     totalPrice + Number(totalPrice * 0.18) / (1.18).toFixed()
+                   )
+                 }</td>
                  <td></td>
                  <td></td>
              
@@ -679,9 +670,9 @@ const Checkout = () => {
                 style={{
                   width: "85%",
                   height: "auto",
-                  borderColor: "cyan",
+                  // borderColor: "cyan",
                   borderStyle: "solid",
-                  borderWidth: 1,
+                  // borderWidth: 1,
                   marginTop: 14,
                   left: 30,
                   display: "flex",
@@ -738,7 +729,7 @@ const Checkout = () => {
                     : "No date selected"}
                 </Text>
                 <SelectDropdown
-                  defaultButtonText={"Delevery Date "}
+                  defaultButtonText={"Delevery Date"}
                   buttonStyle={styles.dropdown1BtnStyle}
                   buttonTextStyle={styles.dropdown1BtnTxtStyle}
                   renderDropdownIcon={(isOpened) => {
@@ -770,15 +761,11 @@ const Checkout = () => {
                 style={{
                   width: "85%",
                   height: "auto",
-                  borderColor: "cyan",
-                  borderStyle: "solid",
-                  borderWidth: 1,
                   marginTop: 14,
                   left: 30,
                   display: "flex",
                   padding: 10,
                   overflow: "hidden",
-
                   backgroundColor: "white",
                   borderRadius: 10,
                 }}
@@ -975,8 +962,6 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: "#FFF",
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "cyan",
   },
   dropdown1BtnTxtStyle: { color: "black", textAlign: "left", fontSize: 16 },
   dropdown1DropdownStyle: { backgroundColor: "black" },

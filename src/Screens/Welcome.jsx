@@ -61,8 +61,9 @@ const Welcome = ({ navigation }) => {
   return (
     <>
       <StatusBar backgroundColor={"white"} barStyle={"dark-content"} />
-      <ScrollView>
+  
         <SafeAreaView>
+        <ScrollView>
           <View style={styles.container}>
             <ImageBackground
               source={require("../../assets/Photos/backg.png")}
@@ -264,8 +265,9 @@ const Welcome = ({ navigation }) => {
               </View>
             </ImageBackground>
           </View>
+          </ScrollView>
         </SafeAreaView>
-      </ScrollView>
+  
     </>
   );
 };
