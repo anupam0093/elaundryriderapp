@@ -81,7 +81,7 @@ const Pickupn = () => {
   console.log("nehat route", route.params);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{minHeight : 900,  backgroundColor: "#fff"}}>
       <View style={{ width: "100%", backgroundColor: "#fff" }}>
         <View
           style={{
@@ -171,7 +171,7 @@ const Pickupn = () => {
                     style={{
                       fontSize: 17,
                       fontWeight: "bold",
-                      color: "#6200ED",
+                      color: "#002B6B",
                       marginTop: 15,
                       marginLeft: 10,
                     }}
@@ -187,16 +187,17 @@ const Pickupn = () => {
                   >
                     <View
                       style={{
-                        width: 110,
+                        width: 140,
                         flexDirection: "row",
                         justifyContent: "center",
                         height: 34,
                         paddingHorizontal: 15,
                         paddingVertical: 10,
-                        backgroundColor: "#6200ED",
+                        backgroundColor: "#002B6B",
                         marginHorizontal: 15,
                         marginTop: 10,
                         borderRadius: 10,
+                        paddingHorizontal: 10
                       }}
                     >
                       <Feather
@@ -258,19 +259,19 @@ const Pickupn = () => {
                   </View>
                 </View>
 
-                <View style={{ width: "100%", height: 37, marginLeft: 10 }}>
+                <View style={{ width: "100%", height: 37, marginLeft: 0, }}>
                   <View>
                     <AntDesign
                       name="arrowright"
                       size={14}
-                      color="#6200ED"
-                      style={{ top: 18, left: 60 }}
+                      color="#002B6B"
+                      style={{ top: 16, left: 50 }}
                     />
                   </View>
 
                   <Text
                     style={{
-                      color: "#6200ED",
+                      color: "#002B6B",
                       textAlign: "center",
                       fontSize: 14,
                       fontWeight: "500",
@@ -294,7 +295,7 @@ const Pickupn = () => {
                           marginLeft: 0,
                           width: "100%",
                           height: 40,
-                          backgroundColor: "#6200ED",
+                          backgroundColor: "#002B6B",
                           borderRadius: 10,
                           paddingLeft: 5,
                         }}
@@ -331,7 +332,7 @@ const Pickupn = () => {
                     }}
                   >
                     <TouchableOpacity
-                      style={{ marginRight: 5, marginLeft: -3 }}
+                      style={{ marginRight: 5, marginLeft: -15}}
                       onPress={() =>
                         navigation.navigate("Accountinfo", {
                           customerDetails: route.params.OrderDetails,
@@ -346,7 +347,7 @@ const Pickupn = () => {
                           height: 37,
                           paddingHorizontal: 15,
                           paddingVertical: 10,
-                          backgroundColor: "#6200ED",
+                          backgroundColor: "#002B6B",
                           marginHorizontal: 15,
                           borderRadius: 7,
                           top: 10,
@@ -371,7 +372,7 @@ const Pickupn = () => {
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      style={{ marginLeft: 5 }}
+                      style={{ marginLeft: 0 }}
                       onPress={() =>
                         navigation.navigate("AddressN", {
                           customerDetails: route.params.OrderDetails,
@@ -387,7 +388,7 @@ const Pickupn = () => {
                           height: 37,
                           paddingHorizontal: 15,
                           paddingVertical: 10,
-                          backgroundColor: "#6200ED",
+                          backgroundColor: "#002B6B",
                           marginHorizontal: 15,
                           borderRadius: 7,
                           marginTop: 10,
@@ -425,15 +426,15 @@ const Pickupn = () => {
 
 const styles = StyleSheet.create({
   Viewcard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#f5f5f5",
     marginTop: 10,
     borderStyle: "solid",
     borderColor: "grey",
     height: 233,
     width: 370,
-    borderWidth: 1.9,
+    padding:10,
     marginLeft: 10,
-    borderRadius: 27,
+    borderRadius: 12,
   },
   input: {
     fontSize: 16,

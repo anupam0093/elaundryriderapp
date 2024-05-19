@@ -69,9 +69,10 @@ const Welcome = ({ navigation }) => {
               source={require("../../assets/Photos/backg.png")}
               alt="background"
               resizeMode="cover"
-              style={{ height: "100%", width: "100%" }}
+              style={{ height: "100%", width: "100%", position: "absolute" , top: 0, left: 0 }}
             >
-              <View style={{ width: "100%", paddingTop: 10 }}>
+              
+              <View style={{ width: "100%", marginTop: 20 ,paddingTop: 0 }}>
                 <Image
                   alt="logo"
                   source={require("../../assets/Photos/elaundry.png")}
@@ -85,31 +86,24 @@ const Welcome = ({ navigation }) => {
                 <View
                   style={{
                     width: "100%",
-                    height: 270,
+                    height: 0,
                     marginTop: 10,
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                   }}
                 >
-                  <Image
-                    alt="image-2"
-                    source={require("../../assets/Photos/pngwing.png")}
-                    style={{
-                      margin: "auto",
-                      width: "100%",
-                      height: "100%",
-                      resizeMode: "contain",
-                    }}
-                  />
+          
                 </View>
               </View>
-
-              <View
+          
+                  <View style={{backgroundColor: "#fff", opacity: 9, width: 330, padding: 20, margin: "auto", borderRadius: 20}}>
+                  <View
                 style={{
-                  top: 35,
+                  top: 5,
                 }}
               >
+
                 <View>
                   <Text
                     style={{
@@ -256,13 +250,16 @@ const Welcome = ({ navigation }) => {
                 <View style={styles.viewButtonSection}>
                   <CustomButton
                     btnTittle="Submit"
-                    bg="green"
+                    bg="#002B6B"
                     _width={300}
                     _onPress={customUserLogin}
                     textColor="white"
                   />
                 </View>
               </View>
+
+                  </View>
+                  
             </ImageBackground>
           </View>
           </ScrollView>

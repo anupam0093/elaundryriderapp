@@ -80,8 +80,13 @@ const NewOrder = () => {
             <View
               style={{
                 display: "flex",
-                height: "100%",
+                marginVertical: "auto",
                 alignItems: "center",
+                paddingVertical: 40,
+                width: 340,
+                marginHorizontal: "auto",
+                borderRadius: 12,
+                backgroundColor: "#fff",
                 justifyContent: "center",
               }}
             >
@@ -136,14 +141,14 @@ const NewOrder = () => {
                 >
                   <CustomButton
                     btnTittle="Cancel"
-                    bg="#EC1D1D"
+                    bg="#002B6B"
                     textColor="white"
                     _width="48%"
                     _onPress={handleBack}
                   />
                   <CustomButton
                     btnTittle="Submit"
-                    bg="green"
+                    bg="#002B6B"
                     textColor="white"
                     _width="48%"
                     _onPress={getOrder}

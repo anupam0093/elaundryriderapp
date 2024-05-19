@@ -66,6 +66,7 @@ const LogoutModal = ({ visible, onConfirm, onCancel }) => {
 };
 
 const Homepage = ({ navigation }) => {
+  
   const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
   const user = useStore((state) => state.user);
   const riderDetails = useStore((state) => state.riderDetails);
@@ -76,6 +77,11 @@ const Homepage = ({ navigation }) => {
     navigation.navigate("Notification");
   };
 
+  function capitalizeFirstLetterOfEachWord(str) {
+    return str.replace(/\b\w/g, function(char) {
+      return char.toUpperCase();
+    });
+  }
   const handleLogout = () => {
     setLogoutModalVisible(true);
   };
@@ -164,7 +170,7 @@ const Homepage = ({ navigation }) => {
             }}
           >
             {/* data coming from backend */}
-           Hi, {riderDetails?.userName}
+           Hi, {capitalizeFirstLetterOfEachWord(riderDetails?.userName)}
           </Text>
         <View
           style={{
@@ -185,12 +191,13 @@ const Homepage = ({ navigation }) => {
             <Button color="blue" title="ONLINE"></Button> */}
           </View>
         </View>
-        <View style={{ marginTop: 20, marginLeft: 20 }}>
+        <View style={{ marginTop: 20, marginLeft: 0 }}>
           <Text
             style={{
               fontWeight: "600",
-              fontSize: 20,
-              textDecorationLine: "underline",
+              fontSize: 40,
+              textAlign: "center",
+              // textDecorationLine: "underline",
             }}
           >
             Service
@@ -225,6 +232,7 @@ const Homepage = ({ navigation }) => {
                 width: 167,
                 borderWidth: 1,
                 borderRadius: 18,
+                position: "relative"
               }}
             >
               <Text
@@ -238,12 +246,13 @@ const Homepage = ({ navigation }) => {
               >
                 New Order
               </Text>
-              <View style={{ height: 200, width: 157, right: 18 }}>
-                <Image
+              <View >
+                  <Image
                   alt="image-2"
-                  style={{ marginTop: 30 }}
-                  source={require("../../assets/Photos/laundry-1.png")}
+                  style={{width: 150, height: 180 , marginLeft: 5, marginTop: 20 }}
+                  source={require("../../assets/Photos/machine.jpg")}
                 />
+            
               </View>
             </View>
           </TouchableOpacity>
@@ -277,20 +286,16 @@ const Homepage = ({ navigation }) => {
               >
                 Delivery
               </Text>
-              <View style={{ height: 60, width: 79,right:10 }}>
-                <Image
-                  alt="imagee-3"
-                  style={{ marginLeft: 97 }}
-                  source={require("../../assets/Photos/sun.png")}
-                />
-              </View>
-              <View style={{ height: 200, width: 157,left:4 }}>
-                <Image
+                  <View >
+                  <Image
                   alt="image-2"
-                  style={{  height: 160, width: 157 }}
-                  source={require("../../assets/Photos/scooter.png")}
+                  style={{width: 150, height: 160 , marginLeft: 5, marginTop: 27 }}
+                  source={require("../../assets/Photos/scooter.jpg")}
                 />
+            
               </View>
+
+             
             </View>
           </TouchableOpacity>
         </View>
@@ -332,15 +337,15 @@ const Homepage = ({ navigation }) => {
               >
                 User Profile
               </Text>
-              <View
-                style={{ height: 200, width: 157, right: 7, marginTop: 87 }}
-              >
-                <Image
-                  alt="image-3"
-                  style={{ height: 127 }}
-                  source={require("../../assets/Photos/user.png")}
+                        <View >
+                  <Image
+                  alt="image-2"
+                  style={{width: 150, height: 160 , marginLeft: 5, marginTop: 27 }}
+                  source={require("../../assets/Photos/user.jpg")}
                 />
+            
               </View>
+             
             </View>
           </TouchableOpacity>
 
@@ -371,12 +376,13 @@ const Homepage = ({ navigation }) => {
               >
                 Pickup
               </Text>
-              <View style={{ height: 127, width: 157, left:5 }}>
-                <Image
-                  alt="image-4"
-                  style={{ marginTop: 1, width:157 }}
-                  source={require("../../assets/Photos/coconut.png")}
+                        <View >
+                  <Image
+                  alt="image-2"
+                  style={{width: 150, height: 160 , marginLeft: 5, marginTop: 27 }}
+                  source={require("../../assets/Photos/coconut.jpg")}
                 />
+            
               </View>
             </View>
           </TouchableOpacity>

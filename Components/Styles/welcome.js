@@ -2,8 +2,8 @@ import { StyleSheet } from "react-native";
 
 const welcome = StyleSheet.create({
   container: {
-    backgroundColor: "#F3F1F6",
-    height: 900,
+    backgroundColor: "#fff",
+    height: 850,
     width: "100%",
     overflow: "scroll",
     margin:"auto",

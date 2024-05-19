@@ -6,7 +6,7 @@ export default function CustomButton({btnTittle,bg,_onPress,_width, textColor,_h
   
   return (
     <TouchableOpacity onPress ={_onPress}
-     style={{paddingHorizontal:16,paddingVertical:13,backgroundColor:bg,borderRadius:20,width:_width}}>
+     style={{paddingHorizontal:16,paddingVertical:13,backgroundColor:bg,borderRadius:12,width:_width}}>
       <Text style={{textAlign:"center",fontSize:20, fontWeight:"500", color:textColor,}}>{btnTittle}</Text>
     </TouchableOpacity>
   )
