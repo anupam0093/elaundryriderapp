@@ -680,7 +680,7 @@ const Checkout = () => {
                   overflow: "hidden",
 
                   backgroundColor: "white",
-                  borderRadius: 10,
+                  borderRadius: 12,
                 }}
               >
                 <Text
@@ -720,7 +720,7 @@ const Checkout = () => {
                 </Text>
               </View>
 
-              <View style={{ left: 30, marginVertical: 10 }}>
+              <View style={{ left: 30, marginVertical: 20 }}>
                 <Text
                   style={{ fontSize: 15, fontWeight: "bold", marginBottom: 5 }}
                 >
@@ -729,7 +729,7 @@ const Checkout = () => {
                     : "No date selected"}
                 </Text>
                 <SelectDropdown
-                  defaultButtonText={"Delevery Date"}
+                  defaultButtonText={"Delivery Date"}
                   buttonStyle={styles.dropdown1BtnStyle}
                   buttonTextStyle={styles.dropdown1BtnTxtStyle}
                   renderDropdownIcon={(isOpened) => {
@@ -767,7 +767,7 @@ const Checkout = () => {
                   padding: 10,
                   overflow: "hidden",
                   backgroundColor: "white",
-                  borderRadius: 10,
+                  borderRadius: 12,
                 }}
               >
                 <View>
@@ -909,16 +909,16 @@ const Checkout = () => {
           <Button
             onPress={() => bookOrder()}
             rippleColor="yellow"
-            buttonColor="blue"
+            buttonColor="#002B6B"
             textColor="white"
             style={{
-              borderColor: "cyan",
-              borderWidth: 1,
-              borderStyle: "solid",
+         
               width: "40%",
               left: 110,
               marginTop: 15,
               padding: 5,
+              borderRadius: 12
+
             }}
           >
             Booked
@@ -926,16 +926,15 @@ const Checkout = () => {
 
           <Button
             onPress={handleCapture}
-            buttonColor="blue"
+            buttonColor="#002B6B"
             textColor="white"
             style={{
-              borderColor: "cyan",
-              borderWidth: 1,
-              borderStyle: "solid",
+         
               width: "40%",
               left: 110,
               marginTop: 15,
               padding: 5,
+              borderRadius: 12
             }}
           >
             Print / Share
@@ -961,7 +960,8 @@ const styles = StyleSheet.create({
     width: "85%",
     height: 50,
     backgroundColor: "#FFF",
-    borderRadius: 8,
+    borderRadius: 12,
+    marginTop: 10
   },
   dropdown1BtnTxtStyle: { color: "black", textAlign: "left", fontSize: 16 },
   dropdown1DropdownStyle: { backgroundColor: "black" },
@@ -975,7 +975,7 @@ const styles = StyleSheet.create({
     width: "80%",
     height: 50,
     backgroundColor: "#444",
-    borderRadius: 8,
+    borderRadius: 12,
   },
   dropdown2BtnTxtStyle: {
     color: "#FFF",

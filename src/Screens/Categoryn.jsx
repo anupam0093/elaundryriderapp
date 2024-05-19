@@ -213,7 +213,7 @@ useEffect(() => {
             borderStyle: "solid",
             borderWidth: 1,
             backgroundColor: "#FFFFFF",
-            borderRadius: 6,
+            borderRadius: 12,
             justifyContent: "center",
           }}
         >
@@ -237,7 +237,7 @@ useEffect(() => {
             borderWidth: 1,
             justifyContent: "center",
             backgroundColor: "#FFFFFF",
-            borderRadius: 6,
+            borderRadius: 12,
           }}
         >
           <Text
@@ -263,6 +263,7 @@ useEffect(() => {
           backgroundColor: "#D9D9D9",
           marginHorizontal: 15,
           marginTop: 10,
+          borderRadius: 12
         }}
       >
         <TouchableOpacity
@@ -270,7 +271,7 @@ useEffect(() => {
             backgroundColor: "#003566",
             paddingHorizontal: 10,
             paddingVertical: 8,
-            borderRadius: 5,
+            borderRadius: 12,
             width: "45%",
           }}
         >
@@ -287,7 +288,7 @@ useEffect(() => {
             backgroundColor: "white",
             paddingHorizontal: 10,
             paddingVertical: 5,
-            borderRadius: 5,
+            borderRadius: 12,
             width: "45%",
           }}
         >
@@ -373,7 +374,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    borderRadius: 10,
+    borderRadius: 12,
     padding: 10,
     margin: 10,
     elevation: 10,
@@ -381,7 +382,7 @@ const styles = StyleSheet.create({
   image: {
     width: 90,
     height: 80,
-    borderRadius: 10,
+    borderRadius: 120,
     resizeMode: "contain",
   },
   name: {
@@ -401,12 +402,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     marginTop: 10,
+    borderRadius: 12
   },
   searchbar: {
     paddingLeft: 40,
     fontSize: 18,
     height: 40,
     width: "auto",
+    borderRadius: 12
   },
   searchicon: {
     position: "absolute",

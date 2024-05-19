@@ -5,7 +5,7 @@ import React from 'react'
 const GamentsCard = ({setShowModal, item, openModal}) => {
   const IMAGE_BASE_URL = 'https://nehat.pythonanywhere.com/media/garment-images/'
   return (
-    <View style={{ flexDirection: 'row', marginTop: 10, marginHorizontal: 15, paddingVertical: 10, paddingHorizontal: 10, backgroundColor: 'white', alignItems: 'center', justifyContent: 'space-between', elevation: 10, borderRadius: 5 }}>
+    <View style={{ flexDirection: 'row', marginTop: 10, marginHorizontal: 15, paddingVertical: 10, paddingHorizontal: 10, backgroundColor: 'white', alignItems: 'center', justifyContent: 'space-between', elevation: 10, borderRadius: 12 }}>
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20 }}>
       <Image source={{ uri: `${IMAGE_BASE_URL}${item?.garmentImagePath}` }} style={{ width: 60, height: 60, resizeMode: 'contain' }} />
       <View style={{ gap: 10, width:'60%' }}>

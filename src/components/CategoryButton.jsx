@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   button: {
     padding: 10 ,
     margin: 5,
-    borderRadius: 5,
+    borderRadius: 12,
     borderWidth:0.5, 
   },
   buttonText: {

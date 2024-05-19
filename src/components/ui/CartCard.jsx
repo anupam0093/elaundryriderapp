@@ -14,7 +14,7 @@ const CartCard = ({item, deleteItemFromCart}) => {
 
 
   return (
-    <View style={{ flexDirection: 'row', margin:8,  height:150, marginHorizontal: 15, paddingVertical: 10, paddingHorizontal: 20, backgroundColor: 'white', alignItems: 'center', justifyContent: 'space-around', elevation: 2, borderRadius: 5 }}>
+    <View style={{ flexDirection: 'row', margin:8,  height:150, marginHorizontal: 15, paddingVertical: 10, paddingHorizontal: 20, backgroundColor: 'white', alignItems: 'center', justifyContent: 'space-around', elevation: 2, borderRadius:12 }}>
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20 }}>
      
      
@@ -35,10 +35,10 @@ const CartCard = ({item, deleteItemFromCart}) => {
         <View style={{flexDirection:'row',}}>
         {item?.defectImage && (
           <View style={{flexDirection:'row', gap:4,}}>
-            <Image source={{ uri: "data:image/jpg;base64," + item?.defectImage?.base64 }} style={{ width: 30, height: 30, borderRadius:4,  resizeMode: 'cover' }} />
-            {/* <Image source={{ uri: "data:image/jpg;base64," + item?.defectImage?.base64 }} style={{ width: 30, height: 30, borderRadius:4,  resizeMode: 'cover' }} />
-            <Image source={{ uri: "data:image/jpg;base64," + item?.defectImage?.base64 }} style={{ width: 30, height: 30, borderRadius:4,  resizeMode: 'cover' }} />
-            <Image source={{ uri: "data:image/jpg;base64," + item?.defectImage?.base64 }} style={{ width: 30, height: 30, borderRadius:4,  resizeMode: 'cover' }} /> */}
+            <Image source={{ uri: "data:image/jpg;base64," + item?.defectImage?.base64 }} style={{ width: 30, height: 30, borderRadius:12,  resizeMode: 'cover' }} />
+            {/* <Image source={{ uri: "data:image/jpg;base64," + item?.defectImage?.base64 }} style={{ width: 30, height: 30, borderRadius:12,  resizeMode: 'cover' }} />
+            <Image source={{ uri: "data:image/jpg;base64," + item?.defectImage?.base64 }} style={{ width: 30, height: 30, borderRadius:12,  resizeMode: 'cover' }} />
+            <Image source={{ uri: "data:image/jpg;base64," + item?.defectImage?.base64 }} style={{ width: 30, height: 30, borderRadius:12,  resizeMode: 'cover' }} /> */}
         </View>
       )}
         </View>
@@ -56,13 +56,13 @@ const CartCard = ({item, deleteItemFromCart}) => {
         
         {/* <View style={{flexDirection:'row', alignItems:'center', gap:15, paddingRight:10}}>
           
-          <TouchableOpacity style={{backgroundColor: '#D9D9D9', padding:2, borderRadius:12}} >
+          <TouchableOpacity style={{backgroundColor: '#D9D9D9', padding:2, borderRadius:122}} >
           <AntDesign name="minus" size={24} color="black" />
           </TouchableOpacity>
 
           <Text style={{fontSize:20, fontWeight:600}}>{item?.qty}</Text>
 
-          <TouchableOpacity style={{backgroundColor: '#D9D9D9',  padding:2, borderRadius:12}}>
+          <TouchableOpacity style={{backgroundColor: '#D9D9D9',  padding:2, borderRadius:122}}>
               <AntDesign name="plus" size={24} color="black" />
           </TouchableOpacity>
         </View> */}

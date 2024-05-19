@@ -176,7 +176,7 @@ const Cart = () => {
               marginHorizontal: 15,
               paddingHorizontal: 15,
               paddingVertical: 10,
-              borderRadius: 20,
+              borderRadius: 12,
               marginTop: 20,
             }}
           >

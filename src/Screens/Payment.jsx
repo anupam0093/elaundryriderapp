@@ -188,7 +188,7 @@ const Payment = () => {
                 borderWidth: 1,
                 justifyContent: "center",
                 backgroundColor: "#FFFFFF",
-                borderRadius: 6,
+                borderRadius: 12,
               }}
             >
               <Text
@@ -211,7 +211,7 @@ const Payment = () => {
                 borderWidth: 1,
                 justifyContent: "center",
                 backgroundColor: "#FFFFFF",
-                borderRadius: 6,
+                borderRadius: 12,
               }}
             >
               <Text
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
     width: "85%",
     height: 50,
     backgroundColor: "#FFF",
-    borderRadius: 8,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: "cyan",
   },
@@ -358,7 +358,7 @@ const styles = StyleSheet.create({
     width: "80%",
     height: 50,
     backgroundColor: "#444",
-    borderRadius: 8,
+    borderRadius: 12,
   },
   dropdown2BtnTxtStyle: {
     color: "#FFF",
