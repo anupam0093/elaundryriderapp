@@ -865,6 +865,22 @@ const Checkout = () => {
                   </View>
 
                   {handlegst == "EXCLUDE" || handlegst == "INCLUDE" ? (
+                   <View>
+                     <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        marginBottom: 20,
+                      }}
+                    >
+                      <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                        CGST @ 9% :
+                      </Text>
+                      <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
+                        {"\u20B9"} {Gstc.toFixed()/2}
+                      </Text>
+                    </View>
                     <View
                       style={{
                         display: "flex",
@@ -874,11 +890,12 @@ const Checkout = () => {
                       }}
                     >
                       <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                        GST (Rs) 18% :
+                        IGST @ 9% :
                       </Text>
                       <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                        {"\u20B9"} {Gstc.toFixed()}
+                        {"\u20B9"} {Gstc.toFixed()/2}
                       </Text>
+                    </View>
                     </View>
                   ) : null}
 

@@ -78,7 +78,7 @@ const Homepage = ({ navigation }) => {
   };
 
   function capitalizeFirstLetterOfEachWord(str) {
-    return str.replace(/\b\w/g, function(char) {
+    return str?.replace(/\b\w/g, function(char) {
       return char.toUpperCase();
     });
   }
@@ -239,7 +239,7 @@ const Homepage = ({ navigation }) => {
                 style={{
                   fontSize: 20,
                   fontWeight: "600",
-                  color: "#002B6B",
+                  color: "black",
                   marginTop: 15,
                   marginLeft: 13,
                 }}
@@ -279,7 +279,7 @@ const Homepage = ({ navigation }) => {
                 style={{
                   fontSize: 20,
                   fontWeight: "600",
-                  color: "#ED4137",
+                  color: "black",
                   marginTop: 15,
                   marginLeft: 13,
                 }}
@@ -330,7 +330,7 @@ const Homepage = ({ navigation }) => {
                 style={{
                   fontSize: 20,
                   fontWeight: "600",
-                  color: "#11A7E1",
+                  color: "black",
                   marginTop: 15,
                   marginLeft: 13,
                 }}
@@ -369,7 +369,7 @@ const Homepage = ({ navigation }) => {
                 style={{
                   fontSize: 20,
                   fontWeight: "600",
-                  color: "green",
+                  color: "black",
                   marginTop: 15,
                   marginLeft: 13,
                 }}

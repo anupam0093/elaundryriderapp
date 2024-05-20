@@ -100,6 +100,8 @@ const DeliveryPayment = () => {
 
   console.log('nehat deliver', storeUserId, storeCustomerId, orderId, route?.params?.customerDetails?.orderId);
 
+  console.log(delivery, "delivery kya h")
+
   //========================================= deliver Post aPi=======================================================
 
   // const deliverOrder = async () => {
@@ -144,7 +146,7 @@ const DeliveryPayment = () => {
           Authorization: `Basic ${token}`,
         }
       })
-      console.log(data)
+      console.log(data, "data");
       if (data?.success){
         alert('Order Payment Received Successfully')
         navigation.navigate("OrderDelevery", {orderId:orderId});
@@ -252,9 +254,6 @@ const DeliveryPayment = () => {
                 marginLeft: 6,
                 width: 165,
                 height: 40,
-                borderColor: "black",
-                borderStyle: "solid",
-                borderWidth: 1,
                 justifyContent: "center",
                 backgroundColor: "#FFFFFF",
                 borderRadius: 6,
@@ -276,9 +275,6 @@ const DeliveryPayment = () => {
                 marginLeft: 8,
                 width: 160,
                 height: 40,
-                borderColor: "black",
-                borderStyle: "solid",
-                borderWidth: 1,
                 justifyContent: "center",
                 backgroundColor: "#FFFFFF",
                 borderRadius: 5,
@@ -484,18 +480,17 @@ const DeliveryPayment = () => {
 
           <Button
             onPress={()=>updateOrder()}
-            buttonColor="blue"
+            buttonColor="#002B6B"
             textColor="white"
             focusable={true}
             style={{
-              borderColor: "cyan",
-              borderWidth: 1,
-              borderStyle: "solid",
+          
               width: "86%",
               left: 30,
               marginTop: 15,
               padding: 5,
               top: 30,
+              borderRadius: 12
             }}
           >
             <Entypo
@@ -529,12 +524,11 @@ const styles = StyleSheet.create({
   },
 
   dropdown1BtnStyle: {
-    width: "85%",
+    width: "88%",
     height: 50,
     backgroundColor: "#FFF",
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "cyan",
+    borderRadius: 8
+
   },
   dropdown1BtnTxtStyle: { color: "black", textAlign: "left", fontSize: 16 },
   dropdown1DropdownStyle: { backgroundColor: "black" },

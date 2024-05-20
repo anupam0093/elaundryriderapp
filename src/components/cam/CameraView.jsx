@@ -1,6 +1,6 @@
 import { Button, StatusBar, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import { Camera } from 'expo-camera';
+import { Camera } from 'expo-camera/legacy';
 import { TouchableOpacity } from 'react-native';
 import { EvilIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';

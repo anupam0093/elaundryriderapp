@@ -24,13 +24,12 @@ const DeliveryCard = ({ item }) => {
       <View
         style={{
           width: '90%', // Adjusted width to make it more responsive
-          borderColor: '#003566',
-          borderStyle: 'solid',
-          borderWidth: 1,
+          backgroundColor: "#d8dee9",
           marginHorizontal: '5%', // Center horizontally
-          marginBottom: 10,
+          marginBottom: 20,
           display: 'flex',
           flexDirection: 'row',
+          paddingBottom: 20,
           borderRadius: 11,
           alignItems: 'center', // Vertically center the content
           padding: 10, // Added padding for better spacing

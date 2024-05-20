@@ -135,9 +135,10 @@ const OrderDelevery = ({ navigation }) => {
 
   return (
    
-      <SafeAreaView>
-        <View
-          style={{ height: 970, width: "100%", backgroundColor: "#F3F1F6" }}
+      <SafeAreaView >
+     {/* <ScrollView> */}
+     <View
+          style={{ height: 750, width: "100%", backgroundColor: "#F3F1F6" }}
         >
           <View
             style={{
@@ -256,6 +257,7 @@ const OrderDelevery = ({ navigation }) => {
         )}
 
         </View>
+     {/* </ScrollView> */}
       </SafeAreaView>
    
   );

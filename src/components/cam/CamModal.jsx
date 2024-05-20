@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import Modal from "react-native-modal";
 import { useNavigation } from '@react-navigation/native';
-import { Camera } from 'expo-camera';
+import { Camera } from 'expo-camera/legacy';
 import { EvilIcons } from '@expo/vector-icons';
 import * as MediaLibrary from 'expo-media-library';
 
@@ -50,6 +50,8 @@ const CamModal = ({ showCameModal, setShowCamModal, setCapturedImage }) => {
         console.error('Error saving images:', error);
       });
   };
+
+  console.log(photos, "photos")
 
   useEffect(() => {
     (async () => {

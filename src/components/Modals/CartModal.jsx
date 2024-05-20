@@ -69,6 +69,8 @@ const CartModal = ({ showModal, setShowModal, closeModal, selectedItem, customer
     }
   };
 
+  console.log("capturedImages",capturedImages);
+
   return (
     <Modal
       isVisible={showModal}
@@ -77,7 +79,7 @@ const CartModal = ({ showModal, setShowModal, closeModal, selectedItem, customer
       animationOut='fadeOutDown'
     >
       <TouchableWithoutFeedback style={{ justifyContent: 'center', alignItems: 'center', }} onPress={() => Keyboard.dismiss()}>
-        <View style={{ width: '100%', backgroundColor: '#FAFAFA', padding: 20, borderRadius: 30, gap: 10 }}>
+        <View style={{ width: '100%', backgroundColor: '#FAFAFA', padding: 20, borderRadius: 12, gap: 10 }}>
           <Text style={{ fontSize: 22, fontWeight: 500, textTransform: 'uppercase', alignSelf: 'center' }}>{selectedItem?.garmentName}</Text>
           <View style={{ gap: 20 }}>
             <ScrollView>
@@ -133,7 +135,7 @@ const CartModal = ({ showModal, setShowModal, closeModal, selectedItem, customer
                   <Image source={{ uri: 'data:image/jpg;base64,' + item.base64 }} style={{ width: 40, height: 40, resizeMode: 'cover', marginRight: 10 }} />
                 )}
               />
-              <TouchableOpacity style={{ paddingHorizontal: 10, paddingVertical: 10, borderRadius: 10, backgroundColor: '#003566', width: '55%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} onPress={() => setShowCamModal(true)}>
+              <TouchableOpacity style={{ paddingHorizontal: 15, paddingVertical: 10, borderRadius: 10, backgroundColor: '#003566', width: '55%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} onPress={() => setShowCamModal(true)}>
                 <Text style={{ color: 'white', textAlign: 'zcenter', fontSize: 20 }}>Item Image</Text>
                 <AntDesign name="camera" size={24} color="white" />
               </TouchableOpacity>
@@ -145,11 +147,11 @@ const CartModal = ({ showModal, setShowModal, closeModal, selectedItem, customer
               <ActivityIndicator size="large" color="#00ff00" />
             )}
             {!loading && (
-              <TouchableOpacity onPress={() => _addtoCart()} style={{ borderWidth: 1, paddingHorizontal: 10, paddingVertical: 10, borderRadius: 10, backgroundColor: '#D9D9D9' }} >
+              <TouchableOpacity onPress={() => _addtoCart()} style={{  paddingHorizontal: 20, paddingVertical: 10, borderRadius: 10, backgroundColor: '#D9D9D9' }} >
                 <Text style={{ alignSelf: 'center', fontSize: 18, textTransform: 'uppercase' }}>Add To Cart</Text>
               </TouchableOpacity>
             )}
-            <TouchableOpacity onPress={() => closeModal()} style={{ borderWidth: 1, paddingHorizontal: 10, paddingVertical: 10, borderRadius: 10 }} >
+            <TouchableOpacity onPress={() => closeModal()} style={{  paddingHorizontal: 20, paddingVertical: 10, borderRadius: 10, backgroundColor: '#D9D9D9' }} >
               <Text style={{ alignSelf: 'center', fontSize: 18, textTransform: 'uppercase' }}>Close</Text>
             </TouchableOpacity>
           </View>
