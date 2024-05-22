@@ -27,12 +27,13 @@ import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
 import * as FileSystem from "expo-file-system";
 // import {Logo} from "../../assets/Photos/logo-1.png"
+import logo from "../../assets/Photos/elaundry.png";
 
 const Checkout = () => {
   const navigation = useNavigation();
   const captureRef = useRef(null);
 
-  const Logo = require("../../assets/Photos/logo-1.png");
+  const Logo = require("../../assets/Photos/elaundry.png");
 
   const Gst = ["NONE", "INCLUDE", "EXCLUDE"];
   const route = useRoute();
@@ -67,7 +68,7 @@ const Checkout = () => {
           Authorization: `Basic ${user?.accessToken}`,
         },
       });
-      // console.log("yes yes suraj dubey", data);
+      console.log("checkoutResponse", data);
       setBackendCartItems(data);
     } catch (error) {
       console.log(error, "error in line 43");
@@ -113,7 +114,7 @@ const Checkout = () => {
       );
 
       setCharge(response);
-    } catch (error) {}
+    } catch (error) { }
   }, []);
   const discountByStoreId = React.useCallback(async () => {
     try {
@@ -123,7 +124,7 @@ const Checkout = () => {
       );
 
       setDiscount(response);
-    } catch (error) {}
+    } catch (error) { }
   }, []);
 
   useEffect(() => {
@@ -170,41 +171,41 @@ const Checkout = () => {
     handlegst === "EXCLUDE"
       ? (parseFloat(totalPrice) * 18) / 100
       : handlegst === "INCLUDE"
-      ? (parseFloat(totalPrice) * 18) / (100 + 18) // Adjusting for included GST
-      : 0;
+        ? (parseFloat(totalPrice) * 18) / (100 + 18) // Adjusting for included GST
+        : 0;
 
   const chargesValue = charges
     ? (charges.chargeDiscountTypeIn === "AMOUNT"
-        ? parseFloat(charges?.chargeDiscount)
-        : (parseFloat(totalPrice) * parseFloat(charges?.chargeDiscount)) /
-          100) || 0
+      ? parseFloat(charges?.chargeDiscount)
+      : (parseFloat(totalPrice) * parseFloat(charges?.chargeDiscount)) /
+      100) || 0
     : 0;
 
   // If you need Gstc to be a string with two decimal places for display purposes
-  const GstcString = Gstc.toFixed(2);
+  const GstcString = Gstc.toFixed(0);
 
   const discountValue = discounteditem
     ? (discounteditem.chargeDiscountTypeIn === "AMOUNT"
-        ? parseFloat(discounteditem?.chargeDiscount)
-        : (parseFloat(totalPrice) *
-            parseFloat(discounteditem?.chargeDiscount)) /
-          100) || 0
+      ? parseFloat(discounteditem?.chargeDiscount)
+      : (parseFloat(totalPrice) *
+        parseFloat(discounteditem?.chargeDiscount)) /
+      100) || 0
     : 0;
 
   const Gross =
     handlegst === "INCLUDE"
-      ? (parseFloat(totalPrice) - parseFloat(Gstc)).toFixed(1)
+      ? (parseFloat(totalPrice) - parseFloat(Gstc)).toFixed(0)
       : (
-          parseFloat(totalPrice) -
-          parseFloat(discountValue) +
-          parseFloat(chargesValue)
-        ).toFixed(1);
+        parseFloat(totalPrice) -
+        parseFloat(discountValue) +
+        parseFloat(chargesValue)
+      ).toFixed(0);
 
   // Update taxable amount calculation
   const taxableAmount =
     handlegst === "INCLUDE"
-      ? ((parseFloat(Gross) * 100) / 118).toFixed(2) // Adjusting for included GST
-      : parseFloat(Gross).toFixed(2);
+      ? ((parseFloat(Gross) * 100) / 118).toFixed(0) // Adjusting for included GST
+      : parseFloat(Gross).toFixed(0);
 
   // Update Grand Total calculation
   const GrandTotal =
@@ -218,10 +219,10 @@ const Checkout = () => {
     storeCustomerId: route?.params?.customer_details?.storeCustomerId,
     totalQuantity: route?.params?.cart_details?.totalQuantity,
     itemGarmentCount: route?.params?.cart_details?.totalQuantity,
-    totalAmount: parseFloat(totalPrice).toFixed(2),
+    totalAmount: parseFloat(totalPrice).toFixed(0),
     gstType: handlegst,
     gstPercent: 18,
-    taxableAmount: parseFloat(taxableAmount).toFixed(2),
+    taxableAmount: parseFloat(taxableAmount).toFixed(0),
     gstAmount: parseFloat(Gstc),
     discountAmount: parseFloat(discountValue),
     chargeAmount: parseFloat(chargesValue),
@@ -307,116 +308,212 @@ const Checkout = () => {
       const options = {
         html: `
         <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>ELaundry Invoice</title>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-            }
-        
-            #invoice {
-              max-width: 600px;
-              margin: 20px auto;
-              padding: 20px;
-              border: 1px solid #ccc;
-              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            }
-        
-            h1, #div {
-              text-align: center;
-            }
-        
-            p {
-              margin: 5px 0;
-            }
-        
-            table {
-              width: 100%;
-              border-collapse: collapse;
-              margin-top: 20px;
-            }
-        
-            table, th, td {
-              border: 1px solid #ccc;
-            }
-        
-            th, td {
-              padding: 10px;
-              text-align: left;
-            }
-        
-            #totals {
-              margin-top: 20px;
-            }
-        
-            #totals p {
-              margin: 5px 0;
-            }
-          </style>
-        </head>
-        <body>
-          <div id="invoice">
-          <img src="https://scontent.fdel3-2.fna.fbcdn.net/v/t39.30808-6/241300820_894464941485545_6643307466864457944_n.png?_nc_cat=105&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=bCEw2NYAAZEAX_vvhgL&_nc_ht=scontent.fdel3-2.fna&oh=00_AfCaqZOrPIWWKZsTjRQL_wNPLm38932kfqSQcgt8mc-tbw&oe=65C54098" alt="Description of the image" style="width: 300px; height: 200px; display: block; margin: 0 auto;">
-          <h1>Receipt</h1>
-           <div id="div">
-     
-           <p>Customer Name: ${customerName}</p>
-           <p>Customer Phone No.: ${customerPhoneNo}</p>
-           <p>Customer ID:  ${customerId}</p>
-           <p>Printed on: ${formattedDate}</p>
-         
-           </div>
-           <table>
-           <thead>
-             <tr>
-             <th>Item</th>
-             <th>Quantity</th>
-             <th>Price</th>
-             </tr>
-           </thead>
-           <tbody>            
-               ${backendCartItems
-                 ?.map(
-                   (item, index) => `
-               <tr>
-                 <td key=${index}>${item.garmentName}</td>
-                 <td key=${index}>${item.itemGarmentCount}</td>
-                 <td key=${index}>${item.totalPrice}</td>
-                 </tr>
-               `
-                 )
-                 .join("")}
-                 <td>Total Amount : ₹${totalPrice}</td>
-                 <td></td>
-                 <td></td>
-                
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0px  120px 0px 70px;
+        }
+        .invoice-box {
+            width: 100%;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .header, .details, .summary, .footer {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .header h1, .header h2 {
+            margin: 0;
+            text-align: center;
+        }
+        .header h2 {
+            font-size: 28px;
+            color: #666;
+            text-align: center;
+        }
+        .details, .summary {
+            font-size: 24px;
+            text-align: center;
+        }
+        .details div, .summary div {
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        .footer {
+            text-align: center;
+            font-size: 26px;
+            color: #666;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+          
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .border{
+          border-bottom : 4px dashed #000;
+        }
+        th{
+          border-bottom : 4px dashed #000;
+          border-top : 4px dashed #000;
+        }
+    </style>
+</head>
+<body>
 
-                 </tr>
-                 <tr>
-                 <td>GST 18% : ₹${Gstc.toFixed()}</td>
-                 <td></td>
-                 <td></td>
-                 </tr>
-                 <tr>
-                 <td> Grand Total : ₹${
-                   Number(GrandTotal.toFixed(2)) ||
-                   Math.round(
-                     totalPrice + Number(totalPrice * 0.18) / (1.18).toFixed()
-                   )
-                 }</td>
-                 <td></td>
-                 <td></td>
+<div class="invoice-box">
+    <div class="header">
+    <img src="https://elaundry.co.in/wp-content/uploads/2023/12/logo-1-1.png">
+        <h1>Elaundry</h1>
+        <h2 id="currentTime">Printed on: <span></span></h2>
+    </div>
+    <div class="details">
+        <div><strong>Store Name:</strong> E-Laundry Demo</div>
+        <div><strong>Phone:</strong> 7428839663</div>
+        <div><strong>Email:</strong> support@elaundry.co.in</div>
+        <div><strong>Address:</strong> H-169, Sector 63, Noida - 301302, Uttar Pradesh</div>
+        <div class="border"></div>
+        <div><strong>Order On:</strong> May 21, 2024</div>
+        <div><strong>Delivery On:</strong> May 26, 2024</div>
+        <div><strong>Order:</strong> Test _5_20240521_3805</div>
+        <div><strong>Invoice:</strong> 22</div>
+        <div><strong>GST No:</strong> 09AIPPB1338M2ZZ</div>
+        <div class="border"></div>
+        <div><strong>Customer:</strong> Elaundry Test (7982518911)</div>
+        <div><strong>Email:</strong> omra.info20@gmail.com</div>
+        <div><strong>Address:</strong> A-105, Sector 65, Noida, Uttar Pradesh</div>
+    </div>
+    <div class="summary">
+    <table border=${0}>
+    <thead>
+      <tr>
+      <th>Description</th>
+      <th>Total Garment</th>
+      <th>Rate</th>
+      </tr>
+    </thead>
+    
+    <tbody>            
+        ${backendCartItems
+     ?.map(
+       (item, index) => `
+        <tr>
+          <td key=${index}>${item.garmentName}</td>
+          <td key=${index}>${item.itemGarmentCount}</td>
+          <td key=${index}>${item.totalPrice}</td>
+          </tr>
+        `
+     )
+     .join("")}
+
+     <tr>
+
+     <td></td>
+     <td>Total Amount :</td>
+     
+          <td> ₹${totalPrice}</td>
+         
+         
+
+          </tr>
+          <tr>
+          
+          <td></td>
+          <td>SGST (9%) :</td>
+          <td> ₹${Gstc.toFixed(0)/2}</td>
+       
+          </tr>
+          <tr>
+          
+          <td></td>
+          <td>CGST (9%) :</td>
+          <td> ₹${Gstc.toFixed(0)/2}</td>
+     
+          </tr>
+
+          <tr>
+          <td></td>
+          <td>Grand Total :</td>
+          
+          <td>  ₹${Number(GrandTotal.toFixed(0)) ||
+   Math.round(
+     totalPrice + Number(totalPrice * 0.18) / (1.18).toFixed(0)
+   )
+   }</td>
+      
+      
+          </tr>
+  </tbody>
+  </table>  
+  <div class="border"></div>    
+
+    </div>
+    <div class="footer">
+        :: Thanks for Ordering ::
+    </div>
+</div>
+
+<script>
+function getCurrentDateTime() {
+  // Get current date and time
+  var currentDate = new Date();
+
+  // Get day, month, year
+  var day = currentDate.getDate();
+  var month = currentDate.getMonth() + 1; // January is 0
+  var year = currentDate.getFullYear();
+
+  // Get hours, minutes, seconds
+  var hours = currentDate.getHours();
+  var minutes = currentDate.getMinutes();
+  var seconds = currentDate.getSeconds();
+
+  // Format day, month, hours, minutes, and seconds to have leading zeros if necessary
+  day = (day < 10 ? '0' : '') + day;
+  month = (month < 10 ? '0' : '') + month;
+  hours = (hours < 10 ? '0' : '') + hours;
+  minutes = (minutes < 10 ? '0' : '') + minutes;
+  seconds = (seconds < 10 ? '0' : '') + seconds;
+
+  // Format year to have four digits
+  year = String(year);
+
+  // Check if it's AM or PM
+  var period = (hours >= 12) ? "PM" : "AM";
+
+  // Convert 24-hour time to 12-hour time
+  hours = (hours > 12) ? hours - 12 : hours;
+
+  // Add leading zero to hours if it's less than 10
+  hours = (hours < 10 ? '0' : '') + hours;
+
+  // Return formatted date and time
+  return day + '-' + month + '-' + year + ' ' + hours + ':' + minutes + ':' + seconds + ' ' + period;
+}
+
+// Get current date and time in the specified format
+var currentDateTime = getCurrentDateTime();
+console.log(currentDateTime);
+
+document.getElementById("currentTime").textContent = currentDateTime;
+
+</script>
+
+</body>
+</html>
+
              
-                 </tr>
-         </tbody>
-         </table>      
-          </div>
-        </body>
-        </html>
-        
   `,
         fileName: `Elaundry${customerName}Invoice`,
         directory: FileSystem.documentDirectory,
@@ -520,10 +617,8 @@ const Checkout = () => {
             <SelectDropdown
               data={charge.map(
                 (item) =>
-                  ` ${item.name}  ${"["} ${item.chargeDiscountType}${":"} ${
-                    item.chargeDiscount
-                  }${
-                    item.chargeDiscountTypeIn === "AMOUNT" ? " Rs" : "%"
+                  ` ${item.name}  ${"["} ${item.chargeDiscountType}${":"} ${item.chargeDiscount
+                  }${item.chargeDiscountTypeIn === "AMOUNT" ? " Rs" : "%"
                   } ${"]"}`
               )}
               onSelect={(selectedItem, index) => {
@@ -560,10 +655,8 @@ const Checkout = () => {
             <SelectDropdown
               data={discount.map(
                 (item) =>
-                  ` ${item.name}  ${"["} ${item.chargeDiscountType}${":"} ${
-                    item.chargeDiscount
-                  }${
-                    item.chargeDiscountTypeIn === "AMOUNT" ? " Rs" : "%"
+                  ` ${item.name}  ${"["} ${item.chargeDiscountType}${":"} ${item.chargeDiscount
+                  }${item.chargeDiscountTypeIn === "AMOUNT" ? " Rs" : "%"
                   } ${"]"}`
               )}
               onSelect={(discounSelect, index) => {
@@ -664,6 +757,10 @@ const Checkout = () => {
               )}
             </ScrollView>
           </View>
+          {/* <View>
+            <Text>{backendCartItems?.map(item => item.garmentImagePath)}</Text>
+            <Image src={backendCartItems?.map(item => "https://elaundry.co.in/wp-content/uploads/2023/12/"+item.garmentImagePath)} width={100} height={100}  alt=""/>
+          </View> */}
           <ViewShot ref={captureRef}>
             <View>
               <View
@@ -802,7 +899,7 @@ const Checkout = () => {
                       {(charges.chargeDiscountTypeIn === "AMOUNT"
                         ? Number(charges?.chargeDiscount)
                         : (totalPrice * Number(charges?.chargeDiscount)) /
-                          100) || 0}
+                        100) || 0}
                     </Text>
                   </View>
 
@@ -822,25 +919,9 @@ const Checkout = () => {
                       {(discounteditem?.chargeDiscountTypeIn === "AMOUNT"
                         ? Number(discounteditem?.chargeDiscount)
                         : Number(
-                            (totalPrice * discounteditem?.chargeDiscount) / 100
-                          )) || 0}
-                    </Text>
-                  </View>
 
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      marginBottom: 20,
-                    }}
-                  >
-                    <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                      Gross Amount (Rs):
-                    </Text>
-
-                    <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                      {"\u20B9"} {Gross || totalPrice}
+                          parseFloat((totalPrice * discounteditem?.chargeDiscount) / 100).toFixed(0)
+                        )) || 0}
                     </Text>
                   </View>
 
@@ -855,47 +936,64 @@ const Checkout = () => {
                     <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                       Taxable Amount (Rs):
                     </Text>
+
+                    <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
+                      {"\u20B9"} {Gross || totalPrice}
+                    </Text>
+                  </View>
+
+                  {/* <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      marginBottom: 20,
+                    }}
+                  >
+                    <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                    Gross Amount (Rs):
+                    </Text>
                     <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
                       {"\u20B9"}{" "}
                       {Number(taxableAmount) ||
                         Math.round(
-                          Number(totalPrice * 0.18) / (1.18).toFixed()
+                          Number(totalPrice * 0.18) / (1.18).toFixed(0)
                         )}
                     </Text>
-                  </View>
+                  </View> */}
 
                   {handlegst == "EXCLUDE" || handlegst == "INCLUDE" ? (
-                   <View>
-                     <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        marginBottom: 20,
-                      }}
-                    >
-                      <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                        CGST @ 9% :
-                      </Text>
-                      <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                        {"\u20B9"} {Gstc.toFixed()/2}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        marginBottom: 20,
-                      }}
-                    >
-                      <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                        IGST @ 9% :
-                      </Text>
-                      <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
-                        {"\u20B9"} {Gstc.toFixed()/2}
-                      </Text>
-                    </View>
+                    <View>
+                      <View
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          marginBottom: 20,
+                        }}
+                      >
+                        <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                          CGST @ 9% :
+                        </Text>
+                        <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
+                          {"\u20B9"} {Gstc.toFixed(0) / 2}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          marginBottom: 20,
+                        }}
+                      >
+                        <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                          SGST @ 9% :
+                        </Text>
+                        <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
+                          {"\u20B9"} {Gstc.toFixed(0) / 2}
+                        </Text>
+                      </View>
                     </View>
                   ) : null}
 
@@ -911,10 +1009,10 @@ const Checkout = () => {
                     </Text>
                     <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
                       {"\u20B9"}{" "}
-                      {Number(GrandTotal.toFixed(2)) ||
+                      {Number(GrandTotal.toFixed(0)) ||
                         Math.round(
                           totalPrice +
-                            Number(totalPrice * 0.18) / (1.18).toFixed()
+                          Number(totalPrice * 0.18) / (1.18).toFixed(0)
                         )}
                     </Text>
                   </View>
@@ -929,7 +1027,7 @@ const Checkout = () => {
             buttonColor="#002B6B"
             textColor="white"
             style={{
-         
+
               width: "40%",
               left: 110,
               marginTop: 15,
@@ -946,7 +1044,7 @@ const Checkout = () => {
             buttonColor="#002B6B"
             textColor="white"
             style={{
-         
+
               width: "40%",
               left: 110,
               marginTop: 15,

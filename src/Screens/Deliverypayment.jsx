@@ -4,14 +4,13 @@ import {
   SafeAreaView,
   TouchableOpacity,
   StyleSheet,
-  Alert,
   ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
 import useStore from "../GlobalStore/store";
-import { getPaymentMode, searchDeliveryData } from "../../networkAPI/api";
+import { getPaymentMode } from "../../networkAPI/api";
 import SelectDropdown from "react-native-select-dropdown";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useNavigation, useRoute } from "@react-navigation/native";

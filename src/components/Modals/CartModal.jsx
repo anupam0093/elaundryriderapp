@@ -17,6 +17,7 @@ import axios from 'axios';
 const CartModal = ({ showModal, setShowModal, closeModal, selectedItem, customerDetails }) => {
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
+  const [photos, setPhotos ] = useState();
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState('');
   const [colorValue, setColorValue] = useState('');
@@ -58,7 +59,8 @@ const CartModal = ({ showModal, setShowModal, closeModal, selectedItem, customer
         },
       });
 
-      console.log(response?.data);
+      // console.log(response?.data);
+      
       setLoading(false);
       Alert.alert('Item Added Successfully');
       closeModal();
@@ -116,7 +118,8 @@ const CartModal = ({ showModal, setShowModal, closeModal, selectedItem, customer
             </View>
 
             <View>
-              <Text style={{ fontSize: 16, marginBottom: 6 }}>Choose Brand</Text>
+              <Text style={{ fontSize: 16, marginBottom: 6 }}>
+                Choose Brand</Text>
               <DropdownCompBrand
                 value={garmentBrand}
                 setValue={setGarmentBrand}
