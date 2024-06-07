@@ -91,7 +91,7 @@ console.log(route?.params?.my)
           style={{ height: 926, width: "100%", backgroundColor: "#13519E" }}
         >
           <ImageBackground
-            source={require("../../assets/Photos/backg.png")}
+            source={require("../../assets/Photos/backgImage.jpg")}
             alt="background"
             resizeMode="contain"
             style={{ width: "100%", height: "96%" }}

@@ -22,7 +22,7 @@ const PickupDate = ({ navigation }) => {
           style={{ height: 926, width: "100%", backgroundColor: "#F3F1F6" }}
         >
           <ImageBackground
-            source={require("../../assets/Photos/backg.png")}
+            source={require("../../assets/Photos/backgImage.jpg")}
             alt="background"
             resizeMode="contain"
             style={{ height: 926, width: 428 }}

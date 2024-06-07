@@ -66,7 +66,7 @@ const Welcome = ({ navigation }) => {
         <ScrollView>
           <View style={styles.container}>
             <ImageBackground
-              source={require("../../assets/Photos/backg.png")}
+              source={require("../../assets/Photos/backgImage.jpg")}
               alt="background"
               resizeMode="cover"
               style={{ height: "100%", width: "100%", position: "absolute" , top: 0, left: 0 }}
@@ -75,7 +75,7 @@ const Welcome = ({ navigation }) => {
               <View style={{ width: "100%", marginTop: 20 ,paddingTop: 0 }}>
                 <Image
                   alt="logo"
-                  source={require("../../assets/Photos/elaundry.png")}
+                  source={require("../../assets/logo.png")}
                   style={{
                     width: 150,
                     height: 60,
