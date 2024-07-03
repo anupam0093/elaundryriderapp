@@ -22,7 +22,7 @@ const PickupFilter = ({navigation}) => {
   const navigate  = useNavigation();
   const account = useStore(state => state.account)
   return (
-    <ScrollView>
+  
       <SafeAreaView>
         <View
           style={{ height: 926, width: "100%", backgroundColor: "#F3F1F6" }}
@@ -295,7 +295,6 @@ const PickupFilter = ({navigation}) => {
           </ImageBackground>
         </View>
       </SafeAreaView>
-    </ScrollView>
   );
 };
 

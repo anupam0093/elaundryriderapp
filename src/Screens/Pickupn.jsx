@@ -197,7 +197,8 @@ const Pickupn = () => {
                         marginHorizontal: 15,
                         marginTop: 10,
                         borderRadius: 10,
-                        paddingHorizontal: 10
+                        // eslint-disable-next-line no-dupe-keys
+                        paddingHorizontal: 10,
                       }}
                     >
                       <Feather

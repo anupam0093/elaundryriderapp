@@ -26,7 +26,7 @@ const DeliveryPayment = () => {
   const [payment, setPayment] = useState([]);
   const [payments, setPayments] = useState([]);
   const user = useStore((state) => state.user);
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   const getDeliveryData = async () => {
     const token = `${user?.accessToken}`;
@@ -44,8 +44,7 @@ const DeliveryPayment = () => {
 
       if (data) {
         setDelivery(data);
-        setText(()=>data[0]?.balanceAmount?.toString());
-        
+        setText(() => data[0]?.balanceAmount?.toString());
       }
     } catch (error) {
       console.log(error);
@@ -68,38 +67,38 @@ const DeliveryPayment = () => {
   }, []);
 
   const handleSelect = (item) => {
-
-      setSelectedItem(item);
-     
+    setSelectedItem(item);
   };
 
   const remain =
     Number(delivery[0]?.grandTotal) - Number(delivery[0]?.paidAmount);
-  
-
 
   const customDeliver = {
-    receivedBy:delivery[0]?.storeUserId, 
+    receivedBy: delivery[0]?.storeUserId,
     paidBy: delivery[0]?.storeCustomerId,
     paymentDTO: {
       receivedBy: "7",
       paidBy: route?.params?.customerDetails?.storeCustomerId,
       amount: remain,
-      paymentMode: 'CASH'
+      paymentMode: "CASH",
     },
   };
-
 
   // console.log('nehat deliver', JSON.stringify(delivery[0]?.storeCustomerId, null, 2));
 
   let storeUserId = delivery[0]?.storeUserId;
   let storeCustomerId = delivery[0]?.storeCustomerId;
-  let orderId = delivery[0]?.orderItem[0]?.orderId
+  let orderId = delivery[0]?.orderItem[0]?.orderId;
 
+  console.log(
+    "nehat deliver",
+    storeUserId,
+    storeCustomerId,
+    orderId,
+    route?.params?.customerDetails?.orderId
+  );
 
-  console.log('nehat deliver', storeUserId, storeCustomerId, orderId, route?.params?.customerDetails?.orderId);
-
-  console.log(delivery, "delivery kya h")
+  console.log(delivery, "delivery kya h");
 
   //========================================= deliver Post aPi=======================================================
 
@@ -127,37 +126,34 @@ const DeliveryPayment = () => {
   //   }
   // };
 
-
-
-
-  const updateOrder = async ()=>{
+  const updateOrder = async () => {
     const token = `${user?.accessToken}`;
     try {
-      const {data} = await axios.post(`${API_URL}/auth/order/${route?.params?.customerDetails?.orderId}/payment`, {
-          receivedBy: delivery[0]?.storeUserId, 
+      const { data } = await axios.post(
+        `${API_URL}/auth/order/${route?.params?.customerDetails?.orderId}/payment`,
+        {
+          receivedBy: delivery[0]?.storeUserId,
           paidBy: delivery[0]?.storeCustomerId,
           amount: remain,
-          paymentMode: 'CASH'
-        
-      }, {
-        headers:{
-          "Content-Type": "application/json",
-          Authorization: `Basic ${token}`,
+          paymentMode: "CASH",
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Basic ${token}`,
+          },
         }
-      })
+      );
       console.log(data, "data");
-      if (data?.success){
-        alert('Order Payment Received Successfully')
-        navigation.navigate("OrderDelevery", {orderId:orderId});
+      if (data?.success) {
+        alert("Order Payment Received Successfully");
+        navigation.navigate("OrderDelevery", { orderId: orderId });
       }
-
     } catch (error) {
       console.log(error);
       alert(error);
     }
-  }
-
-
+  };
 
   const deliverOrder = async () => {
     const token = `${user?.accessToken}`;
@@ -172,13 +168,15 @@ const DeliveryPayment = () => {
         },
       });
       console.log(data);
-      if(data.success == true){
-        alert('Order Payment Received Successfully')
-        navigation.navigate("OrderDelevery", {orderId:orderId});
+      if (data.success == true) {
+        alert("Order Payment Received Successfully");
+        navigation.navigate("OrderDelevery", { orderId: orderId });
       }
     } catch (error) {
       // console.log({ error }, "error in line 122");
-      alert("Something Went Wrong Please select Payment mode and Advance Amount");
+      alert(
+        "Something Went Wrong Please select Payment mode and Advance Amount"
+      );
     }
   };
 
@@ -190,7 +188,6 @@ const DeliveryPayment = () => {
         >
           <View
             style={{
-             
               marginTop: 30,
               display: "flex",
               flexDirection: "row",
@@ -206,7 +203,7 @@ const DeliveryPayment = () => {
                 name="left"
                 size={24}
                 color="#5D7EFC"
-                style={{ marginTop: 30,  }}
+                style={{ marginTop: 30 }}
               />
             </TouchableOpacity>
 
@@ -232,7 +229,7 @@ const DeliveryPayment = () => {
                   fontSize: 17,
                   fontWeight: "400",
                   color: "#000000",
-                  marginTop:7
+                  marginTop: 7,
                 }}
               >
                 Order Delivery : {route?.params?.customerDetails?.name}{" "}
@@ -291,220 +288,228 @@ const DeliveryPayment = () => {
             </View>
           </View>
 
-          {delivery[0]?.orderPaymentStatus === "PAID" ?(
-           <>
- 
-         <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "70%",
-              left: 30,
-              top: 20,
-              marginBottom: 10,
-            }}
-          >
-            <Text
-              style={{ fontSize: 20, fontWeight: "bold", color: "black" }}
-              t
-            >
-              Payment Status :
-            </Text>
-            <Text
-              style={{ fontSize: 17, fontWeight: "500", top: 5, color: "red" }}
-            >
-              {delivery[0]?.orderPaymentStatus}
-            </Text>
-          </View>
-          <Button
-            onPress={deliverOrder}
-            buttonColor="blue"
-            textColor="white"
-            focusable={true}
-            style={{
-              borderColor: "cyan",
-              borderWidth: 1,
-              borderStyle: "solid",
-              width: "86%",
-              left: 30,
-              marginTop: 15,
-              padding: 5,
-              top: 30,
-            }}
-          >
-            <Entypo
-              name="save"
-              size={25}
-              color="white"
-              style={{ marginTop: 2 }}
-            />
-            {"  "}
-            Deliver Now
-          </Button>
-           </>
-            
-            
-          ):
-          (
+          {delivery[0]?.orderPaymentStatus === "PAID" ? (
             <>
-                      <View style={{ top: 10, left: 30, marginBottom: 20 }}>
-            <SelectDropdown
-              data={payment.map((item) => item)}
-              onSelect={(selectedItem, index) => {
-                handleSelect(selectedItem);
-                setPayments(payment[index]);
-              }}
-              defaultButtonText={"Select Payment Mode"}
-              buttonTextAfterSelection={() =>
-                selectedItem || "Select Payment Mode"
-              }
-              rowTextForSelection={(item, index) => {
-                return item;
-              }}
-              buttonStyle={styles.dropdown1BtnStyle}
-              buttonTextStyle={styles.dropdown1BtnTxtStyle}
-              renderDropdownIcon={(isOpened) => {
-                return (
-                  <FontAwesome
-                    name={isOpened ? "chevron-up" : "chevron-down"}
-                    color={"#444"}
-                    size={17}
-                  />
-                );
-              }}
-              dropdownIconPosition={"right"}
-              dropdownStyle={styles.dropdown1DropdownStyle}
-              rowStyle={styles.dropdown1RowStyle}
-              rowTextStyle={styles.dropdown1RowTxtStyle}
-            />
-          </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "70%",
+                  left: 30,
+                  top: 20,
+                  marginBottom: 10,
+                }}
+              >
+                <Text
+                  style={{ fontSize: 20, fontWeight: "bold", color: "black" }}
+                  t
+                >
+                  Payment Status :
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 17,
+                    fontWeight: "500",
+                    top: 5,
+                    color: "red",
+                  }}
+                >
+                  {delivery[0]?.orderPaymentStatus}
+                </Text>
+              </View>
+              <Button
+                onPress={deliverOrder}
+                buttonColor="blue"
+                textColor="white"
+                focusable={true}
+                style={{
+                  borderColor: "cyan",
+                  borderWidth: 1,
+                  borderStyle: "solid",
+                  width: "86%",
+                  left: 30,
+                  marginTop: 15,
+                  padding: 5,
+                  top: 30,
+                }}
+              >
+                <Entypo
+                  name="save"
+                  size={25}
+                  color="white"
+                  style={{ marginTop: 2 }}
+                />
+                {"  "}
+                Deliver Now
+              </Button>
+            </>
+          ) : (
+            <>
+              <View style={{ top: 10, left: 30, marginBottom: 20 }}>
+                <SelectDropdown
+                  data={payment.map((item) => item)}
+                  onSelect={(selectedItem, index) => {
+                    handleSelect(selectedItem);
+                    setPayments(payment[index]);
+                  }}
+                  defaultButtonText={"Select Payment Mode"}
+                  buttonTextAfterSelection={() =>
+                    selectedItem || "Select Payment Mode"
+                  }
+                  rowTextForSelection={(item, index) => {
+                    return item;
+                  }}
+                  buttonStyle={styles.dropdown1BtnStyle}
+                  buttonTextStyle={styles.dropdown1BtnTxtStyle}
+                  renderDropdownIcon={(isOpened) => {
+                    return (
+                      <FontAwesome
+                        name={isOpened ? "chevron-up" : "chevron-down"}
+                        color={"#444"}
+                        size={17}
+                      />
+                    );
+                  }}
+                  dropdownIconPosition={"right"}
+                  dropdownStyle={styles.dropdown1DropdownStyle}
+                  rowStyle={styles.dropdown1RowStyle}
+                  rowTextStyle={styles.dropdown1RowTxtStyle}
+                />
+              </View>
 
-          {/* <TextInput
+              {/* <TextInput
             style={{ width: "85%", left: 30 }}
             value={text}
             onChangeText={(text) => setText(text)}
             label="Remain Amount"
           /> */}
-          {/* <Text>Receivel Amount {delivery[0]?.balanceAmount}</Text> */}
+              {/* <Text>Receivel Amount {delivery[0]?.balanceAmount}</Text> */}
 
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "70%",
-              left: 30,
-              top: 20,
-              marginBottom: 10,
-            }}
-          >
-            <Text
-              style={{ fontSize: 20, fontWeight: "bold", color: "black" }}
-              t
-            >
-              Payment Status :
-            </Text>
-            <Text
-              style={{ fontSize: 17, fontWeight: "500", top: 5, color: "red" }}
-            >
-              {delivery[0]?.orderPaymentStatus}
-            </Text>
-          </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "70%",
+                  left: 30,
+                  top: 20,
+                  marginBottom: 10,
+                }}
+              >
+                <Text
+                  style={{ fontSize: 20, fontWeight: "bold", color: "black" }}
+                  t
+                >
+                  Payment Status :
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 17,
+                    fontWeight: "500",
+                    top: 5,
+                    color: "red",
+                  }}
+                >
+                  {delivery[0]?.orderPaymentStatus}
+                </Text>
+              </View>
 
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "70%",
-              left: 30,
-              top: 20,
-              marginBottom: 10,
-            }}
-          >
-            <Text
-              style={{ fontSize: 20, fontWeight: "bold", color: "black" }}
-              t
-            >
-              Paid Amount :
-            </Text>
-            <Text
-              style={{ fontSize: 17, fontWeight: "500", top: 5, color: "red" }}
-            >
-              {delivery[0]?.paidAmount}
-            </Text>
-          </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "70%",
+                  left: 30,
+                  top: 20,
+                  marginBottom: 10,
+                }}
+              >
+                <Text
+                  style={{ fontSize: 20, fontWeight: "bold", color: "black" }}
+                  t
+                >
+                  Paid Amount :
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 17,
+                    fontWeight: "500",
+                    top: 5,
+                    color: "red",
+                  }}
+                >
+                  {delivery[0]?.paidAmount}
+                </Text>
+              </View>
 
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "70%",
-              left: 30,
-              top: 20,
-            }}
-          >
-            <Text
-              style={{ fontSize: 20, fontWeight: "bold", color: "skyblue" }}
-              t
-            >
-              Total Amount :
-            </Text>
-            <Text style={{ fontSize: 17, fontWeight: "500", top: 5 }}>
-              ₹ {delivery[0]?.grandTotal}
-            </Text>
-          </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "70%",
+                  left: 30,
+                  top: 20,
+                }}
+              >
+                <Text
+                  style={{ fontSize: 20, fontWeight: "bold", color: "skyblue" }}
+                  t
+                >
+                  Total Amount :
+                </Text>
+                <Text style={{ fontSize: 17, fontWeight: "500", top: 5 }}>
+                  ₹ {delivery[0]?.grandTotal}
+                </Text>
+              </View>
 
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "70%",
-              left: 30,
-              top: 26,
-            }}
-          >
-            <Text
-              style={{ fontSize: 20, fontWeight: "bold", color: "skyblue" }}
-            >
-              Remaining Amount :
-            </Text>
-            <Text style={{ fontSize: 17, fontWeight: "500", top: 5 }}>
-              ₹ {remain}
-            </Text>
-          </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "70%",
+                  left: 30,
+                  top: 26,
+                }}
+              >
+                <Text
+                  style={{ fontSize: 20, fontWeight: "bold", color: "skyblue" }}
+                >
+                  Remaining Amount :
+                </Text>
+                <Text style={{ fontSize: 17, fontWeight: "500", top: 5 }}>
+                  ₹ {remain}
+                </Text>
+              </View>
 
-          <Button
-            onPress={()=>updateOrder()}
-            buttonColor="#002B6B"
-            textColor="white"
-            focusable={true}
-            style={{
-          
-              width: "86%",
-              left: 30,
-              marginTop: 15,
-              padding: 5,
-              top: 30,
-              borderRadius: 12
-            }}
-          >
-            <Entypo
-              name="save"
-              size={25}
-              color="white"
-              style={{ marginTop: 2 }}
-            />
-            {"  "}
-            Pay Now
-          </Button>
+              <Button
+                onPress={() => updateOrder()}
+                buttonColor="#002B6B"
+                textColor="white"
+                focusable={true}
+                style={{
+                  width: "86%",
+                  left: 30,
+                  marginTop: 15,
+                  padding: 5,
+                  top: 30,
+                  borderRadius: 12,
+                }}
+              >
+                <Entypo
+                  name="save"
+                  size={25}
+                  color="white"
+                  style={{ marginTop: 2 }}
+                />
+                {"  "}
+                Pay Now
+              </Button>
             </>
-          )
-          }
-
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -526,8 +531,7 @@ const styles = StyleSheet.create({
     width: "88%",
     height: 50,
     backgroundColor: "#FFF",
-    borderRadius: 8
-
+    borderRadius: 8,
   },
   dropdown1BtnTxtStyle: { color: "black", textAlign: "left", fontSize: 16 },
   dropdown1DropdownStyle: { backgroundColor: "black" },

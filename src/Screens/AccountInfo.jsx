@@ -45,7 +45,7 @@ const AccountInfo = () => {
   console.log(balanceAmount[0])
 
   return (
-    <SafeAreaView>
+    <SafeAreaView marginTop={200} >
       <View style={styles.container}>
         <View
           style={{
@@ -139,7 +139,7 @@ const AccountInfo = () => {
           {renderInfo("Credit Limit", balanceAmount[0]?.storeCustomerAccountDTO?.creditLimit )}
           {renderInfo("Available Limit",  balanceAmount[0]?.storeCustomerAccountDTO?.availableLimit)}
           {renderInfo("Balance Unit",  balanceAmount[0]?.storeCustomerAccountDTO?.balanceUnit)}
-          {renderInfo("Advance Limit",  balanceAmount[0]?.storeCustomerAccountDTO?.advanceUnit)}
+          {renderInfo("Advance Limit",  balanceAmount[0]?.storeCustomerAccountDTO?.advanceUnit.toFixed(2) )}
         </View>
       </View>
     </SafeAreaView>

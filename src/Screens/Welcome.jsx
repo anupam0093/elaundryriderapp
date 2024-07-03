@@ -24,6 +24,8 @@ const Welcome = ({ navigation }) => {
   const setUser = useStore((state) => state.setUser);
   const setRiderDetails = useStore((state) => state.setRiderDetails);
 
+  console.log(username, password)
+
   const customUserLogin = async () => {
     try {
       const { data } = await axios({

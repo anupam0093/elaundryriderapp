@@ -71,7 +71,7 @@ const CartModal = ({ showModal, setShowModal, closeModal, selectedItem, customer
     }
   };
 
-  console.log("capturedImages",capturedImages);
+  console.log("capturedImages",capturedImages.uri);
 
   return (
     <Modal

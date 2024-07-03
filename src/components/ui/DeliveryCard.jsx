@@ -98,7 +98,8 @@ const DeliveryCard = ({ item }) => {
           <Text style={{ fontSize: 10, fontWeight: '400', color: '#646060' }}>
             Status:{' '}
             <Text style={{ color: '#2F2D2D', fontSize: 10, fontWeight: '600' }}>
-              {item?.orderPaymentStatus}
+              {/* {item?.orderPaymentStatus} */}
+              {item?.status }
             </Text>
           </Text>
 

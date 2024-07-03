@@ -114,7 +114,7 @@ const Checkout = () => {
       );
 
       setCharge(response);
-    } catch (error) { }
+    } catch (error) {}
   }, []);
   const discountByStoreId = React.useCallback(async () => {
     try {
@@ -124,7 +124,7 @@ const Checkout = () => {
       );
 
       setDiscount(response);
-    } catch (error) { }
+    } catch (error) {}
   }, []);
 
   useEffect(() => {
@@ -171,14 +171,14 @@ const Checkout = () => {
     handlegst === "EXCLUDE"
       ? (parseFloat(totalPrice) * 18) / 100
       : handlegst === "INCLUDE"
-        ? (parseFloat(totalPrice) * 18) / (100 + 18) // Adjusting for included GST
-        : 0;
+      ? (parseFloat(totalPrice) * 18) / (100 + 18) // Adjusting for included GST
+      : 0;
 
   const chargesValue = charges
     ? (charges.chargeDiscountTypeIn === "AMOUNT"
-      ? parseFloat(charges?.chargeDiscount)
-      : (parseFloat(totalPrice) * parseFloat(charges?.chargeDiscount)) /
-      100) || 0
+        ? parseFloat(charges?.chargeDiscount)
+        : (parseFloat(totalPrice) * parseFloat(charges?.chargeDiscount)) /
+          100) || 0
     : 0;
 
   // If you need Gstc to be a string with two decimal places for display purposes
@@ -186,20 +186,20 @@ const Checkout = () => {
 
   const discountValue = discounteditem
     ? (discounteditem.chargeDiscountTypeIn === "AMOUNT"
-      ? parseFloat(discounteditem?.chargeDiscount)
-      : (parseFloat(totalPrice) *
-        parseFloat(discounteditem?.chargeDiscount)) /
-      100) || 0
+        ? parseFloat(discounteditem?.chargeDiscount)
+        : (parseFloat(totalPrice) *
+            parseFloat(discounteditem?.chargeDiscount)) /
+          100) || 0
     : 0;
 
   const Gross =
     handlegst === "INCLUDE"
       ? (parseFloat(totalPrice) - parseFloat(Gstc)).toFixed(0)
       : (
-        parseFloat(totalPrice) -
-        parseFloat(discountValue) +
-        parseFloat(chargesValue)
-      ).toFixed(0);
+          parseFloat(totalPrice) -
+          parseFloat(discountValue) +
+          parseFloat(chargesValue)
+        ).toFixed(0);
 
   // Update taxable amount calculation
   const taxableAmount =
@@ -285,6 +285,7 @@ const Checkout = () => {
     year: "numeric",
   };
 
+  // eslint-disable-next-line no-undef
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
     currentDate
   );
@@ -387,7 +388,7 @@ const Checkout = () => {
         <div><strong>Order On:</strong> May 21, 2024</div>
         <div><strong>Delivery On:</strong> May 26, 2024</div>
         <div><strong>Order:</strong> Test _5_20240521_3805</div>
-        <div><strong>Invoice:</strong> 22</div>
+        <div><strong>Receipt:</strong> 22</div>
         <div><strong>GST No:</strong> 09AIPPB1338M2ZZ</div>
         <div class="border"></div>
         <div><strong>Customer:</strong> Elaundry Test (7982518911)</div>
@@ -406,16 +407,16 @@ const Checkout = () => {
     
     <tbody>            
         ${backendCartItems
-     ?.map(
-       (item, index) => `
+          ?.map(
+            (item, index) => `
         <tr>
           <td key=${index}>${item.garmentName}</td>
           <td key=${index}>${item.itemGarmentCount}</td>
           <td key=${index}>${item.totalPrice}</td>
           </tr>
         `
-     )
-     .join("")}
+          )
+          .join("")}
 
      <tr>
 
@@ -431,14 +432,14 @@ const Checkout = () => {
           
           <td></td>
           <td>SGST (9%) :</td>
-          <td> ₹${Gstc.toFixed(0)/2}</td>
+          <td> ₹${Gstc.toFixed(0) / 2}</td>
        
           </tr>
           <tr>
           
           <td></td>
           <td>CGST (9%) :</td>
-          <td> ₹${Gstc.toFixed(0)/2}</td>
+          <td> ₹${Gstc.toFixed(0) / 2}</td>
      
           </tr>
 
@@ -446,11 +447,12 @@ const Checkout = () => {
           <td></td>
           <td>Grand Total :</td>
           
-          <td>  ₹${Number(GrandTotal.toFixed(0)) ||
-   Math.round(
-     totalPrice + Number(totalPrice * 0.18) / (1.18).toFixed(0)
-   )
-   }</td>
+          <td>  ₹${
+            Number(GrandTotal.toFixed(0)) ||
+            Math.round(
+              totalPrice + Number(totalPrice * 0.18) / (1.18).toFixed(0)
+            )
+          }</td>
       
       
           </tr>
@@ -515,7 +517,7 @@ document.getElementById("currentTime").textContent = currentDateTime;
 
              
   `,
-        fileName: `Elaundry${customerName}Invoice`,
+        fileName: `Elaundry${customerName}EstimatedReceipt`,
         directory: FileSystem.documentDirectory,
       };
 
@@ -536,7 +538,7 @@ document.getElementById("currentTime").textContent = currentDateTime;
       });
 
       // Move the PDF file to the 'Download' directory
-      const newPdfUri = `${downloadDirectory}Elaundry${customerName}Invoice.pdf`;
+      const newPdfUri = `${downloadDirectory}${customerName}EstimatedReceipt.pdf`;
       await FileSystem.moveAsync({
         from: pdfUri.uri, // Use pdfUri.uri as the source file URI
         to: newPdfUri,
@@ -617,8 +619,10 @@ document.getElementById("currentTime").textContent = currentDateTime;
             <SelectDropdown
               data={charge.map(
                 (item) =>
-                  ` ${item.name}  ${"["} ${item.chargeDiscountType}${":"} ${item.chargeDiscount
-                  }${item.chargeDiscountTypeIn === "AMOUNT" ? " Rs" : "%"
+                  ` ${item.name}  ${"["} ${item.chargeDiscountType}${":"} ${
+                    item.chargeDiscount
+                  }${
+                    item.chargeDiscountTypeIn === "AMOUNT" ? " Rs" : "%"
                   } ${"]"}`
               )}
               onSelect={(selectedItem, index) => {
@@ -655,8 +659,10 @@ document.getElementById("currentTime").textContent = currentDateTime;
             <SelectDropdown
               data={discount.map(
                 (item) =>
-                  ` ${item.name}  ${"["} ${item.chargeDiscountType}${":"} ${item.chargeDiscount
-                  }${item.chargeDiscountTypeIn === "AMOUNT" ? " Rs" : "%"
+                  ` ${item.name}  ${"["} ${item.chargeDiscountType}${":"} ${
+                    item.chargeDiscount
+                  }${
+                    item.chargeDiscountTypeIn === "AMOUNT" ? " Rs" : "%"
                   } ${"]"}`
               )}
               onSelect={(discounSelect, index) => {
@@ -899,7 +905,7 @@ document.getElementById("currentTime").textContent = currentDateTime;
                       {(charges.chargeDiscountTypeIn === "AMOUNT"
                         ? Number(charges?.chargeDiscount)
                         : (totalPrice * Number(charges?.chargeDiscount)) /
-                        100) || 0}
+                          100) || 0}
                     </Text>
                   </View>
 
@@ -919,9 +925,11 @@ document.getElementById("currentTime").textContent = currentDateTime;
                       {(discounteditem?.chargeDiscountTypeIn === "AMOUNT"
                         ? Number(discounteditem?.chargeDiscount)
                         : Number(
-
-                          parseFloat((totalPrice * discounteditem?.chargeDiscount) / 100).toFixed(0)
-                        )) || 0}
+                            parseFloat(
+                              (totalPrice * discounteditem?.chargeDiscount) /
+                                100
+                            ).toFixed(0)
+                          )) || 0}
                     </Text>
                   </View>
 
@@ -975,7 +983,9 @@ document.getElementById("currentTime").textContent = currentDateTime;
                         <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                           CGST @ 9% :
                         </Text>
-                        <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
+                        <Text
+                          style={{ fontSize: 16, fontWeight: "500", top: 5 }}
+                        >
                           {"\u20B9"} {Gstc.toFixed(0) / 2}
                         </Text>
                       </View>
@@ -990,7 +1000,9 @@ document.getElementById("currentTime").textContent = currentDateTime;
                         <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                           SGST @ 9% :
                         </Text>
-                        <Text style={{ fontSize: 16, fontWeight: "500", top: 5 }}>
+                        <Text
+                          style={{ fontSize: 16, fontWeight: "500", top: 5 }}
+                        >
                           {"\u20B9"} {Gstc.toFixed(0) / 2}
                         </Text>
                       </View>
@@ -1012,7 +1024,7 @@ document.getElementById("currentTime").textContent = currentDateTime;
                       {Number(GrandTotal.toFixed(0)) ||
                         Math.round(
                           totalPrice +
-                          Number(totalPrice * 0.18) / (1.18).toFixed(0)
+                            Number(totalPrice * 0.18) / (1.18).toFixed(0)
                         )}
                     </Text>
                   </View>
@@ -1027,13 +1039,11 @@ document.getElementById("currentTime").textContent = currentDateTime;
             buttonColor="#002B6B"
             textColor="white"
             style={{
-
               width: "40%",
               left: 110,
               marginTop: 15,
               padding: 5,
-              borderRadius: 12
-
+              borderRadius: 12,
             }}
           >
             Booked
@@ -1044,12 +1054,11 @@ document.getElementById("currentTime").textContent = currentDateTime;
             buttonColor="#002B6B"
             textColor="white"
             style={{
-
               width: "40%",
               left: 110,
               marginTop: 15,
               padding: 5,
-              borderRadius: 12
+              borderRadius: 12,
             }}
           >
             Print / Share
@@ -1076,7 +1085,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: "#FFF",
     borderRadius: 12,
-    marginTop: 10
+    marginTop: 10,
   },
   dropdown1BtnTxtStyle: { color: "black", textAlign: "left", fontSize: 16 },
   dropdown1DropdownStyle: { backgroundColor: "black" },

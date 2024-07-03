@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   SafeAreaView,
@@ -15,6 +15,10 @@ import useStore from "../GlobalStore/store";
 import Header from "../components/Header/Header";
 import axios from "axios";
 import { homepage } from "../../Components/Styles/homepage";
+import { useFocusEffect } from "@react-navigation/native";
+import { searchAllPickupbystoreId } from "../../networkAPI/api";
+import { useQuery } from "@tanstack/react-query";
+import { useRoute } from "@react-navigation/native";
 
 const LeftBrand = () => {
   return (
@@ -33,11 +37,13 @@ const RightContent = ({ setLogOutUser, navigator }) => {
       <TouchableOpacity onPress={navigator}>
         <Ionicons name="notifications" size={20} color="black" />
       </TouchableOpacity>
-      <TouchableOpacity onPress={setLogOutUser} style={{display: "grid", alignItems:"center"}}>
+      <TouchableOpacity
+        onPress={setLogOutUser}
+        style={{ display: "grid", alignItems: "center" }}
+      >
         <FontAwesome name="sign-out" size={20} color="black" />
         <Text>Logout</Text>
       </TouchableOpacity>
-      
     </View>
   );
 };
@@ -66,19 +72,29 @@ const LogoutModal = ({ visible, onConfirm, onCancel }) => {
 };
 
 const Homepage = ({ navigation }) => {
-  
   const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
   const user = useStore((state) => state.user);
   const riderDetails = useStore((state) => state.riderDetails);
   const setRiderDetails = useStore((state) => state.setRiderDetails);
   const setLogOutUser = useStore((state) => state.setLogOutUser);
+  const [delivery, setDelivery] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredPickup, setFilteredPickup] = useState([]);
+  const [pickup, setPickup] = useState([]);
+  const countone = useStore((state) => state.countone);
+  const counttwo = useStore((state) => state.counttwo);
+
+  useEffect(() => {
+    console.log("The value of countone is:", countone);
+    console.log("The value of counttwo is:", counttwo);
+  }, [countone, counttwo]);
 
   const navigator = () => {
     navigation.navigate("Notification");
   };
 
   function capitalizeFirstLetterOfEachWord(str) {
-    return str?.replace(/\b\w/g, function(char) {
+    return str?.replace(/\b\w/g, function (char) {
       return char.toUpperCase();
     });
   }
@@ -111,13 +127,121 @@ const Homepage = ({ navigation }) => {
       }
     } catch (error) {
       Alert.alert("Full authentication is required to access this resource");
+      console.log(error);
       setLogOutUser();
+    }
+  };
+  const endDate = new Date();
+  endDate.setDate(endDate.getDate());
+  const startDate = new Date(endDate);
+  startDate.setMonth(startDate.getMonth() - 1);
+
+  const formattedStartDate = startDate.toISOString().slice(0, 10);
+  const formattedEndDate = endDate.toISOString().slice(0, 10);
+
+  const getDeliverys = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://api.elaundry.co.in/oit-elaundry/api/auth/store/5/store-order/${formattedStartDate}/${formattedEndDate}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Basic ${user?.accessToken}`,
+          },
+        }
+      );
+      if (data) {
+        const filteredData = data?.filter((item) => item?.status === "OUT_FOR_DELIVERY");
+        const newlength = filteredData.length;
+        setDelivery(newlength);
+        console.log(newlength, "newlength");
+      }
+    } catch (error) {
+      console.log("nehat error", error);
     }
   };
 
   useEffect(() => {
+    getDeliverys();
     fetchRiderDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      getDeliverys();
+    }, [])
+  );
+
+  const handleDeliveryOpen = async () => {
+    // setInitialLength(currentLength);
+    // await AsyncStorage.setItem("counterOne", currentLength)
+    navigation.navigate("OrderDelevery");
+  };
+
+  // ---------------------------------------------
+
+  const { refetch } = useQuery(
+    {
+      queryKey: ["pickup"],
+      queryFn: async () =>
+        await searchAllPickupbystoreId(
+          riderDetails?.storeId,
+          user?.accessToken,
+          riderDetails?.storeUserId
+        ),
+      onSuccess: (data) =>
+        setPickup(
+          data?.filter(
+            (item) =>
+              item?.pickupRequest?.storeCustomerId ===
+              item?.pickupRequest?.storeCustomerId
+          )
+        ),
+    },
+    [refetch]
+  );
+
+  useEffect(
+    () => {
+      const filterPickupData = () => {
+        const filteredData = pickup.filter((item) => {
+          const customer = item.pickupRequest.customerDTO;
+          const customer2 = item.pickupRequest.customerDTO.address;
+          if (!customer || !customer2) {
+            return false;
+          }
+          const customerName = customer.firstName
+            ? customer.firstName.toLowerCase()
+            : "";
+          const customerMobile = customer2.contactNo
+            ? customer2.contactNo.toLowerCase()
+            : "";
+          const query = searchQuery.toLowerCase();
+          return customerName.includes(query) || customerMobile.includes(query);
+        });
+        const length = filteredData.length;
+        setFilteredPickup(length);
+        // setPickup(filteredData)
+      };
+
+      // eslint-disable-next-line no-undef
+      const debouncedFilter = setTimeout(filterPickupData, 300);
+
+      // eslint-disable-next-line no-undef
+      return () => clearTimeout(debouncedFilter);
+    },
+    [searchQuery, pickup],
+    [refetch()]
+  );
+
+  const handlePickupClick = () => {
+    // setInitialLength1(currentLength1);
+    navigation.navigate("Pickup");
+  };
+
+  console.log("a", countone, delivery);
+  console.log("b", counttwo, filteredPickup);
 
   return (
     <SafeAreaView style={{ top: 10 }}>
@@ -125,7 +249,7 @@ const Homepage = ({ navigation }) => {
       <Header
         leftContent={<LeftBrand />}
         // centerContent={
-          
+
         // }
         rightContent={
           <RightContent setLogOutUser={handleLogout} navigator={navigator} />
@@ -159,19 +283,19 @@ const Homepage = ({ navigation }) => {
             Hi Rider 
           </Text>
         </View> */}
-      <Text
-            style={{
-              marginTop:10,
-              // marginLeft: 8,
-              fontSize: 20,
-              fontWeight: "700",
-              justifyContent: "center",
-              textAlign: "center",
-            }}
-          >
-            {/* data coming from backend */}
-           Hi, {capitalizeFirstLetterOfEachWord(riderDetails?.userName)}
-          </Text>
+        <Text
+          style={{
+            marginTop: 10,
+            // marginLeft: 8,
+            fontSize: 20,
+            fontWeight: "700",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
+        >
+          {/* data coming from backend */}
+          Hi, {capitalizeFirstLetterOfEachWord(riderDetails?.userName)}
+        </Text>
         <View
           style={{
             display: "flex",
@@ -214,7 +338,7 @@ const Homepage = ({ navigation }) => {
             justifyContent: "center",
             gap: 7,
             // marginLeft:10,
-            marginRight:10,
+            marginRight: 10,
           }}
         >
           <TouchableOpacity
@@ -232,7 +356,7 @@ const Homepage = ({ navigation }) => {
                 width: 167,
                 borderWidth: 1,
                 borderRadius: 18,
-                position: "relative"
+                position: "relative",
               }}
             >
               <Text
@@ -246,22 +370,45 @@ const Homepage = ({ navigation }) => {
               >
                 New Order
               </Text>
-              <View >
-                  <Image
+              <View>
+                <Image
                   alt="image-2"
-                  style={{width: 150, height: 180 , marginLeft: 5, marginTop: 20 }}
+                  style={{
+                    width: 150,
+                    height: 180,
+                    marginLeft: 5,
+                    marginTop: 20,
+                  }}
                   source={require("../../assets/Photos/machine.jpg")}
                 />
-            
               </View>
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("OrderDelevery");
-            }}
-          >
+          <TouchableOpacity onPress={handleDeliveryOpen}>
+            {delivery - countone === 0 ||
+            delivery === countone ||
+            countone === undefined ? null : (
+              <View
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  backgroundColor: "red",
+                  width: 30,
+                  height: 30,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  zIndex: 10,
+                  borderRadius: 50,
+                }}
+              >
+                <Text style={{ color: "white" }}>
+                  {Math.abs(delivery - countone)}
+                </Text>
+              </View>
+            )}
+
             <View
               style={{
                 backgroundColor: "#FFFFFF",
@@ -286,16 +433,18 @@ const Homepage = ({ navigation }) => {
               >
                 Delivery
               </Text>
-                  <View >
-                  <Image
+              <View>
+                <Image
                   alt="image-2"
-                  style={{width: 150, height: 160 , marginLeft: 5, marginTop: 27 }}
+                  style={{
+                    width: 150,
+                    height: 160,
+                    marginLeft: 5,
+                    marginTop: 27,
+                  }}
                   source={require("../../assets/Photos/scooter.jpg")}
                 />
-            
               </View>
-
-             
             </View>
           </TouchableOpacity>
         </View>
@@ -337,23 +486,45 @@ const Homepage = ({ navigation }) => {
               >
                 User Profile
               </Text>
-                        <View >
-                  <Image
+              <View>
+                <Image
                   alt="image-2"
-                  style={{width: 150, height: 160 , marginLeft: 5, marginTop: 27 }}
+                  style={{
+                    width: 150,
+                    height: 160,
+                    marginLeft: 5,
+                    marginTop: 27,
+                  }}
                   source={require("../../assets/Photos/user.jpg")}
                 />
-            
               </View>
-             
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Pickup");
-            }}
-          >
+          <TouchableOpacity onPress={() => handlePickupClick()}>
+            {counttwo - filteredPickup === 0 ||
+            counttwo === undefined ? null : (
+              <View
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  top: -9,
+                  backgroundColor: "red",
+                  width: 30,
+                  height: 30,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  zIndex: 10,
+                  borderRadius: 50,
+                }}
+              >
+                <Text style={{ color: "white" }}>
+                  {Math.abs(counttwo - filteredPickup)}
+                </Text>
+              </View>
+            )}
+
             <View
               style={{
                 backgroundColor: "#FFFFFF",
@@ -376,13 +547,17 @@ const Homepage = ({ navigation }) => {
               >
                 Pickup
               </Text>
-                        <View >
-                  <Image
+              <View>
+                <Image
                   alt="image-2"
-                  style={{width: 150, height: 160 , marginLeft: 5, marginTop: 27 }}
+                  style={{
+                    width: 150,
+                    height: 160,
+                    marginLeft: 5,
+                    marginTop: 27,
+                  }}
                   source={require("../../assets/Photos/coconut.jpg")}
                 />
-            
               </View>
             </View>
           </TouchableOpacity>

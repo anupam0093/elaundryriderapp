@@ -123,14 +123,14 @@ const PickupCards = ({ item }) => {
                 <Feather
                   name="phone-call"
                   size={14}
-                  color="black"
+                  color="white"
                   style={{ top: 2, right: 4 }}
                 />
                 <Text
                   style={{
                     fontSize: 12,
                     textAlign: "center",
-                    color: "black",
+                    color: "white",
                     fontWeight: "bold",
                     left: 4,
                   }}
@@ -257,7 +257,7 @@ const PickupCards = ({ item }) => {
 
             <View
               style={{
-                width: "33%",
+                width: "40.5%",
                 height: 30,
                 display: "flex",
                 flexDirection: "row",
@@ -277,7 +277,7 @@ const PickupCards = ({ item }) => {
                     paddingHorizontal: 15,
                     paddingVertical: 10,
                     backgroundColor: "#32D8D8",
-                    marginHorizontal: 15,
+                    marginHorizontal: 5,
                     borderRadius: 7,
                     top: 10,
                   }}
@@ -315,7 +315,7 @@ const PickupCards = ({ item }) => {
                     paddingHorizontal: 15,
                     paddingVertical: 10,
                     backgroundColor: "#6200ED",
-                    marginHorizontal: 15,
+                    marginHorizontal: 5,
                     borderRadius: 7,
                     left: 10,
                     marginTop: 10,
@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
     width: 370,
     borderWidth: 1.9,
     marginLeft: 8,
-    borderRadius: 27,
+    borderRadius: 10,
   },
   input: {
     fontSize: 16,

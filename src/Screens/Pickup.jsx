@@ -33,52 +33,68 @@ const Pickup = () => {
 
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const countone = useStore((state) => state.countone);
+  const counttwo = useStore((state) => state.counttwo);
 
-
-  const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["pickup"],
-    queryFn: async () =>
-      await searchAllPickupbystoreId(
-        riderDetails?.storeId,
-        user?.accessToken,
-        riderDetails?.storeUserId
-      ),
-    onSuccess: (data) =>
-      setPickup(
-        data?.filter(
-          (item) =>
-            item?.pickupRequest?.storeCustomerId ===
-            item?.pickupRequest?.storeCustomerId
-        )
-      ),
-       
-  },[refetch]);
-
-
-// console.log(pickup[0]?.pickupRequest?.storeCustomerId)
- 
   useEffect(() => {
-    const filterPickupData = () => {
-      const filteredData = pickup.filter((item) => {
-        const customer = item.pickupRequest.customerDTO;
-        const customer2 = item.pickupRequest.customerDTO.address;
-        if (!customer || !customer2) {
-          return false; 
-        }
-        const customerName = customer.firstName ? customer.firstName.toLowerCase() : "";
-        const customerMobile = customer2.contactNo ? customer2.contactNo.toLowerCase() : "";
-        const query = searchQuery.toLowerCase();
-        return customerName.includes(query) || customerMobile.includes(query);
-      });
-      setFilteredPickup(filteredData);
-    };
-  
-    const debouncedFilter = setTimeout(filterPickupData, 3);
-  
-    return () => clearTimeout(debouncedFilter);
-  
-  }, [searchQuery, pickup],[refetch()]);
-  
+    console.log("The value of countone is:", countone);
+    console.log("The value of counttwo is:", counttwo);
+  },[countone, counttwo]);
+  const { data, isLoading, error, refetch } = useQuery(
+    {
+      queryKey: ["pickup"],
+      queryFn: async () =>
+        await searchAllPickupbystoreId(
+          riderDetails?.storeId,
+          user?.accessToken,
+          riderDetails?.storeUserId
+        ),
+      onSuccess: (data) =>
+        setPickup(
+          data?.filter(
+            (item) =>
+              item?.pickupRequest?.storeCustomerId ===
+              item?.pickupRequest?.storeCustomerId
+          )
+        ),
+    },
+    [refetch]
+  );
+
+  // console.log(pickup[0]?.pickupRequest?.storeCustomerId)
+
+  useEffect(
+    () => {
+      const filterPickupData = () => {
+        const filteredData = pickup.filter((item) => {
+          const customer = item.pickupRequest.customerDTO;
+          const customer2 = item.pickupRequest.customerDTO.address;
+          if (!customer || !customer2) {
+            return false;
+          }
+          const customerName = customer.firstName
+            ? customer.firstName.toLowerCase()
+            : "";
+          const customerMobile = customer2.contactNo
+            ? customer2.contactNo.toLowerCase()
+            : "";
+          const query = searchQuery.toLowerCase();
+          return customerName.includes(query) || customerMobile.includes(query);
+        });
+        setFilteredPickup(filteredData);
+        const length = filteredData.length;
+        useStore.getState().setCountTwo(length);
+      };
+
+      // eslint-disable-next-line no-undef
+      const debouncedFilter = setTimeout(filterPickupData, 3);
+
+      // eslint-disable-next-line no-undef
+      return () => clearTimeout(debouncedFilter);
+    },
+    [searchQuery, pickup],
+    [refetch()]
+  );
 
   const callPhoneNumber = async (number) => {
     const phoneNumber = `${
@@ -177,7 +193,17 @@ const Pickup = () => {
             keyExtractor={(item) => item.id}
           />
         ) : (
-          <Text style={{fontSize:20,display:"flex",textAlign:"center",top:40,color:"red"}}>No matching pickups found.</Text>
+          <Text
+            style={{
+              fontSize: 20,
+              display: "flex",
+              textAlign: "center",
+              top: 40,
+              color: "red",
+            }}
+          >
+            No matching pickups found.
+          </Text>
         )}
       </View>
     </SafeAreaView>
@@ -194,7 +220,7 @@ const styles = StyleSheet.create({
     width: 370,
     borderWidth: 1.9,
     marginLeft: 10,
-    borderRadius: 27,
+    borderRadius: 5,
   },
   input: {
     fontSize: 16,

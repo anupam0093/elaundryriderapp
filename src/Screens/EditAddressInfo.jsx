@@ -85,15 +85,16 @@ console.log(route?.params?.my)
   };
 
   return (
-    <ScrollView>
+   
       <SafeAreaView>
+         <ScrollView>
         <View
           style={{ height: 926, width: "100%", backgroundColor: "#13519E" }}
         >
           <ImageBackground
             source={require("../../assets/Photos/backgImage.jpg")}
             alt="background"
-            resizeMode="contain"
+            resizeMode="cover"
             style={{ width: "100%", height: "96%" }}
           >
             <View
@@ -235,8 +236,9 @@ console.log(route?.params?.my)
             </View>
           </ImageBackground>
         </View>
+        </ScrollView>
       </SafeAreaView>
-    </ScrollView>
+ 
   );
 };
 

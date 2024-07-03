@@ -31,8 +31,15 @@ const OrderDelevery = ({ navigation }) => {
   const [loading, setIsloading] = useState(false);
 
   const router = useRoute();
-  console.log(router?.params?.orderId)
+  console.log(router?.params?.orderId);
+  const counttwo = useStore((state) => state.counttwo);
+  const countone = useStore((state) => state.countone);
 
+
+  useEffect(() => {
+    console.log("The value of countone is:", countone);
+    console.log("The value of counttwo is:", counttwo);
+  },[countone, counttwo]);
 
   const endDate = new Date();
   endDate.setDate(endDate.getDate()); 
@@ -63,17 +70,18 @@ const OrderDelevery = ({ navigation }) => {
           Authorization: `Basic ${user?.accessToken}`,
         },})
         if (data){
-          const fitleredData = data?.filter((item)=>item?.orderPaymentStatus === "UNPAID")
+          const fitleredData = data?.filter((item)=>item.status === "OUT_FOR_DELIVERY" || item.status === "PROCESSED");
+          // console.log(fitleredData.storeInvoiceDisplayLength,"length")
           setDelivery(fitleredData)
+          const length = fitleredData?.length;
+          console.log(length,"l")
+          useStore.getState().setCountOne(length);
         }
         setIsloading(false)
     } catch (error) {
       console.log('nehat error', error)
       setIsloading(false)
-    }
-   
-
-      
+    }      
   }
 
 
