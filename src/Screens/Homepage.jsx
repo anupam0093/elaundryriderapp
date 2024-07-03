@@ -151,7 +151,7 @@ const Homepage = ({ navigation }) => {
         }
       );
       if (data) {
-        const filteredData = data?.filter((item) => item?.status === "OUT_FOR_DELIVERY");
+        const filteredData = data?.filter((item) => item?.status === "OUT_FOR_DELIVERY" || item.status === "PROCESSED");
         const newlength = filteredData.length;
         setDelivery(newlength);
         console.log(newlength, "newlength");
