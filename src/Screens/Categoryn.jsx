@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   TextInput,
+  Alert
  
 } from "react-native";
 import React, { useCallback, useState,useEffect } from "react";
@@ -23,6 +24,7 @@ import GamentsCard from "../components/ui/GamentsCard";
 import CartIcon from "../components/ui/CartIcon";
 import axios from "axios";
 import { QueryCache } from "react-query";
+import uploadImagesToStorageBucket, { uploadFile } from "../firebase/storage/uploadMedia";
 
 const categories = [
   { id: "1", title: "Men" },
@@ -51,6 +53,7 @@ const Categoryn = () => {
   const [selectedItem, setSelectedItem] = useState();
   const [searchQuery, setSearchQuery] = useState("");
   const [backendCartItems, setBackendCartItems] = useState([])
+  const [finalPicture,setFinalPicture]= useState([]);
 
 
   // // const customer = route?.params?.customer
@@ -136,25 +139,25 @@ const getUserCartItems = async () => {
   }
 }
 
-const deleteItemFromCart = async(cartItemId)=>{
-  const cart_url = `https://api.elaundry.co.in/oit-elaundry/api/auth/customer/${customer_details?.storeCustomerId}/cart/${cartItemId}`
-  try {
-    const {data} = await axios.delete(cart_url, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${user?.accessToken}`,
-      }
-    })
+// const deleteItemFromCart = async(cartItemId)=>{
+//   const cart_url = `https://api.elaundry.co.in/oit-elaundry/api/auth/customer/${customer_details?.storeCustomerId}/cart/${cartItemId}`
+//   try {
+//     const {data} = await axios.delete(cart_url, {
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Basic ${user?.accessToken}`,
+//       }
+//     })
 
-    Alert.alert(data?.message)
-    const updatedCart = backendCartItems?.filter((item)=>item.id !== cartItemId)
-    setBackendCartItems(updatedCart)
+//     Alert.alert(data?.message)
+//     const updatedCart = backendCartItems?.filter((item)=>item.id !== cartItemId)
+//     setBackendCartItems(updatedCart)
     
     
-  } catch (error) {
-    console.log(error);
-  }
-}
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 
 useEffect(()=>{
@@ -171,6 +174,27 @@ useEffect(() => {
 
   return unsubscribeFocus;
 }, [navigation, refetch])
+
+
+const photosCaptured = finalPicture?.map(item => item?.uri);
+
+useEffect(() => {
+  const uploadImages = async () => {
+    if (finalPicture.length > 0) {
+   
+        try {
+          const url = await uploadFile(photosCaptured, route?.params?.customerDetails?.storeCustomerId);
+          console.log('File uploaded successfully, URL:', url);
+        } catch (error) {
+          console.error('Upload failed:', error);
+        }
+      
+    }
+  };
+
+  uploadImages();
+}, [finalPicture, route.params.customerDetails]);
+
 
 
   return (
@@ -360,6 +384,7 @@ useEffect(() => {
           key={selectedItem?.priceListId}
           closeModal={closeModal}
           selectedItem={selectedItem}
+          setFinalPicture={setFinalPicture}
           customerDetails={route?.params?.customerDetails}
         />
       )}

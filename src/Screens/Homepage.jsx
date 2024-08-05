@@ -240,8 +240,8 @@ const Homepage = ({ navigation }) => {
     navigation.navigate("Pickup");
   };
 
-  console.log("a", countone, delivery);
-  console.log("b", counttwo, filteredPickup);
+  // console.log("a", countone, delivery);
+  // console.log("b", counttwo, filteredPickup);
 
   return (
     <SafeAreaView style={{ top: 10 }}>

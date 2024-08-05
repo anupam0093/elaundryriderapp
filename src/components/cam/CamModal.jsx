@@ -26,7 +26,7 @@ const CamModal = ({ showCameModal, setShowCamModal, setCapturedImage }) => {
       };
 
       let newPhoto = await cameraRef.current.takePictureAsync(options);
-      console.log(newPhoto)
+      // console.log(newPhoto)
       setPhotos(prevPhotos => [...prevPhotos, newPhoto]);
 
       setCapturing(false);
@@ -51,7 +51,7 @@ const CamModal = ({ showCameModal, setShowCamModal, setCapturedImage }) => {
       });
   };
 
-  console.log(photos, "photos")
+  // console.log(photos, "photos")
 
   useEffect(() => {
     (async () => {

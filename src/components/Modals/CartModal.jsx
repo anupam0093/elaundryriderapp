@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Keyboard, TouchableWithoutFeedback, Image, Alert, ActivityIndicator, FlatList } from 'react-native';
 import Modal from "react-native-modal";
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -14,7 +14,7 @@ import DropdownCompBrand from '../Dropdown/DropdownCompBrand';
 import { GarmentBrands } from '../../constans/GarmentBrand';
 import axios from 'axios';
 
-const CartModal = ({ showModal, setShowModal, closeModal, selectedItem, customerDetails }) => {
+const CartModal = ({ showModal, setShowModal,setFinalPicture, closeModal, selectedItem, customerDetails }) => {
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
   const [photos, setPhotos ] = useState();
@@ -71,7 +71,11 @@ const CartModal = ({ showModal, setShowModal, closeModal, selectedItem, customer
     }
   };
 
-  console.log("capturedImages",capturedImages.uri);
+  useEffect(() => {
+       setFinalPicture(capturedImages);
+  },[capturedImages])
+
+  // console.log(capturedImages[0]?.uri,"capturedImages");
 
   return (
     <Modal

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "352876003499",
+    "firebase_url": "https://e-laundry-70974-default-rtdb.firebaseio.com",
+    "project_id": "e-laundry-70974",
+    "storage_bucket": "e-laundry-70974.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352876003499:android:ced796aa072b8dc35877ee",
+        "android_client_info": {
+          "package_name": "com.shail_009.Omra"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX7Msihyn74_yUf5vPKysvJel308u0i9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
