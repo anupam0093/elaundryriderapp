@@ -1,6 +1,5 @@
-// uploadFile.ts
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../../../firebaseConfig'; // Import Firebase Storage
+import { storage } from '../../../firebaseConfig'; 
 
 export const uploadFiles = async (fileUris: string[], fileNames: string[]): Promise<string[]> => {
   try {

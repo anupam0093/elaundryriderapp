@@ -23,7 +23,8 @@ import GamentsCard from "../components/ui/GamentsCard";
 import CartIcon from "../components/ui/CartIcon";
 import axios from "axios";
 import { QueryCache } from "react-query";
-import {uploadFiles} from "../firebase/storage/uploadMedia";
+import { uploadFiles } from "../firebase/storage/uploadMedia";
+import moment from "moment";
 
 const categories = [
   { id: "1", title: "Men" },
@@ -35,7 +36,6 @@ const categories = [
   { id: "7", title: "Office" },
   { id: "8", title: "Kids Girls" },
   { id: "9", title: "Kids Boys" },
-  // Add more categories as needed
 ];
 
 const Categoryn = () => {
@@ -132,7 +132,7 @@ const Categoryn = () => {
           Authorization: `Basic ${user?.accessToken}`,
         },
       });
-      console.log("yes yes nehat", data);
+      console.log("yes yes nehat", data[0].garmentName);
       setBackendCartItems(data);
     } catch (error) {
       console.log(error, "error in line 43");
@@ -173,12 +173,17 @@ const Categoryn = () => {
 
   const photosCaptured = finalPicture?.map((item) => item?.uri);
 
-
   useEffect(() => {
     const uploadImages = async () => {
+      const getTimestamp = () => {
+        const now = moment(); // Get the current time using moment
+        return now.format('DD-MM-YYYY HH:mm:ss'); // Format timestamp to 'dd-MM-yyyy'
+    };
       // Assuming you have a way to generate or retrieve file names
-      const fileNames = photosCaptured?.map((_, index) => `file_${index}.jpg`); // Generate file names dynamically or use actual names
-  
+      const fileNames = photosCaptured?.map(
+        (_, index) => `ELaundry_${route?.params?.customerDetails?.storeCustomerId}_${data[0].garmentName}_${getTimestamp()}_${index}.jpg`
+      ); // Generate file names dynamically or use actual names
+
       if (photosCaptured?.length > 0) {
         try {
           const urls = await uploadFiles(photosCaptured, fileNames);
@@ -188,12 +193,11 @@ const Categoryn = () => {
         }
       }
     };
-  
+
     if (photosCaptured?.length > 0) {
       uploadImages();
     }
   }, [finalPicture, route.params.customerDetails]);
-  
 
   return (
     <SafeAreaView style={{ flex: 1, marginTop: 30 }}>
