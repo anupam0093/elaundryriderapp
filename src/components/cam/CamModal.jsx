@@ -20,7 +20,7 @@ const CamModal = ({ showCameModal, setShowCamModal, setCapturedImage }) => {
       setCapturing(true);
 
       let options = {
-        quality: 1,
+        quality: 0.1,
         base64: true,
         exif: false
       };

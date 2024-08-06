@@ -7,10 +7,9 @@ import {
   StyleSheet,
   ActivityIndicator,
   TextInput,
-  Alert
- 
+  Alert,
 } from "react-native";
-import React, { useCallback, useState,useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Octicons from "@expo/vector-icons/build/Octicons";
 import useStore from "../GlobalStore/store";
@@ -24,7 +23,7 @@ import GamentsCard from "../components/ui/GamentsCard";
 import CartIcon from "../components/ui/CartIcon";
 import axios from "axios";
 import { QueryCache } from "react-query";
-import uploadImagesToStorageBucket, { uploadFile } from "../firebase/storage/uploadMedia";
+import {uploadFiles} from "../firebase/storage/uploadMedia";
 
 const categories = [
   { id: "1", title: "Men" },
@@ -52,25 +51,27 @@ const Categoryn = () => {
   const [garments, setGarments] = useState([]);
   const [selectedItem, setSelectedItem] = useState();
   const [searchQuery, setSearchQuery] = useState("");
-  const [backendCartItems, setBackendCartItems] = useState([])
-  const [finalPicture,setFinalPicture]= useState([]);
-
+  const [backendCartItems, setBackendCartItems] = useState([]);
+  const [finalPicture, setFinalPicture] = useState([]);
 
   // // const customer = route?.params?.customer
   console.log(route?.params?.customerDetails);
 
-  const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["garments"],
-    queryFn: async () =>
-      await searchGarmentByStoreId(riderDetails?.storeId, user?.accessToken),
-    onSuccess: (data) =>
-      setGarments(
-        data?.filter(
-          (item) =>
-            item?.["categoryName"] == selectedCategory && item?.price !== 0
-        )
-      ),
-  },[refetch]);
+  const { data, isLoading, error, refetch } = useQuery(
+    {
+      queryKey: ["garments"],
+      queryFn: async () =>
+        await searchGarmentByStoreId(riderDetails?.storeId, user?.accessToken),
+      onSuccess: (data) =>
+        setGarments(
+          data?.filter(
+            (item) =>
+              item?.["categoryName"] == selectedCategory && item?.price !== 0
+          )
+        ),
+    },
+    [refetch]
+  );
 
   const filterGarments = useCallback(
     (categoryName) => {
@@ -85,21 +86,23 @@ const Categoryn = () => {
       setSelectedCategory(categoryName);
       setLoading(false);
     },
-    [data, setGarments, setSelectedCategory, garments,refetch]
+    [data, setGarments, setSelectedCategory, garments, refetch]
   );
 
-  const openModal = useCallback((item) => {
-    setSelectedItem(item);
-    setShowModal(true);
-  }, [refetch]);
+  const openModal = useCallback(
+    (item) => {
+      setSelectedItem(item);
+      setShowModal(true);
+    },
+    [refetch]
+  );
 
-  
   const closeModal = useCallback(() => {
     setSelectedItem(null);
     setShowModal(false);
     refetch();
     getUserCartItems();
-  }, [refetch, getUserCartItems])
+  }, [refetch, getUserCartItems]);
 
   const customerInfo = {
     name: route?.params?.customerDetails?.name,
@@ -118,84 +121,79 @@ const Categoryn = () => {
     setGarments(filteredGarments);
   };
 
+  // ================================================= Cart Icon session mentain========================================================
 
-// ================================================= Cart Icon session mentain========================================================
-
-const getUserCartItems = async () => {
-
-  const cart_url = `https://api.elaundry.co.in/oit-elaundry/api/auth/customer/${customerInfo?.storeCustomerId}/cart`
-  try {
-    const {data} = await axios.get(cart_url, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${user?.accessToken}`,
-      }
-    })
-    console.log('yes yes nehat',  data)
-    setBackendCartItems(data)
-    
-  } catch (error) {
-    console.log(error,"error in line 43");
-  }
-}
-
-// const deleteItemFromCart = async(cartItemId)=>{
-//   const cart_url = `https://api.elaundry.co.in/oit-elaundry/api/auth/customer/${customer_details?.storeCustomerId}/cart/${cartItemId}`
-//   try {
-//     const {data} = await axios.delete(cart_url, {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Basic ${user?.accessToken}`,
-//       }
-//     })
-
-//     Alert.alert(data?.message)
-//     const updatedCart = backendCartItems?.filter((item)=>item.id !== cartItemId)
-//     setBackendCartItems(updatedCart)
-    
-    
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
-
-useEffect(()=>{
-
-    getUserCartItems()
-
-}, [refetch,data])
-
-useEffect(() => {
-  const unsubscribeFocus = navigation.addListener('focus', () => {
-    refetch();
-    getUserCartItems(); 
-  });
-
-  return unsubscribeFocus;
-}, [navigation, refetch])
-
-
-const photosCaptured = finalPicture?.map(item => item?.uri);
-
-useEffect(() => {
-  const uploadImages = async () => {
-    if (finalPicture.length > 0) {
-   
-        try {
-          const url = await uploadFile(photosCaptured, route?.params?.customerDetails?.storeCustomerId);
-          console.log('File uploaded successfully, URL:', url);
-        } catch (error) {
-          console.error('Upload failed:', error);
-        }
-      
+  const getUserCartItems = async () => {
+    const cart_url = `https://api.elaundry.co.in/oit-elaundry/api/auth/customer/${customerInfo?.storeCustomerId}/cart`;
+    try {
+      const { data } = await axios.get(cart_url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${user?.accessToken}`,
+        },
+      });
+      console.log("yes yes nehat", data);
+      setBackendCartItems(data);
+    } catch (error) {
+      console.log(error, "error in line 43");
     }
   };
 
-  uploadImages();
-}, [finalPicture, route.params.customerDetails]);
+  // const deleteItemFromCart = async(cartItemId)=>{
+  //   const cart_url = `https://api.elaundry.co.in/oit-elaundry/api/auth/customer/${customer_details?.storeCustomerId}/cart/${cartItemId}`
+  //   try {
+  //     const {data} = await axios.delete(cart_url, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Basic ${user?.accessToken}`,
+  //       }
+  //     })
+
+  //     Alert.alert(data?.message)
+  //     const updatedCart = backendCartItems?.filter((item)=>item.id !== cartItemId)
+  //     setBackendCartItems(updatedCart)
+
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+  useEffect(() => {
+    getUserCartItems();
+  }, [refetch, data]);
+
+  useEffect(() => {
+    const unsubscribeFocus = navigation.addListener("focus", () => {
+      refetch();
+      getUserCartItems();
+    });
+
+    return unsubscribeFocus;
+  }, [navigation, refetch]);
+
+  const photosCaptured = finalPicture?.map((item) => item?.uri);
 
 
+  useEffect(() => {
+    const uploadImages = async () => {
+      // Assuming you have a way to generate or retrieve file names
+      const fileNames = photosCaptured?.map((_, index) => `file_${index}.jpg`); // Generate file names dynamically or use actual names
+  
+      if (photosCaptured?.length > 0) {
+        try {
+          const urls = await uploadFiles(photosCaptured, fileNames);
+          console.log("Files uploaded successfully, URLs:", urls);
+        } catch (error) {
+          console.error("Upload failed:", error);
+        }
+      }
+    };
+  
+    if (photosCaptured?.length > 0) {
+      uploadImages();
+    }
+  }, [finalPicture, route.params.customerDetails]);
+  
 
   return (
     <SafeAreaView style={{ flex: 1, marginTop: 30 }}>
@@ -287,7 +285,7 @@ useEffect(() => {
           backgroundColor: "#D9D9D9",
           marginHorizontal: 15,
           marginTop: 10,
-          borderRadius: 12
+          borderRadius: 12,
         }}
       >
         <TouchableOpacity
@@ -373,10 +371,9 @@ useEffect(() => {
             />
           )}
           keyExtractor={(item) => item?.priceListId}
-          
         />
       )}
- 
+
       {showModal && (
         <CartModal
           showModal={showModal}
@@ -427,14 +424,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     marginTop: 10,
-    borderRadius: 12
+    borderRadius: 12,
   },
   searchbar: {
     paddingLeft: 40,
     fontSize: 18,
     height: 40,
     width: "auto",
-    borderRadius: 12
+    borderRadius: 12,
   },
   searchicon: {
     position: "absolute",
