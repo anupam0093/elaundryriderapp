@@ -26,6 +26,7 @@ import { QueryCache } from "react-query";
 import { uploadFiles } from "../firebase/storage/uploadMedia";
 import moment from "moment";
 
+
 const categories = [
   { id: "1", title: "Men" },
   { id: "2", title: "Women" },
@@ -39,6 +40,9 @@ const categories = [
 ];
 
 const Categoryn = () => {
+
+ 
+
   const account = useStore((state) => state.account);
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
@@ -89,6 +93,8 @@ const Categoryn = () => {
     [data, setGarments, setSelectedCategory, garments, refetch]
   );
 
+
+  console.log(selectedItem,"selectedItem")
   const openModal = useCallback(
     (item) => {
       setSelectedItem(item);
@@ -181,12 +187,15 @@ const Categoryn = () => {
     };
       // Assuming you have a way to generate or retrieve file names
       const fileNames = photosCaptured?.map(
-        (_, index) => `ELaundry_${route?.params?.customerDetails?.storeCustomerId}_${data[0].garmentName}_${getTimestamp()}_${index}.jpg`
+        (_, index) => `ELaundry_${route?.params?.customerDetails?.mobileNo}_${data[0].garmentName}__${index}.jpg`
       ); // Generate file names dynamically or use actual names
+      const folder = route?.params?.customerDetails?.mobileNo;
+      const subfolder = getTimestamp();
+      const secondSubFolder = selectedItem?.garmentCode;
 
       if (photosCaptured?.length > 0) {
         try {
-          const urls = await uploadFiles(photosCaptured, fileNames);
+          const urls = await uploadFiles(photosCaptured,folder,subfolder,secondSubFolder, fileNames );
           console.log("Files uploaded successfully, URLs:", urls);
         } catch (error) {
           console.error("Upload failed:", error);
@@ -198,6 +207,8 @@ const Categoryn = () => {
       uploadImages();
     }
   }, [finalPicture, route.params.customerDetails]);
+  
+  console.log(selectedItem?.garmentCode,"selectedItem?.garmentCode")
 
   return (
     <SafeAreaView style={{ flex: 1, marginTop: 30 }}>
@@ -385,7 +396,7 @@ const Categoryn = () => {
           key={selectedItem?.priceListId}
           closeModal={closeModal}
           selectedItem={selectedItem}
-          setFinalPicture={setFinalPicture}
+          setFinalImage={setFinalPicture}
           customerDetails={route?.params?.customerDetails}
         />
       )}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Welcome from "../src/Screens/Welcome";
@@ -25,6 +25,9 @@ import DeliveryPayment from "../src/Screens/Deliverypayment";
 import Test from "../src/Screens/Test";
 import Pickupn from "../src/Screens/Pickupn";
 import EditAddressNew from "../src/Screens/EditAddressNew";
+import UserHistory from "../src/Screens/UserHistory";
+import ImageGallery from "../src/components/Modals/ImageGallery";
+import ImageViewer from "../src/components/Modals/ImageViewer";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -62,6 +65,19 @@ const StackNavigator = () => {
               component={Categoryn}
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="Checkout"
+              component={Checkout}
+              options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+              name="UserHistory"
+              component={UserHistory}
+              options={{ headerShown: true }}
+            />
+            <Stack.Screen name="ImageGallery" component={ImageGallery} />
+            <Stack.Screen name="ImageViewer" component={ImageViewer} />
             <Stack.Screen
               name="Accountinfo"
               component={AccountInfo}
@@ -112,11 +128,7 @@ const StackNavigator = () => {
               component={CameraView}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="Checkout"
-              component={Checkout}
-              options={{ headerShown: false }}
-            />
+
             <Stack.Screen
               name="Payment"
               component={Payment}
@@ -148,7 +160,6 @@ const StackNavigator = () => {
               component={Test}
               options={{ headerShown: false }}
             /> */}
-      
           </>
         ) : (
           <>

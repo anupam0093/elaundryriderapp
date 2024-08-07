@@ -1,7 +1,7 @@
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebaseConfig'; 
 
-export const uploadFiles = async (fileUris: string[], fileNames: string[]): Promise<string[]> => {
+export const uploadFiles = async (fileUris: string[], folder: string[],subfolder:string[],secondSubFolder:string[],fileNames: string[]): Promise<string[]> => {
   try {
     const downloadURLs: string[] = [];
 
@@ -9,7 +9,7 @@ export const uploadFiles = async (fileUris: string[], fileNames: string[]): Prom
       const fileUri = fileUris[i];
       const fileName = fileNames[i];
 
-      const storageRef = ref(storage, `uploads/${fileName}`);
+      const storageRef = ref(storage, `${folder}/${subfolder}/${secondSubFolder}/${fileName}`);
       const response = await fetch(fileUri);
       
       if (!response.ok) {

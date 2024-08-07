@@ -151,7 +151,10 @@ const Homepage = ({ navigation }) => {
         }
       );
       if (data) {
-        const filteredData = data?.filter((item) => item?.status === "OUT_FOR_DELIVERY" || item.status === "PROCESSED");
+        const filteredData = data?.filter(
+          (item) =>
+            item?.status === "OUT_FOR_DELIVERY" || item.status === "PROCESSED"
+        );
         const newlength = filteredData.length;
         setDelivery(newlength);
         console.log(newlength, "newlength");
@@ -327,6 +330,38 @@ const Homepage = ({ navigation }) => {
             Service
           </Text>
         </View>
+
+        <TouchableOpacity
+        onPress={() => navigation.navigate("UserHistory")}
+          style={{
+            backgroundColor: "#FFFFFF",
+            marginTop: 10,
+            marginHorizontal: "auto",
+            borderStyle: "solid",
+            borderColor: "#002B6B1F",
+            height: 40,
+            width: "90%",
+            borderWidth: 1,
+            borderRadius: 18,
+            position: "relative",
+            display: "flex",
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+        >
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 20,
+              fontWeight: "600",
+              color: "black",
+         
+            }}
+          >
+            {" "}
+            User History
+          </Text>
+        </TouchableOpacity>
 
         {/* order container starts here */}
 

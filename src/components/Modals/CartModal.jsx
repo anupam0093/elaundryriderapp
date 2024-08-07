@@ -14,7 +14,7 @@ import DropdownCompBrand from '../Dropdown/DropdownCompBrand';
 import { GarmentBrands } from '../../constans/GarmentBrand';
 import axios from 'axios';
 
-const CartModal = ({ showModal, setShowModal,setFinalPicture, closeModal, selectedItem, customerDetails }) => {
+const CartModal = ({ showModal, setShowModal, closeModal,setFinalImage, selectedItem, customerDetails }) => {
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
   const [photos, setPhotos ] = useState();
@@ -71,9 +71,12 @@ const CartModal = ({ showModal, setShowModal,setFinalPicture, closeModal, select
     }
   };
 
+
   useEffect(() => {
-       setFinalPicture(capturedImages);
+    setFinalImage(capturedImages)
+
   },[capturedImages])
+
 
   // console.log(capturedImages[0]?.uri,"capturedImages");
 
@@ -142,10 +145,14 @@ const CartModal = ({ showModal, setShowModal,setFinalPicture, closeModal, select
                   <Image source={{ uri: 'data:image/jpg;base64,' + item.base64 }} style={{ width: 40, height: 40, resizeMode: 'cover', marginRight: 10 }} />
                 )}
               />
-              <TouchableOpacity style={{ paddingHorizontal: 15, paddingVertical: 10, borderRadius: 10, backgroundColor: '#003566', width: '55%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} onPress={() => setShowCamModal(true)}>
+              {
+                value !== '' &&
+                <TouchableOpacity style={{ paddingHorizontal: 15, paddingVertical: 10, borderRadius: 10, backgroundColor: '#003566', width: '55%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} onPress={() => setShowCamModal(true)}>
                 <Text style={{ color: 'white', textAlign: 'zcenter', fontSize: 20 }}>Item Image</Text>
                 <AntDesign name="camera" size={24} color="white" />
               </TouchableOpacity>
+              }
+        
             </View>
           </View>
 
