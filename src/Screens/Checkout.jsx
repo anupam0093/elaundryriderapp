@@ -7,6 +7,7 @@ import {
   Alert,
   ScrollView,
   Image,
+  ActivityIndicator
 } from "react-native";
 import React, { useRef, useState, useEffect } from "react";
 import AntDesign from "@expo/vector-icons/build/AntDesign";
@@ -258,7 +259,7 @@ const Checkout = () => {
         data: customerCart,
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Basic" + " " + token,
+          Authorization: "Basic " + token,
         },
       });
       console.log(data);
@@ -277,8 +278,7 @@ const Checkout = () => {
             const photosCaptured = selectedImages.map((item) => item.uri);
             const fileNames = photosCaptured.map(
               (_, index) =>
-                `Order_${customerName + customerId}_${data?.message + index
-                }.jpg`
+                `Order_${customerName + customerId}_${data?.message + index}.jpg`
             );
             const subfolder = `OrderID_${data?.message}`;
             const folder = getTimestampUpload();
@@ -294,10 +294,20 @@ const Checkout = () => {
               );
               console.log("Files uploaded successfully, URLs:", urls);
 
-              Alert.alert(
-                "Upload successful",
-                "Images have been uploaded successfully."
-              );
+              console.log(urls, "urls");
+
+              if (urls.length > 0) {
+                Alert.alert(
+                  "Upload successful",
+                  "Images have been uploaded successfully."
+                );
+              } else {
+                Alert.alert(
+                  "Upload failed",
+                  "No URLs were returned. Please try again."
+                );
+              }
+
               const newImages = [];
               setImagesInStore(newImages, route.name);
             } catch (error) {
@@ -308,22 +318,25 @@ const Checkout = () => {
               );
             } finally {
               setUploading(false);
+              navigation.navigate("Homepage", { orderId: data?.message });
             }
           };
 
           uploadImages();
+        } else {
+          // No images to upload, navigate immediately
+          navigation.navigate("Homepage", { orderId: data?.message });
         }
 
         alert(
-          `Your order has been succesfully created with order id ${data?.message}`
+          `Your order has been successfully created with order id ${data?.message}`
         );
-        navigation.navigate("Homepage", { orderId: data?.message });
       }
     } catch (error) {
       console.log({ error }, "error in line 122");
       alert("Please Select The Delivery Date And GST Type");
     }
-  };
+  }
 
   console.log(selectedImages, "selectedImages")
   const handleCapture = async () => {
@@ -608,10 +621,15 @@ document.getElementById("currentTime").textContent = currentDateTime;
     }
   };
 
-  console.log(route.name,"route.name")
+  console.log(route.name, "route.name")
 
   return (
     <SafeAreaView>
+      {uploading && (
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      )}
       <ScrollView>
         <View
           style={{ height: 1140, width: "100%", backgroundColor: "#F3F1F6" }}
@@ -1186,5 +1204,17 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 10,
     padding: 7,
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    zIndex:999,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)', // Optional: Add a semi-transparent background
   },
 });
