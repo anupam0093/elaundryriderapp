@@ -27,6 +27,8 @@ const ImageGallery: React.FC = () => {
   const riderDetails = useStore((state) => state.riderDetails);
   const [storeId, setStoreId] = useState<string | undefined>(undefined);
 
+
+
   useEffect(() => {
     const fetchStoreId = async () => {
       const fetchedStoreId = riderDetails.storeId;
@@ -100,6 +102,11 @@ const ImageGallery: React.FC = () => {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
 
+  console.log(currentPath, "currentPath")
+  console.log(items,"items")
+  console.log(filteredFolders,"filteredFolders")
+
+
   return (
     <View style={styles.container}>
       {!hasImages && (
@@ -110,7 +117,7 @@ const ImageGallery: React.FC = () => {
           onChangeText={setSearchQuery}
         />
       )}
-      {currentPath && currentPath !== '' && (
+      {currentPath && currentPath !== `${storeId}/` && currentPath !== '' && (
         <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
           <Text>Back</Text>
         </TouchableOpacity>
@@ -139,12 +146,16 @@ const ImageGallery: React.FC = () => {
         )}
         numColumns={1}
       />
+      {
+        items?.length === 0 || filteredFolders?.length === 0 && !hasImages && <Text>No Record Found</Text>
+      }
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

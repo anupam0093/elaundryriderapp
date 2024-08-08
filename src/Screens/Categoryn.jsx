@@ -203,7 +203,7 @@ const Categoryn = () => {
           secondSubFolder,
           fileName: fileNames[index]
         }));
-        setImagesInStore(imageDetails); // Save the image details in the Zustand store
+        setImagesInStore(imageDetails,route.name); // Save the image details in the Zustand store
       }
     };
 
@@ -213,6 +213,8 @@ const Categoryn = () => {
   }, [finalPicture, route.params.customerDetails, setImagesInStore]);
   
   console.log(selectedItem?.garmentCode,"selectedItem?.garmentCode")
+
+  console.log(route.name,"route.name")
 
   return (
     <SafeAreaView style={{ flex: 1, marginTop: 30 }}>

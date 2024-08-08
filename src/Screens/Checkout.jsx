@@ -119,7 +119,7 @@ const Checkout = () => {
       );
 
       setCharge(response);
-    } catch (error) {}
+    } catch (error) { }
   }, []);
   const discountByStoreId = React.useCallback(async () => {
     try {
@@ -129,7 +129,7 @@ const Checkout = () => {
       );
 
       setDiscount(response);
-    } catch (error) {}
+    } catch (error) { }
   }, []);
 
   useEffect(() => {
@@ -176,14 +176,14 @@ const Checkout = () => {
     handlegst === "EXCLUDE"
       ? (parseFloat(totalPrice) * 18) / 100
       : handlegst === "INCLUDE"
-      ? (parseFloat(totalPrice) * 18) / (100 + 18) // Adjusting for included GST
-      : 0;
+        ? (parseFloat(totalPrice) * 18) / (100 + 18) // Adjusting for included GST
+        : 0;
 
   const chargesValue = charges
     ? (charges.chargeDiscountTypeIn === "AMOUNT"
-        ? parseFloat(charges?.chargeDiscount)
-        : (parseFloat(totalPrice) * parseFloat(charges?.chargeDiscount)) /
-          100) || 0
+      ? parseFloat(charges?.chargeDiscount)
+      : (parseFloat(totalPrice) * parseFloat(charges?.chargeDiscount)) /
+      100) || 0
     : 0;
 
   // If you need Gstc to be a string with two decimal places for display purposes
@@ -191,20 +191,20 @@ const Checkout = () => {
 
   const discountValue = discounteditem
     ? (discounteditem.chargeDiscountTypeIn === "AMOUNT"
-        ? parseFloat(discounteditem?.chargeDiscount)
-        : (parseFloat(totalPrice) *
-            parseFloat(discounteditem?.chargeDiscount)) /
-          100) || 0
+      ? parseFloat(discounteditem?.chargeDiscount)
+      : (parseFloat(totalPrice) *
+        parseFloat(discounteditem?.chargeDiscount)) /
+      100) || 0
     : 0;
 
   const Gross =
     handlegst === "INCLUDE"
       ? (parseFloat(totalPrice) - parseFloat(Gstc)).toFixed(0)
       : (
-          parseFloat(totalPrice) -
-          parseFloat(discountValue) +
-          parseFloat(chargesValue)
-        ).toFixed(0);
+        parseFloat(totalPrice) -
+        parseFloat(discountValue) +
+        parseFloat(chargesValue)
+      ).toFixed(0);
 
   // Update taxable amount calculation
   const taxableAmount =
@@ -277,8 +277,7 @@ const Checkout = () => {
             const photosCaptured = selectedImages.map((item) => item.uri);
             const fileNames = photosCaptured.map(
               (_, index) =>
-                `Order_${customerName + customerId}_${
-                  data?.message + index
+                `Order_${customerName + customerId}_${data?.message + index
                 }.jpg`
             );
             const subfolder = `OrderID_${data?.message}`;
@@ -294,11 +293,13 @@ const Checkout = () => {
                 fileNames
               );
               console.log("Files uploaded successfully, URLs:", urls);
-              setImagesInStore([]);
+
               Alert.alert(
                 "Upload successful",
                 "Images have been uploaded successfully."
               );
+              const newImages = [];
+              setImagesInStore(newImages, route.name);
             } catch (error) {
               console.error("Upload failed:", error);
               Alert.alert(
@@ -324,6 +325,7 @@ const Checkout = () => {
     }
   };
 
+  console.log(selectedImages, "selectedImages")
   const handleCapture = async () => {
     try {
       const uri = await captureRef?.current?.capture();
@@ -462,16 +464,16 @@ const Checkout = () => {
     
     <tbody>            
         ${backendCartItems
-          ?.map(
-            (item, index) => `
+            ?.map(
+              (item, index) => `
         <tr>
           <td key=${index}>${item.garmentName}</td>
           <td key=${index}>${item.itemGarmentCount}</td>
           <td key=${index}>${item.totalPrice}</td>
           </tr>
         `
-          )
-          .join("")}
+            )
+            .join("")}
 
      <tr>
 
@@ -502,11 +504,10 @@ const Checkout = () => {
           <td></td>
           <td>Grand Total :</td>
           
-          <td>  ₹${
-            Number(GrandTotal.toFixed(0)) ||
-            Math.round(
-              totalPrice + Number(totalPrice * 0.18) / (1.18).toFixed(0)
-            )
+          <td>  ₹${Number(GrandTotal.toFixed(0)) ||
+          Math.round(
+            totalPrice + Number(totalPrice * 0.18) / (1.18).toFixed(0)
+          )
           }</td>
       
       
@@ -607,6 +608,8 @@ document.getElementById("currentTime").textContent = currentDateTime;
     }
   };
 
+  console.log(route.name,"route.name")
+
   return (
     <SafeAreaView>
       <ScrollView>
@@ -674,10 +677,8 @@ document.getElementById("currentTime").textContent = currentDateTime;
             <SelectDropdown
               data={charge.map(
                 (item) =>
-                  ` ${item.name}  ${"["} ${item.chargeDiscountType}${":"} ${
-                    item.chargeDiscount
-                  }${
-                    item.chargeDiscountTypeIn === "AMOUNT" ? " Rs" : "%"
+                  ` ${item.name}  ${"["} ${item.chargeDiscountType}${":"} ${item.chargeDiscount
+                  }${item.chargeDiscountTypeIn === "AMOUNT" ? " Rs" : "%"
                   } ${"]"}`
               )}
               onSelect={(selectedItem, index) => {
@@ -714,10 +715,8 @@ document.getElementById("currentTime").textContent = currentDateTime;
             <SelectDropdown
               data={discount.map(
                 (item) =>
-                  ` ${item.name}  ${"["} ${item.chargeDiscountType}${":"} ${
-                    item.chargeDiscount
-                  }${
-                    item.chargeDiscountTypeIn === "AMOUNT" ? " Rs" : "%"
+                  ` ${item.name}  ${"["} ${item.chargeDiscountType}${":"} ${item.chargeDiscount
+                  }${item.chargeDiscountTypeIn === "AMOUNT" ? " Rs" : "%"
                   } ${"]"}`
               )}
               onSelect={(discounSelect, index) => {
@@ -960,7 +959,7 @@ document.getElementById("currentTime").textContent = currentDateTime;
                       {(charges.chargeDiscountTypeIn === "AMOUNT"
                         ? Number(charges?.chargeDiscount)
                         : (totalPrice * Number(charges?.chargeDiscount)) /
-                          100) || 0}
+                        100) || 0}
                     </Text>
                   </View>
 
@@ -980,11 +979,11 @@ document.getElementById("currentTime").textContent = currentDateTime;
                       {(discounteditem?.chargeDiscountTypeIn === "AMOUNT"
                         ? Number(discounteditem?.chargeDiscount)
                         : Number(
-                            parseFloat(
-                              (totalPrice * discounteditem?.chargeDiscount) /
-                                100
-                            ).toFixed(0)
-                          )) || 0}
+                          parseFloat(
+                            (totalPrice * discounteditem?.chargeDiscount) /
+                            100
+                          ).toFixed(0)
+                        )) || 0}
                     </Text>
                   </View>
 
@@ -1079,7 +1078,7 @@ document.getElementById("currentTime").textContent = currentDateTime;
                       {Number(GrandTotal.toFixed(0)) ||
                         Math.round(
                           totalPrice +
-                            Number(totalPrice * 0.18) / (1.18).toFixed(0)
+                          Number(totalPrice * 0.18) / (1.18).toFixed(0)
                         )}
                     </Text>
                   </View>

@@ -72,12 +72,17 @@ const useStore = create(
 
             // Method to update countone
             setCountOne: (value) =>
-                set({countone: value }),
-            setCountTwo:(value) => 
-                set({counttwo: value}),
-            setImages: (images) =>
-                set({ images })
-        
+                set({ countone: value }),
+            setCountTwo: (value) =>
+                set({ counttwo: value }),
+            setImages: (newImages, routeName) => {
+                if (routeName === "Category") {
+                    set((state) => ({ images: [...state.images, ...newImages] }));
+                } else {
+                    set({ images: [] });
+                }
+            }
+
 
         }),
         {
@@ -92,7 +97,7 @@ const useStore = create(
                             "cart",
                             "countone",
                             "counttwo",
-                              "images"
+                            "images"
                         ].includes(key)
                     )
                 ),
