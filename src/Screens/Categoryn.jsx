@@ -42,6 +42,7 @@ const categories = [
 const Categoryn = () => {
 
  
+  const setImagesInStore = useStore((state) => state.setImages);
 
   const account = useStore((state) => state.account);
   const riderDetails = useStore((state) => state.riderDetails);
@@ -180,11 +181,12 @@ const Categoryn = () => {
   const photosCaptured = finalPicture?.map((item) => item?.uri);
 
   useEffect(() => {
-    const uploadImages = async () => {
+    const saveImagesInStore = () => {
       const getTimestamp = () => {
         const now = moment(); // Get the current time using moment
         return now.format('DD-MM-YYYY HH:mm:ss'); // Format timestamp to 'dd-MM-yyyy'
-    };
+      };
+
       // Assuming you have a way to generate or retrieve file names
       const fileNames = photosCaptured?.map(
         (_, index) => `ELaundry_${route?.params?.customerDetails?.mobileNo}_${data[0].garmentName}__${index}.jpg`
@@ -194,19 +196,21 @@ const Categoryn = () => {
       const secondSubFolder = selectedItem?.garmentCode;
 
       if (photosCaptured?.length > 0) {
-        try {
-          const urls = await uploadFiles(photosCaptured,folder,subfolder,secondSubFolder, fileNames );
-          console.log("Files uploaded successfully, URLs:", urls);
-        } catch (error) {
-          console.error("Upload failed:", error);
-        }
+        const imageDetails = photosCaptured.map((uri, index) => ({
+          uri,
+          folder,
+          subfolder,
+          secondSubFolder,
+          fileName: fileNames[index]
+        }));
+        setImagesInStore(imageDetails); // Save the image details in the Zustand store
       }
     };
 
     if (photosCaptured?.length > 0) {
-      uploadImages();
+      saveImagesInStore();
     }
-  }, [finalPicture, route.params.customerDetails]);
+  }, [finalPicture, route.params.customerDetails, setImagesInStore]);
   
   console.log(selectedItem?.garmentCode,"selectedItem?.garmentCode")
 

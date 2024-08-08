@@ -19,7 +19,8 @@ import { useFocusEffect } from "@react-navigation/native";
 import { searchAllPickupbystoreId } from "../../networkAPI/api";
 import { useQuery } from "@tanstack/react-query";
 import { useRoute } from "@react-navigation/native";
-
+import moment from "moment";
+import { uploadFiles } from "../firebase/storage/uploadMedia";
 const LeftBrand = () => {
   return (
     <Image
@@ -84,6 +85,9 @@ const Homepage = ({ navigation }) => {
   const countone = useStore((state) => state.countone);
   const counttwo = useStore((state) => state.counttwo);
 
+  const route = useRoute();
+  const orderId = route.params?.orderId;
+  console.log(orderId,"orderId");
   useEffect(() => {
     console.log("The value of countone is:", countone);
     console.log("The value of counttwo is:", counttwo);
@@ -245,6 +249,8 @@ const Homepage = ({ navigation }) => {
 
   // console.log("a", countone, delivery);
   // console.log("b", counttwo, filteredPickup);
+
+
 
   return (
     <SafeAreaView style={{ top: 10 }}>

@@ -4,6 +4,7 @@ import { storage } from '../../firebaseConfig';
 import { ref, listAll, getDownloadURL, ListResult } from 'firebase/storage';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../networkAPI/types';
+import useStore from '../GlobalStore/store';
 
 interface ImageItem {
   uri: string;
@@ -21,8 +22,21 @@ const ImageGallery: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPath, setCurrentPath] = useState<string>('');
-  const [hasImages, setHasImages] = useState<boolean>(false); // New state for tracking image presence
+  const [hasImages, setHasImages] = useState<boolean>(false);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const riderDetails = useStore((state) => state.riderDetails);
+  const [storeId, setStoreId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const fetchStoreId = async () => {
+      const fetchedStoreId = riderDetails.storeId;
+      setStoreId(fetchedStoreId);
+      if (fetchedStoreId) {
+        setCurrentPath(fetchedStoreId + '/');
+      }
+    };
+    fetchStoreId();
+  }, [riderDetails.storeId]);
 
   const fetchItems = async (path: string) => {
     try {
@@ -37,7 +51,7 @@ const ImageGallery: React.FC = () => {
       const allItems = [...folders, ...urls];
       setItems(allItems);
       setFilteredFolders(folders);
-      setHasImages(urls.length > 0); // Check if there are any images
+      setHasImages(urls.length > 0);
     } catch (error) {
       console.error('Error fetching items:', error);
     } finally {
@@ -46,7 +60,9 @@ const ImageGallery: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchItems(currentPath);
+    if (currentPath) {
+      fetchItems(currentPath);
+    }
   }, [currentPath]);
 
   useEffect(() => {

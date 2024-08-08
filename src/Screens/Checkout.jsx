@@ -28,6 +28,7 @@ import * as Sharing from "expo-sharing";
 import * as FileSystem from "expo-file-system";
 // import {Logo} from "../../assets/Photos/logo-1.png"
 import logo from "../../assets/Photos/elaundry.png";
+import { uploadFiles } from "../firebase/storage/uploadMedia";
 
 const Checkout = () => {
   const navigation = useNavigation();
@@ -41,7 +42,9 @@ const Checkout = () => {
   const [charge, setCharge] = useState([]);
   const [charges, setCharges] = useState([]);
   const [discount, setDiscount] = useState([]);
-
+  const [uploading, setUploading] = useState(false);
+  const selectedImages = useStore((state) => state.images);
+  const setImagesInStore = useStore((state) => state.setImages);
   const [selectedItem, setSelectedItem] = useState("");
   const [discountSelect, setdiscountSelect] = useState("");
   const [discounteditem, setDiscounteditem] = useState("");
@@ -52,6 +55,8 @@ const Checkout = () => {
 
   // console.log(handlegst, "handlegst");
   // console.log("nehat route line 48", route.params);
+
+  console.log(selectedItem, "selectedItem");
 
   const customerName = route.params.customer_details.name;
   const customerPhoneNo = route.params.customer_details.mobileNo;
@@ -239,6 +244,11 @@ const Checkout = () => {
     remarks: "",
   };
 
+  const getTimestamp = () => {
+    const now = moment();
+    return now.format("DD-MM-YYYY HH:mm:ss");
+  };
+
   const bookOrder = async () => {
     const token = `${user?.accessToken}`;
     try {
@@ -254,10 +264,59 @@ const Checkout = () => {
       console.log(data);
       if (data?.success) {
         console.log(data?.message);
+
+        const getTimestampUpload = () => {
+          const now = moment();
+          return now.format("DD-MM-YYYY");
+        };
+
+        if (selectedImages.length > 0) {
+          const uploadImages = async () => {
+            setUploading(true);
+
+            const photosCaptured = selectedImages.map((item) => item.uri);
+            const fileNames = photosCaptured.map(
+              (_, index) =>
+                `Order_${customerName + customerId}_${
+                  data?.message + index
+                }.jpg`
+            );
+            const subfolder = `OrderID_${data?.message}`;
+            const folder = getTimestampUpload();
+            const storeIdFolder = riderDetails?.storeId;
+
+            try {
+              const urls = await uploadFiles(
+                photosCaptured,
+                storeIdFolder,
+                folder,
+                subfolder,
+                fileNames
+              );
+              console.log("Files uploaded successfully, URLs:", urls);
+              setImagesInStore([]);
+              Alert.alert(
+                "Upload successful",
+                "Images have been uploaded successfully."
+              );
+            } catch (error) {
+              console.error("Upload failed:", error);
+              Alert.alert(
+                "Upload failed",
+                "An error occurred while uploading images."
+              );
+            } finally {
+              setUploading(false);
+            }
+          };
+
+          uploadImages();
+        }
+
         alert(
           `Your order has been succesfully created with order id ${data?.message}`
         );
-        navigation.navigate("Homepage");
+        navigation.navigate("Homepage", { orderId: data?.message });
       }
     } catch (error) {
       console.log({ error }, "error in line 122");
@@ -380,20 +439,16 @@ const Checkout = () => {
         <h2 id="currentTime">Printed on: <span></span></h2>
     </div>
     <div class="details">
-        <div><strong>Store Name:</strong> E-Laundry Demo</div>
-        <div><strong>Phone:</strong> 7428839663</div>
+        <div><strong>Store Name:</strong> E-Laundry</div>
+         <div><strong>Store ID:</strong> ${riderDetails?.storeId}</div>
         <div><strong>Email:</strong> support@elaundry.co.in</div>
         <div><strong>Address:</strong> H-169, Sector 63, Noida - 301302, Uttar Pradesh</div>
         <div class="border"></div>
-        <div><strong>Order On:</strong> May 21, 2024</div>
-        <div><strong>Delivery On:</strong> May 26, 2024</div>
-        <div><strong>Order:</strong> Test _5_20240521_3805</div>
-        <div><strong>Receipt:</strong> 22</div>
+        <div><strong>Order On:</strong> ${getTimestamp()}</div>
         <div><strong>GST No:</strong> 09AIPPB1338M2ZZ</div>
         <div class="border"></div>
-        <div><strong>Customer:</strong> Elaundry Test (7982518911)</div>
-        <div><strong>Email:</strong> omra.info20@gmail.com</div>
-        <div><strong>Address:</strong> A-105, Sector 65, Noida, Uttar Pradesh</div>
+        <div><strong>Customer:</strong> ${customerName}</div>
+                <div><strong>Ph No.:</strong> ${customerPhoneNo}</div>
     </div>
     <div class="summary">
     <table border=${0}>

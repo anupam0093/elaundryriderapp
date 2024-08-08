@@ -39,7 +39,7 @@ const Cart = () => {
           Authorization: `Basic ${user?.accessToken}`,
         },
       });
-      console.log("yes yes nehat", data);
+      console.log("yes yes suraj", data);
       setBackendCartItems(data);
     } catch (error) {
       console.log(error, "error in line 43");
@@ -88,6 +88,8 @@ const Cart = () => {
   );
 
   console.log(backendCartItems.length);
+
+  console.log(backendCartItems,"storeId")
 
   return (
     <SafeAreaView

@@ -10,7 +10,8 @@ const useStore = create(
             cart: [],
             account: [],
             balance: [],
-            countone: 0, // Add countone to the store's state
+            countone: 0,
+            images: [], // Add countone to the store's state
 
             setUser: (data) =>
                 set({ user: data }),
@@ -73,7 +74,10 @@ const useStore = create(
             setCountOne: (value) =>
                 set({countone: value }),
             setCountTwo:(value) => 
-                set({counttwo: value})
+                set({counttwo: value}),
+            setImages: (images) =>
+                set({ images })
+        
 
         }),
         {
@@ -87,7 +91,8 @@ const useStore = create(
                             "riderDetails",
                             "cart",
                             "countone",
-                            "counttwo"
+                            "counttwo",
+                              "images"
                         ].includes(key)
                     )
                 ),
