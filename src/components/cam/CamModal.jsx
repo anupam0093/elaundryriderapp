@@ -41,10 +41,10 @@ const CamModal = ({ showCameModal, setShowCamModal, setCapturedImage }) => {
       })
     )
       .then(() => {
-        Alert.alert('Images Saved');
-        setCapturedImage(photos);
+        // Alert.alert('Images Saved');
+        setCapturedImage((prevPhotos) => [...prevPhotos, ...photos]);
         setPhotos([]);
-        // setShowCamModal(false);
+        setShowCamModal(false);
       })
       .catch(error => {
         console.error('Error saving images:', error);
@@ -67,6 +67,7 @@ const CamModal = ({ showCameModal, setShowCamModal, setCapturedImage }) => {
   } else if (!hasCameraPermission) {
     return <Text>Permission for camera not granted. Please change this in settings.</Text>;
   }
+
 
   return (
     <Modal isVisible={showCameModal} avoidKeyboard={true} animationIn="fadeInUp" animationOut="fadeOutDown">
@@ -120,6 +121,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '10%',
     left: '10%',
+    width:50,
+    height:50,
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center",
+    borderRadius: 50,
+    backgroundColor:"#000"
   },
   captureButton: {
     backgroundColor: 'green',

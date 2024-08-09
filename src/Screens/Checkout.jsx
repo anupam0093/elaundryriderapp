@@ -57,7 +57,7 @@ const Checkout = () => {
   // console.log(handlegst, "handlegst");
   // console.log("nehat route line 48", route.params);
 
-  console.log(selectedItem, "selectedItem");
+  // console.log(selectedItem, "selectedItem");
 
   const customerName = route.params.customer_details.name;
   const customerPhoneNo = route.params.customer_details.mobileNo;
@@ -278,18 +278,20 @@ const Checkout = () => {
             const photosCaptured = selectedImages.map((item) => item.uri);
             const fileNames = photosCaptured.map(
               (_, index) =>
-                `Order_${customerName + customerId}_${data?.message + index}.jpg`
+                `Image_${customerPhoneNo}_${getTimestampUpload()}_${customerName + customerId}_${data?.message + index}.jpg`
             );
             const subfolder = `OrderID_${data?.message}`;
             const folder = getTimestampUpload();
+            const phoneNumber = customerPhoneNo;
             const storeIdFolder = riderDetails?.storeId;
 
             try {
               const urls = await uploadFiles(
                 photosCaptured,
                 storeIdFolder,
-                folder,
+                phoneNumber,
                 subfolder,
+                folder,
                 fileNames
               );
               console.log("Files uploaded successfully, URLs:", urls);
@@ -1210,7 +1212,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    zIndex:999,
+    zIndex: 999,
     top: 0,
     bottom: 0,
     left: 0,

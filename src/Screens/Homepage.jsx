@@ -87,7 +87,7 @@ const Homepage = ({ navigation }) => {
 
   const route = useRoute();
   const orderId = route.params?.orderId;
-  console.log(orderId,"orderId");
+  // console.log(orderId,"orderId");
   useEffect(() => {
     console.log("The value of countone is:", countone);
     console.log("The value of counttwo is:", counttwo);

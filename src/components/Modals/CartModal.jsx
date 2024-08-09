@@ -3,8 +3,6 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet, Keyboard, Touchabl
 import Modal from "react-native-modal";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { ScrollView } from 'native-base';
-import { useNavigation } from '@react-navigation/native';
-import CamModal from '../cam/CamModal';
 import useStore from '../../GlobalStore/store';
 import { GarmentsColors } from '../../constans/GarmentColors';
 import DropdownCompColor from '../Dropdown/DropdownComp_Color';
@@ -13,28 +11,28 @@ import { GarmentDefects } from '../../constans/GarmentDefect';
 import DropdownCompBrand from '../Dropdown/DropdownCompBrand';
 import { GarmentBrands } from '../../constans/GarmentBrand';
 import axios from 'axios';
+import CamModal from '../cam/CamModal';
 
-const CartModal = ({ showModal, setShowModal, closeModal,setFinalImage, selectedItem, customerDetails }) => {
+const CartModal = ({ showModal, setShowModal, closeModal, setFinalImage, selectedItem, customerDetails }) => {
   const riderDetails = useStore((state) => state.riderDetails);
   const user = useStore((state) => state.user);
-  const [photos, setPhotos ] = useState();
+  const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState('');
   const [colorValue, setColorValue] = useState('');
   const [garmentBrand, setGarmentBrand] = useState('');
-  const [brandisFocus, setBrnadIsFocus] = useState(false);
+  const [brandIsFocus, setBrandIsFocus] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
   const [colorIsFocus, setColorIsFocus] = useState(false);
-  const [showCameModal, setShowCamModal] = useState(false);
+  const [showCamModal, setShowCamModal] = useState(false);
   const [capturedImages, setCapturedImages] = useState([]);
-
   const [qty, setQty] = useState(1);
 
   const addToCart = useStore((state) => state.addToCart);
 
-  const _addtoCart = async () => {
+  const handleAddToCart = async () => {
     setLoading(true);
-    const cart_url = `https://api.elaundry.co.in/oit-elaundry/api/auth/customer/${customerDetails?.storeCustomerId}/cart`;
+    const cartUrl = `https://api.elaundry.co.in/oit-elaundry/api/auth/customer/${customerDetails?.storeCustomerId}/cart`;
     const payload = {
       priceListId: selectedItem?.priceListId,
       status: 'ADD',
@@ -52,59 +50,52 @@ const CartModal = ({ showModal, setShowModal, closeModal,setFinalImage, selected
     };
 
     try {
-      const response = await axios.post(cart_url, payload, {
+      const response = await axios.post(cartUrl, payload, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Basic ${user?.accessToken}`,
         },
       });
 
-      // console.log(response?.data);
-      
       setLoading(false);
+      setFinalImage(capturedImages);
       Alert.alert('Item Added Successfully');
       closeModal();
-
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoading(false);
     }
   };
 
-
-  useEffect(() => {
-    setFinalImage(capturedImages)
-
-  },[capturedImages])
-
-
-  // console.log(capturedImages[0]?.uri,"capturedImages");
+  // useEffect(() => {
+  //   setFinalImage(capturedImages);
+  // }, [capturedImages]);
 
   return (
     <Modal
       isVisible={showModal}
       avoidKeyboard={true}
-      animationIn='fadeInUp'
-      animationOut='fadeOutDown'
+      animationIn="fadeInUp"
+      animationOut="fadeOutDown"
     >
-      <TouchableWithoutFeedback style={{ justifyContent: 'center', alignItems: 'center', }} onPress={() => Keyboard.dismiss()}>
-        <View style={{ width: '100%', backgroundColor: '#FAFAFA', padding: 20, borderRadius: 12, gap: 10 }}>
-          <Text style={{ fontSize: 22, fontWeight: 500, textTransform: 'uppercase', alignSelf: 'center' }}>{selectedItem?.garmentName}</Text>
-          <View style={{ gap: 20 }}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.modalContainer}>
+          <Text style={styles.title}>{selectedItem?.garmentName}</Text>
+          <View style={styles.contentContainer}>
             <ScrollView>
-              <Text style={{ fontSize: 16, marginBottom: 6 }}>Item Quantity</Text>
+              <Text style={styles.label}>Item Quantity</Text>
               <TextInput
-                inputMode='numeric'
-                placeholder='1'
-                placeholderTextColor='black'
-                keyboardShouldPersistTaps='never'
-                value={qty}
+                inputMode="numeric"
+                placeholder="1"
+                placeholderTextColor="black"
+                value={qty.toString()}
                 onChangeText={setQty}
-                style={{ height: 50, paddingLeft: 20, borderWidth: 1, padding: 1, borderRadius: 10, backgroundColor: 'white', fontSize: 20 }} />
+                style={styles.input}
+              />
             </ScrollView>
 
             <View>
-              <Text style={{ fontSize: 16, marginBottom: 6 }}>Choose Colors</Text>
+              <Text style={styles.label}>Choose Colors</Text>
               <DropdownCompColor
                 value={colorValue}
                 setValue={setColorValue}
@@ -113,8 +104,9 @@ const CartModal = ({ showModal, setShowModal, closeModal,setFinalImage, selected
                 data={GarmentsColors}
               />
             </View>
+
             <View>
-              <Text style={{ fontSize: 16, marginBottom: 6 }}>Choose Defect</Text>
+              <Text style={styles.label}>Choose Defect</Text>
               <DropdownCompDefect
                 value={value}
                 setValue={setValue}
@@ -125,59 +117,147 @@ const CartModal = ({ showModal, setShowModal, closeModal,setFinalImage, selected
             </View>
 
             <View>
-              <Text style={{ fontSize: 16, marginBottom: 6 }}>
-                Choose Brand</Text>
+              <Text style={styles.label}>Choose Brand</Text>
               <DropdownCompBrand
                 value={garmentBrand}
                 setValue={setGarmentBrand}
-                isFocus={brandisFocus}
-                setIsFocus={setBrnadIsFocus}
+                isFocus={brandIsFocus}
+                setIsFocus={setBrandIsFocus}
                 data={GarmentBrands}
               />
             </View>
 
-            <View style={{ justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+            <View style={styles.imageContainer}>
               <FlatList
                 horizontal
                 data={capturedImages}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                  <Image source={{ uri: 'data:image/jpg;base64,' + item.base64 }} style={{ width: 40, height: 40, resizeMode: 'cover', marginRight: 10 }} />
+                  <Image
+                    source={{ uri: 'data:image/jpg;base64,' + item.base64 }}
+                    style={styles.image}
+                  />
                 )}
+                showsHorizontalScrollIndicator={false}
+                scrollEnabled={true}
+                scrollToOverflowEnabled={true}
               />
-              {
-                value !== '' &&
-                <TouchableOpacity style={{ paddingHorizontal: 15, paddingVertical: 10, borderRadius: 10, backgroundColor: '#003566', width: '55%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} onPress={() => setShowCamModal(true)}>
-                <Text style={{ color: 'white', textAlign: 'zcenter', fontSize: 20 }}>Item Image</Text>
-                <AntDesign name="camera" size={24} color="white" />
-              </TouchableOpacity>
-              }
-        
+
+              {value && (
+                <TouchableOpacity
+                  style={styles.cameraButton}
+                  onPress={() => setShowCamModal(true)}
+                >
+                  <Text style={styles.cameraButtonText}>
+                    {capturedImages.length !== 0 ? "Add More" : "Item Image"}
+                  </Text>
+                  <AntDesign name="camera" size={24} color="white" />
+                </TouchableOpacity>
+              )}
             </View>
           </View>
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, marginBottom: 10 }}>
-            {loading && (
+          <View style={styles.buttonContainer}>
+            {loading ? (
               <ActivityIndicator size="large" color="#00ff00" />
+            ) : (
+              <>
+                <TouchableOpacity onPress={handleAddToCart} style={styles.button}>
+                  <Text style={styles.buttonText}>Add To Cart</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={closeModal} style={styles.button}>
+                  <Text style={styles.buttonText}>Close</Text>
+                </TouchableOpacity>
+              </>
             )}
-            {!loading && (
-              <TouchableOpacity onPress={() => _addtoCart()} style={{  paddingHorizontal: 20, paddingVertical: 10, borderRadius: 10, backgroundColor: '#D9D9D9' }} >
-                <Text style={{ alignSelf: 'center', fontSize: 18, textTransform: 'uppercase' }}>Add To Cart</Text>
-              </TouchableOpacity>
-            )}
-            <TouchableOpacity onPress={() => closeModal()} style={{  paddingHorizontal: 20, paddingVertical: 10, borderRadius: 10, backgroundColor: '#D9D9D9' }} >
-              <Text style={{ alignSelf: 'center', fontSize: 18, textTransform: 'uppercase' }}>Close</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </TouchableWithoutFeedback>
-      {showCameModal && (
-        <CamModal showCameModal={showCameModal} setShowCamModal={setShowCamModal} setCapturedImage={setCapturedImages} />
+
+      {showCamModal && (
+        <CamModal
+          showCameModal={showCamModal}
+          setShowCamModal={setShowCamModal}
+          setCapturedImage={setCapturedImages}
+        />
       )}
     </Modal>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  modalContainer: {
+    width: '100%',
+    backgroundColor: '#FAFAFA',
+    padding: 20,
+    borderRadius: 12,
+    gap: 10,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: '500',
+    textTransform: 'uppercase',
+    alignSelf: 'center',
+  },
+  contentContainer: {
+    gap: 20,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 6,
+  },
+  input: {
+    height: 50,
+    paddingLeft: 20,
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    fontSize: 20,
+  },
+  imageContainer: {
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    gap: 4,
+
+  },
+  image: {
+    width: 50,
+    height: 50,
+    resizeMode: 'cover',
+    marginRight: 10,
+    marginBottom: 15
+  },
+  cameraButton: {
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 10,
+    backgroundColor: '#003566',
+    width: '55%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  cameraButtonText: {
+    color: 'white',
+    fontSize: 20,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  button: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+    backgroundColor: '#D9D9D9',
+  },
+  buttonText: {
+    alignSelf: 'center',
+    fontSize: 18,
+    textTransform: 'uppercase',
+  },
+});
 
 export default CartModal;

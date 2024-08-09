@@ -1,19 +1,16 @@
 import {
   Alert,
   FlatList,
-  Image,
   SafeAreaView,
-  ScrollView,
-  StyleSheet,
+  StatusBar,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header/Header";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { TouchableOpacity } from "react-native";
 import CartCard from "../components/ui/CartCard";
 import useStore from "../GlobalStore/store";
 import { useQuery } from "@tanstack/react-query";
@@ -22,6 +19,7 @@ import axios from "axios";
 const Cart = () => {
   const navigation = useNavigation();
   const setCart = useStore((state) => state.setCart);
+  const setImagesInStore = useStore((state) => state.setImages);
   const user = useStore((state) => state.user);
   const route = useRoute();
   const customer_details =
@@ -41,6 +39,13 @@ const Cart = () => {
       });
       console.log("yes yes suraj", data);
       setBackendCartItems(data);
+      setCart(data);
+
+      // Reset images in store if the cart is empty
+      if (data.length === 0) {
+        const newImages = [];
+        setImagesInStore(newImages, route.name);
+      }
     } catch (error) {
       console.log(error, "error in line 43");
     }
@@ -55,13 +60,18 @@ const Cart = () => {
           Authorization: `Basic ${user?.accessToken}`,
         },
       });
-      // console.log('item deleted successfully',  data)
       Alert.alert(data?.message);
       const updatedCart = backendCartItems?.filter(
         (item) => item.id !== cartItemId
       );
       setBackendCartItems(updatedCart);
       setCart(updatedCart);
+
+      // Reset images in store if the updated cart is empty
+      if (updatedCart.length === 0) {
+        const newImages = [];
+        setImagesInStore(newImages, route.name);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -81,15 +91,12 @@ const Cart = () => {
     ""
   );
 
-
   const cartGarmetCount = backendCartItems?.reduce(
     (acc, item) => acc + item?.itemGarmentCount,
     0
   );
 
   console.log(backendCartItems.length);
-
-  console.log(backendCartItems,"storeId")
 
   return (
     <SafeAreaView
@@ -124,7 +131,7 @@ const Cart = () => {
           </Text>
         </View>
       )}
-      {backendCartItems && (
+      {backendCartItems?.length > 0 && (
         <View style={{ height: "60%" }}>
           <FlatList
             data={backendCartItems}
